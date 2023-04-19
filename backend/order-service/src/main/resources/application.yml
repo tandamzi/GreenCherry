@@ -1,0 +1,18 @@
+server:
+  port: 8003
+spring:
+  application:
+    name: order-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tandamzi_orders?serverTimezone=UTC&characterEncoding=UTF-8
+    username: ssafy
+    password: ssafy
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+#        default_batch_fetch_size: 100
