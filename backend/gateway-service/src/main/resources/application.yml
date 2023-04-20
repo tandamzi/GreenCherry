@@ -22,3 +22,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
 #            - RewritePath=/member/(?<segment>.*), /$\{segment}
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/oauth2/**

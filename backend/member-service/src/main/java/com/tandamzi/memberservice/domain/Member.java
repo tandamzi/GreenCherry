@@ -1,6 +1,6 @@
 package com.tandamzi.memberservice.domain;
 
-import com.tandamzi.memberservice.common.AuthProvider;
+import com.tandamzi.memberservice.common.config.security.oauth2.userinfo.AuthProvider;
 import lombok.*;
 
 import javax.persistence.*;
