@@ -16,7 +16,7 @@ public class Order extends BaseEntity{
     @Column(name = "orders_id")
     private Long id;
 
-    private Long userId;
+    private Long memberId;
 
     private Long storeId;
 
