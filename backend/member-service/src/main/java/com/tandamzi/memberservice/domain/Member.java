@@ -21,7 +21,7 @@ public class Member extends BaseEntity{
 
     private String nickname;
 
-    private int point;
+    private int cherryPoint;
 
     private String image;
 
