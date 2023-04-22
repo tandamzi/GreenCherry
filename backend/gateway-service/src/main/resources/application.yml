@@ -21,6 +21,7 @@ spring:
             - Path=/member/**
           filters:
             - RemoveRequestHeader=Cookie
+#            - AuthorizationHeaderFilter
 #            - RewritePath=/member/(?<segment>.*), /$\{segment}
         - id: member-service
           uri: lb://MEMBER-SERVICE
