@@ -1,27 +1,27 @@
-spring:
-  cloud:
-    config:
-      enabled: false
-  application:
-    name: store-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/tandamzi_store?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: cherry207
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 100
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: debug
-#        type: trace
+#spring:
+#  cloud:
+#    config:
+#      enabled: false
+#  application:
+#    name: store-service
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3307/tandamzi_store?serverTimezone=UTC&characterEncoding=UTF-8
+#    username: root
+#    password: cherry207
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        default_batch_fetch_size: 100
+#
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+##        type: trace
