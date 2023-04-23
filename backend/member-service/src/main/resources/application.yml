@@ -5,12 +5,6 @@ spring:
   application:
     name: member-service
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tandamzi_member?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: 1234
-
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
@@ -20,35 +14,6 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: 846471603670-bp6hac6ve2kgjr2nunb9mu80r5c19ral.apps.googleusercontent.com
-            clientSecret: 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
-            redirectUri: "http://localhost:5000/oauth2/callback/{registrationId}"
-            scope:
-              - email
-              - profile
-          kakao:
-            client-id: b4d5ccdfc0a45d64e8ff8ecc79a49a2d
-            client-secret: K3qfvw5RFfbTQM3Olo2hCMINeGTlp4Y3
-            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
-            authorization-grant-type: authorization_code
-            client-authentication-method: POST
-            client-name: kakao
-            scope:
-              - profile_nickname
-              - account_email
-              - profile_image
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
-
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
@@ -57,11 +22,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
-
-app:
-  auth:
-    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
-    tokenExpirationMsec: 8640000000
 
 logging:
   level:
