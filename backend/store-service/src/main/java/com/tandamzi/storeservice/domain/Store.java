@@ -35,6 +35,7 @@ public class Store extends BaseEntity {
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
     private int cherryPoint;
+    private boolean closed;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cherry_box_id")
