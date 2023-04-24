@@ -2,14 +2,13 @@ package com.tandamzi.storeservice.controller;
 
 import com.tandamzi.storeservice.common.response.ResponseService;
 import com.tandamzi.storeservice.common.result.Result;
+import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
+import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -25,10 +24,13 @@ public class StoreController {
     }
 
     // 가게 등록
-    @PostMapping("")
+    @PostMapping
     public Result registerStore(@RequestBody RegisterStoreRequestDto registerStoreRequestDto) {
         storeService.registerStore(registerStoreRequestDto);
 
         return responseService.getSuccessResult();
     }
+
+//    @GetMapping
+//    public SingleResult<Page<StoreDetailResponseDto>>
 }

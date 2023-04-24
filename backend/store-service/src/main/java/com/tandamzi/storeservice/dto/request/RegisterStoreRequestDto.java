@@ -1,5 +1,6 @@
 package com.tandamzi.storeservice.dto.request;
 
+import com.tandamzi.storeservice.domain.Address;
 import com.tandamzi.storeservice.domain.Store;
 import com.tandamzi.storeservice.domain.Type;
 import lombok.*;
@@ -16,7 +17,7 @@ public class RegisterStoreRequestDto {
     private String name;
     private Long ownerId;
     private Long typeId;
-    private AddressRequestDto address = new AddressRequestDto();
+    private AddressDto address = new AddressDto();
     private String phone;
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
@@ -38,6 +39,21 @@ public class RegisterStoreRequestDto {
                 .build();
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class AddressDto {
+        private String addressName;
+        private double lat;
+        private double lng;
 
-
+        public Address toEntity(){
+            return Address.builder()
+                    .addressName(addressName)
+                    .lat(lat)
+                    .lng(lng)
+                    .build();
+        }
+    }
 }
