@@ -6,6 +6,7 @@ import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
+import com.tandamzi.storeservice.exception.CherryBoxNotFoundException;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,7 +92,11 @@ public class StoreService {
     @Transactional
     public void registerCherryBox(Long storeId, CherryBoxRequestDto dto) {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-
-
+        CherryBox cherryBox = cherryBoxRepository.findById(store.getCherryBox().getId()).orElseThrow(CherryBoxNotFoundException::new);
+        cherryBox.updateCherryBox(dto.getQuantity(),
+                dto.getTotalPriceBeforeDiscount(),
+                dto.getDiscountRate(),
+                dto.getDescription(),
+                dto.getPricePerCherryBox());
     }
 }
