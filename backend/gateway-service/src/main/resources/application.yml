@@ -12,31 +12,6 @@ spring:
   application:
     name: gateway-service
 
-  cloud:
-    gateway:
-      routes:
-        - id: member-service
-          uri: lb://MEMBER-SERVICE
-          predicates:
-            - Path=/member/actuator/**
-            - Method=GET,POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/member/(?<segment>.*), /$\{segment}
-        - id: member-service
-          uri: lb://MEMBER-SERVICE
-          predicates:
-            - Path=/member/**
-          filters:
-            - RemoveRequestHeader=Cookie
-#            - AuthorizationHeaderFilter
-#            - RewritePath=/member/(?<segment>.*), /$\{segment}
-        - id: member-service
-          uri: lb://MEMBER-SERVICE
-          predicates:
-            - Path=/oauth2/**
-
-
 management:
   endpoints:
     web:
