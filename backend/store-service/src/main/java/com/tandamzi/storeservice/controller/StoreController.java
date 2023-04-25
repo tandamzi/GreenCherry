@@ -58,4 +58,6 @@ public class StoreController {
         return responseService.getSingleResult(storeService.getAllergies());
     }
 
+//    @PostMapping("{storeId}/cherryBox")
+
 }
