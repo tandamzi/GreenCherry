@@ -4,8 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -37,7 +35,7 @@ public class Store extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cherry_box_id")
-    private CherryBox cherryBox;
+    private Cherrybox cherryBox;
 }
 
 
