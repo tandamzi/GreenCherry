@@ -1,6 +1,7 @@
 package com.tandamzi.storeservice.service;
 
 import com.tandamzi.storeservice.domain.*;
+import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
@@ -33,7 +34,7 @@ public class StoreService {
     public void registerStore(RegisterStoreRequestDto dto) {
         //타입 id로 타입 찾아서 toEntity로 변환
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
-        Cherrybox cherryBox = cherryBoxRepository.save(Cherrybox.builder().build());
+        CherryBox cherryBox = cherryBoxRepository.save(CherryBox.builder().build());
         Store store = storeRepository.save(dto.toEntity(type,cherryBox));
         log.info("store = {}", store);
 
@@ -84,5 +85,12 @@ public class StoreService {
     public List<AllergyResponseDto> getAllergies() {
         List<Allergy> allergyList = allergyRepository.findAll();
         return allergyList.stream().map(allergy -> AllergyResponseDto.create(allergy)).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void registerCherryBox(Long storeId, CherryBoxRequestDto dto) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+
+
     }
 }

@@ -35,7 +35,7 @@ public class Store extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cherry_box_id")
-    private Cherrybox cherryBox;
+    private CherryBox cherryBox;
 }
 
 
