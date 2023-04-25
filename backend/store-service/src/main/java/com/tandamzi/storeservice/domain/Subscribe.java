@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
+@Entity
 public class Subscribe extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
