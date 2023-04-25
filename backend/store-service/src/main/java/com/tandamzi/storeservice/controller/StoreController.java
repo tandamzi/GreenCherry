@@ -18,19 +18,31 @@ public class StoreController {
     private final StoreService storeService;
 
     private final ResponseService responseService;
+
     @RequestMapping("/test")
     public String test() {
         return "Hello World";
     }
 
-    // 가게 등록
     @PostMapping
     public Result registerStore(@RequestBody RegisterStoreRequestDto registerStoreRequestDto) {
         storeService.registerStore(registerStoreRequestDto);
-
         return responseService.getSuccessResult();
     }
 
-//    @GetMapping
-//    public SingleResult<Page<StoreDetailResponseDto>>
+    @GetMapping("/{storeId}")
+    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("storeId") Long storeId) {
+        log.info("storeId: {}", storeId);
+        StoreDetailResponseDto storeDetailResponseDto = storeService.searchStoreDetail(storeId);
+        return responseService.getSingleResult(storeDetailResponseDto);
+    }
+
+    /*@PostMapping("{storeId}/subscribe")
+    public Result subscribeStore(@PathVariable("storeId") Long storeId) {
+        storeService.subscribeStore(storeId);
+        return responseService.getSuccessResult();
+    }*/
+
+//    @GetMapping("type")
+
 }
