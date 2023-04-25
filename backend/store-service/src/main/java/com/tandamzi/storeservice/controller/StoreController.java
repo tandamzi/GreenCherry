@@ -6,6 +6,7 @@ import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
+import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.StoreService;
@@ -56,6 +57,11 @@ public class StoreController {
     @GetMapping("allergy")
     public SingleResult<List<AllergyResponseDto>> getAllergies(){
         return responseService.getSingleResult(storeService.getAllergies());
+    }
+
+    @GetMapping("{storeId}/cherrybox")
+    public SingleResult<CherryBoxResponseDto> getCherryBox(@PathVariable("storeId") Long storeId){
+        return responseService.getSingleResult(storeService.getCherryBox(storeId));
     }
 
     @PostMapping("{storeId}/cherrybox")

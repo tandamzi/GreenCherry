@@ -4,6 +4,7 @@ import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
+import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.exception.CherryBoxNotFoundException;
@@ -98,5 +99,11 @@ public class StoreService {
                 dto.getDiscountRate(),
                 dto.getDescription(),
                 dto.getPricePerCherryBox());
+    }
+
+    public CherryBoxResponseDto getCherryBox(Long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        CherryBox cherryBox = store.getCherryBox();
+        return CherryBoxResponseDto.create(cherryBox);
     }
 }
