@@ -16,6 +16,12 @@ public class CherryBox extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "cherryBox", fetch = FetchType.LAZY)
-    private Store store;
+//    @OneToOne(mappedBy = "cherryBox", fetch = FetchType.LAZY)
+//    private Store store;
+
+    private int quantity;
+    private int totalPriceBeforeDiscount;
+    private double discountRate;
+    private String description;
+    private int pricePerCherryBox;
 }

@@ -2,6 +2,8 @@ package com.tandamzi.storeservice.service;
 
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
+import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
+import com.tandamzi.storeservice.exception.StoreNotFoundException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +25,15 @@ public class StoreService {
     private final AllergyRepository allergyRepository;
     private final StoreImageRepository storeImageRepository;
 
+    private final CherryBoxRepository cherryBoxRepository;
+
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto) {
         //타입 id로 타입 찾아서 toEntity로 변환
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
-        Store store = storeRepository.save(dto.toEntity(type));
+        CherryBox cherryBox = cherryBoxRepository.save(CherryBox.builder().build());
+        Store store = storeRepository.save(dto.toEntity(type,cherryBox));
+        log.info("store = {}", store);
 
 
         //allergyIdList에서 알러지 찾아서 toEntity로 변환
@@ -50,5 +57,20 @@ public class StoreService {
                     .build()
             );
         });
+    }
+
+    public StoreDetailResponseDto searchStoreDetail(Long storeId) {
+        Store store = storeRepository.findByIdWithEagerTypeAndBox(storeId).orElseThrow(StoreNotFoundException::new);
+        log.info("store: {}", store);
+        //list<Allergy>로 변환
+        List<Allergy> allergyList =
+                storeAllergyRepository.findAllByStore(store)
+                .stream()
+                .map(storeAllergy -> storeAllergy.getAllergy())
+                .collect(Collectors.toList());
+        //List<StoreImage>가져오기
+        List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
+
+        return StoreDetailResponseDto.create(store, allergyList,storeImageList);
     }
 }

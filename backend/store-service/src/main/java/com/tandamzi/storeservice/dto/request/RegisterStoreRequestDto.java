@@ -1,6 +1,7 @@
 package com.tandamzi.storeservice.dto.request;
 
 import com.tandamzi.storeservice.domain.Address;
+import com.tandamzi.storeservice.domain.CherryBox;
 import com.tandamzi.storeservice.domain.Store;
 import com.tandamzi.storeservice.domain.Type;
 import lombok.*;
@@ -26,7 +27,7 @@ public class RegisterStoreRequestDto {
     private List<Long> allergyIdList = new ArrayList<>();
     private List<String> imageUrlList = new ArrayList<>();
 
-    public Store toEntity(Type type){
+    public Store toEntity(Type type, CherryBox cherryBox){
         return Store.builder()
                 .name(name)
                 .ownerId(ownerId)
@@ -36,6 +37,7 @@ public class RegisterStoreRequestDto {
                 .pickUpStartTime(pickUpStartTime)
                 .pickUpEndTime(pickUpEndTime)
                 .closed(false)
+                .cherryBox(cherryBox)
                 .build();
     }
 
