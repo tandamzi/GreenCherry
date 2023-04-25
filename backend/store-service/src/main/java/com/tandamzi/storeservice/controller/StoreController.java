@@ -5,10 +5,13 @@ import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
+import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -43,6 +46,9 @@ public class StoreController {
         return responseService.getSuccessResult();
     }*/
 
-//    @GetMapping("type")
+    @GetMapping("type")
+    public SingleResult<List<TypeResponseDto>> getTypes(){
+        return responseService.getSingleResult(storeService.getTypes());
+    }
 
 }

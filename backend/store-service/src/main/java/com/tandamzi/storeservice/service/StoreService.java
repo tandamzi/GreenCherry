@@ -3,6 +3,7 @@ package com.tandamzi.storeservice.service;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
+import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
@@ -72,5 +73,10 @@ public class StoreService {
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
 
         return StoreDetailResponseDto.create(store, allergyList,storeImageList);
+    }
+
+    public List<TypeResponseDto> getTypes() {
+        List<Type> typeList = typeRepository.findAll();
+        return typeList.stream().map(type -> TypeResponseDto.create(type)).collect(Collectors.toList());
     }
 }
