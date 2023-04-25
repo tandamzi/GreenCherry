@@ -11,23 +11,10 @@ eureka:
 spring:
   application:
     name: gateway-service
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: guest
-    password: guest
 
   cloud:
     gateway:
       routes:
-        - id: member-service
-          uri: lb://MEMBER-SERVICE
-          predicates:
-            - Path=/member/**
-          filters:
-            - RemoveRequestHeader=Cookie
-#            - AuthorizationHeaderFilter
-#            - RewritePath=/member/(?<segment>.*), /$\{segment}
         - id: member-service
           uri: lb://MEMBER-SERVICE
           predicates:
@@ -36,6 +23,14 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/member/(?<segment>.*), /$\{segment}
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member/**
+          filters:
+            - RemoveRequestHeader=Cookie
+#            - AuthorizationHeaderFilter
+#            - RewritePath=/member/(?<segment>.*), /$\{segment}
         - id: member-service
           uri: lb://MEMBER-SERVICE
           predicates:
