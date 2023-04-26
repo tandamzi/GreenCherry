@@ -40,4 +40,8 @@ public class Member extends BaseEntity{
     public void changeAlarm(){
         this.alarm = !this.alarm;
     }
+
+    public void increaseCherryPoint(int point){
+        this.cherryPoint += point;
+    }
 }
