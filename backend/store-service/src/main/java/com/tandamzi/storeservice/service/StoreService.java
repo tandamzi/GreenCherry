@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +30,7 @@ public class StoreService {
     private final AllergyRepository allergyRepository;
     private final StoreImageRepository storeImageRepository;
 
+    private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
 
     @Transactional
@@ -38,7 +38,7 @@ public class StoreService {
         //타입 id로 타입 찾아서 toEntity로 변환
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
         CherryBox cherryBox = cherryBoxRepository.save(CherryBox.builder().build());
-        Store store = storeRepository.save(dto.toEntity(type,cherryBox));
+        Store store = storeRepository.save(dto.toEntity(type, cherryBox));
         log.info("store = {}", store);
 
 
@@ -65,19 +65,19 @@ public class StoreService {
         });
     }
 
-    public StoreDetailResponseDto searchStoreDetail(Long storeId) {
+    public StoreDetailResponseDto getStoreDetail(Long storeId) {
         Store store = storeRepository.findByIdWithEagerTypeAndBox(storeId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
         //list<Allergy>로 변환
         List<Allergy> allergyList =
                 storeAllergyRepository.findAllByStore(store)
-                .stream()
-                .map(storeAllergy -> storeAllergy.getAllergy())
-                .collect(Collectors.toList());
+                        .stream()
+                        .map(storeAllergy -> storeAllergy.getAllergy())
+                        .collect(Collectors.toList());
         //List<StoreImage>가져오기
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
 
-        return StoreDetailResponseDto.create(store, allergyList,storeImageList);
+        return StoreDetailResponseDto.create(store, allergyList, storeImageList);
     }
 
     public List<TypeResponseDto> getTypes() {
@@ -105,5 +105,14 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = store.getCherryBox();
         return CherryBoxResponseDto.create(cherryBox);
+    }
+
+    @Transactional
+    public void subscribeStore(Long storeId, Long memberId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        subscribeRepository.save(Subscribe.builder()
+                .store(store)
+                .memberId(memberId)
+                .build());
     }
 }

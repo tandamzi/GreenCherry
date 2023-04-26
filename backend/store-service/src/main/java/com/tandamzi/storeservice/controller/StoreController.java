@@ -39,15 +39,15 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("storeId") Long storeId) {
         log.info("storeId: {}", storeId);
-        StoreDetailResponseDto storeDetailResponseDto = storeService.searchStoreDetail(storeId);
+        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
-    /*@PostMapping("{storeId}/subscribe")
-    public Result subscribeStore(@PathVariable("storeId") Long storeId) {
-        storeService.subscribeStore(storeId);
+    @PostMapping("{storeId}/subscribe")
+    public Result subscribeStore(@PathVariable("storeId") Long storeId, @RequestParam Long memberId) {
+        storeService.subscribeStore(storeId,memberId);
         return responseService.getSuccessResult();
-    }*/
+    }
 
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes(){
@@ -65,7 +65,7 @@ public class StoreController {
     }
 
     @PostMapping("{storeId}/cherrybox")
-    public Result registerCherrybox(@PathVariable("storeId") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto){
+    public Result registerCherryBox(@PathVariable("storeId") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto){
         storeService.registerCherryBox(storeId, cherryBoxRequestDto);
         return responseService.getSuccessResult();
     }
