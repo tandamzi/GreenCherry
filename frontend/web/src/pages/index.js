@@ -16,8 +16,8 @@ async function sendNotification() {
 }
 
 async function subscribeUser() {
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.pushManager.getSubscription().then((subscription) => {
+  navigator.serviceWorker.ready.then(registration => {
+    registration.pushManager.getSubscription().then(subscription => {
       if (subscription) {
         console.log('Already subscribed');
       } else {
@@ -26,7 +26,7 @@ async function subscribeUser() {
             userVisibleOnly: true,
             applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
           })
-          .then((subscription) => {
+          .then(subscription => {
             // save subscription on DB
             fetch('/api/subscribe', {
               method: 'POST',
