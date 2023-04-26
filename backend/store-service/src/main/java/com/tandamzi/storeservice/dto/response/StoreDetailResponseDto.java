@@ -22,7 +22,7 @@ public class StoreDetailResponseDto {
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
     private int cherryPoint;
-    private boolean closed;
+    private boolean open;
     private CherryBoxDto cherryBox;
     private List<AllergyDto> allergies = new ArrayList<>();
     private List<StoreImageDto> images = new ArrayList<>();
@@ -95,7 +95,7 @@ public class StoreDetailResponseDto {
                 .cherryPoint(store.getCherryPoint())
                 .pickUpStartTime(store.getPickUpStartTime())
                 .pickUpEndTime(store.getPickUpEndTime())
-                .closed(store.isClosed())
+                .open(store.isOpen())
                 .cherryBox(CherryBoxDto.builder()
                         .description(store.getCherryBox().getDescription())
                         .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
