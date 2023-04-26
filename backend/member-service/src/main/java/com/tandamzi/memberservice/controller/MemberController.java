@@ -34,4 +34,11 @@ public class MemberController {
         return responseService.getSuccessResult();
     }
 
+    @PutMapping("/alarm")
+    public Result changeAlarm(@LoginMember Member member){
+        log.info("MemberController changeAlarm 실행");
+        memberService.changeAlarm(member);
+        return responseService.getSuccessResult();
+    }
+
 }

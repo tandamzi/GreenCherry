@@ -36,4 +36,8 @@ public class Member extends BaseEntity{
     public void changeNickname(String nickname){
         this.nickname = nickname;
     }
+
+    public void changeAlarm(){
+        this.alarm = !this.alarm;
+    }
 }

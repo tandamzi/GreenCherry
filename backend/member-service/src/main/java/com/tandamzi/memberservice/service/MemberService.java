@@ -22,4 +22,10 @@ public class MemberService {
         member.changeNickname(nickname);
     }
 
+    @Transactional
+    public void changeAlarm(Member member){
+        log.info("MemberService changeAlarm 실행");
+        member.changeAlarm();
+    }
+
 }
