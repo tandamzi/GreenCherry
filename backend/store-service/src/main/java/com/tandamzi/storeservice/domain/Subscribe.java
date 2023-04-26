@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 
 import javax.persistence.*;
 
-@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -20,4 +19,5 @@ public class Subscribe extends BaseEntity{
     @JoinColumn(name = "store_id")
     private Store store;
 
+    private Long memberId;
 }

@@ -3,9 +3,10 @@ package com.tandamzi.storeservice.controller;
 import com.tandamzi.storeservice.common.response.ResponseService;
 import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
-import com.tandamzi.storeservice.domain.Allergy;
+import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
+import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.StoreService;
@@ -38,26 +39,43 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("storeId") Long storeId) {
         log.info("storeId: {}", storeId);
-        StoreDetailResponseDto storeDetailResponseDto = storeService.searchStoreDetail(storeId);
+        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
-    /*@PostMapping("{storeId}/subscribe")
-    public Result subscribeStore(@PathVariable("storeId") Long storeId) {
-        storeService.subscribeStore(storeId);
-        return responseService.getSuccessResult();
-    }*/
 
     @GetMapping("type")
-    public SingleResult<List<TypeResponseDto>> getTypes(){
+    public SingleResult<List<TypeResponseDto>> getTypes() {
         return responseService.getSingleResult(storeService.getTypes());
     }
 
     @GetMapping("allergy")
-    public SingleResult<List<AllergyResponseDto>> getAllergies(){
+    public SingleResult<List<AllergyResponseDto>> getAllergies() {
         return responseService.getSingleResult(storeService.getAllergies());
     }
 
-//    @PostMapping("{storeId}/cherryBox")
+    @GetMapping("{storeId}/cherrybox")
+    public SingleResult<CherryBoxResponseDto> getCherryBox(@PathVariable("storeId") Long storeId) {
+        return responseService.getSingleResult(storeService.getCherryBox(storeId));
+    }
+
+    @PostMapping("{storeId}/cherrybox")
+    public Result registerCherryBox(@PathVariable("storeId") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
+        storeService.registerCherryBox(storeId, cherryBoxRequestDto);
+        return responseService.getSuccessResult();
+    }
+
+    @PostMapping("{storeId}/subscribe")
+    public Result subscribeStore(@PathVariable("storeId") Long storeId, @RequestParam Long memberId) {
+        storeService.subscribeStore(storeId, memberId);
+        return responseService.getSuccessResult();
+    }
+
+    @DeleteMapping("{storeId}/subscribe")
+    public Result deleteSubscribe(@PathVariable("storeId") Long storeId, @RequestParam Long memberId) {
+        log.info("storeId: {}, memberId: {}", storeId, memberId);
+        storeService.deleteSubscribe(storeId, memberId);
+        return responseService.getSuccessResult();
+    }
 
 }
