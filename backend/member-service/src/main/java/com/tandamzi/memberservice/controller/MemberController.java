@@ -2,6 +2,7 @@ package com.tandamzi.memberservice.controller;
 
 import com.tandamzi.memberservice.common.annotation.LoginMember;
 import com.tandamzi.memberservice.common.response.ResponseService;
+import com.tandamzi.memberservice.common.result.ListResult;
 import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
@@ -10,6 +11,8 @@ import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -39,6 +42,13 @@ public class MemberController {
         log.info("MemberController changeAlarm 실행");
         memberService.changeAlarm(member);
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping("/search")
+    public SingleResult<List<Long>> findMemberIdFromNickname(@RequestParam("nickname") String nickname){
+        log.info("MemberController findMemberIdFromNickname 실행 -> nickname = {}", nickname);
+        List<Long> requestDto = memberService.findMemberIdFromNickname(nickname);
+        return responseService.getSingleResult(requestDto);
     }
 
 }
