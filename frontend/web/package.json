@@ -10,6 +10,11 @@
     "lint-staged": "lint-staged",
     "prepare": "cd ../../ && husky install frontend/web/.husky"
   },
+  "lint-stage": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint --fix"
+    ]
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "10.4.14",
