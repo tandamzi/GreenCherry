@@ -121,4 +121,8 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         subscribeRepository.deleteByStoreAndMemberId(store, memberId);
     }
+    @Transactional
+    public void updateCherryBox(Long storeId){
+
+    }
 }

@@ -77,5 +77,10 @@ public class StoreController {
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
     }
+    @PutMapping("{store-id}/cherrybox")
+    public Result updateCherrybox(@PathVariable("store-id") Long storeId){
+        log.info("updateCherrybox => storeId :{} ",storeId);
+        storeService.updateCherrybox(storeId);
+    }
 
 }
