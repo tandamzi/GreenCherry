@@ -1,27 +1,30 @@
-'use client'
+'use client';
+
 const sendNotification = async () => {
   try {
-    console.log("test");
-    const response = await fetch("/api/send-notification", {
-      method: "POST",
+    console.log('test');
+    const response = await fetch('/api/send-notification', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
-    console.log("index");
+    console.log('index');
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    console.error("Error sending notification:", error);
+    console.error('Error sending notification:', error);
   }
 };
 
 const subscribeUser = async () => {
+  console.log('1. 구독버튼 클릭!');
   navigator.serviceWorker.ready.then((registration) => {
     registration.pushManager.getSubscription().then((subscription) => {
       if (subscription) {
-        console.log("Already subscribed");
+        console.log('Already subscribed');
       } else {
+        console.log('2. 구독 정보: ', subscription);
         registration.pushManager
           .subscribe({
             userVisibleOnly: true,
@@ -29,10 +32,10 @@ const subscribeUser = async () => {
           })
           .then((subscription) => {
             // save subscription on DB
-            fetch("/api/subscribe", {
-              method: "POST",
+            fetch('/api/subscribe', {
+              method: 'POST',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify(subscription),
             });
@@ -45,11 +48,9 @@ const subscribeUser = async () => {
 export default function Home() {
   return (
     <div>
-      <h1 className="">Welcome to your PWA</h1>
+      <h1 className=''>Welcome to your PWA</h1>
       <div>
-        <button onClick={subscribeUser}>
-          Subscribe for push notifications
-        </button>
+        <button onClick={subscribeUser}>Subscribe for push notifications</button>
         <button onClick={sendNotification}>Send notification</button>
       </div>
     </div>

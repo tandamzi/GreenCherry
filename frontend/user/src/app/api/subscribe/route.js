@@ -1,45 +1,17 @@
-import { saveSubscription } from "../../../utils/db";
+import { saveSubscription } from '@/utils/db';
+import { NextResponse } from 'next/server';
 
 const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 const privateVapidKey = process.env.VAPID_PRIVATE_KEY;
 
-export default async function handler(req, res) {
-  console.log("subscribe.js");
-  if (req.method === "POST") {
-    const subscription = req.body;
-
-    try {
-      await saveSubscription(subscription);
-      res.status(201).json({ message: "Subscription saved" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Failed to save subscription" });
-    }
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
+export async function POST(request) {
+  console.log('3. POST request 정보 ', request);
+  const subscription = request.body;
+  console.log(subscription);
+  try {
+    await saveSubscription(subscription);
+    return NextResponse.json({ msg: 'POST: 성공' });
+  } catch {
+    return NextResponse.json({ msg: 'POST: 실패' });
   }
-
-
-  
-}
-export async function subscribeUser() {
-  const permission = await Notification.requestPermission();
-  if (permission !== "granted") {
-    console.log("Notification permission denied");
-    return;
-  }
-
-  const registration = await navigator.serviceWorker.ready;
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: publicVapidKey,
-  });
-
-  await fetch("/api/subscribe", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(subscription),
-  });
 }
