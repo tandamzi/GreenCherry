@@ -13,6 +13,7 @@ webPush.setVapidDetails(
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const subscriptions = getSubscriptions();
+    console.log(subscriptions);
     const notificationPayload = {
       title: "Hello from PWA",
       body: "This is a test push notification",
@@ -33,6 +34,7 @@ export default async function handler(req, res) {
       res.status(200).json({ message: "Push notifications sent" });
     } catch (error) {
       console.error(error);
+      console.log(subscriptions);
       res.status(500).json({ message: "Failed to send push notifications" });
     }
   } else {
