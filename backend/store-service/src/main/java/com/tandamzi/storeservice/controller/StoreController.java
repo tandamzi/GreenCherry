@@ -36,8 +36,8 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    @GetMapping("/{storeId}")
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("storeId") Long storeId) {
+    @GetMapping("/{store-id}")
+    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
         log.info("storeId: {}", storeId);
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
         return responseService.getSingleResult(storeDetailResponseDto);
@@ -54,25 +54,25 @@ public class StoreController {
         return responseService.getSingleResult(storeService.getAllergies());
     }
 
-    @GetMapping("{storeId}/cherrybox")
-    public SingleResult<CherryBoxResponseDto> getCherryBox(@PathVariable("storeId") Long storeId) {
+    @GetMapping("{store-id}/cherrybox")
+    public SingleResult<CherryBoxResponseDto> getCherryBox(@PathVariable("store-id") Long storeId) {
         return responseService.getSingleResult(storeService.getCherryBox(storeId));
     }
 
-    @PostMapping("{storeId}/cherrybox")
-    public Result registerCherryBox(@PathVariable("storeId") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
+    @PostMapping("{store-id}/cherrybox")
+    public Result registerCherryBox(@PathVariable("store-id") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
         storeService.registerCherryBox(storeId, cherryBoxRequestDto);
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("{storeId}/subscribe")
-    public Result subscribeStore(@PathVariable("storeId") Long storeId, @RequestParam Long memberId) {
+    @PostMapping("{store-id}/subscribe")
+    public Result subscribeStore(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
         storeService.subscribeStore(storeId, memberId);
         return responseService.getSuccessResult();
     }
 
-    @DeleteMapping("{storeId}/subscribe")
-    public Result deleteSubscribe(@PathVariable("storeId") Long storeId, @RequestParam Long memberId) {
+    @DeleteMapping("{store-id}/subscribe")
+    public Result deleteSubscribe(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
         log.info("storeId: {}, memberId: {}", storeId, memberId);
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
