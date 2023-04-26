@@ -33,4 +33,11 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void changeAlarm(){
+        this.alarm = !this.alarm;
+    }
 }
