@@ -115,4 +115,10 @@ public class StoreService {
                 .memberId(memberId)
                 .build());
     }
+
+    @Transactional
+    public void deleteSubscribe(Long storeId, Long memberId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        subscribeRepository.deleteByStoreAndMemberId(store, memberId);
+    }
 }
