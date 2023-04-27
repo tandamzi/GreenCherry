@@ -19,12 +19,8 @@ public class Store extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<StoreAllergy> allergyList;
     private Long ownerId;
     private String name;
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<StoreImage> images = new ArrayList<>();
     @Embedded
     private Address address;
     private String phone;
