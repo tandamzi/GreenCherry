@@ -48,20 +48,13 @@ public class StoreController {
     }
 
     @GetMapping("/{store-id}")
-<<<<<<< Updated upstream
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail (@PathVariable("store-id") Long storeId) {
-        log.info("storeId: {}", storeId);
-=======
     public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
         log.info("searchStoreDetail 진입 storeId: {}", storeId);
->>>>>>> Stashed changes
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
 
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
-<<<<<<< Updated upstream
-=======
     @PutMapping("/{store-id}")
     public Result updateStore(@PathVariable("store-id") Long storeId,
                               @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto,
@@ -71,7 +64,6 @@ public class StoreController {
 
         return responseService.getSuccessResult();
     }
->>>>>>> Stashed changes
 
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
