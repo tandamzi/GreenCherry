@@ -1,5 +1,9 @@
 package com.tandamzi.storeservice.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -14,9 +18,13 @@ import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,21 +39,18 @@ public class StoreService {
     private final StoreAllergyRepository storeAllergyRepository;
     private final AllergyRepository allergyRepository;
     private final StoreImageRepository storeImageRepository;
-
     private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
-
-
+    private final S3Service s3Service;
     @Transactional
-    public void registerStore(RegisterStoreRequestDto dto) {
-        //타입 id로 타입 찾아서 toEntity로 변환
+    public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
+        //타입 id로 타입 찾아서 entity로 변환
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
         CherryBox cherryBox = cherryBoxRepository.save(CherryBox.builder().build());
         Store store = storeRepository.save(dto.toEntity(type, cherryBox));
         log.info("store = {}", store);
 
-
-        //allergyIdList에서 알러지 찾아서 toEntity로 변환
+        //allergyIdList에서 알러지 찾아서 entity로 변환
         //1.allergyIdList를 각각 Allergy 엔티티로 생성
         //2.StoreAlergy에 store와 allergy를 넣어서 저장
         List<Allergy> allergyList = allergyRepository.findAllById(dto.getAllergyIdList());
@@ -57,14 +62,15 @@ public class StoreService {
             );
         });
 
-
         //imageUrlList를 각각 StoreImage 엔티티로 생성
-        dto.getImageUrlList().stream().forEach(imageUrl -> {
+        List<String> imageUrlList = s3Service.uploadFiles(imageFileList,"store");
+        log.info("imageUrlList = {}", imageUrlList);
+
+        imageUrlList.stream().forEach(imageUrl -> {
             storeImageRepository.save(StoreImage.builder()
                     .store(store)
                     .url(imageUrl)
-                    .build()
-            );
+                    .build());
         });
     }
 
@@ -77,7 +83,6 @@ public class StoreService {
                         .stream()
                         .map(storeAllergy -> storeAllergy.getAllergy())
                         .collect(Collectors.toList());
-        //List<StoreImage>가져오기
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
 
         return StoreDetailResponseDto.create(store, allergyList, storeImageList);
@@ -124,5 +129,6 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         subscribeRepository.deleteByStoreAndMemberId(store, memberId);
     }
+
 
 }
