@@ -27,14 +27,14 @@ const subscribeUser = async () => {
             userVisibleOnly: true,
             applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
           })
-          .then(subscription => {
+          .then(data => {
             // save subscription on DB
             fetch('/api/subscribe', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(subscription),
+              body: JSON.stringify(data),
             });
           });
       }
@@ -45,12 +45,14 @@ const subscribeUser = async () => {
 export default function Home() {
   return (
     <div>
-      <h1 className="">Welcome to your PWA</h1>
+      <h1 className="text-primaryevent">Welcome to your PWA</h1>
       <div>
-        <button onClick={subscribeUser}>
+        <button type="button" onClick={subscribeUser}>
           Subscribe for push notifications
         </button>
-        <button onClick={sendNotification}>Send notification</button>
+        <button type="button" onClick={sendNotification}>
+          Send notification
+        </button>
       </div>
     </div>
   );
