@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
 
-import cx from 'classnames';
+import cs from 'classnames';
 
 const Body = forwardRef(({ className, children }, ref) => {
   return (
-    <div ref={ref} id="cherry-body" className={cx(className)}>
+    <div ref={ref} id="cherry-body" className={cs(className)}>
       {children}
     </div>
   );
