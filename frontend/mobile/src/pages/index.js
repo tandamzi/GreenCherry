@@ -29,7 +29,7 @@ const subscribeUser = async () => {
           .then(subscription => {
             // save subscription on DB
             fetch('/api/subscribe', {
-              method: 'POST'
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
