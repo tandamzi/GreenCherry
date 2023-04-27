@@ -33,6 +33,7 @@ public class StoreService {
     private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
 
+
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto) {
         //타입 id로 타입 찾아서 toEntity로 변환
@@ -68,7 +69,7 @@ public class StoreService {
     public StoreDetailResponseDto getStoreDetail(Long storeId) {
         Store store = storeRepository.findByIdWithEagerTypeAndBox(storeId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
-        //list<Allergy>로 변환
+
         List<Allergy> allergyList =
                 storeAllergyRepository.findAllByStore(store)
                         .stream()
@@ -91,9 +92,9 @@ public class StoreService {
     }
 
     @Transactional
-    public void registerCherryBox(Long storeId, CherryBoxRequestDto dto) {
-        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-        CherryBox cherryBox = cherryBoxRepository.findById(store.getCherryBox().getId()).orElseThrow(CherryBoxNotFoundException::new);
+    public void updateCherryBox(Long storeId, CherryBoxRequestDto dto) {
+        Store store = storeRepository.findByIdWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
+        CherryBox cherryBox = store.getCherryBox();
         cherryBox.updateCherryBox(dto.getQuantity(),
                 dto.getTotalPriceBeforeDiscount(),
                 dto.getDiscountRate(),
@@ -121,4 +122,5 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         subscribeRepository.deleteByStoreAndMemberId(store, memberId);
     }
+
 }
