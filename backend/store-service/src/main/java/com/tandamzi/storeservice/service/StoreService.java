@@ -33,6 +33,7 @@ public class StoreService {
     private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
 
+
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto) {
         //타입 id로 타입 찾아서 toEntity로 변환
@@ -91,7 +92,7 @@ public class StoreService {
     }
 
     @Transactional
-    public void registerCherryBox(Long storeId, CherryBoxRequestDto dto) {
+    public void updateCherryBox(Long storeId, CherryBoxRequestDto dto) {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = cherryBoxRepository.findById(store.getCherryBox().getId()).orElseThrow(CherryBoxNotFoundException::new);
         cherryBox.updateCherryBox(dto.getQuantity(),
@@ -121,4 +122,5 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         subscribeRepository.deleteByStoreAndMemberId(store, memberId);
     }
+
 }
