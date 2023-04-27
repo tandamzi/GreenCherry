@@ -1,5 +1,4 @@
-import { saveSubscription } from '@/utils/db';
-
+/* eslint-disable no-console */
 async function sendNotification() {
   try {
     const response = await fetch('/api/send-notification', {
@@ -26,14 +25,14 @@ async function subscribeUser() {
             userVisibleOnly: true,
             applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
           })
-          .then(subscription => {
+          .then(data => {
             // save subscription on DB
             fetch('/api/subscribe', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(subscription),
+              body: JSON.stringify(data),
             });
           });
       }
@@ -45,8 +44,14 @@ export default function Home() {
   return (
     <div>
       <h1>Welcome to your PWA</h1>
-      <button onClick={subscribeUser}>Subscribe for push notifications</button>
-      <button onClick={sendNotification}>Send notification</button>
+      <div>
+        <button type="button" onClick={subscribeUser}>
+          Subscribe for push notifications
+        </button>
+        <button type="button" onClick={sendNotification}>
+          Send notification
+        </button>
+      </div>
     </div>
   );
 }
