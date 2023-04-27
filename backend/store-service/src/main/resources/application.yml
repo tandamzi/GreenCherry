@@ -1,27 +1,46 @@
-#spring:
-#  cloud:
-#    config:
-#      enabled: false
-#  application:
-#    name: store-service
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3307/tandamzi_store?serverTimezone=UTC&characterEncoding=UTF-8
-#    username: root
-#    password: cherry207
-#
-#  jpa:
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        default_batch_fetch_size: 100
-#
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: debug
-##        type: trace
+spring:
+  application:
+    name: store-service
+  cloud:
+    config:
+      enabled: false
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/tandamzi_store?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: cherry207
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+    org:
+      hibernate:
+        SQL: debug
+#        type: trace
+
+cloud:
+  aws:
+    s3:
+      bucket: tandamzi-greencherry-bucket
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIA36KNTOKYGQB4KLWS
+      secretKey: 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
+    region:
+      static: ap-northeast-2
