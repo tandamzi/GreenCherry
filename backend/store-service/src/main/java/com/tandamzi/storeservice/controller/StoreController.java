@@ -14,6 +14,8 @@ import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,11 +46,13 @@ public class StoreController {
     }
 
     @GetMapping("/{store-id}")
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
+    public SingleResult<StoreDetailResponseDto> searchStoreDetail (@PathVariable("store-id") Long storeId) {
         log.info("storeId: {}", storeId);
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
+
         return responseService.getSingleResult(storeDetailResponseDto);
     }
+
 
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
@@ -89,7 +93,7 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
     @PutMapping("{store-id}/cherryboxQuantity")
-    public Result decreaseCherrybox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
+    public Result decreaseCherryBox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
         log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
         cherryBoxService.decreaseCherryBox(storeId, orderQuantity);
         return responseService.getSuccessResult();

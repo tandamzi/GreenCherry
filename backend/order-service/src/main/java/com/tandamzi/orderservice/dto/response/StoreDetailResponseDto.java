@@ -1,5 +1,6 @@
 package com.tandamzi.orderservice.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalTime;
@@ -9,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 public class StoreDetailResponseDto {
     private Long storeId;
     private String name;
@@ -23,6 +25,8 @@ public class StoreDetailResponseDto {
     private CherryBoxDto cherryBox;
     private List<AllergyDto> allergies = new ArrayList<>();
     private List<StoreImageDto> images = new ArrayList<>();
+
+
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)

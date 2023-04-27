@@ -19,6 +19,7 @@ public class OrderController {
 
     @PostMapping("")
     public Result registerOrder(@RequestBody RegisterOrderDto orderDto){
+        log.info("[OrderController] registerOrder ");
         orderService.registerOrder(orderDto);
         return responseService.getSuccessResult();
     }
