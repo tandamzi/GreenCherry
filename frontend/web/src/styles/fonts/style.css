@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "LINESeedTh";
+  font-style: normal;
+  src: url("./LINESeedKR-Th.ttf") format("woff2"),
+    url("./LINESeedKR-Th.ttf") format("woff"),
+    url("./LINESeedKR-Th.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "LINESeedRg";
+  font-style: normal;
+  src: url("./LINESeedKR-Rg.ttf") format("woff2"),
+    url("./LINESeedKR-Rg.ttf") format("woff"),
+    url("./LINESeedKR-Rg.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "LINESeedBd";
+  font-style: normal;
+  src: url("./LINESeedKR-Bd.ttf") format("woff2"),
+    url("./LINESeedKR-Bd.ttf") format("woff"),
+    url("./LINESeedKR-Bd.ttf") format("truetype");
+}

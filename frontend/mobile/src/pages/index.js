@@ -1,37 +1,38 @@
+/* eslint-disable no-console */
 const sendNotification = async () => {
   try {
-    console.log("test");
-    const response = await fetch("/api/send-notification", {
-      method: "POST",
+    console.log('test');
+    const response = await fetch('/api/send-notification', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
-    console.log("index");
+    console.log('index');
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    console.error("Error sending notification:", error);
+    console.error('Error notification:', error);
   }
 };
 
 const subscribeUser = async () => {
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.pushManager.getSubscription().then((subscription) => {
+  navigator.serviceWorker.ready.then(registration => {
+    registration.pushManager.getSubscription().then(subscription => {
       if (subscription) {
-        console.log("Already subscribed");
+        console.log('Already subscribed');
       } else {
         registration.pushManager
           .subscribe({
             userVisibleOnly: true,
             applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
           })
-          .then((subscription) => {
+          .then(subscription => {
             // save subscription on DB
-            fetch("/api/subscribe", {
-              method: "POST",
+            fetch('/api/subscribe', {
+              method: 'POST',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify(subscription),
             });
