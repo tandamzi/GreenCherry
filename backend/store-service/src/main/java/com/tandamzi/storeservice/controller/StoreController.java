@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreController {
     private final StoreService storeService;
-
     private final ResponseService responseService;
     private final S3Service s3Service;
 
@@ -36,6 +35,7 @@ public class StoreController {
 
     @PostMapping
     public Result registerStore(@RequestBody RegisterStoreRequestDto registerStoreRequestDto) {
+        log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
         storeService.registerStore(registerStoreRequestDto);
         return responseService.getSuccessResult();
     }
@@ -49,27 +49,32 @@ public class StoreController {
 
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
+        log.info("getTypes() 진입");
         return responseService.getSingleResult(storeService.getTypes());
     }
 
     @GetMapping("allergy")
     public SingleResult<List<AllergyResponseDto>> getAllergies() {
+        log.info("getAllergies() 진입");
         return responseService.getSingleResult(storeService.getAllergies());
     }
 
     @GetMapping("{store-id}/cherrybox")
     public SingleResult<CherryBoxResponseDto> getCherryBox(@PathVariable("store-id") Long storeId) {
+        log.info("storeId: {}", storeId);
         return responseService.getSingleResult(storeService.getCherryBox(storeId));
     }
 
     @PutMapping("{store-id}/cherrybox")
     public Result updateCherryBox(@PathVariable("store-id") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
+        log.info("storeId: {}, cherryBoxRequestDto: {}", storeId, cherryBoxRequestDto);
         storeService.updateCherryBox(storeId, cherryBoxRequestDto);
         return responseService.getSuccessResult();
     }
 
     @PostMapping("{store-id}/subscribe")
     public Result subscribeStore(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
+        log.info("storeId: {}, memberId: {}", storeId, memberId);
         storeService.subscribeStore(storeId, memberId);
         return responseService.getSuccessResult();
     }
