@@ -24,31 +24,7 @@ public class S3Service {
     private String bucket;
     private final AmazonS3Client amazonS3Client;
 
-
-    public String uploadFile(MultipartFile file) {
-        try {
-            String fileName=file.getOriginalFilename();
-            String fileUrl= "https://" + bucket + "/test" +fileName;
-            ObjectMetadata metadata= new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
-            metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucket,fileName,file.getInputStream(),metadata);
-            return fileUrl;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "fail";
-        }
-    }
-
-    public String uploadFileV2(MultipartFile file, String dirName) throws IOException{
-        String storedFilePath = dirName + "/" + UUID.randomUUID() + file.getOriginalFilename();
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-        amazonS3Client.putObject(bucket, storedFilePath, file.getInputStream(), metadata);
-        return amazonS3Client.getUrl(bucket, storedFilePath).toString();
-    }
-
-    public List<String> uploadFiles(MultipartFile[] multipartFileList, String dirName) throws IOException{
+    public List<String> uploadFiles(List<MultipartFile> multipartFileList, String dirName) throws IOException {
         List<String> imageUrlList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         for(MultipartFile multipartFile: multipartFileList) {
@@ -62,7 +38,6 @@ public class S3Service {
             ObjectMetadata objectMetaData = new ObjectMetadata();
             objectMetaData.setContentType(multipartFile.getContentType());
             objectMetaData.setContentLength(size);
-            // S3에 업로드
             amazonS3Client.putObject(
                     new PutObjectRequest(bucket, storedFilePath, multipartFile.getInputStream(), objectMetaData)
                             .withCannedAcl(CannedAccessControlList.PublicRead)

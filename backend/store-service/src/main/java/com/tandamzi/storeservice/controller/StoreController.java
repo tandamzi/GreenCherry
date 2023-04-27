@@ -34,9 +34,9 @@ public class StoreController {
     }
 
     @PostMapping
-    public Result registerStore(@RequestBody RegisterStoreRequestDto registerStoreRequestDto) {
+    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,@RequestPart List<MultipartFile> imageFileList) throws IOException {
         log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
-        storeService.registerStore(registerStoreRequestDto);
+        storeService.registerStore(registerStoreRequestDto,imageFileList);
         return responseService.getSuccessResult();
     }
 
@@ -86,19 +86,12 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("update-image")
-    public SingleResult<String> registerImage(@RequestParam ("file")MultipartFile file) throws IOException {
-        String url = s3Service.uploadFileV2(file,"/test");
-        return responseService.getSingleResult(url);
-    }
-
+    /* 이미지 업로드 테스트용. 나중에 지울겁니다.*/
     @PostMapping("update-images")
-    public SingleResult<List<String>> registerImages(@RequestParam ("file")MultipartFile[] files) throws IOException {
-        List<String> imageUrlList = s3Service.uploadFiles(files,"test");
+    public SingleResult<List<String>> registerImages(@RequestParam ("images")List<MultipartFile> images) throws IOException {
+        List<String> imageUrlList = s3Service.uploadFiles(images,"test");
         log.info("imageUrlList: {}", imageUrlList);
         return responseService.getSingleResult(imageUrlList);
     }
-
-
 
 }
