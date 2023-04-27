@@ -1,15 +1,15 @@
 import { memo } from 'react';
 
-import cx from 'classnames';
+import cs from 'classnames';
 import Image from 'next/image';
 
 import logo from './img/mainLogo.png';
-import Header from '../header';
+import Header from '../Header';
 
 const MainHeader = ({ className, children }) => {
   return (
     <Header
-      className={cx(
+      className={cs(
         'flex items-center border-b-2 sticky top-0 z-30 bg-white touch-none',
         className,
       )}

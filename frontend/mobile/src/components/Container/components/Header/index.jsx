@@ -1,9 +1,9 @@
 import React from 'react';
 
-import cn from 'classnames';
+import cs from 'classnames';
 
 const Header = ({ children, className }) => {
-  return <div className={cn('h-16 px-4', className)}>{children}</div>;
+  return <div className={cs('h-16 px-4', className)}>{children}</div>;
 };
 
 export default Header;
