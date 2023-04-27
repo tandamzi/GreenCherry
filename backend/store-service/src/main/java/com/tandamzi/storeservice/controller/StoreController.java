@@ -86,10 +86,19 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    @PutMapping("update-image")
+    @PostMapping("update-image")
     public SingleResult<String> registerImage(@RequestParam ("file")MultipartFile file) throws IOException {
         String url = s3Service.uploadFileV2(file,"/test");
         return responseService.getSingleResult(url);
     }
+
+    @PostMapping("update-images")
+    public SingleResult<List<String>> registerImages(@RequestParam ("file")MultipartFile[] files) throws IOException {
+        List<String> imageUrlList = s3Service.uploadFiles(files,"test");
+        log.info("imageUrlList: {}", imageUrlList);
+        return responseService.getSingleResult(imageUrlList);
+    }
+
+
 
 }
