@@ -9,11 +9,15 @@ import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
+import com.tandamzi.storeservice.service.S3Service;
+import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +28,9 @@ public class StoreController {
     private final StoreService storeService;
 
     private final ResponseService responseService;
+    private final S3Service s3Service;
+
+    private final CherryBoxService cherryBoxService;
 
     @RequestMapping("/test")
     public String test() {
@@ -43,7 +50,6 @@ public class StoreController {
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
-
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
         return responseService.getSingleResult(storeService.getTypes());
@@ -59,9 +65,9 @@ public class StoreController {
         return responseService.getSingleResult(storeService.getCherryBox(storeId));
     }
 
-    @PostMapping("{store-id}/cherrybox")
-    public Result registerCherryBox(@PathVariable("store-id") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
-        storeService.registerCherryBox(storeId, cherryBoxRequestDto);
+    @PutMapping("{store-id}/cherrybox")
+    public Result updateCherryBox(@PathVariable("store-id") Long storeId, @RequestBody CherryBoxRequestDto cherryBoxRequestDto) {
+        storeService.updateCherryBox(storeId, cherryBoxRequestDto);
         return responseService.getSuccessResult();
     }
 
@@ -77,10 +83,17 @@ public class StoreController {
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
     }
-    @PutMapping("{store-id}/cherrybox")
-    public Result updateCherrybox(@PathVariable("store-id") Long storeId){
-        log.info("updateCherrybox => storeId :{} ",storeId);
-        storeService.updateCherrybox(storeId);
+    @PutMapping("{store-id}/cherryboxQuantity")
+    public Result decreaseCherrybox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
+        log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
+        cherryBoxService.decreaseCherryBox(storeId, orderQuantity);
+        return responseService.getSuccessResult();
+    }
+
+    @PutMapping("update-image")
+    public SingleResult<String> registerImage(@RequestParam ("file")MultipartFile file) throws IOException {
+        String url = s3Service.uploadFileV2(file,"/test");
+        return responseService.getSingleResult(url);
     }
 
 }
