@@ -12,7 +12,7 @@ const sendNotification = async () => {
     const data = await response.json();
     console.log(data);
   } catch (error) {
-    console.error('Error sending notification:', error);
+    console.error('Error notification:', error);
   }
 };
 
