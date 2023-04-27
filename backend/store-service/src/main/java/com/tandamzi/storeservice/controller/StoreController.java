@@ -5,6 +5,7 @@ import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
+import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
@@ -39,20 +40,30 @@ public class StoreController {
     }
 
     @PostMapping
-    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,@RequestPart List<MultipartFile> imageFileList) throws IOException {
+    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,
+                                @RequestPart(required = false) List<MultipartFile> imageFileList) throws IOException {
         log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
         storeService.registerStore(registerStoreRequestDto,imageFileList);
         return responseService.getSuccessResult();
     }
 
     @GetMapping("/{store-id}")
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail (@PathVariable("store-id") Long storeId) {
-        log.info("storeId: {}", storeId);
+    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
+        log.info("searchStoreDetail 진입 storeId: {}", storeId);
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
 
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
+    @PutMapping("/{store-id}")
+    public Result updateStore(@PathVariable("store-id") Long storeId,
+                              @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto,
+                              @RequestPart(required = false) List<MultipartFile> imageFileList) {
+        log.info("updateStore 진입 storeRequestDto: {}",storeRequestDto);
+        storeService.updateStore(storeId, storeRequestDto, imageFileList);
+
+        return responseService.getSuccessResult();
+    }
 
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
