@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 public class CherryBoxRequestDto {
     private Long memberId;
     private int quantity;
