@@ -10,6 +10,7 @@ import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.S3Service;
+import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +29,17 @@ public class StoreController {
     private final ResponseService responseService;
     private final S3Service s3Service;
 
+    private final CherryBoxService cherryBoxService;
+
     @RequestMapping("/test")
     public String test() {
         return "Hello World";
     }
 
     @PostMapping
-    public Result registerStore(@RequestBody RegisterStoreRequestDto registerStoreRequestDto) {
+    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,@RequestPart List<MultipartFile> imageFileList) throws IOException {
         log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
-        storeService.registerStore(registerStoreRequestDto);
+        storeService.registerStore(registerStoreRequestDto,imageFileList);
         return responseService.getSuccessResult();
     }
 
@@ -85,11 +88,19 @@ public class StoreController {
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
     }
+    @PutMapping("{store-id}/cherryboxQuantity")
+    public Result decreaseCherrybox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
+        log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
+        cherryBoxService.decreaseCherryBox(storeId, orderQuantity);
+        return responseService.getSuccessResult();
+    }
 
-    @PutMapping("update-image")
-    public SingleResult<String> registerImage(@RequestParam ("file")MultipartFile file) throws IOException {
-        String url = s3Service.uploadFileV2(file,"/test");
-        return responseService.getSingleResult(url);
+    /* 이미지 업로드 테스트용. 나중에 지울겁니다.*/
+    @PostMapping("update-images")
+    public SingleResult<List<String>> registerImages(@RequestParam ("images")List<MultipartFile> images) throws IOException {
+        List<String> imageUrlList = s3Service.uploadFiles(images,"test");
+        log.info("imageUrlList: {}", imageUrlList);
+        return responseService.getSingleResult(imageUrlList);
     }
 
 }

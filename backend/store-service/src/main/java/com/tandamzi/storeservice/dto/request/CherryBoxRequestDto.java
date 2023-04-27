@@ -16,6 +16,4 @@ public class CherryBoxRequestDto {
     private String description;
     private int pricePerCherryBox;
 
-
-
 }
