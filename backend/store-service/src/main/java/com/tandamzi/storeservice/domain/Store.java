@@ -1,9 +1,12 @@
 package com.tandamzi.storeservice.domain;
 
+import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +24,8 @@ public class Store extends BaseEntity {
     private Type type;
     private Long ownerId;
     private String name;
+    private String description;
+    private String snsAccount;
     @Embedded
     private Address address;
     private String phone;
@@ -31,6 +36,8 @@ public class Store extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cherry_box_id")
     private CherryBox cherryBox;
+
+
 }
 
 
