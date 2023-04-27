@@ -5,13 +5,10 @@ module.exports = {
     node: true,
   },
   extends: [
+    'airbnb',
     'plugin:prettier/recommended',
-    'plugin:storybook/recommended',
     'plugin:@next/next/recommended',
   ],
-  plugins: ['prettier'],
-  // eslint-plugin-prettier를 적용시켜줍니다
-
   rules: {
     'import/order': [
       'error',
@@ -64,12 +61,15 @@ module.exports = {
       },
     ],
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    'no-restricted-globals': 'off',
+    'no-unused-vars': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react/react-in-jsx-scope': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-props-no-spreading': 'off',
     'react/no-unused-prop-types': ['off'],
     'react/no-array-index-key': 'off',
-    'no-unused-vars': 'off',
     'global-require': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
@@ -105,4 +105,5 @@ module.exports = {
       },
     ],
   },
+  plugins: ['prettier'],
 };
