@@ -15,9 +15,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Gmarket-Sans-Light'],
-        medium: ['Gmarket-Sans-Medium'],
-        bold: ['Gmarket-Sans-Bold'],
+        sans: ['LINESeedRg'],
+        thin: ['LINESeedTh'],
+        bold: ['LINESeedBd'],
       },
     },
   },
