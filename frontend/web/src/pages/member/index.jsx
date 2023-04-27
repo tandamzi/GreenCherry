@@ -6,8 +6,9 @@ import MainHeader from '@/components/Container/MainHeader/MainHeader';
 const Member = () => {
   return (
     <div>
-      <MainHeader />
-      <h1>Member</h1>
+      <MainHeader>
+        <h1>GREEN CHERRY</h1>
+      </MainHeader>
     </div>
   );
 };

@@ -1,14 +1,20 @@
+import classnames from 'classnames';
 import Image from 'next/image';
 
 import Header from '@/components/Container/Header/Header';
-import p from '@/public/assets/logo/cherryLogo.png';
 
 const MainHeader = ({ className, children }) => {
-  const logo = p;
   return (
-    <Header className="bg-gray-100">
+    <Header
+      className={classnames(
+        'flex items-center border-b-2 sticky top-0 z-30 bg-white touch-none',
+        className,
+      )}
+    >
       <Image
-        src={logo}
+        src="/assets/logo/cherryLogo.png"
+        width={100}
+        height={100}
         className="h-14 flex-none w-fit"
         alt="greencherry main logo"
       />
