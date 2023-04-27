@@ -10,7 +10,9 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
-  // reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 });
 
 module.exports = nextConfig;
