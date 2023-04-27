@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const sendNotification = async () => {
   try {
     console.log('test');
