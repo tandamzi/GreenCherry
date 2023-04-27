@@ -10,6 +10,7 @@ import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.S3Service;
+import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ public class StoreController {
     private final StoreService storeService;
     private final ResponseService responseService;
     private final S3Service s3Service;
+
+    private final CherryBoxService cherryBoxService;
 
     @RequestMapping("/test")
     public String test() {
@@ -83,6 +86,12 @@ public class StoreController {
     public Result deleteSubscribe(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
         log.info("storeId: {}, memberId: {}", storeId, memberId);
         storeService.deleteSubscribe(storeId, memberId);
+        return responseService.getSuccessResult();
+    }
+    @PutMapping("{store-id}/cherryboxQuantity")
+    public Result decreaseCherrybox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
+        log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
+        cherryBoxService.decreaseCherryBox(storeId, orderQuantity);
         return responseService.getSuccessResult();
     }
 
