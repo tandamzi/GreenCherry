@@ -49,7 +49,7 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         {loading ? (
-          <span className='flex justify-center items-center'>
+          <span className="flex justify-center items-center">
             <Spinner />
           </span>
         ) : (
