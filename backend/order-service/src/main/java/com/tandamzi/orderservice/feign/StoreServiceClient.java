@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-
 @FeignClient(name = "store-service")
-public interface OrderServiceClient {
+public interface StoreServiceClient {
 
     @GetMapping("/store/{store-id}")
     SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId);

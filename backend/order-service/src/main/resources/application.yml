@@ -34,3 +34,8 @@ logging:
     org:
       hibernate:
         SQL: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
