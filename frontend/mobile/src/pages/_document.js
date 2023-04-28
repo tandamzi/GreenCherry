@@ -10,8 +10,10 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#84A59D" />
         </Head>
         <body>
-          <Main />
-          <NextScript />
+          <div className=' max-h-max max-w-sm mx-auto border-neutral-900 border-solid border-opacity-95'>
+            <Main />
+            <NextScript />
+          </div>
         </body>
       </Html>
     );
