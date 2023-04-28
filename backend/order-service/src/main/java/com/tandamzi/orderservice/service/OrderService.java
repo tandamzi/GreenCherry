@@ -26,12 +26,10 @@ public class OrderService {
 
     public void registerOrder(RegisterOrderDto orderDto){
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
+
         SingleResult<StoreDetailResponseDto> result = orderServiceClient.searchStoreDetail(orderDto.getStoreId());
-
-        log.info("result = {}", result.getMessage());
-
         StoreDetailResponseDto storeDetail = result.getData();
-        log.info("registerOrder => storeDetail ={}",storeDetail);
+
         if(!storeDetail.isOpen()){
             throw new StoreNotOpenException();
         }
@@ -42,7 +40,7 @@ public class OrderService {
 
         int totalSalesAmount = orderDto.getOrderQuantity() * storeDetail.getCherryBox().getPricePerCherryBox();
 
-
+        // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
@@ -51,8 +49,7 @@ public class OrderService {
                 .totalSalesAmount(totalSalesAmount)
                 .build());
 
-        Result decreaseCherrybox = orderServiceClient.decreaseCherrybox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
-        log.info("decreaseCherrybox.getMessage() = {}", decreaseCherrybox.getMessage());
+        Result decreaseCherrybox = orderServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
 
     }
 
