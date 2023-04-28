@@ -23,6 +23,7 @@ public class Member extends BaseEntity{
 
     private int cherryPoint;
 
+    @Column(length = 1024)
     private String image;
 
     private boolean alarm;
@@ -43,5 +44,9 @@ public class Member extends BaseEntity{
 
     public void increaseCherryPoint(int point){
         this.cherryPoint += point;
+    }
+
+    public void changeImage(String imageUrl){
+        this.image = imageUrl;
     }
 }

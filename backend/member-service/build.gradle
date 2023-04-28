@@ -46,6 +46,9 @@ dependencies {
 	// kafka
 	implementation 'org.springframework.kafka:spring-kafka'
 
+	// aws s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
