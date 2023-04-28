@@ -2,7 +2,6 @@ package com.tandamzi.memberservice.controller;
 
 import com.tandamzi.memberservice.common.annotation.LoginMember;
 import com.tandamzi.memberservice.common.response.ResponseService;
-import com.tandamzi.memberservice.common.result.ListResult;
 import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
@@ -11,7 +10,9 @@ import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -42,6 +43,13 @@ public class MemberController {
         log.info("MemberController changeAlarm 실행");
         memberService.changeAlarm(member);
         return responseService.getSuccessResult();
+    }
+
+    @PutMapping("/image")
+    public SingleResult<String> changeImage(@LoginMember Member member, MultipartFile profileImage) throws IOException {
+        log.info("MemberController changeImage 실행 by memberId = {}", member.getId());
+        String imageUrl = memberService.changeImage(member, profileImage);
+        return responseService.getSingleResult(imageUrl);
     }
 
     @GetMapping("/search")
