@@ -28,4 +28,16 @@ public class ExceptionAdvice {
         return responseService.getFailureResult(-300,"해당 가게 오픈 시간이 아닙니다.");
     }
 
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result OrderNotFoundException() {
+        return responseService.getFailureResult(-301,"해당 주문을 찾을 수 없습니다.");
+    }
+
+    @ExceptionHandler(OrderStatusNotEqualsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result OrderStatusNotEqualsException() {
+        return responseService.getFailureResult(-302,"주문 상태가 일치하지 않습니다.");
+    }
+
 }
