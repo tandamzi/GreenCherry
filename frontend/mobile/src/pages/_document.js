@@ -11,7 +11,7 @@ class MyDocument extends Document {
           <meta name="viewport" content="width=device-width,initial-scale=1" />
         </Head>
         <body>
-          <div className=' max-h-max max-w-sm mx-auto border-neutral-900 border-solid border-opacity-95'>
+          <div className="max-h-max max-w-md mx-auto">
             <Main />
             <NextScript />
           </div>
