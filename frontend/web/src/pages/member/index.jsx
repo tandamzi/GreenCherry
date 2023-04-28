@@ -5,9 +5,7 @@ import MainHeader from '@/components/Container/MainHeader';
 const Member = () => {
   return (
     <div>
-      <MainHeader className="bg-secondary" logoColor="green">
-        <h1>GREEN CHERRY</h1>
-      </MainHeader>
+      <MainHeader />
     </div>
   );
 };
