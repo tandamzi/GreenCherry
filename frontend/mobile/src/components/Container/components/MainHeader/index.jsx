@@ -3,14 +3,14 @@ import { memo } from 'react';
 import cs from 'classnames';
 import Image from 'next/image';
 
-import logo from './img/mainLogo.png';
+import logo from './img/mainLogo.svg';
 import Header from '../Header';
 
 const MainHeader = ({ className, children }) => {
   return (
     <Header
       className={cs(
-        'flex items-center border-b-2 sticky top-0 z-30 bg-white touch-none',
+        'flex items-center border-b-2 sticky top-0 z-30 bg-bgcolor touch-none',
         className,
       )}
     >
