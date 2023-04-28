@@ -6,7 +6,7 @@ import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import Spinner from '@/components/Spinner';
-import store from '@/store/store';
+import store from '@/redux/store';
 
 import '@/styles/globals.css';
 
@@ -49,7 +49,7 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         {loading ? (
-          <span className='flex justify-center items-center'>
+          <span className="flex justify-center items-center">
             <Spinner />
           </span>
         ) : (

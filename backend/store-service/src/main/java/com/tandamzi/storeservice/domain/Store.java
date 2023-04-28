@@ -1,9 +1,13 @@
 package com.tandamzi.storeservice.domain;
 
+import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import lombok.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,12 +23,10 @@ public class Store extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<StoreAllergy> allergyList;
     private Long ownerId;
     private String name;
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<StoreImage> images = new ArrayList<>();
+    private String description;
+    private String snsAccount;
     @Embedded
     private Address address;
     private String phone;
@@ -35,6 +37,21 @@ public class Store extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cherry_box_id")
     private CherryBox cherryBox;
+
+    public void updateStore(String storeDescription, LocalTime pickUpStartTime,LocalTime pickUpEndTime, String snsAccount) {
+        if (storeDescription!=null) {
+            this.description = storeDescription;
+        }
+        if (pickUpStartTime!=null) {
+            this.pickUpStartTime = pickUpStartTime;
+        }
+        if (pickUpEndTime!=null) {
+            this.pickUpEndTime = pickUpEndTime;
+        }
+        if (snsAccount!=null) {
+            this.snsAccount = snsAccount;
+        }
+    }
 }
 
 
