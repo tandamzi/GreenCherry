@@ -6,6 +6,7 @@ import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
+import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -80,5 +81,23 @@ public class OrderService {
         kafkaProducer.send("increase-cherry-point",statusDto);
 
     }
+    
+    public OrderDetailResponseDto detailOrder(Long orderId){
+        log.info("[OrderService] detailOrder ");
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+
+
+        // TODO: feign 사용 /order.getMemberId()로 member-service에 있는 회원 닉네임 가져오기
+        order.getQuantity();
+        order.getState();
+        return OrderDetailResponseDto.builder()
+                .orderId(orderId)
+//                .name(회원닉네임)
+                .orderState(String.valueOf(order.getState()))
+                .quantity(order.getQuantity())
+                .totalSalesAmount(order.getTotalSalesAmount())
+                .build();
+
+    } 
 
 }
