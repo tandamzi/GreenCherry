@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-}
+const runtimeCaching = require('next-pwa/cache');
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  customWorkerDir: 'worker',
+  runtimeCaching,
+});
 
-module.exports = nextConfig
+const nextConfig = withPWA({
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+});
+module.exports = nextConfig;

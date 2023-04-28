@@ -23,6 +23,7 @@ public class Member extends BaseEntity{
 
     private int cherryPoint;
 
+    @Column(length = 1024)
     private String image;
 
     private boolean alarm;
@@ -33,4 +34,19 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void changeAlarm(){
+        this.alarm = !this.alarm;
+    }
+
+    public void increaseCherryPoint(int point){
+        this.cherryPoint += point;
+    }
+
+    public void changeImage(String imageUrl){
+        this.image = imageUrl;
+    }
 }
