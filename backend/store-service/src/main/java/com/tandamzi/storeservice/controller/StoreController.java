@@ -41,9 +41,9 @@ public class StoreController {
 
     @PostMapping
     public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,
-                                @RequestPart(required = false) List<MultipartFile> imageFileList) throws IOException {
+                                @RequestPart(required = false) List<MultipartFile> images) throws IOException {
         log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
-        storeService.registerStore(registerStoreRequestDto,imageFileList);
+        storeService.registerStore(registerStoreRequestDto,images);
         return responseService.getSuccessResult();
     }
 
@@ -58,9 +58,9 @@ public class StoreController {
     @PutMapping("/{store-id}")
     public Result updateStore(@PathVariable("store-id") Long storeId,
                               @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto,
-                              @RequestPart(required = false) List<MultipartFile> imageFileList) {
+                              @RequestPart(required = false) List<MultipartFile> images) throws IOException {
         log.info("updateStore 진입 storeRequestDto: {}",storeRequestDto);
-        storeService.updateStore(storeId, storeRequestDto, imageFileList);
+        storeService.updateStore(storeId, storeRequestDto, images);
 
         return responseService.getSuccessResult();
     }
@@ -103,7 +103,7 @@ public class StoreController {
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
     }
-    @PutMapping("{store-id}/cherryboxQuantity")
+    @PutMapping("{store-id}/cherrybox-quantity")
     public Result decreaseCherryBox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
         log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
         cherryBoxService.decreaseCherryBox(storeId, orderQuantity);

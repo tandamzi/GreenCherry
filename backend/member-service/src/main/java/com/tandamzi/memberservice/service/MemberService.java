@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     @Transactional
     public void changeNickname(Member member, String nickname){
@@ -29,6 +32,14 @@ public class MemberService {
     public void changeAlarm(Member member){
         log.info("MemberService changeAlarm 실행");
         member.changeAlarm();
+    }
+
+    @Transactional
+    public String changeImage(Member member, MultipartFile multipartFile) throws IOException {
+        log.info("MemberService changeImage 실행");
+        String imageUrl = s3Service.uploadFile(multipartFile, "member-profile");
+        member.changeImage(imageUrl);
+        return imageUrl;
     }
 
     public List<Long> findMemberIdFromNickname(String nickname){
