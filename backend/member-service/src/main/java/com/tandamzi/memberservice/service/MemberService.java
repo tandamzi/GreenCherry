@@ -2,6 +2,7 @@ package com.tandamzi.memberservice.service;
 
 
 import com.tandamzi.memberservice.domain.Member;
+import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
 import com.tandamzi.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,12 @@ public class MemberService {
         return memberRepository.findByNicknameContaining(nickname).stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
+    }
+
+    public String findNickname(Long memberId){
+        log.info("MemberService findNickname 실행 -> memberId = {}", memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return member.getNickname();
     }
 
 }
