@@ -31,4 +31,10 @@ public class OrderController {
         orderService.changeOrderStatus(orderId,status);
         return responseService.getSuccessResult();
     }
+    @GetMapping("/{order-id}")
+    public Result detailOrder(@PathVariable("order-id") Long orderId){
+        log.info("[OrderController] detailOrder ");
+        orderService.detailOrder(orderId);
+        return responseService.getSuccessResult();
+    }
 }
