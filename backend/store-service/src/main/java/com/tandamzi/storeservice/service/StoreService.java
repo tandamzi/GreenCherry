@@ -132,17 +132,26 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateStore(Long storeId,UpdateStoreRequestDto dto, List<MultipartFile> imageFileList) {
+    public void updateStore(Long storeId,UpdateStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-        store.updateStore(dto.getStoreDescription(),
-                dto.getPickUpStartTime(),
-                dto.getPickUpEndTime(),
-                dto.getSnsAccount());
 
-        store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
+        if (dto != null) {
+            store.updateStore(dto.getStoreDescription(),
+                    dto.getPickUpStartTime(),
+                    dto.getPickUpEndTime(),
+                    dto.getSnsAccount());
+            store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
+        }
 
         if (imageFileList != null) {
             storeImageRepository.deleteStoreImagesByStore(store);
+            List<String> imageUrlList = s3Service.uploadFiles(imageFileList, "store");
+            imageUrlList.stream().forEach(imageUrl -> {
+                storeImageRepository.save(StoreImage.builder()
+                        .store(store)
+                        .url(imageUrl)
+                        .build());
+            });
         }
     }
 }
