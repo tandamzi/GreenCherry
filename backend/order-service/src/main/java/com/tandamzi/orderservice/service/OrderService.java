@@ -6,12 +6,14 @@ import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
+import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
 import com.tandamzi.orderservice.exception.StoreNotOpenException;
-import com.tandamzi.orderservice.feign.OrderServiceClient;
+import com.tandamzi.orderservice.feign.MemberServiceClient;
+import com.tandamzi.orderservice.feign.StoreServiceClient;
 import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,16 +30,19 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderServiceClient orderServiceClient;
+    private StoreServiceClient storeServiceClient;
 
     @Autowired
     private KafkaProducer kafkaProducer;
+
+    @Autowired
+    private MemberServiceClient memberServiceClient;
 
     @Transactional
     public void registerOrder(RegisterOrderDto orderDto){
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
 
-        SingleResult<StoreDetailResponseDto> result = orderServiceClient.searchStoreDetail(orderDto.getStoreId());
+        SingleResult<StoreDetailResponseDto> result = storeServiceClient.searchStoreDetail(orderDto.getStoreId());
         StoreDetailResponseDto storeDetail = result.getData();
 
         if(!storeDetail.isOpen()){
@@ -59,7 +64,7 @@ public class OrderService {
                 .totalSalesAmount(totalSalesAmount)
                 .build());
 
-        Result decreaseCherrybox = orderServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
+        Result decreaseCherrybox = storeServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
 
     }
 
@@ -80,5 +85,22 @@ public class OrderService {
         kafkaProducer.send("increase-cherry-point",statusDto);
 
     }
+    
+    public OrderDetailResponseDto detailOrder(Long orderId){
+        log.info("[OrderService] detailOrder ");
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+
+        SingleResult<String> result = memberServiceClient.findNickname(order.getMemberId());
+        String nickname = result.getData();
+
+        return OrderDetailResponseDto.builder()
+                .orderId(orderId)
+                .name(nickname)
+                .orderState(String.valueOf(order.getState()))
+                .quantity(order.getQuantity())
+                .totalSalesAmount(order.getTotalSalesAmount())
+                .build();
+
+    } 
 
 }
