@@ -12,7 +12,8 @@ import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientExceptio
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
 import com.tandamzi.orderservice.exception.StoreNotOpenException;
-import com.tandamzi.orderservice.feign.OrderServiceClient;
+import com.tandamzi.orderservice.feign.MemberServiceClient;
+import com.tandamzi.orderservice.feign.StoreServiceClient;
 import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -29,16 +30,19 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderServiceClient orderServiceClient;
+    private StoreServiceClient storeServiceClient;
 
     @Autowired
     private KafkaProducer kafkaProducer;
+
+    @Autowired
+    private MemberServiceClient memberServiceClient;
 
     @Transactional
     public void registerOrder(RegisterOrderDto orderDto){
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
 
-        SingleResult<StoreDetailResponseDto> result = orderServiceClient.searchStoreDetail(orderDto.getStoreId());
+        SingleResult<StoreDetailResponseDto> result = storeServiceClient.searchStoreDetail(orderDto.getStoreId());
         StoreDetailResponseDto storeDetail = result.getData();
 
         if(!storeDetail.isOpen()){
@@ -60,7 +64,7 @@ public class OrderService {
                 .totalSalesAmount(totalSalesAmount)
                 .build());
 
-        Result decreaseCherrybox = orderServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
+        Result decreaseCherrybox = storeServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
 
     }
 
@@ -86,13 +90,12 @@ public class OrderService {
         log.info("[OrderService] detailOrder ");
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
 
+        SingleResult<String> result = memberServiceClient.findNickname(order.getMemberId());
+        String nickname = result.getData();
 
-        // TODO: feign 사용 /order.getMemberId()로 member-service에 있는 회원 닉네임 가져오기
-        order.getQuantity();
-        order.getState();
         return OrderDetailResponseDto.builder()
                 .orderId(orderId)
-//                .name(회원닉네임)
+                .name(nickname)
                 .orderState(String.valueOf(order.getState()))
                 .quantity(order.getQuantity())
                 .totalSalesAmount(order.getTotalSalesAmount())
