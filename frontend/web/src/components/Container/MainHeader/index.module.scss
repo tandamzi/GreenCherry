@@ -3,6 +3,13 @@
   margin-left: calc(min(128px, 10vw));
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .logo {
     margin-left: 10px;

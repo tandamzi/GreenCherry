@@ -7,6 +7,7 @@
   height: 51px;
   background-color: rgba(var(--color-bgcolor-rgb), 0.7);
   box-shadow: 0px 3.91919px 3.91919px rgba(73, 91, 87, 0.25);
+  margin-right: calc(min(128px, 10vw));
 }
 
 .toggleButton {
@@ -37,4 +38,21 @@
   background-color: var(--color-bgcolor);
   transition: background-color 0.3s, color 0.3s;
   box-shadow: 0px 3.91919px 3.91919px rgba(73, 91, 87, 0.25);
+}
+
+@media screen and (max-width: 768px) {
+  .toggleMenu {
+    margin-right: 10px;
+    width: 180px;
+    // width: calc(min(312px, 40%));
+  }
+  .toggleButton {
+    font-size: 16px;
+  }
+  .businessButton {
+    padding: 0 10px;
+  }
+  .userButton {
+    padding: 0 3px;
+  }
 }
