@@ -103,7 +103,7 @@ public class StoreController {
         storeService.deleteSubscribe(storeId, memberId);
         return responseService.getSuccessResult();
     }
-    @PutMapping("{store-id}/cherryboxQuantity")
+    @PutMapping("{store-id}/cherrybox-quantity")
     public Result decreaseCherryBox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
         log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
         cherryBoxService.decreaseCherryBox(storeId, orderQuantity);

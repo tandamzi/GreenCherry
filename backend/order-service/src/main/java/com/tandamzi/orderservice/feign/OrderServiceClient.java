@@ -17,7 +17,7 @@ public interface OrderServiceClient {
     @GetMapping("/store/{store-id}")
     SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId);
 
-    @PutMapping("/store/{store-id}/cherryboxQuantity")
+    @PutMapping("/store/{store-id}/cherrybox-quantity")
     Result decreaseCherryBox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity);
 
 }
