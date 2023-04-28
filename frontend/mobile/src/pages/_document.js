@@ -11,8 +11,10 @@ class MyDocument extends Document {
           <meta name="viewport" content="width=device-width,initial-scale=1" />
         </Head>
         <body>
-          <Main />
-          <NextScript />
+          <div className="max-h-max max-w-md mx-auto">
+            <Main />
+            <NextScript />
+          </div>
         </body>
       </Html>
     );
