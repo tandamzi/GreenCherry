@@ -14,6 +14,5 @@ public class Type extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")
     private Long id;
-
     private String name;
 }

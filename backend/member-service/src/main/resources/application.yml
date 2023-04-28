@@ -5,6 +5,12 @@ spring:
   application:
     name: member-service
 
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
@@ -28,3 +34,9 @@ logging:
     org:
       hibernate:
         SQL: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

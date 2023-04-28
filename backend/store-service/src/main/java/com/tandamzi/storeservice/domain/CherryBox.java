@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -16,6 +17,27 @@ public class CherryBox extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "cherryBox", fetch = FetchType.LAZY)
-    private Store store;
+    private int quantity;
+    private int totalPriceBeforeDiscount;
+    private double discountRate;
+    private String description;
+    private int pricePerCherryBox;
+
+    public void updateCherryBox(int quantity, int totalPriceBeforeDiscount, double discountRate, String description, int pricePerCherryBox){
+        this.quantity = quantity;
+        this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
+        this.discountRate = discountRate;
+        this.description = description;
+        this.pricePerCherryBox = pricePerCherryBox;
+    }
+
+    public void decreaseCherryBox(int quantity){
+        this.quantity -= quantity;
+    }
+
+    public void updateDescription(String description) {
+        if(description!=null){
+            this.description = description;
+        }
+    }
 }

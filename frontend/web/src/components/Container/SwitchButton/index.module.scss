@@ -1,0 +1,39 @@
+.switchButton {
+  width: calc(min(312px, 30%));
+  background-color: rgba(var(--color-bgcolor-rgb), 0.7);
+}
+
+.toggleMenu {
+  display: flex;
+}
+
+.toggleButton {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  background-color: #f2f2f2;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.userButton {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.businessButton {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.toggleButton:active {
+  background-color: #d0d0d0;
+}
+
+.toggleButton.active {
+  background-color: #20225961;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}

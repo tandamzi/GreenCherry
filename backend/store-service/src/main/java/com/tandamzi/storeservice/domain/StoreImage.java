@@ -22,7 +22,7 @@ public class StoreImage extends BaseEntity{
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Column(length = 1024)
     private String url;
-
 }
 
