@@ -4,7 +4,7 @@ import cs from 'classnames';
 
 const Body = forwardRef(({ className, children }, ref) => {
   return (
-    <div ref={ref} id="cherry-body" className={cs(className)}>
+    <div ref={ref} id="cherry-body" className={cs('px-4', className)}>
       {children}
     </div>
   );
