@@ -5,6 +5,7 @@ import com.tandamzi.storeservice.domain.CherryBox;
 import com.tandamzi.storeservice.domain.Store;
 import com.tandamzi.storeservice.domain.Type;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,10 +23,9 @@ public class RegisterStoreRequestDto {
     private String phone;
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
-
-
+    private List<MultipartFile> imageFileList = new ArrayList<>();
     private List<Long> allergyIdList = new ArrayList<>();
-    private List<String> imageUrlList = new ArrayList<>();
+
 
     public Store toEntity(Type type, CherryBox cherryBox){
         return Store.builder()

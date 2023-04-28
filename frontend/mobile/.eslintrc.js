@@ -64,7 +64,6 @@ module.exports = {
     'no-restricted-globals': 'off',
     'no-unused-vars': 'off',
     'no-console': ['error', { allow: ['warn', 'error'] }],
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react/react-in-jsx-scope': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-props-no-spreading': 'off',

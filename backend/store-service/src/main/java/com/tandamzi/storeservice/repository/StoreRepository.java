@@ -12,7 +12,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s FROM Store s JOIN FETCH s.type JOIN FETCH s.cherryBox WHERE s.id = :id")
     Optional<Store> findByIdWithEagerTypeAndBox(Long id);
 
-    //fetch join cherrybox
     @Query("SELECT s FROM Store s JOIN FETCH s.cherryBox WHERE s.id = :id")
     Optional<Store> findByIdWithCherryBox(Long id);
+
 }
