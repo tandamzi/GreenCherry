@@ -1,10 +1,22 @@
 .logo {
   display: inline-block;
   margin-left: calc(min(128px, 10vw));
+  cursor: pointer;
+}
+
+.menu {
+  margin-right: calc(min(128px, 10vw));
+  display: flex;
+  align-items: center;
+}
+
+.menu > svg {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
-  .logo {
-    margin-left: 10px;
+  .menu > svg {
+    width: 24px;
+    height: 24px;
   }
 }
