@@ -1,12 +1,11 @@
 import React from 'react';
 
-import Header from '@/components/Container/Header/Header';
-import MainHeader from '@/components/Container/MainHeader/MainHeader';
+import MainHeader from '@/components/Container/MainHeader';
 
 const Member = () => {
   return (
     <div>
-      <MainHeader>
+      <MainHeader className="bg-secondary" logoColor="green">
         <h1>GREEN CHERRY</h1>
       </MainHeader>
     </div>
