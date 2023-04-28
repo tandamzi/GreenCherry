@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
+import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
@@ -130,5 +131,18 @@ public class StoreService {
         subscribeRepository.deleteByStoreAndMemberId(store, memberId);
     }
 
+    @Transactional
+    public void updateStore(Long storeId,UpdateStoreRequestDto dto, List<MultipartFile> imageFileList) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        store.updateStore(dto.getStoreDescription(),
+                dto.getPickUpStartTime(),
+                dto.getPickUpEndTime(),
+                dto.getSnsAccount());
 
+        store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
+
+        if (imageFileList != null) {
+            storeImageRepository.deleteStoreImagesByStore(store);
+        }
+    }
 }

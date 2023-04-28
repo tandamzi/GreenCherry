@@ -5,6 +5,7 @@ import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
+import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
@@ -14,6 +15,8 @@ import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +40,8 @@ public class StoreController {
     }
 
     @PostMapping
-    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,@RequestPart List<MultipartFile> imageFileList) throws IOException {
+    public Result registerStore(@RequestPart RegisterStoreRequestDto registerStoreRequestDto,
+                                @RequestPart(required = false) List<MultipartFile> imageFileList) throws IOException {
         log.info("registerStoreRequestDto: {}", registerStoreRequestDto);
         storeService.registerStore(registerStoreRequestDto,imageFileList);
         return responseService.getSuccessResult();
@@ -45,9 +49,20 @@ public class StoreController {
 
     @GetMapping("/{store-id}")
     public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
-        log.info("storeId: {}", storeId);
+        log.info("searchStoreDetail 진입 storeId: {}", storeId);
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
+
         return responseService.getSingleResult(storeDetailResponseDto);
+    }
+
+    @PutMapping("/{store-id}")
+    public Result updateStore(@PathVariable("store-id") Long storeId,
+                              @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto,
+                              @RequestPart(required = false) List<MultipartFile> imageFileList) {
+        log.info("updateStore 진입 storeRequestDto: {}",storeRequestDto);
+        storeService.updateStore(storeId, storeRequestDto, imageFileList);
+
+        return responseService.getSuccessResult();
     }
 
     @GetMapping("type")
@@ -89,7 +104,7 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
     @PutMapping("{store-id}/cherryboxQuantity")
-    public Result decreaseCherrybox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
+    public Result decreaseCherryBox(@PathVariable("store-id") Long storeId, @RequestBody int orderQuantity){
         log.info("[StoreController] decreaseCherrybox => storeId :{} , orderQuantity:{} ",storeId,orderQuantity);
         cherryBoxService.decreaseCherryBox(storeId, orderQuantity);
         return responseService.getSuccessResult();
