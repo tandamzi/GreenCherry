@@ -1,9 +1,13 @@
 import React from 'react';
 
+import BusinessHeader from '@/components/Container/BusinessHeader';
+
 const Business = () => {
   return (
     <div>
-      <h1>Business</h1>
+      <BusinessHeader>
+        <h1>GREEN CHERRY</h1>
+      </BusinessHeader>
     </div>
   );
 };
