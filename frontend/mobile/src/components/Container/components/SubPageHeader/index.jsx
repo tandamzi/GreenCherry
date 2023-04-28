@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
-import { BiHomeHeart } from 'react-icons/bi';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { FaMapMarkerAlt, FaHome, FaUserAlt } from 'react-icons/fa';
+import { HiHome } from 'react-icons/hi';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import cs from 'classnames';
 import { useRouter } from 'next/router';
@@ -11,7 +12,6 @@ const SubPageHeader = ({
   sticky = true,
   className,
   title,
-  goNext = null,
   goHome = null,
   disableBefore,
 }) => {
@@ -19,10 +19,6 @@ const SubPageHeader = ({
 
   const goToBack = () => {
     router.back();
-  };
-
-  const goToNext = () => {
-    goNext();
   };
 
   const goToHome = () => {
@@ -44,24 +40,15 @@ const SubPageHeader = ({
             onClick={goToBack}
             className="w-8 h-8 flex items-center justify-start"
           >
-            <SlArrowLeft />
+            <IoIosArrowBack size={20} />
           </button>
         )}
       </div>
       <div id="sub-header-title" className="font-bold">
         {title}
-        {goHome && <BiHomeHeart className="text-4xl" onClick={goToHome} />}
       </div>
-      <div className="w-8 h-8">
-        {goNext && (
-          <button
-            type="button"
-            onClick={goToNext}
-            className="w-8 h-8 flex items-center justify-end"
-          >
-            <SlArrowRight />
-          </button>
-        )}
+      <div>
+        {goHome && <HiHome size={20} className="text-4xl" onClick={goToHome} />}
       </div>
     </Header>
   );
