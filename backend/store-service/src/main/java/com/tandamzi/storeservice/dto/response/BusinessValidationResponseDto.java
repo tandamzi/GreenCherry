@@ -15,18 +15,7 @@ public class BusinessValidationResponseDto {
     private int valid_cnt;
     private List<DataItem> data;
 
-    @Getter @Setter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor
-    @Builder
-    @ToString
-    public static class DataItem{
-        private String b_no;
-        private String valid;
-        private String valid_msg;
-        private RequestParam request_param;
-        private Status status;
-    }
+
 
     @Getter @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,5 +50,21 @@ public class BusinessValidationResponseDto {
         private String invoice_apply_dt;
 
     }
+    @Getter
+    @Setter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    @Builder
+    @ToString
+    public static class DataItem{
+        private String b_no;
+        private String valid;
+        private String valid_msg;
+        private BusinessValidationResponseDto.RequestParam request_param;
+        private BusinessValidationResponseDto.Status status;
+    }
+
 
 }
+
+
