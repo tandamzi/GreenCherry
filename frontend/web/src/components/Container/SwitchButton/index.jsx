@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import style from './index.module.scss';
 
 const SwitchButton = ({ active }) => {
+  // TODO: store로 받아서 activeButton에 넣어주기
   const [activeButton, setActiveButton] = useState('');
 
   const handleUserClick = () => {
