@@ -22,6 +22,7 @@
 ::after {
   box-sizing: border-box;
   background-repeat: no-repeat;
+  font-family: 'LINE Seed Sans KR';
 }
 ::before,
 ::after {
