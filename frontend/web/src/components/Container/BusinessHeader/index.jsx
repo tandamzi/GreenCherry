@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
 import classnames from 'classnames';
@@ -7,8 +8,17 @@ import style from './index.module.scss';
 import StoreNameButton from '../StoreNameButton';
 
 import Header from '@/components/Container/Header';
+import Menu from '@/components/Menu';
 
 const BusinessHeader = ({ children, className }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setMenuOpen(!menuOpen);
+    // eslint-disable-next-line no-console
+    console.log(menuOpen);
+  };
+
   return (
     <Header
       className={classnames(
@@ -25,8 +35,13 @@ const BusinessHeader = ({ children, className }) => {
       />
       <div className={style.menu}>
         <StoreNameButton storeName="가게 이름 입니다" />
-        <GiHamburgerMenu size={48} className="text-secondary" />
+        <GiHamburgerMenu
+          size={48}
+          className="text-secondary"
+          onClick={handleMenuClick}
+        />
       </div>
+      <Menu menuOpen={menuOpen} />
     </Header>
   );
 };
