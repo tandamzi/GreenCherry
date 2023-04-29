@@ -4,8 +4,8 @@ import classnames from 'classnames';
 
 import style from './index.module.scss';
 
-const SwitchButton = ({ checked, state }) => {
-  const [activeButton, setActiveButton] = useState('user');
+const SwitchButton = ({ active }) => {
+  const [activeButton, setActiveButton] = useState('');
 
   const handleUserClick = () => {
     setActiveButton('user');
@@ -22,13 +22,21 @@ const SwitchButton = ({ checked, state }) => {
           style.toggleButton,
           style.userButton,
           activeButton === 'user' && style.active,
+          'font-bold',
         )}
+        onClick={handleUserClick}
       >
         USER
       </button>
       <button
         type="button"
-        className={classnames(style.toggleButton, style.businessButton)}
+        className={classnames(
+          style.toggleButton,
+          style.businessButton,
+          activeButton === 'business' && style.active,
+          'font-bold',
+        )}
+        onClick={handleBusinessClick}
       >
         BUSINESS
       </button>
