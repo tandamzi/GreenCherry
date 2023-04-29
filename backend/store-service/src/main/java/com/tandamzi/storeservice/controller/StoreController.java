@@ -3,6 +3,7 @@ package com.tandamzi.storeservice.controller;
 import com.tandamzi.storeservice.common.response.ResponseService;
 import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
+import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -13,14 +14,15 @@ import com.tandamzi.storeservice.dto.response.TypeResponseDto;
 import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
+import com.tandamzi.storeservice.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Slf4j
@@ -31,8 +33,8 @@ public class StoreController {
     private final StoreService storeService;
     private final ResponseService responseService;
     private final S3Service s3Service;
-
     private final CherryBoxService cherryBoxService;
+    private final ValidationService validationService;
 
     @RequestMapping("/test")
     public String test() {
@@ -116,6 +118,14 @@ public class StoreController {
         List<String> imageUrlList = s3Service.uploadFiles(images,"test");
         log.info("imageUrlList: {}", imageUrlList);
         return responseService.getSingleResult(imageUrlList);
+    }
+
+    @PostMapping("business-license")
+    public Result validateBusinessLicense(@RequestBody BusinessValidationRequestDto dto) throws UnsupportedEncodingException, URISyntaxException {
+        if (!validationService.isValidBusinessLicense(dto)) {
+            return responseService.getFailureResult(205, "사업자 등록번호가 유효하지 않습니다.");
+        }
+        return responseService.getSuccessResult();
     }
 
 }
