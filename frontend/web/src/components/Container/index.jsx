@@ -1,8 +1,10 @@
 import classnames from 'classnames';
 
-import Body from '@/components/Body';
-import MainBody from '@/components/MainBody';
-import MainHeader from '@/components/MainHeader';
+import Body from './components/Body';
+import BusinessHeader from './components/BusinessHeader';
+import Header from './components/Header';
+import MainBody from './components/MainBody';
+import MainHeader from './components/MainHeader';
 
 const Container = ({ children, className }) => {
   return (
@@ -12,7 +14,9 @@ const Container = ({ children, className }) => {
   );
 };
 
+Container.Header = Header;
 Container.MainHeader = MainHeader;
+Container.BusinessHeader = BusinessHeader;
 Container.Body = Body;
 Container.MainBody = MainBody;
 

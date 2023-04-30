@@ -1,13 +1,7 @@
 import React from 'react';
 
-import BusinessHeader from '@/components/Container/BusinessHeader';
-
 const Business = () => {
-  return (
-    <div>
-      <BusinessHeader />
-    </div>
-  );
+  return <div>안녕</div>;
 };
 
 export default Business;
