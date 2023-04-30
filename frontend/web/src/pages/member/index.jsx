@@ -1,13 +1,7 @@
 import React from 'react';
 
-import MainHeader from '@/components/Container/MainHeader';
-
 const Member = () => {
-  return (
-    <div>
-      <MainHeader />
-    </div>
-  );
+  return <div>안녕</div>;
 };
 
 export default Member;

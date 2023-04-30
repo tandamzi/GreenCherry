@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 import style from './index.module.scss';
 
-import Header from '@/components/Container/Header';
-import SwitchButton from '@/components/Container/SwitchButton';
+import Header from '@/components/Container/component/Header';
+import SwitchButton from '@/components/MemberBusinessSwitchButton';
 
 const MainHeader = ({ children, className }) => {
   return (
