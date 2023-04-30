@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import Container from '@/components/Container';
 import MainCarbon from '@/components/main/MainCarbon';
+import Reservation from '@/components/main/Reservation';
 
 const sendNotification = async () => {
   try {
@@ -93,7 +94,9 @@ export default function Home() {
               <p className="absolute top-16 left-6 text-xs">볼 수 있어요</p>
             </div>
           </div>
-          <div className="row-span-2">h1</div>
+          <div className="row-span-2">
+            <Reservation />
+          </div>
         </div>
       </Container.Body>
     </Container>
