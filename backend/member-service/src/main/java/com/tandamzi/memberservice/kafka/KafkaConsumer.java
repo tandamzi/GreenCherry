@@ -36,8 +36,8 @@ public class KafkaConsumer {
             e.printStackTrace();
         }
 
-        Long memberId = (Long) map.get("memberId");
-        int point = (int) map.get("point");
+        Long memberId = Long.valueOf((Integer)(map.get("memberId")));
+        int point = (int) map.get("cherryPoint");
 
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         member.increaseCherryPoint(point);
