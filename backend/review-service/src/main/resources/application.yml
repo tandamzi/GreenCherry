@@ -5,6 +5,12 @@ spring:
   application:
     name: review-service
 
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:

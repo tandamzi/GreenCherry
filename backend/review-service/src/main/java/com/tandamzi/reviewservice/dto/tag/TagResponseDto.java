@@ -1,4 +1,4 @@
-package com.tandamzi.reviewservice.dto;
+package com.tandamzi.reviewservice.dto.tag;
 
 import com.tandamzi.reviewservice.domain.Tag;
 import lombok.*;
