@@ -1,26 +1,33 @@
+import React, { useState } from 'react';
 import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
-const StoreModify = ({ title, children, type }) => {
-  // TODO: store에 modify 상태 저장
-  const modify = {
-    state: false,
-    type: 'description',
-  };
+import useStore from '@/hooks/useStore';
 
+const StoreModify = ({ title, children, type }) => {
+  // store의 modify 상태 저장
+  const [content, setContent] = useState(useStore[type]);
+
+  // store modify 상태 state: true, type: type으로 변경
   const handlePencilClick = () => {
-    // TODO: store modify 상태 state: true, type: type으로 변경
+    useStore.modifyState(type);
     // console.log('PencilClick 클릭');
   };
 
+  // modify 요청 후 store modify 초기화
   const handleModifyClick = () => {
-    // TODO: modify 요청 후 store modify 초기화
+    useStore.putStoreInfo({
+      [type]: content,
+    });
+
+    useStore.resetModifyState();
     // console.log('ModifyClick 클릭');
   };
 
+  // modify 초기화
   const handleCancelClick = () => {
-    // TODO: store modify 초기화
+    useStore.resetModifyState();
     // console.log('CancelClick 클릭');
   };
 
@@ -31,9 +38,11 @@ const StoreModify = ({ title, children, type }) => {
           <h3 className={classnames('font-thin', 'text-2xl', 'mb-2')}>
             {title}
           </h3>
-          {!modify.state && <TiPencil size={26} onClick={handlePencilClick} />}
+          {!useStore.modifyState && (
+            <TiPencil size={26} onClick={handlePencilClick} />
+          )}
         </div>
-        {modify.state && type === modify.type && (
+        {useStore.modifyState && type === useStore.modifyType && (
           <div
             className={classnames('font-thin', 'text-xl', 'text-right', 'flex')}
           >
@@ -48,7 +57,7 @@ const StoreModify = ({ title, children, type }) => {
       </div>
       <div
         className={classnames(
-          modify.state && type === modify.type
+          useStore.modifyState && type === useStore.modifyType
             ? 'border-solid border text-2xl'
             : 'text-2xl',
         )}
