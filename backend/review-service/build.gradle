@@ -37,8 +37,14 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
+	// aws s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	// rabbitmq
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
+	// feign
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 }
 
 dependencyManagement {

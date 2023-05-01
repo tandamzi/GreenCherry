@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
-import Router from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import PageTransition from '@/components/PageTransition';
 import Spinner from '@/components/Spinner';
 import store from '@/redux/store';
 
@@ -49,14 +50,10 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        {loading ? (
-          <span className="flex justify-center items-center">
-            <Spinner />
-          </span>
-        ) : (
+      <PersistGate persistor={persistor}>
+        <PageTransition>
           <Component {...pageProps} />
-        )}
+        </PageTransition>
       </PersistGate>
     </Provider>
   );
