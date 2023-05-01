@@ -30,7 +30,6 @@ public class ValidationService {
     @Value(("${public-api.permission.url}"))
     private String permissionUrl;
 
-
     public boolean isValidBusinessLicense(BusinessValidationRequestDto requestDto) throws URISyntaxException {
         URI uri = new URI(businessUrl);
         RestTemplate restTemplate = new RestTemplate();
@@ -44,8 +43,6 @@ public class ValidationService {
         ObjectMapper objectMapper = new ObjectMapper();
         BusinessValidationResponseDto responseDto = objectMapper.convertValue(resultMap.getBody(), BusinessValidationResponseDto.class);
         String valid = responseDto.getData().get(0).getValid();
-        log.info("url: {}", businessUrl);
-        log.info("uri: {}", uri);
 
         if (valid.equals("02")) {
             throw new BusinessLicenseNotValidException();
