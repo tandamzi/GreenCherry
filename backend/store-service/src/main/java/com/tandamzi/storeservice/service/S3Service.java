@@ -34,10 +34,11 @@ public class S3Service {
         StringBuilder sb = new StringBuilder();
         for(MultipartFile multipartFile: multipartFileList) {
             sb.setLength(0);
-            sb.append(dirName);
-            sb.append("/");
-            sb.append(UUID.randomUUID());
-            sb.append(multipartFile.getOriginalFilename());
+            sb.append(dirName)
+                    .append("/")
+                    .append(UUID.randomUUID())
+                    .append(multipartFile.getOriginalFilename());
+
             String storedFilePath = sb.toString();
             long size = multipartFile.getSize();
             ObjectMetadata objectMetaData = new ObjectMetadata();

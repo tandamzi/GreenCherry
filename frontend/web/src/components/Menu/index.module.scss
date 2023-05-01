@@ -1,0 +1,37 @@
+.title {
+  font-size: 32px;
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 4px;
+  margin-bottom: 24px;
+}
+
+.menu {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  background-color: var(--color-bgcolor);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  padding: 24px;
+  font-size: 24px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.menuItem > svg {
+  margin-right: 24px;
+}
+
+.menuOpen {
+  transform: translateX(0);
+}
