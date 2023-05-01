@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 
 import Lottie from 'react-lottie-player';
@@ -7,8 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Container from '@/components/Container';
-import MainCarbon from '@/components/main/MainCarbon';
-import Reservation from '@/components/main/Reservation';
+import MainCarbon from '@/components/Main/MainCarbon';
+import Reservation from '@/components/Main/Reservation';
 
 const sendNotification = async () => {
   try {
