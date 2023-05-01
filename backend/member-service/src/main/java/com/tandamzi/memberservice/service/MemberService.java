@@ -2,6 +2,7 @@ package com.tandamzi.memberservice.service;
 
 
 import com.tandamzi.memberservice.domain.Member;
+import com.tandamzi.memberservice.dto.MemberForOrderDto;
 import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
 import com.tandamzi.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,10 +44,11 @@ public class MemberService {
         return imageUrl;
     }
 
-    public List<Long> findMemberIdFromNickname(String nickname){
-        log.info("MemberService findMemberIdFromNickname 실행 -> nickname = {}", nickname);
-        return memberRepository.findByNicknameContaining(nickname).stream()
-                .map(Member::getId)
+    public List<MemberForOrderDto> findMemberForOrder(String nickname, List<Long> memberIds){
+        log.info("MemberService findMemberForOrder 실행 -> nickname = {}, memberIds = {}", nickname, memberIds);
+
+        return memberRepository.findMemberForOrder(nickname, memberIds).stream()
+                .map(m -> new MemberForOrderDto(m.getId(), m.getNickname()))
                 .collect(Collectors.toList());
     }
 

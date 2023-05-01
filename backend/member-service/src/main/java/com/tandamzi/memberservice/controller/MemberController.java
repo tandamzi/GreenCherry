@@ -5,6 +5,7 @@ import com.tandamzi.memberservice.common.response.ResponseService;
 import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
+import com.tandamzi.memberservice.dto.MemberForOrderDto;
 import com.tandamzi.memberservice.dto.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,10 @@ public class MemberController {
     }
 
     @GetMapping("/search")
-    public SingleResult<List<Long>> findMemberIdFromNickname(@RequestParam("nickname") String nickname){
-        log.info("MemberController findMemberIdFromNickname 실행 -> nickname = {}", nickname);
-        List<Long> requestDto = memberService.findMemberIdFromNickname(nickname);
+    public SingleResult<List<MemberForOrderDto>> findMemberForOrder(@RequestParam(value = "nickname", required = false) String nickname,
+                                                       @RequestParam(value = "memberIds", required = false) List<Long> memberIds){
+        log.info("MemberController findMemberForOrder 실행 -> nickname = {}, memberIds = {}", nickname, memberIds);
+        List<MemberForOrderDto> requestDto = memberService.findMemberForOrder(nickname, memberIds);
         return responseService.getSingleResult(requestDto);
     }
 
