@@ -30,12 +30,10 @@ public class ValidationService {
     @Value(("${public-api.permission.url}"))
     private String permissionUrl;
 
-
     public boolean isValidBusinessLicense(BusinessValidationRequestDto requestDto) throws URISyntaxException {
         URI uri = new URI(businessUrl);
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = createJsonHeaders();
         List<BusinessValidationRequestDto> businesses = new ArrayList<>();
         businesses.add(requestDto);
         Map<String, List<BusinessValidationRequestDto>> map = Collections.singletonMap("businesses", businesses);
@@ -44,8 +42,6 @@ public class ValidationService {
         ObjectMapper objectMapper = new ObjectMapper();
         BusinessValidationResponseDto responseDto = objectMapper.convertValue(resultMap.getBody(), BusinessValidationResponseDto.class);
         String valid = responseDto.getData().get(0).getValid();
-        log.info("url: {}", businessUrl);
-        log.info("uri: {}", uri);
 
         if (valid.equals("02")) {
             throw new BusinessLicenseNotValidException();
@@ -62,8 +58,6 @@ public class ValidationService {
                 .build();
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {};
         ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(uriComponent.toUriString(), HttpMethod.GET, null, responseType);
         Map<String, Object> responseBodyMap = responseEntity.getBody();
@@ -76,5 +70,11 @@ public class ValidationService {
         Map<String, Object> firstRow = rows.get(0);
         PermissionValidationApiResponseDto response = objectMapper.convertValue(firstRow, PermissionValidationApiResponseDto.class);
         return response;
+    }
+
+    private HttpHeaders createJsonHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
 }
