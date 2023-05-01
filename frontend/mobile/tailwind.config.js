@@ -16,7 +16,7 @@ module.exports = {
       secondaryfont: '#78716c',
       bgcolor: '#fafaf9',
       line: '#d9d9d9',
-      itembg: '#F7EDE2',
+      itembg: '#d6d3d1',
       disabled: '#a8a29e',
       danger: '#dd4242',
       warning: '#f6bd60',
