@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import MainFooter from '../MainFooter';
 
-import { changePage } from '@/store/footerStatus/footerReducer';
+import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const MainFooterWithNavigation = ({ className }) => {
   const footerStatus = useSelector(state => state.footer);
