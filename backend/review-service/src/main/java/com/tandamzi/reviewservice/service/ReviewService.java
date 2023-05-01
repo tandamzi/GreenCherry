@@ -3,9 +3,11 @@ package com.tandamzi.reviewservice.service;
 import com.tandamzi.reviewservice.domain.Review;
 import com.tandamzi.reviewservice.domain.ReviewImage;
 import com.tandamzi.reviewservice.domain.ReviewTag;
+import com.tandamzi.reviewservice.domain.Tag;
 import com.tandamzi.reviewservice.dto.member.MemberDto;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
 import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
+import com.tandamzi.reviewservice.dto.tag.TagStatsDto;
 import com.tandamzi.reviewservice.exception.tag.TagNotFoundException;
 import com.tandamzi.reviewservice.feign.MemberServiceClient;
 import com.tandamzi.reviewservice.repository.ReviewRepository;
@@ -52,12 +54,15 @@ public class ReviewService {
                 )
                 .collect(Collectors.toList());
 
-        List<ReviewImage> reviewImages = s3Service.uploadFiles(images, "review").stream()
-                .map(url -> ReviewImage.builder()
-                        .url(url)
-                        .review(review)
-                        .build()
-                ).collect(Collectors.toList());
+        List<ReviewImage> reviewImages = new ArrayList<>();
+        if(images != null && images.size() != 0) {
+            reviewImages = s3Service.uploadFiles(images, "review").stream()
+                    .map(url -> ReviewImage.builder()
+                            .url(url)
+                            .review(review)
+                            .build()
+                    ).collect(Collectors.toList());
+        }
 
         review.getReviewTags().addAll(reviewTags);
         review.getReviewImages().addAll(reviewImages);
@@ -77,5 +82,34 @@ public class ReviewService {
                 .forEach(m -> memberNicknames.putIfAbsent(m.getMemberId(), m.getNickname()));
 
          return reviews.map(r -> ReviewResponseDto.create(r, memberNicknames));
+    }
+
+    public List<TagStatsDto> statsTag(Long storeId){
+        List<Review> reviews = reviewRepository.findByStoreId(storeId);
+
+        HashMap<Long, Integer> tagCount = new HashMap<>();
+        reviews.forEach(r ->
+                r.getReviewTags().forEach(
+                        rt -> tagCount.put(rt.getTag().getId(), tagCount.getOrDefault(rt.getTag().getId(), 0)+1)
+                )
+        );
+
+        List<Tag> tags = tagRepository.findAll();
+        HashMap<Long, String> tagNames = new HashMap<>();
+        tags.forEach(t -> tagNames.put(t.getId(), t.getName()));
+
+        List<TagStatsDto> result = new ArrayList<>();
+        for (Long id : tagCount.keySet()) {
+            result.add(
+                    TagStatsDto.builder()
+                            .id(id)
+                            .name(tagNames.get(id))
+                            .count(tagCount.get(id))
+                            .build()
+            );
+        }
+
+        result.sort((t1, t2) -> t2.getCount() - t1.getCount());
+        return result;
     }
 }

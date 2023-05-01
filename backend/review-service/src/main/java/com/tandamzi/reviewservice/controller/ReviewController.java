@@ -7,6 +7,7 @@ import com.tandamzi.reviewservice.common.result.SingleResult;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
 import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
 import com.tandamzi.reviewservice.dto.tag.TagResponseDto;
+import com.tandamzi.reviewservice.dto.tag.TagStatsDto;
 import com.tandamzi.reviewservice.service.ReviewService;
 import com.tandamzi.reviewservice.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,12 @@ public class ReviewController {
         log.info("ReviewController reviewList 실행 -> storeId = {}", storeId);
         Page<ReviewResponseDto> responseDto = reviewService.reviewList(storeId, pageable);
         return responseService.getSingleResult(responseDto);
+    }
+
+    @GetMapping("/tag/stats")
+    public ListResult<TagStatsDto> statsTag(@RequestParam("store-id") Long storeId){
+        log.info("ReviewController statsTag 실행 -> storeId = {}", storeId);
+        List<TagStatsDto> responseDto = reviewService.statsTag(storeId);
+        return responseService.getListResult(responseDto);
     }
 }
