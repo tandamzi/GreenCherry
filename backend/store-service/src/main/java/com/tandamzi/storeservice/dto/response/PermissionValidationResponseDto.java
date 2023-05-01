@@ -40,7 +40,7 @@ class Row{
     @JsonProperty("LCNS_NO")
     private String permissionNumber; //사업자번호
     @JsonProperty("BSSH_NM")
-    private String storeName; //	업소명
+    private String storeName; //업소명
     @JsonProperty("TELNO")
     private String tel;
     @JsonProperty("ADDR")
