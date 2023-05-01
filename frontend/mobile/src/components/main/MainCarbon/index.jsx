@@ -5,7 +5,7 @@ import cs from 'classnames';
 
 const MainCarbon = ({ className, children }) => {
   return (
-    <div className=" grid grid-cols-5 h-36 mb-2 mx-2 rounded-xl shadow-lg">
+    <div className=" grid grid-cols-5 h-48 mb-2 mx-2 rounded-xl shadow-lg">
       <div className=" col-span-3 grid justify-items-center content-center">
         <div className=" pl-4 grid justify-items-center content-center">
           <p className=" text-base mb-2">탄소 감소량 3kg CO2</p>
