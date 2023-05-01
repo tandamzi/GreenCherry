@@ -98,17 +98,19 @@ export default function Home() {
                 <p className="absolute top-16 left-6 text-xs">주문해보세요</p>
               </div>
             </Link>
-            <div className="relative">
-              <Image
-                src="/assets/icons/selectBoxIcons/subscribeBox.svg"
-                width={180}
-                height={180}
-                alt="greencherry subscribeBox"
-              />
-              <p className="absolute top-6 left-6 font-bold">구독</p>
-              <p className="absolute top-12 left-6 text-xs">구독한 가게를</p>
-              <p className="absolute top-16 left-6 text-xs">볼 수 있어요</p>
-            </div>
+            <Link href="/subscribe">
+              <div className="relative">
+                <Image
+                  src="/assets/icons/selectBoxIcons/subscribeBox.svg"
+                  width={180}
+                  height={180}
+                  alt="greencherry subscribeBox"
+                />
+                <p className="absolute top-6 left-6 font-bold">구독</p>
+                <p className="absolute top-12 left-6 text-xs">구독한 가게를</p>
+                <p className="absolute top-16 left-6 text-xs">볼 수 있어요</p>
+              </div>
+            </Link>
           </div>
           <div className="row-span-2">
             <Reservation />
