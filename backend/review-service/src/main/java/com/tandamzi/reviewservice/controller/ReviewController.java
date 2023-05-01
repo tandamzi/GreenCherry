@@ -3,12 +3,17 @@ package com.tandamzi.reviewservice.controller;
 import com.tandamzi.reviewservice.common.response.ResponseService;
 import com.tandamzi.reviewservice.common.result.ListResult;
 import com.tandamzi.reviewservice.common.result.Result;
+import com.tandamzi.reviewservice.common.result.SingleResult;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
+import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
 import com.tandamzi.reviewservice.dto.tag.TagResponseDto;
 import com.tandamzi.reviewservice.service.ReviewService;
 import com.tandamzi.reviewservice.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,5 +43,13 @@ public class ReviewController {
         log.info("ReviewController registerReview 실행");
         reviewService.registerReview(reviewRegisterRequestDto, images);
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping
+    public SingleResult<Page<ReviewResponseDto>> reviewList(@RequestParam("store-id") Long storeId,
+                                                            @PageableDefault(size = 10) Pageable pageable){
+        log.info("ReviewController reviewList 실행 -> storeId = {}", storeId);
+        Page<ReviewResponseDto> responseDto = reviewService.reviewList(storeId, pageable);
+        return responseService.getSingleResult(responseDto);
     }
 }
