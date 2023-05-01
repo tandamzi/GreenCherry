@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  state: false,
-  type: '',
+  modifyState: false,
+  modifyType: '',
 };
 
 export const modifySlice = createSlice({
@@ -12,15 +12,15 @@ export const modifySlice = createSlice({
     modifyAction: (state, action) => {
       return {
         ...state,
-        state: true,
-        type: action.payload,
+        modifyState: true,
+        modifyType: action.payload,
       };
     },
     resetModifyAction: state => {
       return {
         ...state,
-        state: false,
-        type: '',
+        modifyState: false,
+        modifyType: '',
       };
     },
   },
