@@ -1,12 +1,12 @@
 import React from 'react';
 
-import MainHeader from '@/components/Container/MainHeader';
+import Container from '@/components/Container';
 
 const Member = () => {
   return (
-    <div>
-      <MainHeader />
-    </div>
+    <Container>
+      <Container.MainHeader />
+    </Container>
   );
 };
 
