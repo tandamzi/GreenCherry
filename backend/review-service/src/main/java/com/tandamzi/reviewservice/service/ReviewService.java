@@ -3,18 +3,25 @@ package com.tandamzi.reviewservice.service;
 import com.tandamzi.reviewservice.domain.Review;
 import com.tandamzi.reviewservice.domain.ReviewImage;
 import com.tandamzi.reviewservice.domain.ReviewTag;
-import com.tandamzi.reviewservice.domain.Tag;
+import com.tandamzi.reviewservice.dto.member.MemberDto;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
+import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
 import com.tandamzi.reviewservice.exception.tag.TagNotFoundException;
+import com.tandamzi.reviewservice.feign.MemberServiceClient;
 import com.tandamzi.reviewservice.repository.ReviewRepository;
 import com.tandamzi.reviewservice.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +34,7 @@ public class ReviewService {
     private final S3Service s3Service;
     private final ReviewRepository reviewRepository;
     private final TagRepository tagRepository;
+    private final MemberServiceClient memberServiceClient;
 
     @Transactional
     public void registerReview(ReviewRegisterRequestDto reviewRegisterRequestDto, List<MultipartFile> images) throws IOException {
@@ -55,5 +63,19 @@ public class ReviewService {
         review.getReviewImages().addAll(reviewImages);
 
         reviewRepository.save(review);
+    }
+
+    public Page<ReviewResponseDto> reviewList(Long storeId, Pageable pageable){
+        Page<Review> reviews = reviewRepository.findPageByStoreId(storeId, pageable);
+
+        HashSet<Long> memberIds = new HashSet<>();
+        reviews.stream().forEach(r -> memberIds.add(r.getMemberId()));
+
+        HashMap<Long, String> memberNicknames = new HashMap<>();
+        memberServiceClient.findMember(null, new ArrayList<>(memberIds))
+                .getData()
+                .forEach(m -> memberNicknames.putIfAbsent(m.getMemberId(), m.getNickname()));
+
+         return reviews.map(r -> ReviewResponseDto.create(r, memberNicknames));
     }
 }
