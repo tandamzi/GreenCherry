@@ -15,7 +15,7 @@ public interface MemberServiceClient {
     @GetMapping("/member/{member-id}/nickname")
     SingleResult<String> findNickname(@PathVariable("member-id") Long memberId);
 
-    @GetMapping("/search")
+    @GetMapping("/member/search")
     SingleResult<List<MemberForOrderDto>> findMemberForOrder(@RequestParam(value = "nickname", required = false) String nickname,
                                                                     @RequestParam(value = "memberIds", required = false) List<Long> memberIds);
 }
