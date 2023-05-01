@@ -1,13 +1,16 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 
 import Lottie from 'react-lottie-player';
 
 import reservation from '@public/assets/lottie/reservation1.json';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
-import MainCarbon from '@/components/main/MainCarbon';
-import Reservation from '@/components/main/Reservation';
+import MainCarbon from '@/components/Main/MainCarbon';
+import Reservation from '@/components/Main/Reservation';
 
 const sendNotification = async () => {
   try {
@@ -53,6 +56,7 @@ const subscribeUser = async () => {
 };
 
 export default function Home() {
+  const router = useRouter();
   return (
     // <div>
     //   <h1 className="text-primaryevent">Welcome to your PWA</h1>
@@ -92,18 +96,19 @@ export default function Home() {
               <p className="absolute top-12 left-6 text-xs">주변 체리박스를</p>
               <p className="absolute top-16 left-6 text-xs">주문해보세요</p>
             </div>
-
-            <div className="relative">
-              <Image
-                src="/assets/icons/selectBoxIcons/subscribeBox.svg"
-                width={180}
-                height={180}
-                alt="greencherry subscribeBox"
-              />
-              <p className="absolute top-6 left-6 font-bold">구독</p>
-              <p className="absolute top-12 left-6 text-xs">구독한 가게를</p>
-              <p className="absolute top-16 left-6 text-xs">볼 수 있어요</p>
-            </div>
+            <Link href="/subscibe">
+              <div className="relative">
+                <Image
+                  src="/assets/icons/selectBoxIcons/subscribeBox.svg"
+                  width={180}
+                  height={180}
+                  alt="greencherry subscribeBox"
+                />
+                <p className="absolute top-6 left-6 font-bold">구독</p>
+                <p className="absolute top-12 left-6 text-xs">구독한 가게를</p>
+                <p className="absolute top-16 left-6 text-xs">볼 수 있어요</p>
+              </div>
+            </Link>
           </div>
           <div className="row-span-2">
             <Reservation />
