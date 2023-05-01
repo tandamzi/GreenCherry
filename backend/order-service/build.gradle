@@ -32,11 +32,19 @@ dependencies {
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-config-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // rabbitmq
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 }
 
 dependencyManagement {
