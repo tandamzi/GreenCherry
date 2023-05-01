@@ -1,0 +1,23 @@
+.transition-enter {
+  position: absolute;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.transition-enter-active {
+  transition: all 300ms ease-in-out;
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.transition-exit {
+  position: absolute;
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.transition-exit-active {
+  transition: all 300ms ease-in-out;
+  opacity: 0;
+  transform: translateX(100%);
+}
