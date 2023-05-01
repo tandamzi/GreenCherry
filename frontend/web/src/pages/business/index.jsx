@@ -4,6 +4,7 @@ import Container from '@/components/Container';
 import MypageModal from '@/components/MypageModal';
 
 const Business = () => {
+  // TODO: modal open/close 상태 관리
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     console.log(isOpen);
