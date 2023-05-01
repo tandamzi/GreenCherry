@@ -1,0 +1,18 @@
+.logo {
+  display: inline-block;
+  margin-left: calc(min(128px, 10vw));
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    margin-left: 10px;
+  }
+}
