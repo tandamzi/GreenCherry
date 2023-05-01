@@ -1,9 +1,5 @@
 package com.tandamzi.storeservice.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -12,22 +8,17 @@ import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
 import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
 import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.storeservice.dto.response.TypeResponseDto;
-import com.tandamzi.storeservice.exception.CherryBoxNotFoundException;
-import com.tandamzi.storeservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,28 +36,18 @@ public class StoreService {
     private final S3Service s3Service;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
-        //타입 id로 타입 찾아서 entity로 변환
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
         CherryBox cherryBox = cherryBoxRepository.save(CherryBox.builder().build());
         Store store = storeRepository.save(dto.toEntity(type, cherryBox));
-        log.info("store = {}", store);
-
-        //allergyIdList에서 알러지 찾아서 entity로 변환
-        //1.allergyIdList를 각각 Allergy 엔티티로 생성
-        //2.StoreAlergy에 store와 allergy를 넣어서 저장
-        List<Allergy> allergyList = allergyRepository.findAllById(dto.getAllergyIdList());
-        allergyList.stream().forEach(allergy -> {
-            storeAllergyRepository.save(StoreAllergy.builder()
-                    .store(store)
-                    .allergy(allergy)
-                    .build()
-            );
-        });
-
-        //imageUrlList를 각각 StoreImage 엔티티로 생성
+        registerStoreAllergy(dto, store);
         List<String> imageUrlList = s3Service.uploadFiles(imageFileList,"store");
-        log.info("imageUrlList = {}", imageUrlList);
+        registerImageUrl(store, imageUrlList);
 
+        log.info("store = {}", store);
+        log.info("imageUrlList = {}", imageUrlList);
+    }
+
+    private void registerImageUrl(Store store, List<String> imageUrlList) {
         imageUrlList.stream().forEach(imageUrl -> {
             storeImageRepository.save(StoreImage.builder()
                     .store(store)
@@ -75,18 +56,35 @@ public class StoreService {
         });
     }
 
+    @Transactional
+    public void registerStoreAllergy(RegisterStoreRequestDto dto, Store store) {
+        List<Allergy> allergyList = allergyRepository.findAllById(dto.getAllergyIdList());
+        allergyList.stream().forEach(allergy -> {
+            storeAllergyRepository.save(StoreAllergy.builder()
+                    .store(store)
+                    .allergy(allergy)
+                    .build()
+            );
+        });
+    }
+
     public StoreDetailResponseDto getStoreDetail(Long storeId) {
         Store store = storeRepository.findByIdWithEagerTypeAndBox(storeId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
 
+        List<Allergy> allergyList = getAllergiesToList(store);
+        List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
+
+        return StoreDetailResponseDto.create(store, allergyList, storeImageList);
+    }
+
+    private List<Allergy> getAllergiesToList(Store store) {
         List<Allergy> allergyList =
                 storeAllergyRepository.findAllByStore(store)
                         .stream()
                         .map(storeAllergy -> storeAllergy.getAllergy())
                         .collect(Collectors.toList());
-        List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
-
-        return StoreDetailResponseDto.create(store, allergyList, storeImageList);
+        return allergyList;
     }
 
     public List<TypeResponseDto> getTypes() {
@@ -103,11 +101,13 @@ public class StoreService {
     public void updateCherryBox(Long storeId, CherryBoxRequestDto dto) {
         Store store = storeRepository.findByIdWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = store.getCherryBox();
-        cherryBox.updateCherryBox(dto.getQuantity(),
+        cherryBox.updateCherryBox(
+                dto.getQuantity(),
                 dto.getTotalPriceBeforeDiscount(),
                 dto.getDiscountRate(),
                 dto.getDescription(),
-                dto.getPricePerCherryBox());
+                dto.getPricePerCherryBox()
+        );
     }
 
     public CherryBoxResponseDto getCherryBox(Long storeId) {
@@ -132,26 +132,29 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateStore(Long storeId,UpdateStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
+    public void updateStoreAndImage(Long storeId, UpdateStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-
         if (dto != null) {
-            store.updateStore(dto.getStoreDescription(),
-                    dto.getPickUpStartTime(),
-                    dto.getPickUpEndTime(),
-                    dto.getSnsAccount());
-            store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
+            updateStore(dto, store);
         }
-
         if (imageFileList != null) {
-            storeImageRepository.deleteStoreImagesByStore(store);
-            List<String> imageUrlList = s3Service.uploadFiles(imageFileList, "store");
-            imageUrlList.stream().forEach(imageUrl -> {
-                storeImageRepository.save(StoreImage.builder()
-                        .store(store)
-                        .url(imageUrl)
-                        .build());
-            });
+            updateStoreImage(imageFileList, store);
         }
+    }
+
+    @Transactional
+    public void updateStoreImage(List<MultipartFile> imageFileList, Store store) throws IOException {
+        storeImageRepository.deleteStoreImagesByStore(store);
+        List<String> imageUrlList = s3Service.uploadFiles(imageFileList, "store");
+        registerImageUrl(store, imageUrlList);
+    }
+
+    @Transactional
+    public void updateStore(UpdateStoreRequestDto dto, Store store) {
+        store.updateStore(dto.getStoreDescription(),
+                dto.getPickUpStartTime(),
+                dto.getPickUpEndTime(),
+                dto.getSnsAccount());
+        store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
     }
 }

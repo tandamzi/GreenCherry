@@ -62,7 +62,7 @@ public class StoreController {
                               @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto,
                               @RequestPart(required = false) List<MultipartFile> images) throws IOException {
         log.info("updateStore 진입 storeRequestDto: {}",storeRequestDto);
-        storeService.updateStore(storeId, storeRequestDto, images);
+        storeService.updateStoreAndImage(storeId, storeRequestDto, images);
 
         return responseService.getSuccessResult();
     }
