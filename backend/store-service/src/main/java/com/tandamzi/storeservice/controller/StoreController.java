@@ -7,10 +7,7 @@ import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
-import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
-import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
-import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
-import com.tandamzi.storeservice.dto.response.TypeResponseDto;
+import com.tandamzi.storeservice.dto.response.*;
 import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
@@ -53,7 +50,6 @@ public class StoreController {
     public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
         log.info("searchStoreDetail 진입 storeId: {}", storeId);
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
-
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
@@ -63,7 +59,6 @@ public class StoreController {
                               @RequestPart(required = false) List<MultipartFile> images) throws IOException {
         log.info("updateStore 진입 storeRequestDto: {}",storeRequestDto);
         storeService.updateStore(storeId, storeRequestDto, images);
-
         return responseService.getSuccessResult();
     }
 
@@ -112,20 +107,16 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    /* 이미지 업로드 테스트용. 나중에 지울겁니다.*/
-    @PostMapping("update-images")
-    public SingleResult<List<String>> registerImages(@RequestParam ("images")List<MultipartFile> images) throws IOException {
-        List<String> imageUrlList = s3Service.uploadFiles(images,"test");
-        log.info("imageUrlList: {}", imageUrlList);
-        return responseService.getSingleResult(imageUrlList);
-    }
-
     @PostMapping("business-license")
     public Result validateBusinessLicense(@RequestBody BusinessValidationRequestDto dto) throws UnsupportedEncodingException, URISyntaxException {
-        if (!validationService.isValidBusinessLicense(dto)) {
-            return responseService.getFailureResult(205, "사업자 등록번호가 유효하지 않습니다.");
-        }
+        validationService.isValidBusinessLicense(dto);
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping("business-permission")
+    public SingleResult<?> validateBusinessPermission(@RequestParam String businessPermissionNumber) {
+        PermissionValidationApiResponseDto validationDto = validationService.isValidBusinessPermission(businessPermissionNumber);
+        return responseService.getSingleResult(validationDto);
     }
 
 }
