@@ -42,13 +42,13 @@ public class ExceptionAdvice {
     @ExceptionHandler(BusinessLicenseNotValidException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result BusinessLicenseNotValidException() {
-        return responseService.getFailureResult(-204,"업종 정보를 찾을 수 없습니다.");
+        return responseService.getFailureResult(-204,"사업자 등록번호 정보를 찾을 수 없습니다");
     }
 
     @ExceptionHandler(BusinessPermissionNotValidException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result BusinessPermissionNotValidException() {
-        return responseService.getFailureResult(-205,"업종 정보를 찾을 수 없습니다.");
+        return responseService.getFailureResult(-205,"사업자 허가 정보를 찾을 수 없습니다");
     }
 
 }
