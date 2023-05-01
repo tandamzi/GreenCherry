@@ -2,8 +2,10 @@ package com.tandamzi.orderservice.controller;
 
 import com.tandamzi.orderservice.common.response.ResponseService;
 import com.tandamzi.orderservice.common.result.Result;
+import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
+import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +32,10 @@ public class OrderController {
         log.info("[OrderController] changeOrderStatus ");
         orderService.changeOrderStatus(orderId,status);
         return responseService.getSuccessResult();
+    }
+    @GetMapping("/{order-id}")
+    public SingleResult<OrderDetailResponseDto> detailOrder(@PathVariable("order-id") Long orderId){
+        log.info("[OrderController] detailOrder ");
+        return responseService.getSingleResult(orderService.detailOrder(orderId));
     }
 }
