@@ -7,10 +7,7 @@ import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
-import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
-import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
-import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
-import com.tandamzi.storeservice.dto.response.TypeResponseDto;
+import com.tandamzi.storeservice.dto.response.*;
 import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
@@ -24,6 +21,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -126,6 +124,12 @@ public class StoreController {
             return responseService.getFailureResult(205, "사업자 등록번호가 유효하지 않습니다.");
         }
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping("business-permission")
+    public SingleResult<?> validateBusinessPermission(@RequestParam String businessLicenseNumber) {
+        PermissionValidationApiResponseDto validationApiResponseDtoOptional = validationService.isValidBusinessPermission(businessLicenseNumber);
+        return responseService.getSingleResult(validationApiResponseDtoOptional);
     }
 
 }
