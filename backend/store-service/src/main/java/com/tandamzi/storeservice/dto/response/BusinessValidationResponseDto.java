@@ -15,15 +15,12 @@ public class BusinessValidationResponseDto {
     private int valid_cnt;
     private List<DataItem> data;
 
-
-
     @Getter @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor
     @Builder
     @ToString
     public static class RequestParam {
-        // 필드 및 getters and setters 추가'
         private String b_no;
         private String start_dt;
         private String p_nm;
@@ -63,7 +60,6 @@ public class BusinessValidationResponseDto {
         private BusinessValidationResponseDto.RequestParam request_param;
         private BusinessValidationResponseDto.Status status;
     }
-
 
 }
 
