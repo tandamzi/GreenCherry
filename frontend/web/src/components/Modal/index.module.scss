@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,11 +15,9 @@
 .modal-content {
   position: relative;
   background-color: white;
-  padding: 2rem;
-  border-radius: 4px;
-  max-width: 500px;
-  max-height: 80%;
-  overflow-y: auto;
+  padding: 48px;
+  border-radius: 20px;
+  // overflow-y: auto;
 }
 
 .close-btn {
@@ -28,7 +26,5 @@
   right: 0.5rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
-  font-weight: bold;
   cursor: pointer;
 }
