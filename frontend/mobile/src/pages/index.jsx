@@ -1,9 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 
-import Lottie from 'react-lottie-player';
-
-import reservation from '@public/assets/lottie/reservation1.json';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -70,14 +67,6 @@ export default function Home() {
     <Container>
       <Container.MainHeader />
       <Container.Body>
-        <Lottie
-          className="absolute top-80 ml-10 mt-4"
-          loop
-          animationData={reservation}
-          play
-          style={{ width: 230, height: 250 }}
-          speed={1}
-        />
         <div className="grid grid-rows-8 ">
           <div className="row-span-3">
             <MainCarbon />
@@ -112,9 +101,7 @@ export default function Home() {
               </div>
             </Link>
           </div>
-          <div className="row-span-2">
-            <Reservation />
-          </div>
+          <div className="row-span-2">h1</div>
         </div>
       </Container.Body>
     </Container>
