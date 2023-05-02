@@ -78,7 +78,7 @@ module.exports = {
     'import/extensions': 'off',
     radix: 'off',
     'import/no-extraneous-dependencies': [
-      1,
+      0,
       {
         devDependencies: true,
         optionalDependencies: false,
