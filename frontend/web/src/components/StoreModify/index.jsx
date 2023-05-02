@@ -1,27 +1,41 @@
+import React, { useState } from 'react';
 import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
+import StoreAllergiesModify from '@/components/StoreAllergiesModify';
+import StoreInputModify from '@/components/StoreInputModify';
+import useStore from '@/hooks/storeHook';
+
 const StoreModify = ({ title, children, type }) => {
-  // TODO: store에 modify 상태 저장
-  const modify = {
-    state: false,
-    type: 'description',
+  const [content, setContent] = useState(useStore[type]);
+
+  const {
+    modifyState,
+    modifyType,
+    putModifyState,
+    putStoreInfo,
+    resetModifyState,
+  } = useStore();
+
+  const handleContentChange = data => {
+    setContent(data);
   };
 
   const handlePencilClick = () => {
-    // TODO: store modify 상태 state: true, type: type으로 변경
-    // console.log('PencilClick 클릭');
+    putModifyState(type); // 수정된 부분
   };
 
   const handleModifyClick = () => {
-    // TODO: modify 요청 후 store modify 초기화
-    // console.log('ModifyClick 클릭');
+    putStoreInfo({
+      [type]: content,
+    });
+
+    resetModifyState();
   };
 
   const handleCancelClick = () => {
-    // TODO: store modify 초기화
-    // console.log('CancelClick 클릭');
+    resetModifyState();
   };
 
   return (
@@ -31,9 +45,9 @@ const StoreModify = ({ title, children, type }) => {
           <h3 className={classnames('font-thin', 'text-2xl', 'mb-2')}>
             {title}
           </h3>
-          {!modify.state && <TiPencil size={26} onClick={handlePencilClick} />}
+          {!modifyState && <TiPencil size={26} onClick={handlePencilClick} />}
         </div>
-        {modify.state && type === modify.type && (
+        {modifyState && type === modifyType && (
           <div
             className={classnames('font-thin', 'text-xl', 'text-right', 'flex')}
           >
@@ -48,12 +62,24 @@ const StoreModify = ({ title, children, type }) => {
       </div>
       <div
         className={classnames(
-          modify.state && type === modify.type
+          modifyState && type === modifyType
             ? 'border-solid border text-2xl'
             : 'text-2xl',
         )}
       >
-        {children}
+        {(type === 'storeDescription' ||
+          'cherryboxDescription' ||
+          'instagram') && (
+          <StoreInputModify
+            itemModifyState={modifyState && type === modifyType}
+            handleContentChange={handleContentChange}
+            content={content}
+          />
+        )}
+        {type === 'allergies' && (
+          <StoreAllergiesModify itemModifyState={false} content={content} />
+        )}
+        {/* {children} */}
       </div>
     </div>
   );
