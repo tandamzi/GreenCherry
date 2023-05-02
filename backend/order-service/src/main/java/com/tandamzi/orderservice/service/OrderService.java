@@ -152,8 +152,6 @@ public class OrderService {
             responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
 
 
-            // member-service에게 List<memberId, nickname> 데이터 받아서 OrderListResponseDto로 만들어서 프론트에 보내기
-
         }
         return responseDto;
     }
