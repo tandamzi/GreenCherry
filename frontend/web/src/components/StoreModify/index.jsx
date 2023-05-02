@@ -3,31 +3,45 @@ import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
-import useStore from '@/hooks/useStore';
+import StoreAllergiesModify from '@/components/StoreAllergiesModify';
+import StoreInputModify from '@/components/StoreInputModify';
+import useStore from '@/hooks/storeHook';
 
 const StoreModify = ({ title, children, type }) => {
-  // store의 modify 상태 저장
   const [content, setContent] = useState(useStore[type]);
+
+  // 여기에서 useStore를 호출하고 필요한 값과 함수를 추출합니다.
+  const {
+    modifyState,
+    modifyType,
+    putModifyState,
+    putStoreInfo,
+    resetModifyState,
+  } = useStore();
+
+  const handleContentChange = data => {
+    setContent(data);
+  };
 
   // store modify 상태 state: true, type: type으로 변경
   const handlePencilClick = () => {
-    useStore.modifyState(type);
+    putModifyState(type); // 수정된 부분
     // console.log('PencilClick 클릭');
   };
 
   // modify 요청 후 store modify 초기화
   const handleModifyClick = () => {
-    useStore.putStoreInfo({
+    putStoreInfo({
       [type]: content,
     });
 
-    useStore.resetModifyState();
+    resetModifyState();
     // console.log('ModifyClick 클릭');
   };
 
   // modify 초기화
   const handleCancelClick = () => {
-    useStore.resetModifyState();
+    resetModifyState();
     // console.log('CancelClick 클릭');
   };
 
@@ -38,11 +52,9 @@ const StoreModify = ({ title, children, type }) => {
           <h3 className={classnames('font-thin', 'text-2xl', 'mb-2')}>
             {title}
           </h3>
-          {!useStore.modifyState && (
-            <TiPencil size={26} onClick={handlePencilClick} />
-          )}
+          {!modifyState && <TiPencil size={26} onClick={handlePencilClick} />}
         </div>
-        {useStore.modifyState && type === useStore.modifyType && (
+        {modifyState && type === modifyType && (
           <div
             className={classnames('font-thin', 'text-xl', 'text-right', 'flex')}
           >
@@ -57,12 +69,24 @@ const StoreModify = ({ title, children, type }) => {
       </div>
       <div
         className={classnames(
-          useStore.modifyState && type === useStore.modifyType
+          modifyState && type === modifyType
             ? 'border-solid border text-2xl'
             : 'text-2xl',
         )}
       >
-        {children}
+        {(type === 'storeDescription' ||
+          'cherryboxDescription' ||
+          'instagram') && (
+          <StoreInputModify
+            itemModifyState={modifyState && type === modifyType}
+            handleContentChange={handleContentChange}
+            content={content}
+          />
+        )}
+        {type === 'allergies' && (
+          <StoreAllergiesModify itemModifyState={false} content={content} />
+        )}
+        {/* {children} */}
       </div>
     </div>
   );
