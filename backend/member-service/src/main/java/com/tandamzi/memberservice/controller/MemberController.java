@@ -10,6 +10,8 @@ import com.tandamzi.memberservice.dto.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,14 @@ public class MemberController {
 
     private final MemberService memberService;
     private final ResponseService responseService;
+
+    @Autowired
+    Environment env;
+
+    @GetMapping("/test")
+    public String test(){
+        return env.getProperty("app.auth.tokenSecret");
+    }
 
     @GetMapping
     public SingleResult<MemberResponseDto> findMyInfo(@LoginMember Member member){
