@@ -8,7 +8,6 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,12 +18,12 @@ public class RegisterStoreRequestDto {
     private String name;
     private Long ownerId;
     private Long typeId;
-    private AddressDto address = new AddressDto();
+    private AddressDto address;
     private String phone;
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
-    private List<MultipartFile> imageFileList = new ArrayList<>();
-    private List<Long> allergyIdList = new ArrayList<>();
+    private List<MultipartFile> imageFileList;
+    private List<Long> allergyIdList;
 
 
     public Store toEntity(Type type, CherryBox cherryBox){
