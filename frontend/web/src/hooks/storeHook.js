@@ -41,16 +41,18 @@ export default function useStore() {
   };
 
   return {
-    storeId,
-    open,
-    pickUpStartTime,
-    pickUpEndTime,
-    cherryPoint,
-    instagram,
-    storeDescription,
-    cherryboxDescription,
-    allergies,
-    images,
+    storeAttributes: {
+      storeId,
+      open,
+      pickUpStartTime,
+      pickUpEndTime,
+      cherryPoint,
+      instagram,
+      storeDescription,
+      cherryboxDescription,
+      allergies,
+      images,
+    },
     getStoreInfo,
     putStoreInfo,
     modifyState,
