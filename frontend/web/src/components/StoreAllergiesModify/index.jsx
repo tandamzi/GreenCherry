@@ -1,3 +1,7 @@
+import React from 'react';
+
+import AllergiButton from '@/components/Button/AllergiButton';
+
 const StoreAllergiModify = ({
   itemModifyState,
   disabled,
@@ -10,8 +14,14 @@ const StoreAllergiModify = ({
   };
   return (
     <div>
-      {content.map((item, index) => {
-        return <button type="button">{item.name}</button>;
+      {content.map(item => {
+        return (
+          <AllergiButton
+            disabled={disabled}
+            text={item.name}
+            handleItemClick={handleItemClick}
+          />
+        );
       })}
     </div>
   );
