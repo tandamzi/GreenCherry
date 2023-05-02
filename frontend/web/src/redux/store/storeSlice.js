@@ -5,15 +5,16 @@ const initialState = {
   open: false,
   pickUpStartTime: '',
   pickUpEndTime: '',
-  chrryPoint: 0,
+  cherryPoint: 0,
   storeDescription: '',
   cherryboxDescription: '',
   allergies: [],
   images: [],
+  instagram: '',
 };
 
 export const storeSlice = createSlice({
-  name: 'store',
+  name: 'business',
   initialState,
   reducers: {
     getStoreInfoAction: (state, action) => {
@@ -23,18 +24,21 @@ export const storeSlice = createSlice({
         open: action.payload.open,
         pickUpStartTime: action.payload.pickUpStartTime,
         pickUpEndTime: action.payload.pickUpEndTime,
-        chrryPoint: action.payload.chrryPoint,
+        cherryPoint: action.payload.cherryPoint,
         storeDescription: action.payload.storeDescription,
         cherryboxDescription: action.payload.cherryboxDescription,
         allergies: action.payload.allergies,
         images: action.payload.images,
+        instagram: action.payload.instagram,
       };
     },
     putStoreInfoAction: (state, action) => {
+      console.log(action.payload);
       const key = Object.keys(action.payload)[0];
       const value = action.payload[key];
 
       if (key in state) {
+        console.log('key:', key);
         return {
           ...state,
           [key]: value,
