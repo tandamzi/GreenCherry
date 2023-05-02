@@ -5,10 +5,13 @@ import com.tandamzi.memberservice.common.response.ResponseService;
 import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
+import com.tandamzi.memberservice.dto.MemberForOrderDto;
 import com.tandamzi.memberservice.dto.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +26,14 @@ public class MemberController {
 
     private final MemberService memberService;
     private final ResponseService responseService;
+
+    @Autowired
+    Environment env;
+
+    @GetMapping("/test")
+    public String test(){
+        return env.getProperty("app.auth.tokenSecret");
+    }
 
     @GetMapping
     public SingleResult<MemberResponseDto> findMyInfo(@LoginMember Member member){
@@ -53,16 +64,17 @@ public class MemberController {
     }
 
     @GetMapping("/search")
-    public SingleResult<List<Long>> findMemberIdFromNickname(@RequestParam("nickname") String nickname){
-        log.info("MemberController findMemberIdFromNickname 실행 -> nickname = {}", nickname);
-        List<Long> requestDto = memberService.findMemberIdFromNickname(nickname);
+    public SingleResult<List<MemberForOrderDto>> findMemberForOrder(@RequestParam(value = "nickname", required = false) String nickname,
+                                                       @RequestParam(value = "memberIds", required = false) List<Long> memberIds){
+        log.info("MemberController findMemberForOrder 실행 -> nickname = {}, memberIds = {}", nickname, memberIds);
+        List<MemberForOrderDto> requestDto = memberService.findMemberForOrder(nickname, memberIds);
         return responseService.getSingleResult(requestDto);
     }
 
-    @GetMapping("/{member-id}/nickname")
-    public SingleResult<String> findNickname(@PathVariable("member-id") Long memberId){
-        log.info("MemberController findNickname 실행 -> memberId = {}", memberId);
-        String nickname = memberService.findNickname(memberId);
-        return responseService.getSingleResult(nickname);
-    }
+//    @GetMapping("/{member-id}/nickname")
+//    public SingleResult<String> findNickname(@PathVariable("member-id") Long memberId){
+//        log.info("MemberController findNickname 실행 -> memberId = {}", memberId);
+//        String nickname = memberService.findNickname(memberId);
+//        return responseService.getSingleResult(nickname);
+//    }
 }

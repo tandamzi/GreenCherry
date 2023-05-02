@@ -15,7 +15,6 @@
     ]
   },
   "dependencies": {
-    "@lottiefiles/lottie-player": "^1.7.1",
     "@react-hook/resize-observer": "^1.2.6",
     "@reduxjs/toolkit": "^1.9.5",
     "autoprefixer": "10.4.14",
@@ -28,8 +27,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
-    "react-lottie-player": "^1.5.4",
     "react-redux": "^8.0.5",
+    "react-transition-group": "^4.4.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "web-push": "^3.5.0"

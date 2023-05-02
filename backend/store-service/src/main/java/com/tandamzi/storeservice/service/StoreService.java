@@ -170,4 +170,16 @@ public class StoreService {
 
         return storeResponseDtoPage;
     }
+
+    /**[주문하기용] 가게 상세 조회 */
+    @Transactional
+    public StoreDetailforOrderResponseDto storeDetailforOrder(Long storeId){
+        log.info("[StoreService] storeDetailforOrder");
+        Store store = storeRepository.findByIdLockWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
+        log.info("store : {}", store);
+
+        return StoreDetailforOrderResponseDto.create(store);
+
+    }
+
 }

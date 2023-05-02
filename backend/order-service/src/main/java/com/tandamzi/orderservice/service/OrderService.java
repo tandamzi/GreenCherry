@@ -4,10 +4,13 @@ import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
+import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
+import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
+import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
 import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
@@ -18,8 +21,13 @@ import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,8 +50,8 @@ public class OrderService {
     public void registerOrder(RegisterOrderDto orderDto){
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
 
-        SingleResult<StoreDetailResponseDto> result = storeServiceClient.searchStoreDetail(orderDto.getStoreId());
-        StoreDetailResponseDto storeDetail = result.getData();
+        SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto.getStoreId());
+        StoreDetailforOrderResponseDto storeDetail = result.getData();
 
         if(!storeDetail.isOpen()){
             throw new StoreNotOpenException();
@@ -56,6 +64,7 @@ public class OrderService {
         int totalSalesAmount = orderDto.getOrderQuantity() * storeDetail.getCherryBox().getPricePerCherryBox();
 
         // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
+        // TODO : 손님 a, 손님 b가 동시에 가게 c에 주문을 한다면 ? 동시성 이슈 !
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
@@ -101,6 +110,52 @@ public class OrderService {
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
 
-    } 
+    }
+    public Page<OrderListResponseDto> orderList(Long storeId,String nickname, Pageable pageable){
+        log.info("[OrderService] orderList ");
+
+        if(storeId == null ){
+            throw new StoreNotOpenException();
+        }
+
+        Page<OrderListResponseDto> responseDto = null;
+
+
+        if(nickname == null){
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, null, pageable);
+
+            HashSet<Long> hashSet = new HashSet<>();
+            orderPage.forEach(order -> {
+                hashSet.add(order.getMemberId());
+            });
+
+            List<Long> list = new ArrayList<>(hashSet);
+            SingleResult<List<MemberForOrderDto>> memberForOrder = memberServiceClient.findMemberForOrder(null, list);
+
+            HashMap<Long, String> map = new HashMap<>();
+            memberForOrder.getData().forEach(memberForOrderDto -> {
+                map.put(memberForOrderDto.getMemberId() , memberForOrderDto.getNickname());
+            });
+
+            responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
+
+        }else{
+            SingleResult<List<MemberForOrderDto>> memberForOrder = memberServiceClient.findMemberForOrder(nickname, null);
+
+            HashMap<Long,String> map = new HashMap<>();
+            memberForOrder.getData().forEach(memberForOrderDto -> {
+                map.put(memberForOrderDto.getMemberId() , memberForOrderDto.getNickname());
+            });
+
+            List<Long> list = new ArrayList<>(map.keySet());
+
+
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, list, pageable);
+            responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
+
+
+        }
+        return responseDto;
+    }
 
 }
