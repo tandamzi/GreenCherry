@@ -4,15 +4,14 @@ import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
-import com.tandamzi.storeservice.dto.response.AllergyResponseDto;
-import com.tandamzi.storeservice.dto.response.CherryBoxResponseDto;
-import com.tandamzi.storeservice.dto.response.StoreDetailResponseDto;
-import com.tandamzi.storeservice.dto.response.TypeResponseDto;
+import com.tandamzi.storeservice.dto.response.*;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -156,5 +155,19 @@ public class StoreService {
                 dto.getPickUpEndTime(),
                 dto.getSnsAccount());
         store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
+    }
+
+    public Page<StoreResponseDto> getStores(Long memberId, double radius, double lat, double lng, boolean sub, Pageable pageable) {
+        Page<Store> stores = storeRepository.findNearbyPlacesWithSubscription(memberId, radius, lat, lng, sub, pageable);
+
+        Page<StoreResponseDto> storeResponseDtoPage = stores.map(store -> StoreResponseDto.builder()
+                .name(store.getName())
+                .address(store.getAddress())
+                .images(storeImageRepository.findStoreImagesByStore(store).stream()
+                        .map(storeImage -> storeImage.getUrl())
+                        .collect(Collectors.toList()))
+                .build());
+
+        return storeResponseDtoPage;
     }
 }
