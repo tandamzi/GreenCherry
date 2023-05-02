@@ -1,4 +1,8 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-console */
 import webPush from 'web-push';
+
 import { getSubscriptions } from '../../utils/db';
 
 const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
