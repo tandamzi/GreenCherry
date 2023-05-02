@@ -61,10 +61,10 @@ public class MemberController {
         return responseService.getSingleResult(requestDto);
     }
 
-    @GetMapping("/{member-id}/nickname")
-    public SingleResult<String> findNickname(@PathVariable("member-id") Long memberId){
-        log.info("MemberController findNickname 실행 -> memberId = {}", memberId);
-        String nickname = memberService.findNickname(memberId);
-        return responseService.getSingleResult(nickname);
-    }
+//    @GetMapping("/{member-id}/nickname")
+//    public SingleResult<String> findNickname(@PathVariable("member-id") Long memberId){
+//        log.info("MemberController findNickname 실행 -> memberId = {}", memberId);
+//        String nickname = memberService.findNickname(memberId);
+//        return responseService.getSingleResult(nickname);
+//    }
 }
