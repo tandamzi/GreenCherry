@@ -33,12 +33,10 @@ export const storeSlice = createSlice({
       };
     },
     putStoreInfoAction: (state, action) => {
-      console.log(action.payload);
       const key = Object.keys(action.payload)[0];
       const value = action.payload[key];
 
       if (key in state) {
-        console.log('key:', key);
         return {
           ...state,
           [key]: value,

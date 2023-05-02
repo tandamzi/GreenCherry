@@ -20,9 +20,6 @@ const MypageModal = ({ isOpen, onClose }) => {
     { title: '인스타그램', type: 'instagram' },
   ];
 
-  const handleChange = () => {
-    // console.log('handleChange');
-  };
   return (
     <Modal
       isOpen={isOpen}
@@ -32,14 +29,7 @@ const MypageModal = ({ isOpen, onClose }) => {
       <h2 className="text-center text-4xl">내 가게</h2>
       <div>
         {category.map(item => {
-          // type === 'allergy'&& return(div);
-          return (
-            <StoreModify title={item.title} type={item.type}>
-              {modify.state && item.type === modify.type && (
-                <textarea onChange={handleChange} />
-              )}
-            </StoreModify>
-          );
+          return <StoreModify title={item.title} type={item.type} />;
         })}
       </div>
     </Modal>

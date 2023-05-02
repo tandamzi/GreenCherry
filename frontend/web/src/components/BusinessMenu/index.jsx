@@ -7,7 +7,6 @@ import style from './index.module.scss';
 
 const Menu = ({ menuOpen }) => {
   // eslint-disable-next-line no-console
-  console.log(menuOpen);
   return (
     <div className={classnames(style.menu, menuOpen ? style.menuOpen : '')}>
       <h2 className={style.title}>Menu</h2>

@@ -10,7 +10,6 @@ import useStore from '@/hooks/storeHook';
 const StoreModify = ({ title, children, type }) => {
   const [content, setContent] = useState(useStore[type]);
 
-  // 여기에서 useStore를 호출하고 필요한 값과 함수를 추출합니다.
   const {
     modifyState,
     modifyType,
@@ -23,26 +22,20 @@ const StoreModify = ({ title, children, type }) => {
     setContent(data);
   };
 
-  // store modify 상태 state: true, type: type으로 변경
   const handlePencilClick = () => {
     putModifyState(type); // 수정된 부분
-    // console.log('PencilClick 클릭');
   };
 
-  // modify 요청 후 store modify 초기화
   const handleModifyClick = () => {
     putStoreInfo({
       [type]: content,
     });
 
     resetModifyState();
-    // console.log('ModifyClick 클릭');
   };
 
-  // modify 초기화
   const handleCancelClick = () => {
     resetModifyState();
-    // console.log('CancelClick 클릭');
   };
 
   return (
