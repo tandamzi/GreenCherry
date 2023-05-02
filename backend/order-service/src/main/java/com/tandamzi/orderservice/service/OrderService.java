@@ -10,6 +10,7 @@ import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
+import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
 import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
@@ -49,8 +50,8 @@ public class OrderService {
     public void registerOrder(RegisterOrderDto orderDto){
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
 
-        SingleResult<StoreDetailResponseDto> result = storeServiceClient.searchStoreDetail(orderDto.getStoreId());
-        StoreDetailResponseDto storeDetail = result.getData();
+        SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto.getStoreId());
+        StoreDetailforOrderResponseDto storeDetail = result.getData();
 
         if(!storeDetail.isOpen()){
             throw new StoreNotOpenException();
@@ -63,6 +64,7 @@ public class OrderService {
         int totalSalesAmount = orderDto.getOrderQuantity() * storeDetail.getCherryBox().getPricePerCherryBox();
 
         // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
+        // TODO : 손님 a, 손님 b가 동시에 가게 c에 주문을 한다면 ? 동시성 이슈 !
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
