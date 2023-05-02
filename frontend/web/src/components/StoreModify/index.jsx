@@ -8,7 +8,9 @@ import StoreInputModify from '@/components/StoreInputModify';
 import useStore from '@/hooks/storeHook';
 
 const StoreModify = ({ title, children, type }) => {
-  const [content, setContent] = useState(useStore[type]);
+  const storeValues = useStore();
+  const value = storeValues[type];
+  const [content, setContent] = useState(value);
 
   const {
     modifyState,
@@ -23,7 +25,7 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   const handlePencilClick = () => {
-    putModifyState(type); // 수정된 부분
+    putModifyState(type);
   };
 
   const handleModifyClick = () => {
@@ -35,6 +37,8 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   const handleCancelClick = () => {
+    setContent(value);
+
     resetModifyState();
   };
 
