@@ -32,7 +32,7 @@ const subscribeUser = async () => {
   navigator.serviceWorker.ready.then(registration => {
     registration.pushManager.getSubscription().then(subscription => {
       if (subscription) {
-        console.log('Already subscribed');
+        console.log('Already sssubscribed');
       } else {
         registration.pushManager
           .subscribe({
