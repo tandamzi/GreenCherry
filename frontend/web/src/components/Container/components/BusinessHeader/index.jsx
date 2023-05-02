@@ -5,10 +5,10 @@ import classnames from 'classnames';
 import Image from 'next/image';
 
 import style from './index.module.scss';
-import StoreNameButton from '../StoreNameButton';
 
-import Header from '@/components/Container/Header';
-import Menu from '@/components/Menu';
+import Menu from '@/components/BusinessMenu';
+import Header from '@/components/Container/components/Header';
+import StoreNameButton from '@/components/StoreNameButton';
 
 const BusinessHeader = ({ children, className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
