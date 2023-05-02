@@ -7,11 +7,9 @@ const Business = () => {
   // TODO: modal open/close 상태 관리
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
-    console.log(isOpen);
     setIsOpen(true);
   };
   const handleClose = () => {
-    console.log(isOpen);
     setIsOpen(false);
   };
 

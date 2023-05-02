@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { saveSubscription } from '../../utils/db';
 
 const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;

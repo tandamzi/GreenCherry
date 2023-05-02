@@ -1,0 +1,38 @@
+.login-container {
+  width: 100%;
+  margin: 0 auto;
+}
+.login-container > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  width: 52%;
+  height: 3rem;
+  max-width: 300px;
+  min-width: 200px;
+  margin: 4px auto;
+}
+.kakao-btn {
+  background-color: #fee500;
+}
+
+.google-btn {
+  background-color: var(--color-bgcolor);
+}
+
+.login-btn-img {
+  height: 100%;
+  width: 18px;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+.kakao-btn > .login-btn-img {
+  background-image: url('/assets/logo/kakao.png');
+}
+
+.google-btn > .login-btn-img {
+  background-image: url('/assets/logo/google.png');
+}
