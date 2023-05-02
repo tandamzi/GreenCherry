@@ -5,6 +5,7 @@ const StoreAllergiModify = ({
   handleContentChange,
 }) => {
   const handleItemClick = item => {
+    if (disabled) return;
     handleContentChange(item);
   };
   return (
