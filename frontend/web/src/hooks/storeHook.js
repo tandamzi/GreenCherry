@@ -29,7 +29,6 @@ export default function useStore() {
   };
 
   const putStoreInfo = data => {
-    console.log(data);
     dispatch(putStoreInfoAction(data));
   };
 
