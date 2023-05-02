@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "cd ../../ && husky install frontend/web/.husky"
   },
   "lint-staged": {
     "./src/**/*.{js,jsx,ts,tsx}": [
