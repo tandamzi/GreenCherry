@@ -52,10 +52,10 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public String findNickname(Long memberId){
-        log.info("MemberService findNickname 실행 -> memberId = {}", memberId);
-        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        return member.getNickname();
-    }
+//    public String findNickname(Long memberId){
+//        log.info("MemberService findNickname 실행 -> memberId = {}", memberId);
+//        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+//        return member.getNickname();
+//    }
 
 }
