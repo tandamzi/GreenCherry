@@ -10,6 +10,8 @@ import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -154,6 +156,21 @@ public class StoreService {
                 dto.getSnsAccount());
         store.getCherryBox().updateDescription(dto.getCherryBoxDescription());
     }
+
+    public Page<StoreResponseDto> getStores(Long memberId, double radius, double lat, double lng, boolean sub, Pageable pageable) {
+        Page<Store> stores = storeRepository.findNearbyPlacesWithSubscription(memberId, radius, lat, lng, sub, pageable);
+
+        Page<StoreResponseDto> storeResponseDtoPage = stores.map(store -> StoreResponseDto.builder()
+                .name(store.getName())
+                .address(store.getAddress())
+                .images(storeImageRepository.findStoreImagesByStore(store).stream()
+                        .map(storeImage -> storeImage.getUrl())
+                        .collect(Collectors.toList()))
+                .build());
+
+        return storeResponseDtoPage;
+    }
+
     /**[주문하기용] 가게 상세 조회 */
     @Transactional
     public StoreDetailforOrderResponseDto storeDetailforOrder(Long storeId){
