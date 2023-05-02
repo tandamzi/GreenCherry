@@ -4,9 +4,11 @@ import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
+import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
+import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -18,8 +20,13 @@ import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 @Slf4j
@@ -101,6 +108,52 @@ public class OrderService {
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
 
-    } 
+    }
+    public Page<OrderListResponseDto> orderList(Long storeId,String nickname, Pageable pageable){
+        log.info("[OrderService] orderList ");
+
+        if(storeId == null ){
+            throw new StoreNotOpenException();
+        }
+
+        Page<OrderListResponseDto> responseDto = null;
+
+
+        if(nickname == null){
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, null, pageable);
+
+            HashSet<Long> hashSet = new HashSet<>();
+            orderPage.forEach(order -> {
+                hashSet.add(order.getMemberId());
+            });
+
+            List<Long> list = new ArrayList<>(hashSet);
+            SingleResult<List<MemberForOrderDto>> memberForOrder = memberServiceClient.findMemberForOrder(null, list);
+
+            HashMap<Long, String> map = new HashMap<>();
+            memberForOrder.getData().forEach(memberForOrderDto -> {
+                map.put(memberForOrderDto.getMemberId() , memberForOrderDto.getNickname());
+            });
+
+            responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
+
+        }else{
+            SingleResult<List<MemberForOrderDto>> memberForOrder = memberServiceClient.findMemberForOrder(nickname, null);
+
+            HashMap<Long,String> map = new HashMap<>();
+            memberForOrder.getData().forEach(memberForOrderDto -> {
+                map.put(memberForOrderDto.getMemberId() , memberForOrderDto.getNickname());
+            });
+
+            List<Long> list = new ArrayList<>(map.keySet());
+
+
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, list, pageable);
+            responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
+
+
+        }
+        return responseDto;
+    }
 
 }
