@@ -15,13 +15,11 @@ const MypageModal = ({ isOpen, onClose }) => {
     cherryDescription: '메롱',
   };
   const category = [
-    { title: '가게 소개글', type: 'description' },
-    { title: '체리박스 소개글', type: 'cherryDescription' },
+    { title: '가게 소개글', type: 'storeDescription' },
+    { title: '체리박스 소개글', type: 'cherryboxDescription' },
+    { title: '인스타그램', type: 'instagram' },
   ];
 
-  const handleChange = () => {
-    // console.log('handleChange');
-  };
   return (
     <Modal
       isOpen={isOpen}
@@ -31,14 +29,7 @@ const MypageModal = ({ isOpen, onClose }) => {
       <h2 className="text-center text-4xl">내 가게</h2>
       <div>
         {category.map(item => {
-          // type === 'allergy'&& return(div);
-          return (
-            <StoreModify title={item.title} type={item.type}>
-              {modify.state && item.type === modify.type && (
-                <textarea onChange={handleChange} />
-              )}
-            </StoreModify>
-          );
+          return <StoreModify title={item.title} type={item.type} />;
         })}
       </div>
     </Modal>

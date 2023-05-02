@@ -12,12 +12,13 @@ export default function useStore() {
     open,
     pickUpStartTime,
     pickUpEndTime,
-    chrryPoint,
+    cherryPoint,
+    instagram,
     storeDescription,
     cherryboxDescription,
     allergies,
     images,
-  } = useSelector(state => state.store);
+  } = useSelector(state => state.business);
 
   const { modifyState, modifyType } = useSelector(state => state.modify);
 
@@ -44,7 +45,8 @@ export default function useStore() {
     open,
     pickUpStartTime,
     pickUpEndTime,
-    chrryPoint,
+    cherryPoint,
+    instagram,
     storeDescription,
     cherryboxDescription,
     allergies,
