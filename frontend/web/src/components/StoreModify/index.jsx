@@ -8,9 +8,8 @@ import StoreInputModify from '@/components/StoreInputModify';
 import useStore from '@/hooks/storeHook';
 
 const StoreModify = ({ title, children, type }) => {
-  const storeValues = useStore();
-  const value = storeValues[type];
-  const [content, setContent] = useState(value);
+  const { storeAttributes } = useStore();
+  const [content, setContent] = useState(storeAttributes[type]);
 
   const {
     modifyState,
@@ -37,7 +36,7 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   const handleCancelClick = () => {
-    setContent(value);
+    setContent(storeAttributes[type]);
 
     resetModifyState();
   };
