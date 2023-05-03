@@ -29,11 +29,11 @@ public class OrderController {
         orderService.registerOrder(orderDto);
         return responseService.getSuccessResult();
     }
-    @PutMapping("/{order-id}/{status}")
+    @PutMapping("/{order-id}/{state}")
     public Result changeOrderStatus(@PathVariable("order-id") Long orderId
-            , @PathVariable("status") String status){
+            , @PathVariable("state") String state){
         log.info("[OrderController] changeOrderStatus ");
-        orderService.changeOrderStatus(orderId,status);
+        orderService.changeOrderState(orderId,state);
         return responseService.getSuccessResult();
     }
     @GetMapping("/{order-id}")
