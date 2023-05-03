@@ -52,6 +52,10 @@ public class Store extends BaseEntity {
             this.snsAccount = snsAccount;
         }
     }
+
+    public void increaseCherryPoint(int point){
+        this.cherryPoint += point;
+    }
 }
 
 
