@@ -5,7 +5,9 @@ import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.*;
+import com.tandamzi.storeservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
+import com.tandamzi.storeservice.exception.StoreNotOpenException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class StoreService {
     private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
     private final S3Service s3Service;
+    private final CherryBoxService cherryBoxService;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -173,12 +176,23 @@ public class StoreService {
 
     /**[주문하기용] 가게 상세 조회 */
     @Transactional
-    public StoreDetailforOrderResponseDto storeDetailforOrder(Long storeId){
+    public StoreDetailforOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
         log.info("[StoreService] storeDetailforOrder");
-        Store store = storeRepository.findByIdLockWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
-        log.info("store : {}", store);
+        Store store = storeRepository.findByIdLockWithCherryBox(orderDto.getStoreId()).orElseThrow(StoreNotFoundException::new);
 
-        return StoreDetailforOrderResponseDto.create(store);
+        if(!store.isOpen()){
+            throw new StoreNotOpenException();
+        }
+
+        if(orderDto.getOrderQuantity()> store.getCherryBox().getQuantity()){
+            throw new CherryBoxQuantityInsufficientException();
+        }
+
+        int totalSalesAmount = orderDto.getOrderQuantity() * store.getCherryBox().getPricePerCherryBox();
+
+        cherryBoxService.decreaseCherryBox(store.getId(), orderDto.getOrderQuantity());
+
+        return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
 
     }
 

@@ -137,10 +137,10 @@ public class StoreController {
     }
 
     /**[주문하기용] 가게 상세 조회 */
-    @GetMapping("{store-id}/for-order")
-    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@PathVariable("store-id") Long storeId){
+    @PostMapping("/for-order")
+    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto){
         log.info("[StoreController] storeDetilforOrder");
-        StoreDetailforOrderResponseDto storeDetail = storeService.storeDetailforOrder(storeId);
+        StoreDetailforOrderResponseDto storeDetail = storeService.storeDetailforOrder(orderDto);
         return responseService.getSingleResult(storeDetail);
     }
 
