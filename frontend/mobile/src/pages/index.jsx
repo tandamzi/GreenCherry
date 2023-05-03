@@ -54,7 +54,7 @@ const subscribeUser = async () => {
   });
 };
 
-export default function Home() {
+export default function Home({ location }) {
   return (
     // <div>
     //   <h1 className="text-primaryevent">Welcome to your PWA</h1>
