@@ -20,6 +20,10 @@ spring:
     username: root
     password: 1234
 
+vapid:
+  key:
+    public: BPLTvXapXtft3HhPpDxRPiY5OHWtFMEMP160FHqoojQpIPc1EZL77A_CcBMF7bhBQfP5kWv-5DbSiUlUK9BVWzQ
+    private: 3E7oD3n3YwKbJdH_L2f6boy7rgaNlPGkdsyUzN1h5c8
 
 logging:
   level:
