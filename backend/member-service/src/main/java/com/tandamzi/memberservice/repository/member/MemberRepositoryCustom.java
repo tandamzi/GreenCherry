@@ -1,4 +1,4 @@
-package com.tandamzi.memberservice.repository;
+package com.tandamzi.memberservice.repository.member;
 
 import com.tandamzi.memberservice.domain.Member;
 

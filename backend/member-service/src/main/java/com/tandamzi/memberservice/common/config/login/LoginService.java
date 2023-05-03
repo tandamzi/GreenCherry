@@ -3,7 +3,7 @@ package com.tandamzi.memberservice.common.config.login;
 import com.tandamzi.memberservice.common.config.security.jwt.TokenProvider;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
