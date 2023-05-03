@@ -2,10 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
+import {
+  Transition,
+  TransitionGroup,
+  CSSTransition,
+} from 'react-transition-group';
 
+import cs from 'classnames';
 import { Router, useRouter } from 'next/router';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
+
+import style from './index.module.scss';
 
 import PageTransition from '@/components/PageTransition';
 import Spinner from '@/components/Spinner';
@@ -17,6 +25,10 @@ export const persistor = persistStore(store);
 
 function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+
+  const location = 'hello';
+  const route = useRouter();
+  const { pathname } = useRouter();
 
   useEffect(() => {
     const handleStart = () => setLoading(true);
@@ -52,7 +64,17 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <PageTransition>
-          <Component {...pageProps} />
+          {/* <TransitionGroup className={cs(style['transition-wrapper'])}>
+          <CSSTransition
+            key={route.pathname}
+            timeout={300}
+            classNames={cs(style['navigate-push'])}
+          >
+            <div> */}
+          <Component {...pageProps} location={route} />
+          {/* </div>
+          </CSSTransition>
+        </TransitionGroup> */}
         </PageTransition>
       </PersistGate>
     </Provider>
