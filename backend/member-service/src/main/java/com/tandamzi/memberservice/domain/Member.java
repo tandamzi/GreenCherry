@@ -34,8 +34,7 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "notice_id")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Notice notice;
 
     public void changeNickname(String nickname){
