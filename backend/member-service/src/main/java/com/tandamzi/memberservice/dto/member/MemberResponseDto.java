@@ -1,4 +1,4 @@
-package com.tandamzi.memberservice.dto;
+package com.tandamzi.memberservice.dto.member;
 
 import com.tandamzi.memberservice.domain.Member;
 import lombok.*;

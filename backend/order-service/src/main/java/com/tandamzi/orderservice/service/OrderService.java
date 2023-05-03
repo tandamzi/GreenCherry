@@ -1,6 +1,5 @@
 package com.tandamzi.orderservice.service;
 
-import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
@@ -9,9 +8,7 @@ import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
-import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
-import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
 import com.tandamzi.orderservice.exception.StoreNotOpenException;
@@ -22,7 +19,6 @@ import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,50 +44,41 @@ public class OrderService {
 
     @Transactional
     public void registerOrder(RegisterOrderDto orderDto){
+        log.info("[OrderService] registerOrder");
         log.info("orderDto.getStoreId() = {}", orderDto.getStoreId());
 
-        SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto.getStoreId());
+        SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto);
         StoreDetailforOrderResponseDto storeDetail = result.getData();
 
-        if(!storeDetail.isOpen()){
-            throw new StoreNotOpenException();
-        }
-
-        if(orderDto.getOrderQuantity()>storeDetail.getCherryBox().getQuantity()){
-            throw new CherryBoxQuantityInsufficientException();
-        }
-
-        int totalSalesAmount = orderDto.getOrderQuantity() * storeDetail.getCherryBox().getPricePerCherryBox();
-
         // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
-        // TODO : 손님 a, 손님 b가 동시에 가게 c에 주문을 한다면 ? 동시성 이슈 !
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
                 .state(State.ORDER_COMPLETE)
                 .quantity(orderDto.getOrderQuantity())
-                .totalSalesAmount(totalSalesAmount)
+                .totalSalesAmount(storeDetail.getTotalSalesAmount())
                 .build());
 
-        Result decreaseCherrybox = storeServiceClient.decreaseCherryBox(storeDetail.getStoreId(), orderDto.getOrderQuantity());
 
     }
 
     @Transactional
-    public void changeOrderStatus(Long orderId, String state){
-        log.info("[OrderService] changeOrderStatus ");
+    public void changeOrderState(Long orderId, String state){
+        log.info("[OrderService] changeOrderState ");
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
 
         if(!State.ORDER_COMPLETE.toString().equals(state)){
             throw new OrderStatusNotEqualsException();
         }
-        order.statusChange(State.PICKUP_COMPLETE);
+        order.stateChange(State.PICKUP_COMPLETE);
 
         OrderStatusDto statusDto = OrderStatusDto.builder()
                 .memberId(order.getMemberId())
+                .storeId(order.getStoreId())
                 .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
                 .build();
-        kafkaProducer.send("increase-cherry-point",statusDto);
+        kafkaProducer.send("increase-member-cherry-point",statusDto);
+        kafkaProducer.send("increase-store-cherry-point",statusDto);
 
     }
     

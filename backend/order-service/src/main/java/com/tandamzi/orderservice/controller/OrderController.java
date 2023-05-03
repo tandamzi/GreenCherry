@@ -3,11 +3,9 @@ package com.tandamzi.orderservice.controller;
 import com.tandamzi.orderservice.common.response.ResponseService;
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
-import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
-import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.QueryParam;
 
 @RestController
 @Slf4j
@@ -32,11 +29,11 @@ public class OrderController {
         orderService.registerOrder(orderDto);
         return responseService.getSuccessResult();
     }
-    @PutMapping("/{order-id}/{status}")
+    @PutMapping("/{order-id}/{state}")
     public Result changeOrderStatus(@PathVariable("order-id") Long orderId
-            , @PathVariable("status") String status){
+            , @PathVariable("state") String state){
         log.info("[OrderController] changeOrderStatus ");
-        orderService.changeOrderStatus(orderId,status);
+        orderService.changeOrderState(orderId,state);
         return responseService.getSuccessResult();
     }
     @GetMapping("/{order-id}")

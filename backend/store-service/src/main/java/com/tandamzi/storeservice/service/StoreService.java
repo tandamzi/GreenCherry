@@ -1,11 +1,18 @@
 package com.tandamzi.storeservice.service;
 
+import com.tandamzi.storeservice.common.result.ListResult;
+import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.domain.*;
+import com.tandamzi.storeservice.dto.feign.EndpointDto;
+import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import com.tandamzi.storeservice.dto.response.*;
+import com.tandamzi.storeservice.exception.CherryBoxQuantityInsufficientException;
 import com.tandamzi.storeservice.exception.StoreNotFoundException;
+import com.tandamzi.storeservice.exception.StoreNotOpenException;
 import com.tandamzi.storeservice.exception.TypeNotFoundException;
 import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +40,8 @@ public class StoreService {
     private final SubscribeRepository subscribeRepository;
     private final CherryBoxRepository cherryBoxRepository;
     private final S3Service s3Service;
+    private final CherryBoxService cherryBoxService;
+    private final MemberServiceClient memberServiceClient;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -107,6 +116,18 @@ public class StoreService {
                 dto.getDescription(),
                 dto.getPricePerCherryBox()
         );
+
+        //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
+        List<Long> subscribers = getSubscribers(store);
+        ListResult<EndpointDto> endpoints = memberServiceClient.getEndpoints(subscribers);
+        log.info("subscribers = {}", subscribers);
+        log.info("endpoints = {}", endpoints);
+    }
+
+    private List<Long> getSubscribers(Store store) {
+        return subscribeRepository.findAllByStore(store).stream()
+                .map(subscribe -> subscribe.getMemberId())
+                .collect(Collectors.toList());
     }
 
     public CherryBoxResponseDto getCherryBox(Long storeId) {
@@ -173,12 +194,23 @@ public class StoreService {
 
     /**[주문하기용] 가게 상세 조회 */
     @Transactional
-    public StoreDetailforOrderResponseDto storeDetailforOrder(Long storeId){
+    public StoreDetailforOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
         log.info("[StoreService] storeDetailforOrder");
-        Store store = storeRepository.findByIdLockWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
-        log.info("store : {}", store);
+        Store store = storeRepository.findByIdLockWithCherryBox(orderDto.getStoreId()).orElseThrow(StoreNotFoundException::new);
 
-        return StoreDetailforOrderResponseDto.create(store);
+        if(!store.isOpen()){
+            throw new StoreNotOpenException();
+        }
+
+        if(orderDto.getOrderQuantity()> store.getCherryBox().getQuantity()){
+            throw new CherryBoxQuantityInsufficientException();
+        }
+
+        int totalSalesAmount = orderDto.getOrderQuantity() * store.getCherryBox().getPricePerCherryBox();
+
+        cherryBoxService.decreaseCherryBox(store.getId(), orderDto.getOrderQuantity());
+
+        return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
 
     }
 
