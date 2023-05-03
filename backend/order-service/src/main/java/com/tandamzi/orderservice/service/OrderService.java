@@ -63,20 +63,22 @@ public class OrderService {
     }
 
     @Transactional
-    public void changeOrderStatus(Long orderId, String state){
-        log.info("[OrderService] changeOrderStatus ");
+    public void changeOrderState(Long orderId, String state){
+        log.info("[OrderService] changeOrderState ");
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
 
         if(!State.ORDER_COMPLETE.toString().equals(state)){
             throw new OrderStatusNotEqualsException();
         }
-        order.statusChange(State.PICKUP_COMPLETE);
+        order.stateChange(State.PICKUP_COMPLETE);
 
         OrderStatusDto statusDto = OrderStatusDto.builder()
                 .memberId(order.getMemberId())
+                .storeId(order.getStoreId())
                 .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
                 .build();
-        kafkaProducer.send("increase-cherry-point",statusDto);
+        kafkaProducer.send("increase-member-cherry-point",statusDto);
+        kafkaProducer.send("increase-store-cherry-point",statusDto);
 
     }
     
