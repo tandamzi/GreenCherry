@@ -50,5 +50,10 @@ public class ExceptionAdvice {
     public Result BusinessPermissionNotValidException() {
         return responseService.getFailureResult(-205,"사업자 허가 정보를 찾을 수 없습니다");
     }
+    @ExceptionHandler(StoreNotOpenException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result StoreNotOpenException() {
+        return responseService.getFailureResult(-300,"해당 가게 오픈 시간이 아닙니다.");
+    }
 
 }
