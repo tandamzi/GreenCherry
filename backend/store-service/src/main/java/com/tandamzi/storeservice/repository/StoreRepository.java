@@ -22,10 +22,4 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
     @Query("SELECT s FROM Store s JOIN FETCH s.cherryBox WHERE s.id = :id")
     Optional<Store> findByIdLockWithCherryBox(Long id);
 
-    /**
-     * [주문하기용] 체리박스 감소
-     */
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    Optional<Store> findById(Long storeId);
-
 }

@@ -1,4 +1,4 @@
-package com.tandamzi.memberservice.repository;
+package com.tandamzi.memberservice.repository.member;
 
 import com.tandamzi.memberservice.common.config.security.oauth2.userinfo.AuthProvider;
 import com.tandamzi.memberservice.domain.Member;

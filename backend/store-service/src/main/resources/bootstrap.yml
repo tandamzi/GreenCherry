@@ -3,5 +3,5 @@ spring:
     config:
       uri: http://osiopso.site:8888
       name: store-service
-      profile: test
+#      profile: test
 

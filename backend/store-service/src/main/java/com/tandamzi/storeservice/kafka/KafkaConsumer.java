@@ -1,11 +1,11 @@
-package com.tandamzi.memberservice.kafka;
+package com.tandamzi.storeservice.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tandamzi.memberservice.domain.Member;
-import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
-import com.tandamzi.memberservice.repository.member.MemberRepository;
+import com.tandamzi.storeservice.domain.Store;
+import com.tandamzi.storeservice.exception.StoreNotFoundException;
+import com.tandamzi.storeservice.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -21,11 +21,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KafkaConsumer {
 
-    private final MemberRepository memberRepository;
+    private final StoreRepository storeRepository;
 
-    @KafkaListener(topics = "increase-member-cherry-point")
+    @KafkaListener(topics = "increase-store-cherry-point")
     public void increaseCherryPoint(String kafkaMessage){
-        log.info("KafkaConsumer topics = increase-member-cherry-point, kafkaMessage = {}", kafkaMessage);
+        log.info("KafkaConsumer topics = increase-store-cherry-point, kafkaMessage = {}", kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
@@ -36,10 +36,11 @@ public class KafkaConsumer {
             e.printStackTrace();
         }
 
-        Long memberId = Long.valueOf((Integer)(map.get("memberId")));
+        Long storeId = Long.valueOf((Integer)( map.get("storeId")));
         int point = (int) map.get("cherryPoint");
 
-        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-        member.increaseCherryPoint(point);
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        store.increaseCherryPoint(point);
+
     }
 }
