@@ -11,7 +11,7 @@ const MainHeader = ({ className, children }) => {
   return (
     <Header
       className={cs(
-        'flex items-center  sticky top-0 z-30 bg-white touch-none ',
+        'flex justify-between items-center sticky top-0 z-30 bg-white px-12 touch-none ',
         className,
       )}
     >
@@ -22,10 +22,9 @@ const MainHeader = ({ className, children }) => {
         className=" h-6 flex-none w-fit"
         alt="devday main logo"
       />
-      <div className="flex items-center ml-auto ">
-        {' '}
-        <BiBell className=" mr-1 " />
-        <BiUserCircle />
+      <div className="flex items-center">
+        <BiBell size={20} className=" mr-1 " />
+        <BiUserCircle size={20} />
         {children}
       </div>
     </Header>

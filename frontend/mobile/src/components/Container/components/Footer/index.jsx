@@ -33,7 +33,11 @@ const Footer = ({ className, children }) => {
     <div
       ref={footerRef}
       id="cherry-footer"
-      className={cs('fixed bottom-0 m-0', style['cherry-footer'], className)}
+      className={cs(
+        'fixed m-0 rounded-3xl w-3/4 bg-bgcolor mb-5',
+        style['cherry-footer'],
+        className,
+      )}
     >
       {children}
     </div>
