@@ -3,7 +3,6 @@ import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
-import StoreAllergiesModify from '@/components/StoreAllergiesModify';
 import StoreInputModify from '@/components/StoreInputModify';
 import useStore from '@/hooks/storeHook';
 
@@ -79,9 +78,7 @@ const StoreModify = ({ title, children, type }) => {
             content={content}
           />
         )}
-        {type === 'allergies' && (
-          <StoreAllergiesModify itemModifyState={false} content={content} />
-        )}
+        {type === 'allergies' && <div>알러지</div>}
         {/* {children} */}
       </div>
     </div>
