@@ -4,6 +4,7 @@ package com.tandamzi.memberservice.service;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.domain.Notice;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.notice.EndPointDto;
 import com.tandamzi.memberservice.dto.notice.NoticeDto;
 import com.tandamzi.memberservice.repository.member.MemberRepository;
 import com.tandamzi.memberservice.repository.notice.NoticeRepository;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,8 +60,26 @@ public class MemberService {
     @Transactional
     public void noticeMember(Member member, NoticeDto noticeDto){
         log.info("MemberService noticeMember 실행");
-        Notice notice = noticeRepository.save(noticeDto.toEntity());
+        Optional<Notice> optional = noticeRepository.findByMember(member);
+
+        Notice notice = null;
+        if(optional.isPresent()){
+            notice = optional.get();
+            notice.change(noticeDto.getEndpoint(), noticeDto.getKeys().getP256dh(), noticeDto.getKeys().getAuth());
+        } else{
+            notice = noticeRepository.save(noticeDto.toEntity(member));
+        }
+
         member.permitNotice(notice);
+    }
+
+    public List<EndPointDto> getEndPoints(List<Long> memberIdList){
+        log.info("MemberService getEndPoints 실행");
+        List<Member> members = memberRepository.findByIdIn(memberIdList);
+
+        return members.stream()
+                .map(m -> EndPointDto.create(m.getNotice()))
+                .collect(Collectors.toList());
     }
 
 }
