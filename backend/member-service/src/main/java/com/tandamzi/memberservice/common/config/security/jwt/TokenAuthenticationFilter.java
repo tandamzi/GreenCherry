@@ -1,7 +1,7 @@
 package com.tandamzi.memberservice.common.config.security.jwt;
 
 import com.tandamzi.memberservice.domain.Member;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
