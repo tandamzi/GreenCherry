@@ -3,6 +3,8 @@ package com.tandamzi.storeservice.controller;
 import com.tandamzi.storeservice.common.response.ResponseService;
 import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
+import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
