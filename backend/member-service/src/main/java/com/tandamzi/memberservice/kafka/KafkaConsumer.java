@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

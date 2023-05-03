@@ -34,6 +34,10 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "notice_id")
+    private Notice notice;
+
     public void changeNickname(String nickname){
         this.nickname = nickname;
     }
@@ -48,5 +52,9 @@ public class Member extends BaseEntity{
 
     public void changeImage(String imageUrl){
         this.image = imageUrl;
+    }
+
+    public void permitNotice(Notice notice){
+        this.notice = notice;
     }
 }
