@@ -23,9 +23,9 @@ public class KafkaConsumer {
 
     private final MemberRepository memberRepository;
 
-    @KafkaListener(topics = "increase-cherry-point")
+    @KafkaListener(topics = "increase-member-cherry-point")
     public void increaseCherryPoint(String kafkaMessage){
-        log.info("KafkaConsumer topics = increase-cherry-point, kafkaMessage = {}", kafkaMessage);
+        log.info("KafkaConsumer topics = increase-member-cherry-point, kafkaMessage = {}", kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();

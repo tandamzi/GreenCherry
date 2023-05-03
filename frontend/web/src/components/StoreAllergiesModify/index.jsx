@@ -19,7 +19,7 @@ const StoreAllergiModify = ({
           <AllergiButton
             disabled={disabled}
             text={item.name}
-            handleItemClick={handleItemClick}
+            onClick={handleItemClick}
           />
         );
       })}
