@@ -19,15 +19,15 @@ public class CherryBoxService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public void decreaseCherryBox(Long storeId , int orderQuentity){
-        log.info("[CherryBoxService] decreaseCherrybox => storeId :{} ",storeId);
+    public void decreaseCherryBox(Long storeId , int orderQuantity){
+        log.info("[CherryBoxService] decreaseCherrybox => storeId :{} , orderQuantity : {}",storeId,orderQuantity);
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = store.getCherryBox();
 
-        if(cherryBox.getQuantity() < orderQuentity){
+        if(cherryBox.getQuantity() < orderQuantity){
             throw new CherryBoxQuantityInsufficientException();
         }
 
-        cherryBox.decreaseCherryBox(orderQuentity);
+        cherryBox.decreaseCherryBox(orderQuantity);
     }
 }

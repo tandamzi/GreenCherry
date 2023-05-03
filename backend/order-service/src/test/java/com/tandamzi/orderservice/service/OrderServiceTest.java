@@ -31,7 +31,7 @@ class OrderServiceTest {
             executorService.submit(()->{
                 try{
                     RegisterOrderDto build = RegisterOrderDto.builder()
-                            .storeId(2L)
+                            .storeId(1L)
                             .memberId(3L)
                             .orderQuantity(1)
                             .build();
@@ -44,7 +44,6 @@ class OrderServiceTest {
         latch.await();
         List<Order> byMemberId = orderRepository.findByMemberId(3L);
 
-        // memeber-id 3, orders 100개
         assertEquals(100,byMemberId.size());
     }
 }

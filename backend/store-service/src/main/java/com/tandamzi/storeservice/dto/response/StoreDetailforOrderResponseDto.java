@@ -14,6 +14,7 @@ public class StoreDetailforOrderResponseDto {
     private int cherryPoint;
     private boolean open;
     private CherryBoxDto cherryBox;
+    private int totalSalesAmount;
 
 
     @Getter
@@ -27,18 +28,19 @@ public class StoreDetailforOrderResponseDto {
         private int pricePerCherryBox;
     }
 
-    public static StoreDetailforOrderResponseDto create(Store store) {
+    public static StoreDetailforOrderResponseDto create(Store store,int totalSalesAmount) {
         return StoreDetailforOrderResponseDto.builder()
                 .storeId(store.getId())
                 .name(store.getName())
                 .cherryPoint(store.getCherryPoint())
                 .open(store.isOpen())
-                .cherryBox(StoreDetailforOrderResponseDto.CherryBoxDto.builder()
+                .cherryBox(CherryBoxDto.builder()
                         .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
                         .quantity(store.getCherryBox().getQuantity())
                         .discountRate(store.getCherryBox().getDiscountRate())
                         .pricePerCherryBox(store.getCherryBox().getPricePerCherryBox())
                         .build())
+                .totalSalesAmount(totalSalesAmount)
                 .build();
 
     }
