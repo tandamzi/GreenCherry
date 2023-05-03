@@ -12,6 +12,7 @@ public class StoreDetailforOrderResponseDto {
     private int cherryPoint;
     private boolean open;
     private CherryBoxDto cherryBox;
+    private int totalSalesAmount;
 
 
     @Getter
