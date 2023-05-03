@@ -17,7 +17,7 @@ const order = () => {
           // console.log(err);
           // alert('현재위치 표시할 수 없어요' + err);
         },
-        { enableHighAccuracy: true },
+        // { enableHighAccuracy: true },
       );
     } else {
       alert('현재 위치를 표시할 수 없어요');
