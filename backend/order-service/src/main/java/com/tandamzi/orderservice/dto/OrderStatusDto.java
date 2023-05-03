@@ -8,8 +8,10 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 public class OrderStatusDto implements Serializable {
     private Long memberId;
+    private Long storeId;
     private int cherryPoint;
 
 }
