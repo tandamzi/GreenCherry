@@ -1,6 +1,11 @@
 package com.tandamzi.storeservice.service;
 
+import com.tandamzi.storeservice.common.result.ListResult;
+import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.domain.*;
+import com.tandamzi.storeservice.dto.feign.EndpointDto;
+import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -36,6 +41,7 @@ public class StoreService {
     private final CherryBoxRepository cherryBoxRepository;
     private final S3Service s3Service;
     private final CherryBoxService cherryBoxService;
+    private final MemberServiceClient memberServiceClient;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -110,6 +116,18 @@ public class StoreService {
                 dto.getDescription(),
                 dto.getPricePerCherryBox()
         );
+
+        //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
+        List<Long> subscribers = getSubscribers(store);
+        ListResult<EndpointDto> endpoints = memberServiceClient.getEndpoints(subscribers);
+        log.info("subscribers = {}", subscribers);
+        log.info("endpoints = {}", endpoints);
+    }
+
+    private List<Long> getSubscribers(Store store) {
+        return subscribeRepository.findAllByStore(store).stream()
+                .map(subscribe -> subscribe.getMemberId())
+                .collect(Collectors.toList());
     }
 
     public CherryBoxResponseDto getCherryBox(Long storeId) {

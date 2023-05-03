@@ -1,4 +1,4 @@
-package com.tandamzi.storeservice.dto.response;
+package com.tandamzi.storeservice.dto.feign;
 
 import com.tandamzi.storeservice.domain.Store;
 import lombok.*;
