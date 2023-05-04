@@ -20,6 +20,8 @@ spring:
     username: root
     password: 1234
 
+firebase:
+  path: firebase/greencherry-notice.json
 
 logging:
   level:

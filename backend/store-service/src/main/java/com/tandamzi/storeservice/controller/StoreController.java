@@ -3,6 +3,8 @@ package com.tandamzi.storeservice.controller;
 import com.tandamzi.storeservice.common.response.ResponseService;
 import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
+import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -137,10 +139,10 @@ public class StoreController {
     }
 
     /**[주문하기용] 가게 상세 조회 */
-    @GetMapping("{store-id}/for-order")
-    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@PathVariable("store-id") Long storeId){
+    @PostMapping("/for-order")
+    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto){
         log.info("[StoreController] storeDetilforOrder");
-        StoreDetailforOrderResponseDto storeDetail = storeService.storeDetailforOrder(storeId);
+        StoreDetailforOrderResponseDto storeDetail = storeService.storeDetailforOrder(orderDto);
         return responseService.getSingleResult(storeDetail);
     }
 

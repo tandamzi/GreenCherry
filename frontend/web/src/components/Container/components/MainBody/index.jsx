@@ -9,7 +9,7 @@ const MainBody = ({ className, children, ref }) => {
       className={classnames(
         'flex flex-col items-center justify-center',
         'py-32',
-        'h-screen',
+        'h-full',
         className,
       )}
     >
