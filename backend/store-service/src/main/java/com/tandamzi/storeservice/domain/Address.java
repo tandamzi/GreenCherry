@@ -3,6 +3,7 @@ package com.tandamzi.storeservice.domain;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
 @Embeddable
 @AllArgsConstructor
