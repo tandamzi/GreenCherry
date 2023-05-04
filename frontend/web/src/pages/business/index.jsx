@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import AlertModal from '@/components/AlertModal';
 import Container from '@/components/Container';
+import InfoModal from '@/components/InfoModal';
 import useMember from '@/hooks/memberHook';
 
 const Business = () => {
@@ -19,15 +19,7 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor">
-        <button type="button" onClick={handleOpen}>
-          모달창 열기
-        </button>
-        {/*         <AlertModal
-          isOpen={isOpen}
-          onClose={handleClose}
-          onClick={() => console.log('ㅎㅇㅎㅇ')}
-          content="안녕하세요"
-        /> */}
+        <div>ㅇㅇ</div>
       </Container.MainBody>
     </Container>
   );
