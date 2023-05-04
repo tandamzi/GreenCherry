@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class StoreDetailResponseDto {
     private Long storeId;
     private String name;
-    private Long ownerId;
+    private Long memberId;
     private TypeInfoDto type;
     private AddressDto address;
     private String phone;
@@ -81,7 +81,7 @@ public class StoreDetailResponseDto {
                 .builder()
                 .storeId(store.getId())
                 .name(store.getName())
-                .ownerId(store.getOwnerId())
+                .memberId(store.getMemberId())
                 .type(TypeInfoDto.builder()
                         .id(store.getType().getId())
                         .name(store.getType().getName())
