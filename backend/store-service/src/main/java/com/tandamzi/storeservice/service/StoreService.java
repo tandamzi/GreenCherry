@@ -2,6 +2,7 @@ package com.tandamzi.storeservice.service;
 
 import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
+import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.EndpointDto;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
@@ -42,6 +43,7 @@ public class StoreService {
     private final S3Service s3Service;
     private final CherryBoxService cherryBoxService;
     private final MemberServiceClient memberServiceClient;
+    private final ReviewServiceClient reviewServiceClient;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -82,8 +84,8 @@ public class StoreService {
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
-        int numberOfReview = 0;
-        int numberOfSubscriber = subscribeRepository.findAllByStore(store).size();
+        long numberOfReview = reviewServiceClient.countReview(storeId).getData();
+        long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
 
         return StoreDetailResponseDto.create(store, allergyList, storeImageList,numberOfReview,numberOfSubscriber);
     }
