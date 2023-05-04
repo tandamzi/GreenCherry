@@ -121,7 +121,7 @@ public class StoreService {
         List<Long> subscribers = getSubscribers(store);
         ListResult<EndpointDto> endpoints = memberServiceClient.getEndpoints(subscribers);
         log.info("subscribers = {}", subscribers);
-        log.info("endpoints = {}", endpoints);
+        log.info("endpoints = {}", endpoints.getData());
     }
 
     private List<Long> getSubscribers(Store store) {

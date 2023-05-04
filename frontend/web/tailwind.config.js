@@ -27,9 +27,6 @@ module.exports = {
       laptopl: '1440px',
       desktop: '1280px',
     },
-    borderRadius: {
-      header: '0px 0px 40px 40px',
-    },
     extend: {
       fontFamily: {
         sans: ['LINESeedRg'],
