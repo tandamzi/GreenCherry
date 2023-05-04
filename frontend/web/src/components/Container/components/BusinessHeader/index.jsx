@@ -34,7 +34,10 @@ const BusinessHeader = ({ children, className }) => {
         src="/assets/logo/mainLogo-white.svg"
         width={386}
         height={69}
-        className={classnames('tablet:w-3/6 flex-none tablet:ml-0', style.logo)}
+        className={classnames(
+          'tablet:w-3/6 flex-none tablet:ml-0 mr-10',
+          style.logo,
+        )}
         alt="greencherry main logo"
       />
       <div className={style.menu}>
