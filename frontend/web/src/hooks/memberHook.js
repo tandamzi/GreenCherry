@@ -14,5 +14,13 @@ export default function useMember() {
     dispatch(logoutAction());
   };
 
-  return { storeId, storeName, memberId, login, logout };
+  return {
+    memberAttributes: {
+      storeId,
+      storeName,
+      memberId,
+      login,
+      logout,
+    },
+  };
 }

@@ -4,6 +4,7 @@ const initialState = {
   storeId: '',
   storeName: '',
   memberId: '',
+  myStoreModalOpen: false,
 };
 
 export const memberSlice = createSlice({
@@ -26,9 +27,26 @@ export const memberSlice = createSlice({
         memberId: '',
       };
     },
+    openMyStoreModalAction: state => {
+      return {
+        ...state,
+        myStoreModalOpen: true,
+      };
+    },
+    closeMyStoreModalAction: state => {
+      return {
+        ...state,
+        myStoreModalOpen: false,
+      };
+    },
   },
 });
 
 const { reducer, actions } = memberSlice;
-export const { loginAction, logoutAction } = actions;
+export const {
+  loginAction,
+  logoutAction,
+  openMyStoreModalAction,
+  closeMyStoreModalAction,
+} = actions;
 export default reducer;
