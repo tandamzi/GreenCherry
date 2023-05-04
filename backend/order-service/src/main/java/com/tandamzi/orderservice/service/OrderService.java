@@ -6,13 +6,12 @@ import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
-import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
-import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
+import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
 import com.tandamzi.orderservice.exception.OrderStatusNotEqualsException;
 import com.tandamzi.orderservice.exception.StoreNotOpenException;
 import com.tandamzi.orderservice.feign.MemberServiceClient;
+import com.tandamzi.orderservice.feign.ReviewServiceClient;
 import com.tandamzi.orderservice.feign.StoreServiceClient;
 import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
@@ -41,6 +40,9 @@ public class OrderService {
 
     @Autowired
     private MemberServiceClient memberServiceClient;
+
+    @Autowired
+    private ReviewServiceClient reviceServiceClient;
 
     @Transactional
     public void registerOrder(RegisterOrderDto orderDto){
@@ -98,6 +100,7 @@ public class OrderService {
                 .build();
 
     }
+    /** 웹 용 */
     public Page<OrderListResponseDto> orderList(Long storeId,String nickname, Pageable pageable){
         log.info("[OrderService] orderList ");
 
@@ -143,6 +146,20 @@ public class OrderService {
 
         }
         return responseDto;
+    }
+
+    /** 웹 용 */
+    public Page<OrderListResponseDto> mobileOrderList(Long memberId, Pageable pageable){
+//        List<Order> byMemberId = orderRepository.findByMemberId(memberId);
+        // 가게 이름 가져오기, 리뷰 쓴 여부 가져오기
+        Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
+        Page<OrderListResponseDto> orderListResponseDtos = pageByMemberId.map(order -> {
+            StoreDetailResponseDto storeDetailDto = storeServiceClient.searchStoreDetail(order.getStoreId()).getData();
+            Boolean review = reviceServiceClient.existReviewByOrder(order.getId()).getData();
+            OrderMobileListResponseDto.create(order, storeDetailDto,review);
+        });
+        return orderListResponseDtos;
+
     }
 
 }

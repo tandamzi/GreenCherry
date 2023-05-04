@@ -6,6 +6,7 @@ import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
+import com.tandamzi.orderservice.dto.response.OrderMobileListResponseDto;
 import com.tandamzi.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +50,11 @@ public class OrderController {
 
         Page<OrderListResponseDto> orderListResponseDtos = orderService.orderList(storeId, nickname, pageable);
         return responseService.getSingleResult(orderListResponseDtos);
+    }
+    @GetMapping("")
+    public SingleResult<Page<OrderMobileListResponseDto>> mobileOrderList(@RequestParam("member-id") Long meberId,
+                                                                          @PageableDefault(size= 10) Pageable pageable){
+        log.info("[OrderController] mobileOrderList");
+
     }
 }
