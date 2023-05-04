@@ -14,4 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Page<Review> findPageByStoreId(@Param("storeId") Long storeId, Pageable pageable);
 
+    Long countReviewByStoreId(@Param("storeId") Long storeId);
+
 }

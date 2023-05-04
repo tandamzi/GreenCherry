@@ -46,12 +46,12 @@ const MainFooterWithNavigation = ({ className }) => {
   return (
     <MainFooter
       className={cs(
-        'flex cursor-pointer justify-evenly items-center z-30 touch-none',
+        'flex cursor-pointer justify-between p-6 items-center z-30 touch-none',
         className,
       )}
     >
       <Link
-        href="/"
+        href="/order"
         className="flex flex-col w-18 text-center"
         onClick={() => handlePageChange('내 주변 가게')}
       >
