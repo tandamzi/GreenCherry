@@ -5,6 +5,7 @@ import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
+import com.tandamzi.orderservice.dto.Writed;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -22,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -148,17 +151,37 @@ public class OrderService {
         return responseDto;
     }
 
-    /** 웹 용 */
-    public Page<OrderListResponseDto> mobileOrderList(Long memberId, Pageable pageable){
-//        List<Order> byMemberId = orderRepository.findByMemberId(memberId);
-        // 가게 이름 가져오기, 리뷰 쓴 여부 가져오기
+    /** 모바일 용 */
+    public Page<OrderMobileListResponseDto> mobileOrderList(Long memberId, Pageable pageable){
+        log.info("[OrderService] mobileOrderList ");
+
         Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
-        Page<OrderListResponseDto> orderListResponseDtos = pageByMemberId.map(order -> {
+
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime currentTime = LocalDateTime.parse(date.format(formatter));
+
+        Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
             StoreDetailResponseDto storeDetailDto = storeServiceClient.searchStoreDetail(order.getStoreId()).getData();
             Boolean review = reviceServiceClient.existReviewByOrder(order.getId()).getData();
-            OrderMobileListResponseDto.create(order, storeDetailDto,review);
+
+            String writedCheck = writedCheck(order.getCreateDate(), date, review);
+            return OrderMobileListResponseDto.create(order, storeDetailDto, writedCheck);
         });
-        return orderListResponseDtos;
+
+        return pages;
+
+    }
+    public String writedCheck(LocalDateTime orderDate, LocalDateTime currentTime, Boolean review){
+        log.info("[OrderService] writedCheck ");
+        if(!review){
+            if(currentTime.isAfter(orderDate.plusDays(3))){
+                return String.valueOf(Writed.EXPIRATION);
+            }else if(currentTime.isBefore(orderDate.plusDays(3))){
+                return String.valueOf(Writed.NO);
+            }
+        }
+        return String.valueOf(Writed.YES);
 
     }
 

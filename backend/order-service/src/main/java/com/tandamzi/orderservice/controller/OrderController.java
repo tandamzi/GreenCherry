@@ -51,10 +51,11 @@ public class OrderController {
         Page<OrderListResponseDto> orderListResponseDtos = orderService.orderList(storeId, nickname, pageable);
         return responseService.getSingleResult(orderListResponseDtos);
     }
-    @GetMapping("")
-    public SingleResult<Page<OrderMobileListResponseDto>> mobileOrderList(@RequestParam("member-id") Long meberId,
+    @GetMapping("/orderlist/{member-id}")
+    public SingleResult<Page<OrderMobileListResponseDto>> mobileOrderList(@PathVariable("member-id") Long memberId,
                                                                           @PageableDefault(size= 10) Pageable pageable){
         log.info("[OrderController] mobileOrderList");
-
+        Page<OrderMobileListResponseDto> responseDtos = orderService.mobileOrderList(memberId, pageable);
+        return responseService.getSingleResult(responseDtos);
     }
 }
