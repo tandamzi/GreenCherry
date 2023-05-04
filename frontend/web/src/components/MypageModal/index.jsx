@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import Modal from '@/components/Modal';
 import StoreModify from '@/components/StoreModify';
+import useStore from '@/hooks/storeHook';
 
 const MypageModal = ({ isOpen, onClose }) => {
   const modify = {
