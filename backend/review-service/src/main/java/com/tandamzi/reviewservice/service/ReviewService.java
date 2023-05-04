@@ -112,4 +112,9 @@ public class ReviewService {
         result.sort((t1, t2) -> t2.getCount() - t1.getCount());
         return result;
     }
+
+    public Long countReview(Long storeId){
+        log.info("ReviewService countReview 실행 -> storeId = {}", storeId);
+        return reviewRepository.countReviewByStoreId(storeId);
+    }
 }

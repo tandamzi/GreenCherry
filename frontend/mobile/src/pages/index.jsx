@@ -1,15 +1,15 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 
-import Lottie from 'react-lottie-player';
+import { useDispatch } from 'react-redux';
 
-import reservation from '@public/assets/lottie/reservation1.json';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import Container from '@/components/Container';
 import MainCarbon from '@/components/Main/MainCarbon';
 import Reservation from '@/components/Main/Reservation';
+import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const sendNotification = async () => {
   try {
@@ -54,7 +54,11 @@ const subscribeUser = async () => {
   });
 };
 
-export default function Home({ location }) {
+export default function Home() {
+  const dispatch = useDispatch();
+  const goToPage = page => {
+    dispatch(changePage(page));
+  };
   return (
     // <div>
     //   <h1 className="text-primaryevent">Welcome to your PWA</h1>
@@ -75,7 +79,7 @@ export default function Home({ location }) {
             <MainCarbon />
           </div>
           <div className="row-span-2 grid grid-cols-2 justify-items-center">
-            <Link href="/order">
+            <Link href="/order" onClick={goToPage('내 주변 가게')}>
               <div>
                 <Image
                   src="/assets/icons/selectBoxIcons/orderBoxInText.svg"
