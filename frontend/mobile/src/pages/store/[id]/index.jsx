@@ -12,7 +12,6 @@ import UserReview from '@/components/store/UserReview';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
-
   return (
     <Container>
       <div className="grid grid-rows-5">
