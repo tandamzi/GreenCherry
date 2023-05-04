@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "review-service")
 public interface ReviewServiceClient {
-    @GetMapping("/count")
+    @GetMapping("/review/count")
     public SingleResult<Long> countReview(@RequestParam("store-id") Long storeId);
 }

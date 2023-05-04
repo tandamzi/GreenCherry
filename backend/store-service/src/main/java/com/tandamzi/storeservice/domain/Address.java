@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-@Entity
 public class Address {
     private String addressName;
     private double lat;

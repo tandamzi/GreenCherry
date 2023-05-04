@@ -45,7 +45,7 @@ public class OrderService {
     private MemberServiceClient memberServiceClient;
 
     @Autowired
-    private ReviewServiceClient reviceServiceClient;
+    private ReviewServiceClient reviewServiceClient;
 
     @Transactional
     public void registerOrder(RegisterOrderDto orderDto){
@@ -159,11 +159,12 @@ public class OrderService {
 
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime currentTime = LocalDateTime.parse(date.format(formatter));
 
+        // TODO : 리뷰량이 많은 경우 속도 느림
+        // TODO : order시간 기준 최신순 정렬
         Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
             StoreDetailResponseDto storeDetailDto = storeServiceClient.searchStoreDetail(order.getStoreId()).getData();
-            Boolean review = reviceServiceClient.existReviewByOrder(order.getId()).getData();
+            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
 
             String writedCheck = writedCheck(order.getCreateDate(), date, review);
             return OrderMobileListResponseDto.create(order, storeDetailDto, writedCheck);
