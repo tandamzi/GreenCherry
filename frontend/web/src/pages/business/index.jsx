@@ -19,7 +19,7 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor">
-        <div>ㅇㅇ</div>
+        <div className="text-9xl">business 페이지</div>
       </Container.MainBody>
     </Container>
   );
