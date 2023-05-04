@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -23,9 +23,9 @@ public class KafkaConsumer {
 
     private final MemberRepository memberRepository;
 
-    @KafkaListener(topics = "increase-cherry-point")
+    @KafkaListener(topics = "increase-member-cherry-point")
     public void increaseCherryPoint(String kafkaMessage){
-        log.info("KafkaConsumer topics = increase-cherry-point, kafkaMessage = {}", kafkaMessage);
+        log.info("KafkaConsumer topics = increase-member-cherry-point, kafkaMessage = {}", kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();

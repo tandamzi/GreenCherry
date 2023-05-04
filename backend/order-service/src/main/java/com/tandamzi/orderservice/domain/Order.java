@@ -27,7 +27,7 @@ public class Order extends BaseEntity{
 
     private int totalSalesAmount;
 
-    public void statusChange(State state) {
+    public void stateChange(State state) {
         this.state = state;
     }
 }

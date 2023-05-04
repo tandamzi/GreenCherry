@@ -22,7 +22,7 @@ const BusinessHeader = ({ children, className }) => {
   return (
     <Header
       className={classnames(
-        'flex items-center justify-between fixed w-full h-24 top-0 z-30 shadow-header rounded-header bg-bgcolor',
+        'flex items-center justify-between fixed w-full h-24 top-0 z-30 shadow-header rounded-b-3xl bg-bgcolor',
         className,
       )}
     >
