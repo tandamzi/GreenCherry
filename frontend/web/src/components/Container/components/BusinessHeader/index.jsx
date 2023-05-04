@@ -9,14 +9,18 @@ import style from './index.module.scss';
 import Menu from '@/components/BusinessMenu';
 import Header from '@/components/Container/components/Header';
 import StoreNameButton from '@/components/StoreNameButton';
+import useMember from '@/hooks/memberHook';
 
 const BusinessHeader = ({ children, className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openMyStoreModal } = useMember();
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
-    // eslint-disable-next-line no-console
-    console.log(menuOpen);
+  };
+
+  const handleMyStoreClick = () => {
+    openMyStoreModal();
   };
 
   return (
@@ -34,7 +38,10 @@ const BusinessHeader = ({ children, className }) => {
         alt="greencherry main logo"
       />
       <div className={style.menu}>
-        <StoreNameButton storeName="가게 이름 입니다" />
+        <StoreNameButton
+          storeName="가게 이름 입니다"
+          onClick={handleMyStoreClick}
+        />
         <GiHamburgerMenu
           size={48}
           className="text-secondary"

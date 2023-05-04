@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
+import AlertModal from '@/components/AlertModal';
 import Container from '@/components/Container';
-import MypageModal from '@/components/MypageModal';
 import useMember from '@/hooks/memberHook';
 
 const Business = () => {
@@ -22,7 +22,12 @@ const Business = () => {
         <button type="button" onClick={handleOpen}>
           모달창 열기
         </button>
-        <MypageModal isOpen={isOpen} onClose={handleClose} />
+        {/*         <AlertModal
+          isOpen={isOpen}
+          onClose={handleClose}
+          onClick={() => console.log('ㅎㅇㅎㅇ')}
+          content="안녕하세요"
+        /> */}
       </Container.MainBody>
     </Container>
   );
