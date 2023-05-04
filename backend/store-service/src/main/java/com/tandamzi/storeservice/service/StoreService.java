@@ -82,8 +82,10 @@ public class StoreService {
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
+        int numberOfReview = 0;
+        int numberOfSubscriber = subscribeRepository.findAllByStore(store).size();
 
-        return StoreDetailResponseDto.create(store, allergyList, storeImageList);
+        return StoreDetailResponseDto.create(store, allergyList, storeImageList,numberOfReview,numberOfSubscriber);
     }
 
     private List<Allergy> getAllergiesToList(Store store) {
