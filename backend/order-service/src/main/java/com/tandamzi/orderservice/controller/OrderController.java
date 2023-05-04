@@ -51,7 +51,7 @@ public class OrderController {
         Page<OrderListResponseDto> orderListResponseDtos = orderService.orderList(storeId, nickname, pageable);
         return responseService.getSingleResult(orderListResponseDtos);
     }
-    @GetMapping("/orderlist/{member-id}")
+    @GetMapping("/{member-id}/order-list")
     public SingleResult<Page<OrderMobileListResponseDto>> mobileOrderList(@PathVariable("member-id") Long memberId,
                                                                           @PageableDefault(size= 10) Pageable pageable){
         log.info("[OrderController] mobileOrderList");
