@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class RegisterStoreRequestDto {
     private String name;
-    private Long ownerId;
+    private Long memberId;
     private Long typeId;
     private AddressDto address;
     private String phone;
@@ -29,7 +29,7 @@ public class RegisterStoreRequestDto {
     public Store toEntity(Type type, CherryBox cherryBox){
         return Store.builder()
                 .name(name)
-                .ownerId(ownerId)
+                .memberId(memberId)
                 .type(type)
                 .address(address.toEntity())
                 .phone(phone)
