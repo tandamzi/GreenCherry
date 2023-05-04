@@ -1,29 +1,41 @@
-import React from 'react';
-import { TbCherry, TbPaperBag, TbPencil } from 'react-icons/tb';
+import React, { useState } from 'react';
+import { TbCherry, TbPaperBag, TbPencil, TbHome } from 'react-icons/tb';
 
 import classnames from 'classnames';
 
 import style from './index.module.scss';
 
+import CherryBoxModal from '@/components/CherryBoxModal';
+import useMember from '@/hooks/memberHook';
+import useStore from '@/hooks/storeHook';
+
 const Menu = ({ menuOpen }) => {
-  // eslint-disable-next-line no-console
+  const { openCherryBoxRegisterModal } = useMember();
+
   return (
     <div className={classnames(style.menu, menuOpen ? style.menuOpen : '')}>
       <h2 className={style.title}>Menu</h2>
-      <ul className={style.menuList}>
-        <li className={style.menuItem}>
+      <div className={style.menuList}>
+        <button
+          type="button"
+          className={style.menuItem}
+          onClick={openCherryBoxRegisterModal}
+        >
           <TbCherry size={24} />
-          체리박스 등록
-        </li>
-        <li className={style.menuItem}>
+          {open ? '영업종료' : '체리박스 등록'}
+        </button>
+        <button type="button" className={style.menuItem}>
           <TbPaperBag size={24} />
           주문관리
-        </li>
-        <li className={style.menuItem}>
+        </button>
+        <button type="button" className={style.menuItem}>
           <TbPencil size={24} />
           리뷰관리
-        </li>
-      </ul>
+        </button>
+        <button type="button" className={style.menuItem}>
+          <TbHome size={24} />내 가게
+        </button>
+      </div>
     </div>
   );
 };
