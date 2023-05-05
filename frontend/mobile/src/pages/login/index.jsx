@@ -4,6 +4,7 @@ import Lottie from 'react-lottie-player';
 
 import foodfall from '@public/assets/lottie/food fall.json';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
@@ -22,12 +23,7 @@ const login = () => {
           speed={1.2}
         />
         <div>
-          <button
-            onClick={e => {
-              e.preventDefault();
-              router.push('/');
-            }}
-          >
+          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/kako?redirect_uri=http://localhost:3000/redirect">
             <Image
               className=" absolute bottom-48 m-auto left-0 right-0"
               src="/assets/logo/kakaoLogin.svg"
@@ -35,8 +31,8 @@ const login = () => {
               height={180}
               alt="kakaoLogin"
             />
-          </button>
-          <button>
+          </Link>
+          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/google?redirect_uri=http://localhost:3000/redirect">
             <Image
               className=" absolute bottom-32 m-auto left-0 right-0"
               src="/assets/logo/googleLogin.svg"
@@ -44,7 +40,7 @@ const login = () => {
               height={180}
               alt="googleLogin"
             />
-          </button>
+          </Link>
         </div>
       </div>
     </Container>

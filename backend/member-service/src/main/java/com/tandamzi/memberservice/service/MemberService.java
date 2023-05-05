@@ -2,9 +2,12 @@ package com.tandamzi.memberservice.service;
 
 
 import com.tandamzi.memberservice.domain.Member;
-import com.tandamzi.memberservice.dto.MemberForOrderDto;
-import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.domain.Notice;
+import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.notice.EndPointDto;
+import com.tandamzi.memberservice.dto.notice.NoticeDto;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
+import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final NoticeRepository noticeRepository;
     private final S3Service s3Service;
 
     @Transactional
@@ -52,10 +57,29 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-//    public String findNickname(Long memberId){
-//        log.info("MemberService findNickname 실행 -> memberId = {}", memberId);
-//        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
-//        return member.getNickname();
-//    }
+    @Transactional
+    public void noticeMember(Member member, NoticeDto noticeDto){
+        log.info("MemberService noticeMember 실행");
+        Optional<Notice> optional = noticeRepository.findByMember(member);
+
+        Notice notice = null;
+        if(optional.isPresent()){
+            notice = optional.get();
+            notice.change(noticeDto.getEndpoint(), noticeDto.getKeys().getP256dh(), noticeDto.getKeys().getAuth());
+        } else{
+            notice = noticeRepository.save(noticeDto.toEntity(member));
+        }
+
+        member.permitNotice(notice);
+    }
+
+    public List<EndPointDto> getEndPoints(List<Long> memberIdList){
+        log.info("MemberService getEndPoints 실행");
+        List<Member> members = memberRepository.findByIdIn(memberIdList);
+
+        return members.stream()
+                .map(m -> EndPointDto.create(m.getNotice()))
+                .collect(Collectors.toList());
+    }
 
 }

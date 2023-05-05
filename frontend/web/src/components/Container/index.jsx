@@ -8,7 +8,7 @@ import MainHeader from './components/MainHeader';
 
 const Container = ({ children, className }) => {
   return (
-    <div id="devday-container" className={classnames(className)}>
+    <div id="cherry-container" className={classnames(className, 'h-full')}>
       {children}
     </div>
   );

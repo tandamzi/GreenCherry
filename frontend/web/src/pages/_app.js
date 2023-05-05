@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
@@ -5,6 +6,8 @@ import Router from 'next/router';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import CherryBoxModal from '@/components/CherryBoxModal';
+import MypageModal from '@/components/MypageModal';
 import Spinner from '@/components/Spinner';
 import store from '@/redux/store';
 
@@ -48,6 +51,8 @@ function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <MypageModal />
+        <CherryBoxModal />
         {loading ? (
           <span className="flex justify-center items-center">
             <Spinner />

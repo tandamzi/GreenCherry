@@ -1,0 +1,12 @@
+.error-text {
+  color: var(--color-danger);
+}
+
+.check-button {
+  font-size: 16px;
+  border-radius: 100px;
+  color: var(--color-secondary);
+  background-color: var(--color-bgcolor);
+  width: 100px;
+  transform: translateY(-2px);
+}

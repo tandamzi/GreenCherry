@@ -16,7 +16,11 @@ const Container = ({ children, className }) => {
   return (
     <div
       id="cherry-container"
-      className={cs('container-sm', style.Container, className)}
+      className={cs(
+        style.Container,
+        className,
+        'min-h-screen max-h-screen max-w-xl mx-auto',
+      )}
     >
       {children}
     </div>

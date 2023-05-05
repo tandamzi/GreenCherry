@@ -2,11 +2,14 @@ package com.tandamzi.memberservice.controller;
 
 import com.tandamzi.memberservice.common.annotation.LoginMember;
 import com.tandamzi.memberservice.common.response.ResponseService;
+import com.tandamzi.memberservice.common.result.ListResult;
 import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
-import com.tandamzi.memberservice.dto.MemberForOrderDto;
-import com.tandamzi.memberservice.dto.MemberResponseDto;
+import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.member.MemberResponseDto;
+import com.tandamzi.memberservice.dto.notice.EndPointDto;
+import com.tandamzi.memberservice.dto.notice.NoticeDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,10 +74,18 @@ public class MemberController {
         return responseService.getSingleResult(requestDto);
     }
 
-//    @GetMapping("/{member-id}/nickname")
-//    public SingleResult<String> findNickname(@PathVariable("member-id") Long memberId){
-//        log.info("MemberController findNickname 실행 -> memberId = {}", memberId);
-//        String nickname = memberService.findNickname(memberId);
-//        return responseService.getSingleResult(nickname);
-//    }
+    @PostMapping("/notice")
+    public Result noticeMember(@LoginMember Member member, @RequestBody NoticeDto noticeDto){
+        log.info("MemberController noticeMember 실행");
+        memberService.noticeMember(member, noticeDto);
+        return responseService.getSuccessResult();
+    }
+
+    @GetMapping("/endpoint")
+    public ListResult<EndPointDto> getEndPoints(@RequestParam("memberIdList") List<Long> memberIdList){
+        log.info("MemberController getEndPoints 실행 -> memberIdList = {}", memberIdList);
+        List<EndPointDto> responseDto = memberService.getEndPoints(memberIdList);
+        return responseService.getListResult(responseDto);
+    }
+
 }

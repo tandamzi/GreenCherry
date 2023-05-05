@@ -8,7 +8,7 @@ import com.tandamzi.memberservice.common.config.security.oauth2.userinfo.OAuth2U
 import com.tandamzi.memberservice.common.config.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.domain.Role;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;

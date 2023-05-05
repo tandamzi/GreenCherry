@@ -1,4 +1,6 @@
+const path = require('path');
 const runtimeCaching = require('next-pwa/cache');
+
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -15,6 +17,10 @@ const nextConfig = withPWA({
   eslint: {
     ignoreDuringBuilds: true,
   },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src/styles')],
+  },
+
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/i,
