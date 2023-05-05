@@ -5,6 +5,7 @@ import com.tandamzi.storeservice.common.result.Result;
 import com.tandamzi.storeservice.common.result.SingleResult;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.request.BusinessValidationRequestDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -146,6 +147,12 @@ public class StoreController {
         return responseService.getSingleResult(storeDetail);
     }
 
+    @GetMapping("{store-id}/storeInfo-for-order")
+    public SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId){
+        log.info("[StoreController] storeInfoForOrder");
+        StoreInfoForOrderDto storeInfoForOrderDto = storeService.storeInfoForOrder(storeId);
+        return responseService.getSingleResult(storeInfoForOrderDto);
+    }
 
 
 }

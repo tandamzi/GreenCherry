@@ -2,6 +2,7 @@ package com.tandamzi.orderservice.feign;
 
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
+import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
@@ -19,4 +20,7 @@ public interface StoreServiceClient {
 
     @PostMapping("/store/for-order")
     SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto);
+
+    @GetMapping("/store/{store-id}/storeInfo-for-order")
+    SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId);
 }
