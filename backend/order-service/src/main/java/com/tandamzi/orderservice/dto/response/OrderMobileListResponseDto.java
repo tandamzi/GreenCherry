@@ -2,6 +2,7 @@ package com.tandamzi.orderservice.dto.response;
 
 
 import com.tandamzi.orderservice.domain.Order;
+import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.Writed;
 import lombok.*;
 
@@ -28,11 +29,11 @@ public class OrderMobileListResponseDto {
 
 
 
-    public static OrderMobileListResponseDto create(Order order,StoreDetailResponseDto storeDetailDto,String writedCheck){
+    public static OrderMobileListResponseDto create(Order order, StoreInfoForOrderDto storeInfoDto, String writedCheck){
 
         return OrderMobileListResponseDto.builder()
                 .orderId(order.getId())
-                .storeName(storeDetailDto.getName())
+                .storeName(storeInfoDto.getName())
                 .quantity(order.getQuantity())
                 .orderState(String.valueOf(order.getState()))
                 .totalSalesAmount(order.getTotalSalesAmount())

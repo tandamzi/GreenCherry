@@ -7,6 +7,7 @@ import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.EndpointDto;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -216,6 +217,12 @@ public class StoreService {
 
         return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
 
+    }
+
+    public StoreInfoForOrderDto storeInfoForOrder(Long storeId){
+        log.info("[StoreService] storeInfoForOrder");
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        return StoreInfoForOrderDto.create(store);
     }
 
 }
