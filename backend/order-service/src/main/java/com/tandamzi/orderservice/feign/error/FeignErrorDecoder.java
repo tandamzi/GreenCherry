@@ -1,5 +1,7 @@
 package com.tandamzi.orderservice.feign.error;
 
+import com.tandamzi.orderservice.exception.CherryBoxQuantityInsufficientException;
+import com.tandamzi.orderservice.exception.StoreNotOpenException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +14,13 @@ public class FeignErrorDecoder implements ErrorDecoder {
         switch (response.status()){
             case 404:
                 if(methodKey.contains("storeDetailforOrder")){
-                    log.info("response = {}",response);
-                    log.info("response.body() ={}",response.body());
-                    return new ResponseStatusException(HttpStatus.valueOf(response.status()),
-                            "store-service error");
+                    return new StoreNotOpenException();
                 }
                 break;
+            case 406:
+                if(methodKey.contains("storeDetailforOrder")){
+                    return new CherryBoxQuantityInsufficientException();
+                }
             default:
                 return new Exception(response.reason());
         }
