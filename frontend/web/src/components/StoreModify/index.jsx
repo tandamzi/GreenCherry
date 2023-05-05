@@ -3,12 +3,12 @@ import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
-import StoreAllergiesModify from '@/components/StoreAllergiesModify';
 import StoreInputModify from '@/components/StoreInputModify';
 import useStore from '@/hooks/storeHook';
 
 const StoreModify = ({ title, children, type }) => {
-  const [content, setContent] = useState(useStore[type]);
+  const { storeAttributes } = useStore();
+  const [content, setContent] = useState(storeAttributes[type]);
 
   const {
     modifyState,
@@ -23,7 +23,7 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   const handlePencilClick = () => {
-    putModifyState(type); // 수정된 부분
+    putModifyState(type);
   };
 
   const handleModifyClick = () => {
@@ -35,6 +35,8 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   const handleCancelClick = () => {
+    setContent(storeAttributes[type]);
+
     resetModifyState();
   };
 
@@ -76,9 +78,7 @@ const StoreModify = ({ title, children, type }) => {
             content={content}
           />
         )}
-        {type === 'allergies' && (
-          <StoreAllergiesModify itemModifyState={false} content={content} />
-        )}
+        {type === 'allergies' && <div>알러지</div>}
         {/* {children} */}
       </div>
     </div>

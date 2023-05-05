@@ -17,6 +17,9 @@
   --color-bgcolor-rgb: 250, 250, 249;
 }
 
+#__next {
+  height: 100%;
+}
 *,
 ::before,
 ::after {

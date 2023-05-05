@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const subscriptions = new Set();
 
 export function saveSubscription(subscription) {

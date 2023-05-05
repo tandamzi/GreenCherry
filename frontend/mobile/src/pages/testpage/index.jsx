@@ -7,7 +7,8 @@ import SubPageHeader from '@/components/Container/components/SubPageHeader';
 const test = () => {
   return (
     <Container>
-      <SubPageHeader title="test" goHome="true" />
+      <Container.SubPageHeader title="test" goHome="true" />
+
       <MainFooterWithNavigation />
     </Container>
   );

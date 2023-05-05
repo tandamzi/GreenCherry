@@ -60,4 +60,18 @@ public class ReviewController {
         List<TagStatsDto> responseDto = reviewService.statsTag(storeId);
         return responseService.getListResult(responseDto);
     }
+
+    @GetMapping("/count")
+    public SingleResult<Long> countReview(@RequestParam("store-id") Long storeId){
+        log.info("ReviewController countReview 실행 -> storeId = {}", storeId);
+        Long count = reviewService.countReview(storeId);
+        return responseService.getSingleResult(count);
+    }
+
+    @GetMapping("/exist")
+    public SingleResult<Boolean> existReviewByOrder(@RequestParam("order-id") Long orderId){
+        log.info("ReviewController existReviewByOrder 실행 -> orderId = {}", orderId);
+        Boolean existReview = reviewService.existReviewByOrder(orderId);
+        return responseService.getSingleResult(existReview);
+    }
 }

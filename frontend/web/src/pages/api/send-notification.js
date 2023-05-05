@@ -1,10 +1,18 @@
+/* eslint-disable no-console */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import webPush from 'web-push';
+
 import { getSubscriptions } from '../../utils/db';
 
 const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 const privateVapidKey = process.env.VAPID_PRIVATE_KEY;
 
-webPush.setVapidDetails('mailto:rachaenlee@gmail.com', publicVapidKey, privateVapidKey);
+webPush.setVapidDetails(
+  'mailto:rachaenlee@gmail.com',
+  publicVapidKey,
+  privateVapidKey,
+);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -21,7 +29,10 @@ export default async function handler(req, res) {
       console.log('ㄱㄱㄱ?');
       for (const subscription of subscriptions) {
         console.log('여기엔 도달하니?', subscription);
-        await webPush.sendNotification(subscription, JSON.stringify(notificationPayload));
+        await webPush.sendNotification(
+          subscription,
+          JSON.stringify(notificationPayload),
+        );
       }
       res.status(200).json({ message: 'Push notifications sent' });
     } catch (error) {
