@@ -5,6 +5,7 @@ import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
 import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
+import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.Writed;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
@@ -157,17 +158,17 @@ public class OrderService {
 
         Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
 
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime date = LocalDateTime.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         // TODO : 리뷰량이 많은 경우 속도 느림
         // TODO : order시간 기준 최신순 정렬
         Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
-            StoreDetailResponseDto storeDetailDto = storeServiceClient.searchStoreDetail(order.getStoreId()).getData();
+            StoreInfoForOrderDto storeInfoDto = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
             Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
 
-            String writedCheck = writedCheck(order.getCreateDate(), date, review);
-            return OrderMobileListResponseDto.create(order, storeDetailDto, writedCheck);
+            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
+            return OrderMobileListResponseDto.create(order, storeInfoDto, writedCheck);
         });
 
         return pages;
