@@ -22,7 +22,7 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(CherryBoxQuantityInsufficientException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public Result CherryBoxQuantityInsufficientException() {
         return responseService.getFailureResult(-201,"해당 가게에 대한 체리박스 수량이 부족합니다.");
     }
