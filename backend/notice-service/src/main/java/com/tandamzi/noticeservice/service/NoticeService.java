@@ -1,4 +1,4 @@
-package com.tandamzi.noticeservice;
+package com.tandamzi.noticeservice.service;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -24,6 +24,6 @@ public class NoticeService {
 
             FirebaseMessaging.getInstance().sendAsync(message);
         }
-
     }
+
 }
