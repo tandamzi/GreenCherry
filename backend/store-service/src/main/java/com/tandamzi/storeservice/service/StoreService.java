@@ -118,13 +118,12 @@ public class StoreService {
                 dto.getQuantity(),
                 dto.getTotalPriceBeforeDiscount(),
                 dto.getDiscountRate(),
-                dto.getDescription(),
                 dto.getPricePerCherryBox()
         );
 
         //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
         List<Long> subscribers = getSubscribers(store);
-        ListResult<EndpointDto> endpoints = memberServiceClient.getEndpoints(subscribers);
+        ListResult<String> endpoints = memberServiceClient.getEndpoints(subscribers);
         log.info("subscribers = {}", subscribers);
         log.info("endpoints = {}", endpoints.getData());
     }
