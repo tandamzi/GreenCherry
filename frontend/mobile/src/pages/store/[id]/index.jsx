@@ -16,7 +16,7 @@ const store = ({ storeProps }) => {
     <Container>
       <div className="grid grid-rows-5">
         <StoreInfo storeInfo={storeProps.storeInfo} className="row-span-2" />
-        <ReservationStatus />
+        <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
         <UserReview />
       </div>
