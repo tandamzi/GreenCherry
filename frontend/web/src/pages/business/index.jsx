@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 import Container from '@/components/Container';
-import MypageModal from '@/components/MypageModal';
+import InfoModal from '@/components/InfoModal';
+import useMember from '@/hooks/memberHook';
 
 const Business = () => {
   // TODO: modal open/close 상태 관리
   const [isOpen, setIsOpen] = useState(false);
+
   const handleOpen = () => {
     setIsOpen(true);
   };
@@ -17,10 +19,7 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor">
-        <button type="button" onClick={handleOpen}>
-          모달창 열기
-        </button>
-        <MypageModal isOpen={isOpen} onClose={handleClose} />
+        <div className="text-xl">business 페이지</div>
       </Container.MainBody>
     </Container>
   );

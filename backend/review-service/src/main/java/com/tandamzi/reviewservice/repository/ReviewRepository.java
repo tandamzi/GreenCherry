@@ -16,4 +16,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Long countReviewByStoreId(@Param("storeId") Long storeId);
 
+    boolean existsByOrderId(@Param("orderId") Long orderId);
+
 }

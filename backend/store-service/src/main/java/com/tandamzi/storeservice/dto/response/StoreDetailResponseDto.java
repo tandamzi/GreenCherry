@@ -26,6 +26,8 @@ public class StoreDetailResponseDto {
     private CherryBoxDto cherryBox;
     private List<AllergyDto> allergies = new ArrayList<>();
     private List<StoreImageDto> images = new ArrayList<>();
+    private long numberOfReview;
+    private long numberOfSubscriber;
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -74,9 +76,10 @@ public class StoreDetailResponseDto {
         private int quantity;
         private double discountRate;
         private int pricePerCherryBox;
+
     }
 
-    public static StoreDetailResponseDto create(Store store, List<Allergy> allergyList, List<StoreImage> images) {
+    public static StoreDetailResponseDto create(Store store, List<Allergy> allergyList, List<StoreImage> images,long numberOfReview, long numberOfSubscriber) {
         return StoreDetailResponseDto
                 .builder()
                 .storeId(store.getId())
@@ -115,6 +118,8 @@ public class StoreDetailResponseDto {
                                 .url(image.getUrl())
                                 .build())
                         .collect(Collectors.toList()))
+                .numberOfReview(numberOfReview)
+                .numberOfSubscriber(numberOfSubscriber)
                 .build();
     }
 

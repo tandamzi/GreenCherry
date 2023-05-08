@@ -12,4 +12,5 @@ import java.util.List;
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
     void deleteByStoreAndMemberId(Store store, Long memberId);
     List<Subscribe> findAllByStore(Store store);
+    Long countByStoreId(Long storeId);
 }

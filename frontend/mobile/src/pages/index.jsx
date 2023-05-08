@@ -6,9 +6,10 @@ import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import MainCarbon from '../components/main/MainCarbon';
+
 import Container from '@/components/Container';
-import MainCarbon from '@/components/Main/MainCarbon';
-import Reservation from '@/components/Main/Reservation';
+import Reservation from '@/components/main/Reservation';
 import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const sendNotification = async () => {
