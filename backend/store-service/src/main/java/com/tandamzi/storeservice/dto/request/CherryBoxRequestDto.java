@@ -13,7 +13,6 @@ public class CherryBoxRequestDto {
     private int quantity;
     private int totalPriceBeforeDiscount;
     private double discountRate;
-    private String description;
     private int pricePerCherryBox;
 
 }

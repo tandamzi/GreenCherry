@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "member-service")
 public interface MemberServiceClient {
     //가게를 구독한 memberId를 List로 넘겨주고 해당 멤버들의 List<endpoint>를 받아온다.
-    @GetMapping("/member/endpoint")
-    ListResult<EndpointDto> getEndpoints(@RequestParam List<Long> memberIdList);
+    @GetMapping("/member/token")
+    ListResult<String> getEndpoints(@RequestParam List<Long> memberIdList);
 
 }
