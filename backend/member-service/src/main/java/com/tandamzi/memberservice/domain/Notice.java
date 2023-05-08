@@ -16,21 +16,13 @@ public class Notice extends BaseEntity{
     private Long id;
 
     @Column(length = 2024)
-    private String endPoint;
-
-    @Column(length = 2024)
-    private String p256dh;
-
-    @Column(length = 2024)
-    private String auth;
+    private String token;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void change(String endPoint, String p256dh, String auth){
-        this.endPoint = endPoint;
-        this.p256dh = p256dh;
-        this.auth = auth;
+    public void change(String token){
+        this.token = token;
     }
 }
