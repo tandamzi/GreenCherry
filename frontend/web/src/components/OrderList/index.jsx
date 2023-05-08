@@ -6,10 +6,10 @@ import OrderListItem from '@/components/OrderListItem';
 
 /**
  * typedef {Object} Order
- * @property {string} id
+ * @property {string} orderId
  * @property {string} nickname
  * @property {number} quantity
- * @property {string} status
+ * @property {string} orderState
  * @property {string} totalSalesAmount
  * @property {string} orderDate
  */
@@ -20,18 +20,18 @@ const OrderList = () => {
    */
   const orderList = [
     {
-      id: '1',
+      orderId: '1',
       nickname: '김철수',
       quantity: 1,
-      status: '결제완료',
+      orderState: '결제완료',
       totalSalesAmount: '10000',
       orderDate: '2021-01-01',
     },
     {
-      id: '2',
+      orderId: '2',
       nickname: '김철수',
       quantity: 1,
-      status: '결제완료',
+      orderState: 'PICKUP_COMPLETE',
       totalSalesAmount: '10000',
       orderDate: '2021-01-01',
     },
@@ -45,7 +45,7 @@ const OrderList = () => {
         <p className="flex-1">상태</p>
       </div>
       {orderList.map(order => (
-        <OrderListItem key={order.id} order={order} />
+        <OrderListItem key={order.orderId} order={order} />
       ))}
     </div>
   );

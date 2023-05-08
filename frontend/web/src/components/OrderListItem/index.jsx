@@ -1,13 +1,15 @@
 import React from 'react';
 
+import StatusButton from '@/components/StatusButton';
+
 // @ts-check
 
 /**
  * typedef {Object} Order
- * @property {string} id
+ * @property {string} orderId
  * @property {string} nickname
  * @property {number} quantity
- * @property {string} status
+ * @property {string} orderState
  * @property {string} totalSalesAmount
  * @property {string} orderDate
  */
@@ -22,11 +24,13 @@ import React from 'react';
  */
 const OrderListItem = ({ order }) => {
   return (
-    <div className="flex w-full text-3xl text-center py-1">
-      <p className="flex-1">{order.id}</p>
+    <div className="flex w-full text-3xl text-center py-1 items-center">
+      <p className="flex-1">{order.orderId}</p>
       <p className="flex-1">{order.nickname}</p>
       <p className="flex-1">{order.quantity}</p>
-      <p className="flex-1 w-16">{order.status}</p>
+      <div className="flex-1">
+        <StatusButton orderState={order.orderState} />
+      </div>
     </div>
   );
 };
