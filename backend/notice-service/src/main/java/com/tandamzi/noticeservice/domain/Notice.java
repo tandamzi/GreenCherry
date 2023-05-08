@@ -21,7 +21,7 @@ public class Notice {
     private Long memberId;
     private Long orderId;
 
-    private Boolean read;
+    private boolean isRead;
 
 
 
