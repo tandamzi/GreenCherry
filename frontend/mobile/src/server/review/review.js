@@ -4,6 +4,11 @@ const getStoreReview = async (id, size) => {
   return http.get(`/review?store-id=${id}&size=${size}`).then(res => res.data);
 };
 
+const getStoreTag = async id => {
+  return http.get(`/review/tag?store-id=${id}`).then(res => res.data);
+};
+
 export const reviewFetch = {
   getStoreReview,
+  getStoreTag,
 };
