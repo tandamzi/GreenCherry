@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
 public class OrderMobileListResponseDto {
     private Long orderId;
     private String storeName;
