@@ -11,8 +11,8 @@ const StoreInfo = ({ storeInfo }) => {
     setData(storeInfo);
   }, [storeInfo]);
   return (
-    <div className="flex-row h-96 w-full justify-self-center border-b-2 border-secondaryfont">
-      <div className="w-full flex flex-col justify-self-center">
+    <div className="flex-row w-full justify-self-center border-b-2 border-b-line">
+      <div className="w-full flex flex-col justify-self-center mb-10">
         <div>가게 사진</div>
         <div className="text-center mb-3">
           <p className="font-bold text-3xl"> {data && data.name}</p>
@@ -42,26 +42,26 @@ const StoreInfo = ({ storeInfo }) => {
         </div>
       </div>
       <div className="w-full flex flex-col">
-        <div className="flex flex-row">
-          <p className="mx-20">픽업시간</p>
+        <div className="flex flex-row mb-2">
+          <p className="ml-16 mr-10 font-thin">픽업시간</p>
           <p>
             {data && data.pickUpStartTime} - {data && data.pickUpEndTime}{' '}
           </p>
         </div>
-        <div className="flex flex-row">
-          <p className="mx-20">위치안내</p>
+        <div className="flex flex-row mb-2">
+          <p className="ml-16 mr-10 font-thin">위치안내</p>
           <p>{data && data.address.addressName}</p>
         </div>
-        <div className="flex flex-row">
-          <p className="mx-20">가게소개</p>
+        <div className="flex flex-row mb-2">
+          <p className="ml-16 mr-10 font-thin">가게소개</p>
           <p>{data && data.address.addressName}</p>
         </div>
-        <div className="flex flex-row">
-          <p className="mx-20">체리박스</p>
+        <div className="flex flex-row mb-2">
+          <p className="ml-16 mr-10 font-thin">체리박스</p>
           <p>{data && data.cherryBox.description}</p>
         </div>
-        <div className="flex flex-row">
-          <p className="mx-20">알레르기</p>
+        <div className="flex flex-row mb-2">
+          <p className="ml-16 mr-10 font-thin">알레르기</p>
           <p>{data && data.allergies[0].name}</p>
         </div>
       </div>
