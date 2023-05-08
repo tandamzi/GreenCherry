@@ -30,11 +30,11 @@ public class CorsConfig {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
 
-                if (origin.startsWith("http://localhost") || origin.startsWith("http://j8c209.p.ssafy.io") ||
-                        origin.startsWith("http://green")) {
-                    headers.add("Access-Control-Allow-Origin", origin);
-                }
-
+//                if (origin.startsWith("http://localhost:3000") || origin.startsWith("http://k8C207.p.ssafy.io") ||
+//                        origin.startsWith("http://green")) {
+//
+//                }
+                headers.add("Access-Control-Allow-Origin", origin);
                 headers.add("Access-Control-Allow-Methods", ALLOWED_METHODS);
                 headers.add("Access-Control-Max-Age", MAX_AGE);
                 headers.add("Access-Control-Allow-Headers", ALLOWED_HEADERS);
