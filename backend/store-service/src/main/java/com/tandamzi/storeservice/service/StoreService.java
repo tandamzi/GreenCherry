@@ -186,6 +186,7 @@ public class StoreService {
         Page<Store> stores = storeRepository.findNearbyPlacesWithSubscription(memberId, radius, lat, lng, sub, pageable);
 
         Page<StoreResponseDto> storeResponseDtoPage = stores.map(store -> StoreResponseDto.builder()
+                .id(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
                 .images(storeImageRepository.findStoreImagesByStore(store).stream()
