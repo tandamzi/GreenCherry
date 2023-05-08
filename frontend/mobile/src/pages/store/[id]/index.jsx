@@ -15,7 +15,7 @@ const store = ({ storeProps }) => {
   return (
     <Container>
       <div className="grid grid-rows-5">
-        <StoreInfo storeInfo={storeProps.storeInfo} />
+        <StoreInfo storeInfo={storeProps.storeInfo} className="row-span-2" />
         <ReservationStatus />
         <StoreTag />
         <UserReview />
@@ -28,7 +28,7 @@ export default store;
 
 export const getServerSideProps = async context => {
   const { id } = context.query;
-  const response = await axios.get(`http://localhost:3000/api/store/${id}`);
+  const response = await axios.get(`http://127.0.0.1:3000/api/store/${id}`);
 
   return {
     props: {
