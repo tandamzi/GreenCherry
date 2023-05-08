@@ -1,4 +1,5 @@
-package com.tandamzi.noticeservice.response;
+package com.tandamzi.noticeservice.common.response;
+
 
 import com.tandamzi.noticeservice.common.result.ListResult;
 import com.tandamzi.noticeservice.common.result.Result;
