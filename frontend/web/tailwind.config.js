@@ -35,6 +35,7 @@ module.exports = {
       },
       boxShadow: {
         header: '0px 4px 10px rgba(0, 0, 0, 0.1);',
+        second: '0px 2px 10px rgba(132, 165, 157, 0.5)',
       },
     },
   },
