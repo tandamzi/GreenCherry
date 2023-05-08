@@ -9,8 +9,8 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/icon-192x192.png" />
           <meta name="theme-color" content="#84A59D" />
         </Head>
-        <body>
-          <Main />
+        <body className="w-full h-full absolute">
+          <Main className="w-full h-full" />
           <NextScript />
         </body>
       </Html>

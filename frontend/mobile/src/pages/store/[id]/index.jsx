@@ -7,18 +7,17 @@ import { useRouter } from 'next/router';
 import Container from '@/components/Container';
 import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
-import StoreReview from '@/components/store/StoreReview';
+import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
-
   return (
     <Container>
       <div className="grid grid-rows-5">
-        <StoreInfo />
+        <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus />
-        <StoreReview />
+        <StoreTag />
         <UserReview />
       </div>
     </Container>
