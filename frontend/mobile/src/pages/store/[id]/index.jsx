@@ -29,7 +29,7 @@ export default store;
 
 export const getServerSideProps = async context => {
   const { id } = context.query;
-  const response = await axios.get(`http://localhost:3000/api/store/${id}`);
+  const response = await axios.get(`@/pages/api/store/${id}`);
 
   return {
     props: {
