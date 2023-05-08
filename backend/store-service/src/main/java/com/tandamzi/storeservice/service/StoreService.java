@@ -2,10 +2,12 @@ package com.tandamzi.storeservice.service;
 
 import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
+import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.EndpointDto;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -42,6 +44,7 @@ public class StoreService {
     private final S3Service s3Service;
     private final CherryBoxService cherryBoxService;
     private final MemberServiceClient memberServiceClient;
+    private final ReviewServiceClient reviewServiceClient;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -82,8 +85,10 @@ public class StoreService {
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
+        long numberOfReview = reviewServiceClient.countReview(storeId).getData();
+        long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
 
-        return StoreDetailResponseDto.create(store, allergyList, storeImageList);
+        return StoreDetailResponseDto.create(store, allergyList, storeImageList,numberOfReview,numberOfSubscriber);
     }
 
     private List<Allergy> getAllergiesToList(Store store) {
@@ -212,6 +217,12 @@ public class StoreService {
 
         return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
 
+    }
+
+    public StoreInfoForOrderDto storeInfoForOrder(Long storeId){
+        log.info("[StoreService] storeInfoForOrder");
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        return StoreInfoForOrderDto.create(store);
     }
 
 }

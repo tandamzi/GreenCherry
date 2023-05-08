@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 const Body = forwardRef(({ className, children }, ref) => {
   return (
-    <div ref={ref} id="greencherry-body" className={classnames(className)}>
+    <div ref={ref} className={classnames(className)}>
       {children}
     </div>
   );

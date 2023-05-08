@@ -22,6 +22,8 @@ public class Review extends BaseEntity {
 
     private Long storeId;
 
+    private Long orderId;
+
     private String content;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)

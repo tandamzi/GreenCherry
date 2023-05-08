@@ -4,8 +4,6 @@ package com.tandamzi.memberservice.service;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.domain.Notice;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
-import com.tandamzi.memberservice.dto.notice.EndPointDto;
-import com.tandamzi.memberservice.dto.notice.NoticeDto;
 import com.tandamzi.memberservice.repository.member.MemberRepository;
 import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,27 +56,32 @@ public class MemberService {
     }
 
     @Transactional
-    public void noticeMember(Member member, NoticeDto noticeDto){
+    public void noticeMember(Member member, String token){
         log.info("MemberService noticeMember 실행");
         Optional<Notice> optional = noticeRepository.findByMember(member);
 
         Notice notice = null;
         if(optional.isPresent()){
             notice = optional.get();
-            notice.change(noticeDto.getEndpoint(), noticeDto.getKeys().getP256dh(), noticeDto.getKeys().getAuth());
+            notice.change(token);
         } else{
-            notice = noticeRepository.save(noticeDto.toEntity(member));
+            notice = noticeRepository.save(
+                    Notice.builder()
+                            .token(token)
+                            .member(member)
+                            .build()
+            );
         }
 
         member.permitNotice(notice);
     }
 
-    public List<EndPointDto> getEndPoints(List<Long> memberIdList){
-        log.info("MemberService getEndPoints 실행");
+    public List<String> getTokens(List<Long> memberIdList){
+        log.info("MemberService getTokens 실행");
         List<Member> members = memberRepository.findByIdIn(memberIdList);
 
         return members.stream()
-                .map(m -> EndPointDto.create(m.getNotice()))
+                .map(m -> m.getNotice().getToken())
                 .collect(Collectors.toList());
     }
 

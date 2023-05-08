@@ -16,6 +16,7 @@ public class ReviewRegisterRequestDto {
 
     private Long memberId;
     private Long storeId;
+    private Long orderId;
     private String content;
     private List<Long> tags;
 
@@ -23,6 +24,7 @@ public class ReviewRegisterRequestDto {
         return Review.builder()
                 .memberId(memberId)
                 .storeId(storeId)
+                .orderId(orderId)
                 .content(content)
                 .reviewImages(new ArrayList<>())
                 .reviewTags(new ArrayList<>())
