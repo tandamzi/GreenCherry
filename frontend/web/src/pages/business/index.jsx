@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
 import Container from '@/components/Container';
-import InfoModal from '@/components/InfoModal';
-import useMember from '@/hooks/memberHook';
+import AfterOpen from '@/components/Main/AfterOpen';
 
 const Business = () => {
   // TODO: modal open/close 상태 관리
@@ -19,7 +18,7 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor">
-        <div className="text-xl">business 페이지</div>
+        <AfterOpen />
       </Container.MainBody>
     </Container>
   );
