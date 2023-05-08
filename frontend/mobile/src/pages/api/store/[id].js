@@ -13,7 +13,9 @@ const handler = async (req, res) => {
   await reviewFetch.getStoreReview(id, size).then(response => {
     storeDetailInfo.review = response.data;
   });
-
+  await reviewFetch.getStoreTag(id).then(response => {
+    storeDetailInfo.tag = response.data;
+  });
   res.status(StatusCodes.OK).json(storeDetailInfo);
 };
 
