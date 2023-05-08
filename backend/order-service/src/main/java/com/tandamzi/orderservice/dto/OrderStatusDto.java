@@ -10,8 +10,12 @@ import java.io.Serializable;
 @Builder
 @ToString
 public class OrderStatusDto implements Serializable {
+    private Long orderId;
     private Long memberId;
     private Long storeId;
+    private String storeName;
     private int cherryPoint;
+    private int quentity;
+    private int totalSalesAmount;
 
 }
