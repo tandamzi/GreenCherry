@@ -4,6 +4,7 @@ import com.tandamzi.orderservice.common.response.ResponseService;
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
+import com.tandamzi.orderservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
 import com.tandamzi.orderservice.dto.response.OrderMobileListResponseDto;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -57,5 +60,13 @@ public class OrderController {
         log.info("[OrderController] mobileOrderList");
         Page<OrderMobileListResponseDto> responseDtos = orderService.mobileOrderList(memberId, pageable);
         return responseService.getSingleResult(responseDtos);
+    }
+
+    @GetMapping("/notice/order-list")
+    public SingleResult<Page<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds,
+                                                                     @PageableDefault(size= 10) Pageable pageable){
+        log.info("[OrderController] noticeOrderList");
+        Page<NoticeListResponseDto> noticeOrderList = orderService.noticeOrderList(orderIds,pageable);
+        return responseService.getSingleResult(noticeOrderList);
     }
 }

@@ -1,13 +1,15 @@
 package com.tandamzi.noticeservice.controller;
 
-import com.tandamzi.noticeservice.response.ResponseService;
+import com.tandamzi.noticeservice.common.response.ResponseService;
+import com.tandamzi.noticeservice.common.result.SingleResult;
+import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,11 +20,22 @@ import java.util.List;
 public class NoticeController {
 
     private final NoticeService noticeService;
+    private final ResponseService responseService;
 
     @PostMapping("/test")
     public String test(@RequestBody List<String> tokens){
         noticeService.sendNotice(tokens);
         return "success";
+    }
+
+    @GetMapping("/list")
+    public SingleResult<Page<NoticeListResponseDto>> getNoticeList(@RequestParam("member-id") Long memberId,
+                                         @PageableDefault(size= 10) Pageable pageable){
+       log.info("[NoticeController] getNoticeList");
+
+        Page<NoticeListResponseDto> noticeList = noticeService.getNoticeList(memberId, pageable);
+        return responseService.getSingleResult(noticeList);
+
     }
 
 }
