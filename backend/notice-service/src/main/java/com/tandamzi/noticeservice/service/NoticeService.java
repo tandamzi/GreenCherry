@@ -37,14 +37,14 @@ public class NoticeService {
 //        String su ="eB66nbB5xLBKbo1bY46bcw:APA91bF_Gh1Ql69NZq4yxSzbUEJU4atZHWHwdf3RnQs8j5vAR4-7imZHxjMaFghjEeSNUCR8DnKT24XB_lrIpV0eapgS9aOoyZawqUXZPjdmj-gle2b2NZvepeES1vLrwU-kyEleJOHL";
 //        tokens.add(tak);
 //        tokens.add(su);
-        String body= "픽업완료 되었습니다. "+pickUpCompleteDto.getStoreName()+"의 음식이 맛있으셨다면 다른 분들을 위해 리뷰를 남겨주세요."
+        String body= "픽업 완료되었습니다. "+pickUpCompleteDto.getStoreName()+"의 음식이 맛있으셨다면 다른 분들을 위해 리뷰를 남겨주세요."
                 +"(리뷰 쓰기는 주문 이후 3일 동안만 가능합니다.)";
 
         for (String token : tokens) {
             Message message = Message.builder()
                     .setToken(token)
                     .putData("title", "제목")
-                    .putData("body", "내용")
+                    .putData("body", "[모바일] 주문 목록 페이지로 이동")
                     .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
                             .setNotification(new WebpushNotification("픽업이 완료되었습니다.", body))
                             .build())
