@@ -225,4 +225,8 @@ public class StoreService {
         return StoreInfoForOrderDto.create(store);
     }
 
+    public void toggleStore(Long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        store.toggleOpen();
+    }
 }
