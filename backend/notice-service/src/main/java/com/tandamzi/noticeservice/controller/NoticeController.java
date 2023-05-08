@@ -1,6 +1,5 @@
 package com.tandamzi.noticeservice.controller;
 
-import com.tandamzi.noticeservice.dto.request.SubscribeStoreRequestDto;
 import com.tandamzi.noticeservice.response.ResponseService;
 import com.tandamzi.noticeservice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import java.util.List;
 public class NoticeController {
 
     private final NoticeService noticeService;
-    private final ResponseService responseService;
 
     @PostMapping("/test")
     public String test(@RequestBody List<String> tokens){
@@ -27,8 +25,4 @@ public class NoticeController {
         return "success";
     }
 
-    @PostMapping("/subscribe")
-    public void subscribeStore(@RequestBody SubscribeStoreRequestDto requestDto){
-
-    }
 }
