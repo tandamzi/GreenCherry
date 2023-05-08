@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class StoreResponseDto {
+    private Long id;
     private String name;
     private Address address;
     private List<String> images;
