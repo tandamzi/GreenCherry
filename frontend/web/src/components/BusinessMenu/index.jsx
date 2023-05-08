@@ -7,23 +7,36 @@ import style from './index.module.scss';
 
 import CherryBoxModal from '@/components/CherryBoxModal';
 import useMember from '@/hooks/memberHook';
+import useModal from '@/hooks/modalHook';
 import useStore from '@/hooks/storeHook';
 
 const Menu = ({ menuOpen }) => {
   const { openCherryBoxRegisterModal } = useMember();
-
+  const { openCloseStoreModal } = useModal();
+  const { storeAttributes } = useStore();
   return (
     <div className={classnames(style.menu, menuOpen ? style.menuOpen : '')}>
       <h2 className={style.title}>Menu</h2>
       <div className={style.menuList}>
-        <button
-          type="button"
-          className={style.menuItem}
-          onClick={openCherryBoxRegisterModal}
-        >
-          <TbCherry size={24} />
-          {open ? '영업종료' : '체리박스 등록'}
-        </button>
+        {storeAttributes.open ? (
+          <button
+            type="button"
+            className={style.menuItem}
+            onClick={openCloseStoreModal}
+          >
+            <TbCherry size={24} />
+            영업종료
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={style.menuItem}
+            onClick={openCherryBoxRegisterModal}
+          >
+            <TbCherry size={24} />
+            체리박스 등록
+          </button>
+        )}
         <button type="button" className={style.menuItem}>
           <TbPaperBag size={24} />
           주문관리

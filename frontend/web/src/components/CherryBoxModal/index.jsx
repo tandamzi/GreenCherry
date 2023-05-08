@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CherryInput from '@/components/CherryInput';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
+import useStore from '@/hooks/storeHook';
 
 const CherryBoxModal = () => {
   const {
@@ -10,6 +11,8 @@ const CherryBoxModal = () => {
     openCherryBoxRegisterModal,
     closeCherryBoxRegisterModal,
   } = useMember();
+
+  const { openStore } = useStore();
 
   const [cherryBox, setCherryBox] = useState({
     totalPriceBeforeDiscount: 0,
@@ -46,7 +49,8 @@ const CherryBoxModal = () => {
   };
 
   const handleRegisterBtnClick = () => {
-    // TODO: redux의 store에 open:true로 변경
+    openStore();
+    closeCherryBoxRegisterModal();
   };
 
   return (
