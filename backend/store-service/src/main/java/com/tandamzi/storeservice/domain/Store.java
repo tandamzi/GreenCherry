@@ -52,6 +52,10 @@ public class Store extends BaseEntity {
     public void increaseCherryPoint(int point){
         this.cherryPoint += point;
     }
+
+    public void toggleOpen() {
+        this.open = !this.open;
+    }
 }
 
 
