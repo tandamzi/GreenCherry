@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Allergy extends BaseEntity{
+public class Allergy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "allergy_id")
