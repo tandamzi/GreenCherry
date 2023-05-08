@@ -23,7 +23,7 @@ const login = () => {
           speed={1.2}
         />
         <div>
-          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/kako?redirect_uri=http://localhost:3000/redirect">
+          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/kakao?redirect_uri=http://localhost:3000/redirect">
             <Image
               className=" absolute bottom-48 m-auto left-0 right-0"
               src="/assets/logo/kakaoLogin.svg"
