@@ -1,31 +1,25 @@
 /* eslint no-param-reassign:"error" */
 import axios from 'axios';
-import { parseCookies } from 'nookies';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
 const http = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
+  baseURL: 'http://greencherry.store/api',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   },
 });
-const httpForm = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
-
 // accessToken이 있을 경우 처리 headers에 삽입
 http.interceptors.request.use(
   config => {
-    const { accessToken } = parseCookies();
+    const accessToken = Cookies.get('accessToken');
 
     if (config.headers && accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = accessToken;
     }
 
+    console.error(config);
     return config;
   },
   error => {
@@ -33,6 +27,12 @@ http.interceptors.request.use(
   },
 );
 
+const httpForm = axios.create({
+  baseURL: 'http://k8C207.p.ssafy.io:5000',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 // accessToken이 있을 경우 처리 headers에 삽입
 httpForm.interceptors.request.use(
   config => {
