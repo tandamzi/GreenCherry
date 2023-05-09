@@ -11,7 +11,7 @@ import classnames from 'classnames';
  * @param {{orderState: string}} props
  */
 
-const StatusButton = ({ orderState }) => {
+const StatusButton = ({ orderState, onClick }) => {
   const pickUpState = orderState === 'PICKUP_COMPLETE';
   return (
     <button
@@ -22,6 +22,7 @@ const StatusButton = ({ orderState }) => {
           : 'bg-secondary text-bgcolor',
         'w-16 h-16 text-lg rounded leading-5 font-sans',
       )}
+      onClick={onClick}
     >
       픽업
       <br />
