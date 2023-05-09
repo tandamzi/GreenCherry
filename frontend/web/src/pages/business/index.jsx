@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Container from '@/components/Container';
 import AfterOpen from '@/components/Main/AfterOpen';
+import BeforeOpen from '@/components/Main/BeforeOpen';
 
 const Business = () => {
   // TODO: modal open/close 상태 관리
@@ -18,7 +19,8 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor">
-        <AfterOpen />
+        <BeforeOpen />
+        {/* <AfterOpen /> */}
       </Container.MainBody>
     </Container>
   );
