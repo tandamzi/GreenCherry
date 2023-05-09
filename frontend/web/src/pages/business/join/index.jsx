@@ -294,30 +294,46 @@ const Join = () => {
                   인허가 업소 정보를 확인해주세요
                 </p>
               )}
-            <div>
+            <div className="relative my-5 flex flex-col w-96">
+              <p className="text-2xl text-bgcolor">주소</p>
+              <div className="flex justify-between">
+                <input
+                  type="text"
+                  readOnly
+                  value={postcode}
+                  placeholder="우편번호"
+                  className="text-2xl h-10 w-32 bg-secondary text-secondaryfont focus:outline-none placeholder-secondaryfont"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddressAPI}
+                  className={`${style['check-button']}`}
+                >
+                  우편번호 찾기
+                </button>
+              </div>
+              <br />
               <input
                 type="text"
                 readOnly
-                value={postcode}
-                placeholder="우편번호"
+                value={address}
+                placeholder="주소"
+                className="text-2xl h-10 bg-secondary text-secondaryfont focus:outline-none placeholder-secondaryfont"
               />
-              <button type="button" onClick={handleAddressAPI}>
-                우편번호 찾기
-              </button>
-              <br />
-              <input type="text" readOnly value={address} placeholder="주소" />
               <br />
               <input
                 type="text"
                 value={detailAddress}
                 onChange={e => setDetailAddress(e.target.value)}
-                placeholder="상세주소"
+                placeholder="상세주소를 입력해주세요"
+                className="text-2xl h-10 bg-secondary text-bgcolor focus:outline-none placeholder-bgcolor border-b-2 border-bgcolor"
               />
               <input
                 type="text"
                 readOnly
                 value={extraAddress}
                 placeholder="참고항목"
+                className="text-2xl h-10 bg-secondary text-secondaryfont focus:outline-none placeholder-secondaryfont"
               />
             </div>
             <div className="relative my-5 border-b-2 border-bgcolor">
