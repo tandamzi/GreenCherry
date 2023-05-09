@@ -4,10 +4,7 @@ import com.tandamzi.orderservice.common.response.ResponseService;
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
-import com.tandamzi.orderservice.dto.response.NoticeListResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderMobileListResponseDto;
+import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -67,5 +66,14 @@ public class OrderController {
         log.info("[OrderController] noticeOrderList");
         List<NoticeListResponseDto> noticeOrderList = orderService.noticeOrderList(orderIds);
         return responseService.getSingleResult(noticeOrderList);
+    }
+
+    @GetMapping("/date-total")
+    public Result getTotalSalesAmount(@RequestParam("store-id") Long storeId,
+                                      @RequestParam("order-date") String orderDate){
+        log.info("[OrderController] getTotalSalesAmount");
+
+        orderService.getDateTotalSales(storeId, orderDate);
+        return responseService.getSuccessResult();
     }
 }

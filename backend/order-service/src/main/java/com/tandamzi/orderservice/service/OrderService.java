@@ -7,6 +7,7 @@ import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.Writed;
+import com.tandamzi.orderservice.dto.jpa.OrderDateDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -210,6 +212,16 @@ public class OrderService {
         });
 
         return list;
+
+    }
+    public void getDateTotalSales(Long storeId, String orderDate){
+        log.info("[OrderService] getDateTotalSales ");
+        LocalDate date = LocalDate.parse(orderDate);
+        log.info("date= {}",date);
+        OrderDateDto orderDateDto = orderRepository.findByStoreIdAndCreateDate(storeId, date).get();
+        log.info("orderDateDto= {}",orderDateDto);
+//        log.info("order= {}",order.toString());
+//        log.info("byStoreIdAndCreateDate ={}",byStoreIdAndCreateDate.get(orderDate));
 
     }
 
