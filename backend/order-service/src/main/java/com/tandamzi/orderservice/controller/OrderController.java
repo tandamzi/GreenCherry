@@ -63,10 +63,9 @@ public class OrderController {
     }
 
     @GetMapping("/notice/order-list")
-    public SingleResult<Page<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds,
-                                                                     @PageableDefault(size= 10) Pageable pageable){
+    public SingleResult<List<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds){
         log.info("[OrderController] noticeOrderList");
-        Page<NoticeListResponseDto> noticeOrderList = orderService.noticeOrderList(orderIds,pageable);
+        List<NoticeListResponseDto> noticeOrderList = orderService.noticeOrderList(orderIds);
         return responseService.getSingleResult(noticeOrderList);
     }
 }

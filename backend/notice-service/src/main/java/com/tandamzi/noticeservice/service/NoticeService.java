@@ -6,6 +6,7 @@ import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
 import com.tandamzi.noticeservice.domain.Notice;
 import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
+import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
 import com.tandamzi.noticeservice.feign.OrderServiceClient;
@@ -14,11 +15,13 @@ import com.tandamzi.noticeservice.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -70,7 +73,7 @@ public class NoticeService {
         }
     }
 
-    public Page<NoticeListResponseDto> getNoticeList(Long memberId, Pageable pageable){
+    public Page<ListResponseDto> getNoticeList(Long memberId, Pageable pageable){
         log.info("[NoticeService] getNoticeList");
         Page<Notice> notices = noticeRepository.findByMemberId(memberId, pageable);
 
@@ -79,9 +82,24 @@ public class NoticeService {
             orderIds.add(notice.getOrderId());
         });
 
-        Page<NoticeListResponseDto> noticeListResponseDtos = orderServiceClient.noticeOrderList(orderIds,pageable).getData();
+        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(orderIds).getData();
 
-        return noticeListResponseDtos;
+        // TODO : 읽음 체크 처리 해야함
+        boolean isRead = false;
+        HashMap<Long, ListResponseDto> map = new HashMap<>();
+        list.forEach(dto->{
+            map.put(dto.getOrderId(), ListResponseDto.createNotice(dto,isRead));
+
+        });
+
+        Page<ListResponseDto> page = notices.map(notice -> {
+            return ListResponseDto.createList(map.get(notice.getOrderId()), map.get(notice.getOrderId()).isRead());
+        });
+
+
+//        return new PageImpl<>(list, pageable, list.size());
+
+        return page;
 
     }
 

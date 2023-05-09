@@ -2,6 +2,7 @@ package com.tandamzi.noticeservice.controller;
 
 import com.tandamzi.noticeservice.common.response.ResponseService;
 import com.tandamzi.noticeservice.common.result.SingleResult;
+import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,11 @@ public class NoticeController {
     }
 
     @GetMapping("/list")
-    public SingleResult<Page<NoticeListResponseDto>> getNoticeList(@RequestParam("member-id") Long memberId,
+    public SingleResult<Page<ListResponseDto>> getNoticeList(@RequestParam("member-id") Long memberId,
                                          @PageableDefault(size= 10) Pageable pageable){
        log.info("[NoticeController] getNoticeList");
 
-        Page<NoticeListResponseDto> noticeList = noticeService.getNoticeList(memberId, pageable);
+        Page<ListResponseDto> noticeList = noticeService.getNoticeList(memberId, pageable);
         return responseService.getSingleResult(noticeList);
 
     }

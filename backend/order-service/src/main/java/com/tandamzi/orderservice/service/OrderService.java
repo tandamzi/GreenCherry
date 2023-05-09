@@ -193,20 +193,23 @@ public class OrderService {
         return String.valueOf(Writed.YES);
 
     }
-    public Page<NoticeListResponseDto> noticeOrderList(List<Long> orderId,Pageable pageable){
+    public List<NoticeListResponseDto> noticeOrderList(List<Long> orderId){
         log.info("[OrderService] noticeOrderList ");
 
-        Page<Order> orders = orderRepository.findListById(orderId,pageable);
+        List<Order> orders = orderRepository.findListById(orderId);
 
-        Page<NoticeListResponseDto> page = orders.map(order -> {
+        List<NoticeListResponseDto> list = new ArrayList<>();
+
+        orders.forEach(order -> {
             StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
             Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
 
             String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
-            return NoticeListResponseDto.create(order, storeInfo, writedCheck);
+            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
+            list.add(noticeListResponseDto);
         });
 
-        return page;
+        return list;
 
     }
 
