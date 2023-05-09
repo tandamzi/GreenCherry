@@ -9,6 +9,7 @@ import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
 import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
+import com.tandamzi.noticeservice.exception.NoticeNotFoundException;
 import com.tandamzi.noticeservice.feign.OrderServiceClient;
 import com.tandamzi.noticeservice.kafka.KafkaConsumer;
 import com.tandamzi.noticeservice.repository.NoticeRepository;
@@ -52,9 +53,9 @@ public class NoticeService {
     public void sendPickUpComplete(PickUpCompleteDto pickUpCompleteDto){
         log.info("[NoticeService] sendPickUpComplete");
         List<String> tokens = pickUpCompleteDto.getTokens();
-//        String tak ="f1Tf9FY0t0GpHdELPhquAF:APA91bHTF5VKBjmJjRGCoI41t_drESVDpNis2pwUQfD2TDF6vmAWR62ko0vCjJbZfm-Ai6ZRD2gcE4i8QhJGW6vmz6fk2z7AtMXF93MS8vWGdq8QrdktXcQg9PPTEUploo3oZJSvdIeQ";
+        String tak ="f1Tf9FY0t0GpHdELPhquAF:APA91bHTF5VKBjmJjRGCoI41t_drESVDpNis2pwUQfD2TDF6vmAWR62ko0vCjJbZfm-Ai6ZRD2gcE4i8QhJGW6vmz6fk2z7AtMXF93MS8vWGdq8QrdktXcQg9PPTEUploo3oZJSvdIeQ";
 //        String su ="eB66nbB5xLBKbo1bY46bcw:APA91bF_Gh1Ql69NZq4yxSzbUEJU4atZHWHwdf3RnQs8j5vAR4-7imZHxjMaFghjEeSNUCR8DnKT24XB_lrIpV0eapgS9aOoyZawqUXZPjdmj-gle2b2NZvepeES1vLrwU-kyEleJOHL";
-//        tokens.add(tak);
+        tokens.add(tak);
 //        tokens.add(su);
         String body= "픽업 완료되었습니다. "+pickUpCompleteDto.getStoreName()+"의 음식이 맛있으셨다면 다른 분들을 위해 리뷰를 남겨주세요."
                 +"(리뷰 쓰기는 주문 이후 3일 동안만 가능합니다.)";
@@ -85,7 +86,6 @@ public class NoticeService {
 
         List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(orderIds).getData();
 
-        // TODO : 읽음 체크 처리 해야함
         boolean isRead = false;
         HashMap<Long, ListResponseDto> map = new HashMap<>();
         list.forEach(dto->{
@@ -93,12 +93,20 @@ public class NoticeService {
         });
 
         Page<ListResponseDto> page = notices.map(notice -> {
-            return ListResponseDto.createList(map.get(notice.getOrderId()), map.get(notice.getOrderId()).isRead());
+            return ListResponseDto.createList(map.get(notice.getOrderId()), notice.isRead());
         });
 
         return page;
 
     }
+
+    @Transactional
+    public void changeNoticeRead(Long noticeId){
+        log.info("[NoticeService] changeNoticeRead");
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(NoticeNotFoundException::new);
+        notice.changeIsRead(true);
+    }
+
 
 
 }

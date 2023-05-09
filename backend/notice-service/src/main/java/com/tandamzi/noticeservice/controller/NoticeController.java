@@ -1,6 +1,7 @@
 package com.tandamzi.noticeservice.controller;
 
 import com.tandamzi.noticeservice.common.response.ResponseService;
+import com.tandamzi.noticeservice.common.result.Result;
 import com.tandamzi.noticeservice.common.result.SingleResult;
 import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
@@ -37,6 +38,12 @@ public class NoticeController {
         Page<ListResponseDto> noticeList = noticeService.getNoticeList(memberId, pageable);
         return responseService.getSingleResult(noticeList);
 
+    }
+    @PutMapping("/{notice-id}")
+    public Result changeNoticeRead(@PathVariable("notice-id")Long noticeId){
+        log.info("[NoticeController] changeNoticeRead ");
+        noticeService.changeNoticeRead(noticeId);
+        return responseService.getSuccessResult();
     }
 
 }
