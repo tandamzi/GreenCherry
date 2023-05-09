@@ -18,7 +18,7 @@ const Business = () => {
   return (
     <Container>
       <Container.BusinessHeader />
-      <Container.MainBody className="bg-bgcolor">
+      <Container.MainBody className="bg-bgcolor h-full">
         <BeforeOpen />
         {/* <AfterOpen /> */}
       </Container.MainBody>

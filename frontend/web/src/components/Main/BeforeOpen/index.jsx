@@ -5,7 +5,7 @@ import CarbonCircleContainer from '@/components/CarbonCircleContainer';
 const BeforeOpen = () => {
   const totalStoreCount = 1231; // TODO: store count 가져오기
   return (
-    <div>
+    <div className="h-full">
       <p className="text-center text-4xl mt-10 tablet:text-3xl">
         지금까지 얼마나 <br /> 지구를 <br />
         아꼈을까요?
