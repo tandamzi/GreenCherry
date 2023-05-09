@@ -31,7 +31,7 @@ const order = () => {
     const myLng = lng !== undefined ? lng : state.myPostion.lng;
 
     try {
-      const response = await http.get(
+      const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/storeList`,
         {
           params: {

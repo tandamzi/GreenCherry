@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { storeListFetch } from '@/server/store/storeList';
 
 const handler = async (req, res) => {
+  // console.log('FE pages/api/SotreList');
   const { memberId, lat, lng, radius, sub } = req.query;
   try {
     const storeList = await storeListFetch.getStoreList(
