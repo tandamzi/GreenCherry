@@ -3,24 +3,15 @@ import React, { useState } from 'react';
 import Container from '@/components/Container';
 import AfterOpen from '@/components/Main/AfterOpen';
 import BeforeOpen from '@/components/Main/BeforeOpen';
+import useStore from '@/hooks/storeHook';
 
 const Business = () => {
-  // TODO: modal open/close 상태 관리
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
+  const { storeAttributes } = useStore();
   return (
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor h-full">
-        <BeforeOpen />
-        {/* <AfterOpen /> */}
+        {storeAttributes.open ? <AfterOpen /> : <BeforeOpen />}
       </Container.MainBody>
     </Container>
   );
