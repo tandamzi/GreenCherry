@@ -2,8 +2,8 @@ import React from 'react';
 
 const CherryInput = ({ title, data, onChange }) => {
   return (
-    <div className="flex justify-between py-5 items-center">
-      <h2 className="text-2xl mr-14">{title}</h2>
+    <div className="flex justify-between py-5 items-center tablet:flex-col">
+      <h2 className="text-2xl mr-14 tablet:mr-0 tablet:mb-1">{title}</h2>
       <input
         name={data}
         type="number"

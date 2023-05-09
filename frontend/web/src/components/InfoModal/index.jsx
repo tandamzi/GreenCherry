@@ -7,7 +7,7 @@ const InfoModal = ({ isOpen, onClose, children, onClick, okBtn }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      className="w-2/5 h-2/5 px-16 py-5 flex flex-col items-center"
+      className="w-2/5 h-2/5 px-16 py-5 flex flex-col items-center tablet:w-4/5"
     >
       <div className="text-center text-2xl">{children}</div>
       {okBtn && (
