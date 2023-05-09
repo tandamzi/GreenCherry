@@ -2,7 +2,7 @@ import React from 'react';
 
 import InfoModal from '@/components/InfoModal';
 
-const OrderDetailModal = ({ isOpen, onClose, onClick, order }) => {
+const OrderDetailModal = ({ isOpen, onClose, order }) => {
   return (
     <InfoModal isOpen={isOpen} onClose={onClose}>
       <p>주문상세</p>
