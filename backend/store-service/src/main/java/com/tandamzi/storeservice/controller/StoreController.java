@@ -15,6 +15,7 @@ import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import com.tandamzi.storeservice.service.ValidationService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -111,6 +112,13 @@ public class StoreController {
         log.info("storeId: {}, cherryBoxRequestDto: {}", storeId, cherryBoxRequestDto);
         storeService.updateCherryBox(storeId, cherryBoxRequestDto);
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping("{member-id}/subscribe")
+    public SingleResult<Page<SubScribedStoreResponseDto>> getSubScribedStore(@PathVariable("member-id") Long memberId
+            ,@PageableDefault(size = 10) Pageable pageable) {
+        log.info("storeId: {}", memberId);
+        return responseService.getSingleResult(storeService.getSubScribedStore(memberId,pageable));
     }
 
     @PostMapping("{store-id}/subscribe")
