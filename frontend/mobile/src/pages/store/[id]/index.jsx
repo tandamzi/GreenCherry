@@ -14,8 +14,8 @@ const store = ({ storeProps }) => {
   const router = useRouter();
   return (
     <Container>
-      <div className="grid grid-rows-5">
-        <StoreInfo storeInfo={storeProps.storeInfo} className="row-span-2" />
+      <div className="">
+        <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
         <UserReview />
