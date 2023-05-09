@@ -1,3 +1,4 @@
+/* eslint no-param-reassign:"error" */
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
@@ -6,17 +7,50 @@ const http = axios.create({
   baseURL: 'http://k8C207.p.ssafy.io:5000',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization:
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMCIsImlhdCI6MTY4MzU5NTE1MiwiZXhwIjoxNjkyMjM1MTUyfQ.Zo-sgpz98hIOfwZZR2YvD5uo6Vwnq-Ju3UNjIzSd62IxttWci-Dfmp6bqBTnk6rVu4qVd2yaxxs8y59WQuFXXw',
   },
 });
-
 const httpForm = axios.create({
-  baseURL: '',
+  baseURL: 'http://k8C207.p.ssafy.io:5000',
   headers: {
     'Content-Type': 'multipart/form-data',
   },
 });
+
+// accessToken이 있을 경우 처리 headers에 삽입
+http.interceptors.request.use(
+  config => {
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (config.headers && accessToken) {
+        config.headers.Authorization = accessToken;
+        return config;
+      }
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  },
+);
+
+// accessToken이 있을 경우 처리 headers에 삽입
+httpForm.interceptors.request.use(
+  config => {
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (config.headers && accessToken) {
+        config.headers.Authorization = accessToken;
+        return config;
+      }
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  },
+);
 
 export { httpForm };
 export default http;
