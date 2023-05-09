@@ -4,17 +4,36 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
+import com.tandamzi.noticeservice.domain.Notice;
 import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
+import com.tandamzi.noticeservice.dto.response.ListResponseDto;
+import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
+import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
+import com.tandamzi.noticeservice.feign.OrderServiceClient;
 import com.tandamzi.noticeservice.kafka.KafkaConsumer;
+import com.tandamzi.noticeservice.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class NoticeService {
 
+    @Autowired
+    private OrderServiceClient orderServiceClient;
+
+    @Autowired
+    private NoticeRepository noticeRepository;
 
     public void sendNotice(List<String> tokens){
         for (String token : tokens) {
@@ -52,6 +71,33 @@ public class NoticeService {
 
             FirebaseMessaging.getInstance().sendAsync(message);
         }
+    }
+
+    public Page<ListResponseDto> getNoticeList(Long memberId, Pageable pageable){
+        log.info("[NoticeService] getNoticeList");
+        Page<Notice> notices = noticeRepository.findByMemberId(memberId, pageable);
+
+
+        List<Long> orderIds = new ArrayList<>();
+        notices.forEach(notice -> {
+            orderIds.add(notice.getOrderId());
+        });
+
+        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(orderIds).getData();
+
+        // TODO : 읽음 체크 처리 해야함
+        boolean isRead = false;
+        HashMap<Long, ListResponseDto> map = new HashMap<>();
+        list.forEach(dto->{
+            map.put(dto.getOrderId(), ListResponseDto.createNotice(dto,isRead));
+        });
+
+        Page<ListResponseDto> page = notices.map(notice -> {
+            return ListResponseDto.createList(map.get(notice.getOrderId()), map.get(notice.getOrderId()).isRead());
+        });
+
+        return page;
+
     }
 
 

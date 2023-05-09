@@ -1,5 +1,7 @@
 package com.tandamzi.noticeservice.domain;
 
+import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
+import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
+@ToString
 @Table(name = "notice")
 public class Notice {
 
@@ -22,6 +25,16 @@ public class Notice {
     private Long orderId;
 
     private boolean isRead;
+
+    public static Notice create(NoticeListResponseDto dto){
+        return Notice.builder()
+                .storeId(dto.getStoreId())
+                .memberId(dto.getMemberId())
+                .orderId(dto.getOrderId())
+//                읽음 표시 메소드 호출해서 확인하기
+                .isRead(false)
+                .build();
+    }
 
 
 
