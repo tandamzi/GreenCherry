@@ -193,5 +193,24 @@ public class OrderService {
         return String.valueOf(Writed.YES);
 
     }
+    public List<NoticeListResponseDto> noticeOrderList(List<Long> orderId){
+        log.info("[OrderService] noticeOrderList ");
+
+        List<Order> orders = orderRepository.findListById(orderId);
+
+        List<NoticeListResponseDto> list = new ArrayList<>();
+
+        orders.forEach(order -> {
+            StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
+            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
+
+            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
+            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
+            list.add(noticeListResponseDto);
+        });
+
+        return list;
+
+    }
 
 }
