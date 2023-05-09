@@ -1,9 +1,6 @@
-/* eslint-disable react/button-has-type */
 import React, { useEffect } from 'react';
-import Lottie from 'react-lottie-player';
 import { useDispatch } from 'react-redux';
 
-import forkSpoonLoading from '@public/assets/lottie/forkSpoonLoading.json';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
