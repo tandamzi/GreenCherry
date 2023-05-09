@@ -19,6 +19,8 @@ public class StoreDetailResponseDto {
     private TypeInfoDto type;
     private AddressDto address;
     private String phone;
+    private String description;
+    private String snsAccount;
     private LocalTime pickUpStartTime;
     private LocalTime pickUpEndTime;
     private int cherryPoint;
@@ -85,6 +87,8 @@ public class StoreDetailResponseDto {
                 .storeId(store.getId())
                 .name(store.getName())
                 .memberId(store.getMemberId())
+                .snsAccount(store.getSnsAccount())
+                .description(store.getDescription())
                 .type(TypeInfoDto.builder()
                         .id(store.getType().getId())
                         .name(store.getType().getName())

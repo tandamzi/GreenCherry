@@ -81,6 +81,13 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
+    @PutMapping("/{store-id}/toggle-store")
+    public Result toggleStore(@PathVariable("store-id") Long storeId) {
+        log.info("toggleStore 진입 storeId: {}", storeId);
+        storeService.toggleStore(storeId);
+        return responseService.getSuccessResult();
+    }
+
     @GetMapping("type")
     public SingleResult<List<TypeResponseDto>> getTypes() {
         log.info("getTypes() 진입");
