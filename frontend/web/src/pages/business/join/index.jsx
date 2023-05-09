@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import style from './index.module.scss';
@@ -40,6 +40,63 @@ const Join = () => {
     } else {
       setAllergyIdList([...allergyIdList, value]);
     }
+  };
+  const postcodeRef = useRef(null);
+  const addressRef = useRef(null);
+  const detailAddressRef = useRef(null);
+  const extraAddressRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadDaumPostcodeScript = () => {
+      const script = document.createElement('script');
+      script.src =
+        '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+      script.onload = () => setIsLoaded(true);
+      document.head.appendChild(script);
+    };
+
+    if (!window.daum || !window.daum.Postcode) {
+      loadDaumPostcodeScript();
+    } else {
+      setIsLoaded(true);
+    }
+  }, []);
+  const execDaumPostcode = () => {
+    new window.daum.Postcode({
+      oncomplete(data) {
+        let addr = '';
+        let extraAddr = '';
+
+        if (data.userSelectedType === 'R') {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+
+        if (data.userSelectedType === 'R') {
+          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+            extraAddr += data.bname;
+          }
+          if (data.buildingName !== '' && data.apartment === 'Y') {
+            extraAddr +=
+              // eslint-disable-next-line prefer-template
+              extraAddr !== '' ? ', ' + data.buildingName : data.buildingName;
+          }
+          if (extraAddr !== '') {
+            // eslint-disable-next-line prefer-template
+            extraAddr = ' (' + extraAddr + ')';
+          }
+          extraAddressRef.current.value = extraAddr;
+        } else {
+          extraAddressRef.current.value = '';
+        }
+
+        postcodeRef.current.value = data.zonecode;
+        addressRef.current.value = addr;
+        detailAddressRef.current.focus();
+      },
+    }).open();
   };
 
   return (
@@ -210,6 +267,34 @@ const Join = () => {
                   인허가 업소 정보를 확인해주세요
                 </p>
               )}
+            <div>
+              <input
+                type="text"
+                readOnly
+                ref={postcodeRef}
+                placeholder="우편번호"
+              />
+              <input
+                type="button"
+                readOnly
+                onClick={execDaumPostcode}
+                value="우편번호 찾기"
+              />
+              <br />
+              <input type="text" readOnly ref={addressRef} placeholder="주소" />
+              <br />
+              <input
+                type="text"
+                ref={detailAddressRef}
+                placeholder="상세주소"
+              />
+              <input
+                type="text"
+                readOnly
+                ref={extraAddressRef}
+                placeholder="참고항목"
+              />
+            </div>
             <div className="relative my-5 border-b-2 border-bgcolor">
               <input
                 {...register('phone', {
