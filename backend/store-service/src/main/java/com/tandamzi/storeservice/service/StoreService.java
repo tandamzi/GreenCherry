@@ -20,6 +20,7 @@ import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -229,5 +230,24 @@ public class StoreService {
     public void toggleStore(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         store.toggleOpen();
+    }
+
+    public Page<SubScribedStoreResponseDto> getSubScribedStore(Long memberId,Pageable pageable){
+        //멤버id로 구독한 가게 목록 가져와서. dto로 변환
+        Page<Subscribe> subscribePage = subscribeRepository.findAllByMemberId(memberId, pageable);
+        if(!subscribePage.isEmpty()){}
+        Page<SubScribedStoreResponseDto> subscribeDtoPage = subscribePage.map(entity -> SubScribedStoreResponseDto.builder()
+                .id(entity.getStore().getId())
+                .type(entity.getStore().getType().getName())
+                .name(entity.getStore().getName())
+                .open(entity.getStore().isOpen())
+                .pickUpStartTime(entity.getStore().getPickUpStartTime())
+                .pickUpEndTime(entity.getStore().getPickUpEndTime())
+                .quantity(entity.getStore().getCherryBox().getQuantity())
+                .image(storeImageRepository.findTopByStore(entity.getStore()).isPresent() ?
+                        storeImageRepository.findTopByStore(entity.getStore()).get().getUrl() : null)
+                .build());
+
+        return subscribeDtoPage;
     }
 }
