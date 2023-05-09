@@ -1,8 +1,15 @@
 import React from 'react';
 
-const LongBoxContainer = ({ children }) => {
+import classnames from 'classnames';
+
+const LongBoxContainer = ({ children, className }) => {
   return (
-    <div className="bg-secondary text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-second">
+    <div
+      className={classnames(
+        'bg-secondary text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-second',
+        className,
+      )}
+    >
       {children}
     </div>
   );
