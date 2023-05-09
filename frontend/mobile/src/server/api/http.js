@@ -1,5 +1,6 @@
 /* eslint no-param-reassign:"error" */
 import axios from 'axios';
+import { parseCookies } from 'nookies';
 
 axios.defaults.withCredentials = true;
 
@@ -19,18 +20,16 @@ const httpForm = axios.create({
 // accessToken이 있을 경우 처리 headers에 삽입
 http.interceptors.request.use(
   config => {
-    if (typeof window !== 'undefined') {
-      const accessToken = localStorage.getItem('accessToken');
+    const { accessToken } = parseCookies();
 
-      if (config.headers && accessToken) {
-        config.headers.Authorization = accessToken;
-        return config;
-      }
+    if (config.headers && accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
     return config;
   },
-  err => {
-    return Promise.reject(err);
+  error => {
+    return Promise.reject(error);
   },
 );
 
