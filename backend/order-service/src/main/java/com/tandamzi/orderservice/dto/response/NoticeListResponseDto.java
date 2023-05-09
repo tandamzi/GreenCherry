@@ -1,24 +1,16 @@
 package com.tandamzi.orderservice.dto.response;
 
-
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
-import com.tandamzi.orderservice.dto.Writed;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.aspectj.util.FuzzyBoolean.YES;
-import static org.springframework.amqp.support.AmqpHeaders.EXPIRATION;
-import static org.springframework.beans.factory.annotation.Autowire.NO;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
-public class OrderMobileListResponseDto {
+public class NoticeListResponseDto {
     private Long orderId;
     private String storeName;
     private int quantity;
@@ -29,22 +21,18 @@ public class OrderMobileListResponseDto {
     private Long memberId;
     private Long storeId;
 
-
-
-    public static OrderMobileListResponseDto create(Order order, StoreInfoForOrderDto storeInfoDto, String writedCheck){
-
-        return OrderMobileListResponseDto.builder()
+    public static NoticeListResponseDto create(Order order, StoreInfoForOrderDto storeInfo, String writed){
+        return NoticeListResponseDto.builder()
                 .orderId(order.getId())
-                .storeName(storeInfoDto.getName())
+                .storeName(storeInfo.getName())
                 .quantity(order.getQuantity())
                 .orderState(String.valueOf(order.getState()))
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .orderDate(order.getCreateDate())
-                .writed(writedCheck)
+                .writed(writed)
                 .memberId(order.getMemberId())
-                .storeId(storeInfoDto.getStoreId())
+                .storeId(order.getStoreId())
                 .build();
+
     }
-
-
 }

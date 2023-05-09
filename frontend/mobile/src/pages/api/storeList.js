@@ -1,11 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { getStoreList, storeListFetch } from '@/server/store/storeList';
+import { storeListFetch } from '@/server/store/storeList';
 
 const handler = async (req, res) => {
-  // console.log('storeList : ' + req.query);
   const { memberId, lat, lng, radius, sub } = req.query;
-
   try {
     const storeList = await storeListFetch.getStoreList(
       memberId,
