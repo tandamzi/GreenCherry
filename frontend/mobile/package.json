@@ -36,6 +36,7 @@
     "react-transition-group": "^4.4.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
+    "sweetalert2": "^11.7.5",
     "web-push": "^3.5.0"
   },
   "devDependencies": {
