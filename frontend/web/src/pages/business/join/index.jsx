@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
@@ -65,6 +65,10 @@ const Join = () => {
     }
   }, []);
 
+  const onSubmit = data => {
+    // console.log('data', data);
+  };
+
   // 주소 API 사용 및 상태 업데이트를 위한 함수를 작성하세요.
 
   // 좌표를 가져오는 함수
@@ -130,7 +134,7 @@ const Join = () => {
     <Container>
       <Container.MainHeader />
       <Container.MainBody className="bg-secondary">
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="text-bgcolor text-center mb-24">
             <h1 className="text-7xl mt-20 mb-6">RESISTE YOUR STORE</h1>
             <h3 className="text-4xl font-thin">
@@ -256,7 +260,6 @@ const Join = () => {
                 <input
                   {...register('businessPermission', {
                     required: true,
-                    pattern: /^[0-9]{11}$/,
                     validate: businessPermissionValidate,
                   })}
                   autoComplete="off"
@@ -314,6 +317,9 @@ const Join = () => {
               </div>
               <br />
               <input
+                {...register('address', {
+                  required: true,
+                })}
                 type="text"
                 readOnly
                 value={address}
@@ -322,6 +328,9 @@ const Join = () => {
               />
               <br />
               <input
+                {...register('detailAddress', {
+                  required: true,
+                })}
                 type="text"
                 value={detailAddress}
                 onChange={e => setDetailAddress(e.target.value)}
@@ -441,6 +450,7 @@ const Join = () => {
             <button
               type="submit"
               className="text-secondary bg-bgcolor text-4xl h-20 w-44 rounded-full mt-10"
+              onClick={handleSubmit(onSubmit)}
             >
               <p>등록하기</p>
             </button>
