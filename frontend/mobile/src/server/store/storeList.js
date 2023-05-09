@@ -1,7 +1,7 @@
 import http from '../api/http';
 
 const getStoreList = async (id, myLat, myLng, radius, sub) => {
-  // console.log('BE : ' + memberId);
+  // console.log('BE server/store/storeList.js ');
   const res = await http.get(`/store`, {
     params: {
       memberId: id || 1,
