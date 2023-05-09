@@ -36,6 +36,10 @@ public class Notice {
                 .build();
     }
 
+    public void changeIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
+
 
 
 }
