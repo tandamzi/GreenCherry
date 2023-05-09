@@ -18,4 +18,7 @@ public class NoticeListResponseDto {
     private String writed;
     private Long memberId;
     private Long storeId;
+
+
+
 }

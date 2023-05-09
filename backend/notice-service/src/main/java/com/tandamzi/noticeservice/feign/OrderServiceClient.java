@@ -16,5 +16,5 @@ import java.util.List;
 @FeignClient(name = "order-service")
 public interface OrderServiceClient {
     @GetMapping("/order/notice/order-list")
-    SingleResult<Page<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds, @PageableDefault(size= 10) Pageable pageable);
+    SingleResult<List<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds);
 }
