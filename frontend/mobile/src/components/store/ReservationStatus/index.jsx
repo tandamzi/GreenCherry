@@ -4,10 +4,18 @@ import Lottie from 'react-lottie-player';
 import foodOrderBox from '@public/assets/lottie/food-order-bag.json';
 import cs from 'classnames';
 
+import WarningModal from '@/components/modal/WarningModal';
+
 const ReservationStatus = ({ reservationInfo }) => {
   const [data, setData] = useState();
   const [orderQuantity, setOrderQuantity] = useState(0);
   const [orderPrice, setOrderPrice] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const toggleModal = () => {
+    setOpen(prev => !prev);
+  };
+
   useEffect(() => {
     setData(reservationInfo);
   }, [reservationInfo]);
@@ -62,11 +70,22 @@ const ReservationStatus = ({ reservationInfo }) => {
         </div>
       </div>
       <div className="flex justify-center rounded-xl mx-auto px-8 py-1 bg-itembg">
-        <div>
+        <button
+          type="button"
+          onClick={e => {
+            e.preventDefault();
+            toggleModal();
+          }}
+        >
           <p>예약하기</p>
           <p>{orderPrice} 원</p>
-        </div>
+        </button>
       </div>
+      <WarningModal
+        open={open}
+        setOpen={setOpen}
+        orderQuantity={orderQuantity}
+      />
     </div>
   );
 };

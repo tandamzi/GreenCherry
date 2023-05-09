@@ -14,7 +14,7 @@ const store = ({ storeProps }) => {
   const router = useRouter();
   return (
     <Container>
-      <div className="">
+      <div>
         <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
