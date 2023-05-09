@@ -23,6 +23,8 @@ const order = () => {
     },
     errMsg: null,
   });
+  const currentPositionMarkerRef = useRef(null);
+  const currentPositionOverlayRef = useRef(null);
 
   const getStoreInfos = async (id, lat, lng, radius, sub) => {
     const myLat = lat !== undefined ? lat : state.myPostion.lat;
@@ -89,6 +91,15 @@ const order = () => {
         markerOpt,
       );
 
+      // 기존의 마커와 오버레이를 삭제합니다.
+      if (currentPositionMarkerRef.current) {
+        currentPositionMarkerRef.current.setMap(null);
+      }
+
+      if (currentPositionOverlayRef.current) {
+        currentPositionOverlayRef.current.setMap(null);
+      }
+
       const marker = new kakao.maps.Marker({
         position: currentPosition,
         image: markerImage,
@@ -108,6 +119,11 @@ const order = () => {
       });
 
       marker.setMap(mapRef.current);
+
+      // 새로 생성한 마커와 오버레이를 저장합니다.
+      currentPositionMarkerRef.current = marker;
+      currentPositionOverlayRef.current = customOverlay;
+
       mapRef.current.setLevel(3);
       mapRef.current.panTo(currentPosition);
       getStoreInfos();
