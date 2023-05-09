@@ -7,6 +7,7 @@ const handler = async (req, res) => {
   const { id } = req.query;
   const size = 10;
   const storeDetailInfo = {};
+
   await storeFetch.getStoreDetail(id).then(response => {
     storeDetailInfo.storeInfo = response.data;
   });
