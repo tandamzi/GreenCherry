@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import useMember from '@/hooks/memberHook';
 
 const CarbonContainer = ({ amount, className }) => {
-  const { storeName } = useMember();
+  const { memberAttributes } = useMember();
   return (
     <div
       className={classnames(
@@ -13,7 +13,8 @@ const CarbonContainer = ({ amount, className }) => {
         className,
       )}
     >
-      {storeName} 가게는 {amount}Kg CO<sub>2</sub>e 만큼 줄였어요!
+      {memberAttributes.storeName} 가게는 {amount}Kg CO<sub>2</sub>e 만큼
+      줄였어요!
     </div>
   );
 };
