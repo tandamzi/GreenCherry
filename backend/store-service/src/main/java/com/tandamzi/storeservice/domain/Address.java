@@ -10,8 +10,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Address {
+public class Address extends BaseEntity{
     private String addressName;
+    private String detailAddressName;
     private double lat;
     private double lng;
 }
