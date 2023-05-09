@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+import axios from 'axios';
+
 import style from './index.module.scss';
 
 import AllergyButton from '@/components/AllergyButton';
@@ -41,10 +43,10 @@ const Join = () => {
       setAllergyIdList([...allergyIdList, value]);
     }
   };
-  const postcodeRef = useRef(null);
-  const addressRef = useRef(null);
-  const detailAddressRef = useRef(null);
-  const extraAddressRef = useRef(null);
+  const [postcode, setPostcode] = useState('');
+  const [address, setAddress] = useState('');
+  const [detailAddress, setDetailAddress] = useState('');
+  const [extraAddress, setExtraAddress] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -62,39 +64,64 @@ const Join = () => {
       setIsLoaded(true);
     }
   }, []);
-  const execDaumPostcode = () => {
+
+  // 주소 API 사용 및 상태 업데이트를 위한 함수를 작성하세요.
+
+  // 좌표를 가져오는 함수
+  const getGeocode = async query => {
+    const API_URL = 'https://dapi.kakao.com/v2/local/search/address.json';
+
+    try {
+      const response = await axios.get(API_URL, {
+        params: { query },
+        headers: {
+          Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_ADDRESS_API_KEY}`,
+        },
+      });
+
+      // console.log(response.data.documents[0].address.x);
+      // console.log(response.data.documents[0].address.y);
+    } catch (error) {
+      console.error('Failed to search address:', error);
+    }
+  };
+  const handleAddressAPI = () => {
+    if (!isLoaded) return;
+
     new window.daum.Postcode({
-      oncomplete(data) {
-        let addr = '';
+      oncomplete: async data => {
+        const {
+          zonecode,
+          roadAddress,
+          jibunAddress,
+          bname,
+          buildingName,
+          apartment,
+        } = data;
+        // eslint-disable-next-line prefer-destructuring
+        const userSelectedType = data.userSelectedType;
+
+        const addr = userSelectedType === 'R' ? roadAddress : jibunAddress;
+
         let extraAddr = '';
-
-        if (data.userSelectedType === 'R') {
-          addr = data.roadAddress;
-        } else {
-          addr = data.jibunAddress;
-        }
-
-        if (data.userSelectedType === 'R') {
-          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-            extraAddr += data.bname;
+        if (userSelectedType === 'R') {
+          if (bname !== '' && /[동|로|가]$/g.test(bname)) {
+            extraAddr += bname;
           }
-          if (data.buildingName !== '' && data.apartment === 'Y') {
-            extraAddr +=
-              // eslint-disable-next-line prefer-template
-              extraAddr !== '' ? ', ' + data.buildingName : data.buildingName;
+          if (buildingName !== '' && apartment === 'Y') {
+            // eslint-disable-next-line prefer-template
+            extraAddr += extraAddr !== '' ? ', ' + buildingName : buildingName;
           }
           if (extraAddr !== '') {
             // eslint-disable-next-line prefer-template
             extraAddr = ' (' + extraAddr + ')';
           }
-          extraAddressRef.current.value = extraAddr;
-        } else {
-          extraAddressRef.current.value = '';
         }
 
-        postcodeRef.current.value = data.zonecode;
-        addressRef.current.value = addr;
-        detailAddressRef.current.focus();
+        setPostcode(zonecode);
+        setAddress(addr);
+        setExtraAddress(extraAddr);
+        await getGeocode(addr);
       },
     }).open();
   };
@@ -271,27 +298,25 @@ const Join = () => {
               <input
                 type="text"
                 readOnly
-                ref={postcodeRef}
+                value={postcode}
                 placeholder="우편번호"
               />
-              <input
-                type="button"
-                readOnly
-                onClick={execDaumPostcode}
-                value="우편번호 찾기"
-              />
+              <button type="button" onClick={handleAddressAPI}>
+                우편번호 찾기
+              </button>
               <br />
-              <input type="text" readOnly ref={addressRef} placeholder="주소" />
+              <input type="text" readOnly value={address} placeholder="주소" />
               <br />
               <input
                 type="text"
-                ref={detailAddressRef}
+                value={detailAddress}
+                onChange={e => setDetailAddress(e.target.value)}
                 placeholder="상세주소"
               />
               <input
                 type="text"
                 readOnly
-                ref={extraAddressRef}
+                value={extraAddress}
                 placeholder="참고항목"
               />
             </div>
