@@ -5,14 +5,15 @@ import Image from 'next/image';
 
 import Container from '@/components/Container';
 import http from '@/server/api/http';
+import { storeListFetch } from '@/server/store/storeList';
 
 const order = () => {
   const { kakao } = window;
 
-  const [shopInfos, setShopInfos] = useState([]);
+  const [storeList, setStoreList] = useState([]);
 
   const [state, setState] = useState({
-    myPostion: { lat: 35.126033, lng: 126.831302 },
+    myPostion: { lat: 35.126033, lng: 126.8313 },
     center: { lat: 36.5, lng: 127.8 },
     style: {
       width: '100%',
@@ -22,17 +23,32 @@ const order = () => {
     },
     errMsg: null,
   });
-  const getShopInfos = async (id, lat, lng, radius, sub) => {
-    const myLat = lat && state.myPostion.lat;
-    const myLng = lng && state.myPostion.lng;
 
-    const data = await http.get(
-      'http://k8c207.p.ssafy.io:5000/store?memberId=1&lat=35.126033&lng=126.831302&radius=3&sub=false',
-    );
+  const getStoreInfos = async (id, lat, lng, radius, sub) => {
+    const myLat = lat !== undefined ? lat : state.myPostion.lat;
+    const myLng = lng !== undefined ? lng : state.myPostion.lng;
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/storeList`,
+        {
+          params: {
+            memberId: id || 1,
+            lat: myLat,
+            lng: myLng,
+            radius: radius || 3,
+            sub: sub || false,
+          },
+        },
+      );
+      // API 호출이 성공하면 response.data에 결과가 포함됩니다.
+      const { data } = response.data;
+      // console.log('Fetched data:', data);
+    } catch (error) {
+      // API 호출 중 오류가 발생하면 여기에서 처리합니다.
+      console.error('Error fetching data:', error);
+    }
   };
-  useEffect(() => {
-    getShopInfos(1, state.myPostion.lat, state.myPostion.lng, 3, false);
-  });
 
   const mapRef = useRef();
 
@@ -55,7 +71,7 @@ const order = () => {
 
       setState(prev => ({
         ...prev,
-        myPostion: coords,
+        myPostion: { lat: coords.latitude, lng: coords.longitude },
       }));
 
       const currentPosition = new kakao.maps.LatLng(
@@ -94,6 +110,7 @@ const order = () => {
       marker.setMap(mapRef.current);
       mapRef.current.setLevel(3);
       mapRef.current.panTo(currentPosition);
+      getStoreInfos();
     } catch (error) {
       console.error(error);
       console.error('위치 정보를 가져올 수 없습니다.');
