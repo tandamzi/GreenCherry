@@ -9,6 +9,13 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:@next/next/recommended',
   ],
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
   rules: {
     'import/order': [
       'error',
