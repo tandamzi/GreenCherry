@@ -10,6 +10,7 @@ import MainCarbon from '../components/main/MainCarbon';
 
 import Container from '@/components/Container';
 import Reservation from '@/components/main/Reservation';
+import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const sendNotification = async () => {
@@ -56,12 +57,18 @@ const subscribeUser = async () => {
 };
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(true);
-    }, 3000); // 3초 동안 로딩 스피너 표시
+      setLoading(false);
+    }, 2000); // 3초 동안 로딩 스피너 표시
 
     return () => clearTimeout(timer);
   }, []);
@@ -83,7 +90,7 @@ export default function Home() {
     //   </div>
     // </div>
 
-    { loading } ? (
+    !loading ? (
       <Container>
         <Container.MainHeader />
         <Container.Body>
@@ -120,7 +127,7 @@ export default function Home() {
         </Container.Body>
       </Container>
     ) : (
-      {}
+      <Spinner />
     )
   );
 }
