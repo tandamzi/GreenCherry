@@ -4,22 +4,36 @@ import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
+const API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
+const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
+
 const http = axios.create({
-  baseURL: 'http://greencherry.store/api',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
+    // Authorization: 'ABABAB',
   },
 });
-// accessToken이 있을 경우 처리 headers에 삽입
-http.interceptors.request.use(
-  config => {
-    const accessToken = Cookies.get('accessToken');
 
+const localHttp = axios.create({
+  baseURL: LOCAL_URL,
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+    // Authorization: 'ABABAB',
+  },
+});
+
+localHttp.interceptors.request.use(
+  config => {
+    // console.log('\n\nInterceptor');
+    const accessToken = Cookies.get('accessToken');
+    // console.log(accessToken);
     if (config.headers && accessToken) {
       config.headers.Authorization = accessToken;
+      // console.log('1 HTTP.js ' + config.headers);
+      return config;
     }
-
-    // console.log(config);
+    // console.log('2 HTTP.js ' + config.headers);
     return config;
   },
   error => {
@@ -28,7 +42,7 @@ http.interceptors.request.use(
 );
 
 const httpForm = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'multipart/form-data',
   },
@@ -51,5 +65,5 @@ httpForm.interceptors.request.use(
   },
 );
 
-export { httpForm };
+export { httpForm, localHttp };
 export default http;
