@@ -12,7 +12,12 @@ export const memberSlice = createSlice({
   reducers: {
     saveToken: (state, action) => {
       localStorage.setItem('accessToken', `Bearer ${action.payload}`);
-      Cookies.set('accessToken', `Bearer ${action.payload}`);
+      // 토큰 저장 시
+      Cookies.set('accessToken', `Bearer ${action.payload}`, {
+        expires: 7,
+        sameSite: 'Lax',
+        httpOnly: false,
+      });
 
       return {
         ...state,
