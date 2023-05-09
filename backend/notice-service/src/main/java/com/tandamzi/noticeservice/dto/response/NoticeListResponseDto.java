@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 public class NoticeListResponseDto {
     private Long orderId;
     private String storeName;

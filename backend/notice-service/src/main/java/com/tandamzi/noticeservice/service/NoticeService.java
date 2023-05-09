@@ -77,6 +77,7 @@ public class NoticeService {
         log.info("[NoticeService] getNoticeList");
         Page<Notice> notices = noticeRepository.findByMemberId(memberId, pageable);
 
+
         List<Long> orderIds = new ArrayList<>();
         notices.forEach(notice -> {
             orderIds.add(notice.getOrderId());
@@ -89,15 +90,11 @@ public class NoticeService {
         HashMap<Long, ListResponseDto> map = new HashMap<>();
         list.forEach(dto->{
             map.put(dto.getOrderId(), ListResponseDto.createNotice(dto,isRead));
-
         });
 
         Page<ListResponseDto> page = notices.map(notice -> {
             return ListResponseDto.createList(map.get(notice.getOrderId()), map.get(notice.getOrderId()).isRead());
         });
-
-
-//        return new PageImpl<>(list, pageable, list.size());
 
         return page;
 
