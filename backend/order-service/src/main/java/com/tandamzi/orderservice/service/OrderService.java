@@ -78,13 +78,20 @@ public class OrderService {
         }
         order.stateChange(State.PICKUP_COMPLETE);
 
+        SingleResult<StoreInfoForOrderDto> info = storeServiceClient.storeInfoForOrder(order.getStoreId());
+
         OrderStatusDto statusDto = OrderStatusDto.builder()
+                .orderId(order.getId())
                 .memberId(order.getMemberId())
                 .storeId(order.getStoreId())
+                .storeName(info.getData().getName())
                 .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
+                .quentity(order.getQuantity())
+                .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
         kafkaProducer.send("increase-member-cherry-point",statusDto);
         kafkaProducer.send("increase-store-cherry-point",statusDto);
+        kafkaProducer.send("pickup-complete-order",statusDto);
 
     }
     

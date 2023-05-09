@@ -7,7 +7,7 @@ const http = axios.create({
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
     Authorization:
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjgyNDcwMzI2LCJleHAiOjE2OTExMTAzMjZ9.0dOcLi1Jgf5LoJzRwWSJ2JTxKCEMpxWwF86ERnyg48aYlhOqFQ_1Otg24IO5zyCuQb1DRW7TUlaYbZ9Gz_mJ-w',
+      'Bearer JhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjgzNTI2Mzk5LCJleHAiOjE2OTIxNjYzOTl9.xdKP9z53RZpCTlQSlykP126u-zy0fBNvqmF9BKBY2EL47SjffG48fbgzB9MIO_3b1slSv2PKErPBmy8eyVj3Ew',
   },
 });
 

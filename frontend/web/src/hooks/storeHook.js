@@ -4,6 +4,8 @@ import { modifyAction, resetModifyAction } from '@/redux/store/modifySlice';
 import {
   getStoreInfoAction,
   putStoreInfoAction,
+  openStoreAction,
+  closeStoreAction,
 } from '@/redux/store/storeSlice';
 
 export default function useStore() {
@@ -40,6 +42,14 @@ export default function useStore() {
     dispatch(resetModifyAction());
   };
 
+  const openStore = () => {
+    dispatch(openStoreAction());
+  };
+
+  const closeStore = () => {
+    dispatch(closeStoreAction());
+  };
+
   return {
     storeAttributes: {
       storeId,
@@ -59,5 +69,7 @@ export default function useStore() {
     modifyType,
     putModifyState,
     resetModifyState,
+    openStore,
+    closeStore,
   };
 }
