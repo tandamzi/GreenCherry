@@ -4,7 +4,6 @@ import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.domain.*;
-import com.tandamzi.storeservice.dto.feign.EndpointDto;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
@@ -20,7 +19,6 @@ import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,6 +127,8 @@ public class StoreService {
         ListResult<String> endpoints = memberServiceClient.getEndpoints(subscribers);
         log.info("subscribers = {}", subscribers);
         log.info("endpoints = {}", endpoints.getData());
+
+        //비동기로 카프카요청
     }
 
     private List<Long> getSubscribers(Store store) {
@@ -250,5 +250,10 @@ public class StoreService {
                 .build());
 
         return subscribeDtoPage;
+    }
+
+    public Integer getCherryPoint(Long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        return store.getCherryPoint();
     }
 }

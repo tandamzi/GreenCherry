@@ -15,7 +15,6 @@ import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import com.tandamzi.storeservice.service.ValidationService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -120,6 +119,12 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
+    @GetMapping("{store-id}/cherry-point")
+    public SingleResult<Integer> getCherryPoint(@PathVariable("store-id") Long storeId) {
+        log.info("[StoreController] getCherryPoint 진입 storeId: {} ", storeId);
+        return responseService.getSingleResult(storeService.getCherryPoint(storeId));
+    }
+
     @GetMapping("{member-id}/subscribe")
     public SingleResult<Page<SubScribedStoreResponseDto>> getSubScribedStore(@PathVariable("member-id") Long memberId
             , @PageableDefault(size = 10) Pageable pageable) {
@@ -176,6 +181,8 @@ public class StoreController {
         StoreInfoForOrderDto storeInfoForOrderDto = storeService.storeInfoForOrder(storeId);
         return responseService.getSingleResult(storeInfoForOrderDto);
     }
+
+
 
 
 
