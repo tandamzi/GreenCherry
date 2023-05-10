@@ -7,6 +7,13 @@ import useStore from '@/hooks/storeHook';
 
 const Business = () => {
   const { storeAttributes } = useStore();
+  async function fetchData() {
+    const response = await fetch('/api/some-data');
+    const data = await response.json();
+    // 데이터 처리
+    // console.log('내정보', data);
+  }
+  // console.log(fetchData());
   return (
     <Container>
       <Container.BusinessHeader />
