@@ -1,14 +1,17 @@
 package com.tandamzi.noticeservice.controller;
 
-import com.tandamzi.noticeservice.dto.request.SubscribeStoreRequestDto;
-import com.tandamzi.noticeservice.response.ResponseService;
+import com.tandamzi.noticeservice.common.response.ResponseService;
+import com.tandamzi.noticeservice.common.result.Result;
+import com.tandamzi.noticeservice.common.result.SingleResult;
+import com.tandamzi.noticeservice.dto.response.ListResponseDto;
+import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +30,20 @@ public class NoticeController {
         return "success";
     }
 
-    @PostMapping("/subscribe")
-    public void subscribeStore(@RequestBody SubscribeStoreRequestDto requestDto){
+    @GetMapping("/list")
+    public SingleResult<Page<ListResponseDto>> getNoticeList(@RequestParam("member-id") Long memberId,
+                                         @PageableDefault(size= 10) Pageable pageable){
+       log.info("[NoticeController] getNoticeList");
+
+        Page<ListResponseDto> noticeList = noticeService.getNoticeList(memberId, pageable);
+        return responseService.getSingleResult(noticeList);
 
     }
+    @PutMapping("/{notice-id}")
+    public Result changeNoticeRead(@PathVariable("notice-id")Long noticeId){
+        log.info("[NoticeController] changeNoticeRead ");
+        noticeService.changeNoticeRead(noticeId);
+        return responseService.getSuccessResult();
+    }
+
 }

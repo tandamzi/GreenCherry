@@ -1,49 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import CherryInput from '@/components/CherryInput';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
+import useStore from '@/hooks/storeHook';
 
 const CherryBoxModal = () => {
   const {
     cherryBoxRegisterModalOpen,
-    openCherryBoxRegisterAction,
-    closeCherryBoxRegisteAction,
+    openCherryBoxRegisterModal,
+    closeCherryBoxRegisterModal,
   } = useMember();
 
-  const handleRegisterBtnClick = () => {
-    // TODO: redux의 store에 open:true로 변경
+  const { openStore } = useStore();
+
+  const [cherryBox, setCherryBox] = useState({
+    totalPriceBeforeDiscount: 0,
+    quantity: 0,
+    discountRate: 0,
+    pricePerCherryBox: 0,
+  });
+
+  const cherryBoxDatas = [
+    {
+      title: '정가 총 가격',
+      data: 'totalPriceBeforeDiscount',
+    },
+    {
+      title: '체리박스 수량',
+      data: 'quantity',
+    },
+    {
+      title: '할인율',
+      data: 'discountRate',
+    },
+    {
+      title: '체리박스 개당가격',
+      data: 'pricePerCherryBox',
+    },
+  ];
+
+  const handleCherryBoxChange = e => {
+    const { name, value } = e.target;
+    setCherryBox({
+      ...cherryBox,
+      [name]: value,
+    });
   };
+
+  const handleRegisterBtnClick = () => {
+    openStore();
+    closeCherryBoxRegisterModal();
+  };
+
   return (
     <Modal
       isOpen={cherryBoxRegisterModalOpen}
-      onClose={closeCherryBoxRegisteAction}
-      className="w-3/5 h-3/5 px-16 py-5 flex flex-col items-center"
+      onClose={closeCherryBoxRegisterModal}
+      className="p-16 flex flex-col items-center"
     >
-      <h1 className="text-center text-3xl">오늘의 체리박스 등록</h1>
+      <h1 className="text-center text-3xl mb-10">오늘의 체리박스 등록</h1>
       <div>
-        <div className="flex">
-          <h2>정가 총 가격</h2>
-          <input type="number" />
-        </div>
-        <div className="flex">
-          <h2>체리박스 수량</h2>
-          <input type="number" />
-        </div>
-        <div className="flex">
-          <h2>할인율</h2>
-          <input type="number" />
-        </div>
-        <div className="flex">
-          <h2>체리박스 개당가격</h2>
-          <input type="number" />
-        </div>
+        {cherryBoxDatas.map((cherryBoxData, index) => (
+          <CherryInput
+            key={index}
+            title={cherryBoxData.title}
+            data={cherryBoxData.data}
+            onChange={handleCherryBoxChange}
+          />
+        ))}
       </div>
       <button
         type="button"
-        className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl absolute bottom-5"
+        className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl mt-10"
         onClick={handleRegisterBtnClick}
       >
-        네
+        판매시작
       </button>
     </Modal>
   );
