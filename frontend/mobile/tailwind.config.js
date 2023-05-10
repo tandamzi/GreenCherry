@@ -22,7 +22,7 @@ module.exports = {
       warning: '#f6bd60',
     },
     screens: {
-      mob: '375px',
+      mob: '380px',
       tablet: '768px',
       laptop: '1024px',
       laptopl: '1440px',

@@ -2,15 +2,39 @@ import Lottie from 'react-lottie-player';
 
 import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
+import Image from 'next/image';
 
-const ReviewComponent = () => {
+import ReviewTag from '../ReviewTag';
+
+const ReviewComponent = ({ review }) => {
   return (
-    <div>
-      <div className="flex flex-row justify-between mx-8 mt-8">
-        <p className="font-bold text-xl pr-4">사용자 리뷰</p>
-        <p className="font-thin text-sm align-text-bottom">2건</p>
+    <div className="flex flex-col">
+      <div className="flex flex-col mb-3">
+        <p className="font-bold text-xl pr-4">{review.memberNickname}</p>
+        <p className="font-bold text-secondaryfont text-sm align-text-bottom">
+          {review.createDate}
+        </p>
       </div>
-      <div className=" w-10/12 mx-auto mt-5" />
+      <p className="font-thin mb-3">{review.content}</p>
+      <div className="flex flex-row">
+        {review.reviewImageUrls.map((image, idx) => {
+          return (
+            <Image
+              className="mr-2 rounded-xl"
+              key={idx}
+              src={image}
+              width={80}
+              height={100}
+              alt="reveiewImageUrl"
+            />
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-2 mb-6">
+        {review.tags.map((tag, idx) => {
+          return <ReviewTag key={idx} tag={tag} />;
+        })}
+      </div>
     </div>
   );
 };

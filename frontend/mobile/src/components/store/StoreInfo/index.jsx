@@ -8,7 +8,7 @@ import cs from 'classnames';
 const StoreInfo = ({ storeInfo }) => {
   const [data, setData] = useState();
   useEffect(() => {
-    setData(storeInfo.data);
+    setData(storeInfo);
   }, [storeInfo]);
 
   return (
