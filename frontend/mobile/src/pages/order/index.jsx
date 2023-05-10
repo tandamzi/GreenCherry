@@ -4,14 +4,17 @@ import axios from 'axios';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { localHttp } from '@/server/api/http';
 
 const order = () => {
   const { kakao } = window;
 
   const [storeList, setStoreList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [state, setState] = useState({
+    coords: {},
     myPostion: { lat: 35.126033, lng: 126.8313 },
     center: { lat: 36.5, lng: 127.8 },
     style: {
@@ -30,15 +33,18 @@ const order = () => {
     const myLng = lng !== undefined ? lng : state.myPostion.lng;
 
     try {
-      const response = await localHttp.get('/api/storeList', {
-        params: {
-          memberId: id || 1,
-          lat: myLat,
-          lng: myLng,
-          radius: radius || 3,
-          sub: sub || false,
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/storeList`,
+        {
+          params: {
+            memberId: id || 1,
+            lat: myLat,
+            lng: myLng,
+            radius: radius || 3,
+            sub: sub || false,
+          },
         },
-      });
+      );
       const { data } = response.data;
       // console.log('order INDEX' + response);
     } catch (error) {
@@ -48,36 +54,46 @@ const order = () => {
 
   const mapRef = useRef();
 
-  const getCurrentPosition = (
+  const getCurrentGeolocaionPosition = (
     options = { enableHighAccuracy: false, maximamAge: 0, timeout: 10000 },
   ) => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
   };
-
-  const showCurrentLocation = async () => {
-    if (!mapRef.current) {
-      return;
-    }
-
+  const getCurrentPosition = async () => {
+    setIsLoading(true);
     try {
-      const position = await getCurrentPosition();
+      const position = await getCurrentGeolocaionPosition();
       const { coords } = position;
 
       setState(prev => ({
         ...prev,
+        coords,
         myPostion: { lat: coords.latitude, lng: coords.longitude },
       }));
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      console.error('위치 정보를 가져올 수 없습니다.');
+      setIsLoading(false);
+    }
+  };
 
-      const currentPosition = new kakao.maps.LatLng(
-        coords.latitude,
-        coords.longitude,
-      );
+  const updateMarkerPosition = async () => {
+    await getCurrentPosition();
+    const currentPosition = new kakao.maps.LatLng(
+      state.coords.latitude,
+      state.coords.longitude,
+    );
 
+    // 마커의 위치를 업데이트합니다.
+    if (currentPositionMarkerRef.current) {
+      currentPositionMarkerRef.current.setPosition(currentPosition);
+    } else {
       const markerSrc = `/assets/icons/mapIcons/myLocationMarker2.svg`;
       const markerSize = new kakao.maps.Size(32, 32);
-      const markerOpt = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      const markerOpt = { offset: new kakao.maps.Point(32, 32) };
 
       const markerImage = new kakao.maps.MarkerImage(
         markerSrc,
@@ -85,46 +101,36 @@ const order = () => {
         markerOpt,
       );
 
-      // 기존의 마커와 오버레이를 삭제합니다.
-      if (currentPositionMarkerRef.current) {
-        currentPositionMarkerRef.current.setMap(null);
-      }
-
-      if (currentPositionOverlayRef.current) {
-        currentPositionOverlayRef.current.setMap(null);
-      }
-
       const marker = new kakao.maps.Marker({
         position: currentPosition,
         image: markerImage,
       });
-      // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+      currentPositionMarkerRef.current = marker;
+      marker.setMap(mapRef.current);
+    }
+
+    // 오버레이의 위치를 업데이트합니다.
+    if (currentPositionOverlayRef.current) {
+      currentPositionOverlayRef.current.setPosition(currentPosition);
+    } else {
       const content =
         '<div class="customoverlay">' +
         '    <span class="title">내 위치</span>' +
         '</div>';
 
-      // 커스텀 오버레이를 생성합니다
       const customOverlay = new kakao.maps.CustomOverlay({
         map: mapRef.current,
         position: currentPosition,
         content,
-        yAnchor: 3,
+        yAnchor: 2,
       });
 
-      marker.setMap(mapRef.current);
-
-      // 새로 생성한 마커와 오버레이를 저장합니다.
-      currentPositionMarkerRef.current = marker;
       currentPositionOverlayRef.current = customOverlay;
-
-      mapRef.current.setLevel(3);
-      mapRef.current.panTo(currentPosition);
-      getStoreInfos();
-    } catch (error) {
-      console.error(error);
-      console.error('위치 정보를 가져올 수 없습니다.');
+      customOverlay.setMap(mapRef.current);
     }
+
+    mapRef.current.panTo(currentPosition);
   };
 
   useEffect(() => {
@@ -135,8 +141,11 @@ const order = () => {
       center: new kakao.maps.LatLng(37.497965, 127.027636),
       level: 3,
     };
-
     mapRef.current = new kakao.maps.Map(container, options);
+    mapRef.current.setMinLevel(1);
+    mapRef.current.setMaxLevel(6);
+
+    getCurrentPosition();
   }, []);
 
   return (
@@ -149,17 +158,19 @@ const order = () => {
             background: '#fafaf9e4',
             zIndex: 10,
           }}
-          onClick={showCurrentLocation}
+          onClick={updateMarkerPosition}
         >
-          <span className="text-sm font-bold text-secondaryfont">
-            내 위치로
-          </span>
-          <Image
-            alt="내 위치"
-            src="/assets/icons/mapIcons/myLocationMarker.svg"
-            width={20}
-            height={20}
-          />
+          <div className="flex">
+            <span className="text-sm font-bold text-secondaryfont">
+              내 위치
+            </span>
+            <Image
+              alt="내 위치"
+              src="/assets/icons/mapIcons/myLocationMarker.svg"
+              width={20}
+              height={20}
+            />
+          </div>
         </button>
       </div>
       <div style={{ zIndex: 10 }}>
