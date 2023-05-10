@@ -4,8 +4,7 @@ import axios from 'axios';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
-import http from '@/server/api/http';
-import { storeListFetch } from '@/server/store/storeList';
+import { localHttp } from '@/server/api/http';
 
 const order = () => {
   const { kakao } = window;
@@ -23,29 +22,26 @@ const order = () => {
     },
     errMsg: null,
   });
+  const currentPositionMarkerRef = useRef(null);
+  const currentPositionOverlayRef = useRef(null);
 
   const getStoreInfos = async (id, lat, lng, radius, sub) => {
     const myLat = lat !== undefined ? lat : state.myPostion.lat;
     const myLng = lng !== undefined ? lng : state.myPostion.lng;
 
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/storeList`,
-        {
-          params: {
-            memberId: id || 1,
-            lat: myLat,
-            lng: myLng,
-            radius: radius || 3,
-            sub: sub || false,
-          },
+      const response = await localHttp.get('/api/storeList', {
+        params: {
+          memberId: id || 1,
+          lat: myLat,
+          lng: myLng,
+          radius: radius || 3,
+          sub: sub || false,
         },
-      );
-      // API 호출이 성공하면 response.data에 결과가 포함됩니다.
+      });
       const { data } = response.data;
-      // console.log('Fetched data:', data);
+      // console.log('order INDEX' + response);
     } catch (error) {
-      // API 호출 중 오류가 발생하면 여기에서 처리합니다.
       console.error('Error fetching data:', error);
     }
   };
@@ -89,6 +85,15 @@ const order = () => {
         markerOpt,
       );
 
+      // 기존의 마커와 오버레이를 삭제합니다.
+      if (currentPositionMarkerRef.current) {
+        currentPositionMarkerRef.current.setMap(null);
+      }
+
+      if (currentPositionOverlayRef.current) {
+        currentPositionOverlayRef.current.setMap(null);
+      }
+
       const marker = new kakao.maps.Marker({
         position: currentPosition,
         image: markerImage,
@@ -108,6 +113,11 @@ const order = () => {
       });
 
       marker.setMap(mapRef.current);
+
+      // 새로 생성한 마커와 오버레이를 저장합니다.
+      currentPositionMarkerRef.current = marker;
+      currentPositionOverlayRef.current = customOverlay;
+
       mapRef.current.setLevel(3);
       mapRef.current.panTo(currentPosition);
       getStoreInfos();

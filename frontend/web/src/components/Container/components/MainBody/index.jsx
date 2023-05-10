@@ -6,14 +6,7 @@ const MainBody = ({ className, children, ref }) => {
   return (
     <Body
       ref={ref}
-      className={classnames(
-        'flex flex-col items-center',
-        'py-32',
-        'h-full',
-        'w-full',
-        'px-72',
-        className,
-      )}
+      className={classnames('flex flex-col items-center py-32', className)}
     >
       {children}
     </Body>
