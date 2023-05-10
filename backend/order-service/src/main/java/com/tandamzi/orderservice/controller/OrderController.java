@@ -68,12 +68,12 @@ public class OrderController {
         return responseService.getSingleResult(noticeOrderList);
     }
 
-    @GetMapping("/date-total")
-    public Result getTotalSalesAmount(@RequestParam("store-id") Long storeId,
+    @GetMapping("/revenue")
+    public SingleResult<DateTotalSalesResponseDto> getTotalSalesAmount(@RequestParam("store-id") Long storeId,
                                       @RequestParam("order-date") String orderDate){
         log.info("[OrderController] getTotalSalesAmount");
 
-        orderService.getDateTotalSales(storeId, orderDate);
-        return responseService.getSuccessResult();
+        DateTotalSalesResponseDto dateTotalSales = orderService.getDateTotalSales(storeId, orderDate);
+        return responseService.getSingleResult(dateTotalSales);
     }
 }

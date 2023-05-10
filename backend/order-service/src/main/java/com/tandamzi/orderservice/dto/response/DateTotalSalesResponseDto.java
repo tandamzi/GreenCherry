@@ -7,6 +7,13 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class DateTotalSalesResponseDto {
-    private int count;
-    private int totalSalesAmount;
+    private Long count;
+    private Long totalSalesAmount;
+
+    public static DateTotalSalesResponseDto create(Long count, Long totalSalesAmount){
+        return DateTotalSalesResponseDto.builder()
+                .count(count)
+                .totalSalesAmount(totalSalesAmount)
+                .build();
+    }
 }

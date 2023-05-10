@@ -7,7 +7,6 @@ import com.tandamzi.orderservice.dto.MemberForOrderDto;
 import com.tandamzi.orderservice.dto.OrderStatusDto;
 import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.Writed;
-import com.tandamzi.orderservice.dto.jpa.OrderDateDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -25,8 +24,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -167,9 +168,6 @@ public class OrderService {
 
         Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
 
-//        LocalDateTime date = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
         // TODO : 리뷰량이 많은 경우 속도 느림
         // TODO : order시간 기준 최신순 정렬
         Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
@@ -214,15 +212,19 @@ public class OrderService {
         return list;
 
     }
-    public void getDateTotalSales(Long storeId, String orderDate){
+    public DateTotalSalesResponseDto getDateTotalSales(Long storeId, String orderDate){
         log.info("[OrderService] getDateTotalSales ");
-        LocalDate date = LocalDate.parse(orderDate);
-        log.info("date= {}",date);
-        OrderDateDto orderDateDto = orderRepository.findByStoreIdAndCreateDate(storeId, date).get();
-        log.info("orderDateDto= {}",orderDateDto);
-//        log.info("order= {}",order.toString());
-//        log.info("byStoreIdAndCreateDate ={}",byStoreIdAndCreateDate.get(orderDate));
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(orderDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(orderDate,formatter).atTime(LocalTime.MAX);
+
+        Tuple tuple = orderRepository.findTupleByStoreIdAndCreateDate(storeId, startDateTime, endDateTime);
+
+        Long count = tuple.get("count",Long.class);
+        Long totalSalesAmount = tuple.get("totalAmount", Long.class);
+
+        return DateTotalSalesResponseDto.create(count,totalSalesAmount);
     }
 
 }
