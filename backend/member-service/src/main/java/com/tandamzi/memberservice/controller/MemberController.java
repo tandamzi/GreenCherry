@@ -86,4 +86,10 @@ public class MemberController {
         return responseService.getListResult(responseDto);
     }
 
+    @GetMapping("/total")
+    public SingleResult<Long> getTotalMemberNumber(){
+        log.info("MemberController getTotalMemberNumber 실행");
+        Long totalMemberNumber = memberService.getTotalMemberNumber();
+        return responseService.getSingleResult(totalMemberNumber);
+    }
 }
