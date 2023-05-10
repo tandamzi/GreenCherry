@@ -8,6 +8,7 @@ import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
+import com.tandamzi.storeservice.dto.kafka.CherryBoxNotificationDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -132,7 +133,12 @@ public class StoreService {
         log.info("endpoints = {}", endpointList);
 
         //비동기로 카프카요청
-        kafkaProducer.send("cherry-box-notification",endpointList);
+        kafkaProducer.send("cherrybox-register-notification",
+                CherryBoxNotificationDto.builder()
+                        .storeId(store.getId())
+                        .storeName(store.getName())
+                        .endpointList(endpointList)
+                        .build());
     }
 
     private List<Long> getSubscribers(Store store) {
