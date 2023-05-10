@@ -73,4 +73,18 @@ public class KafkaConsumer {
         noticeService.sendPickUpComplete(dto);
 
     }
+
+    @KafkaListener(topics = "cherrybox-register-notification")
+    public void registerCherryBoxNotification(String kafkaMessage) {
+        log.info("cherrybox-register-notification, kafkaMessage = {}", kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try{
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+    }
 }
