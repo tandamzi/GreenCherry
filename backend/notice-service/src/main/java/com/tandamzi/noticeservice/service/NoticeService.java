@@ -7,6 +7,7 @@ import com.google.firebase.messaging.WebpushNotification;
 import com.tandamzi.noticeservice.domain.Notice;
 import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
 import com.tandamzi.noticeservice.dto.request.RegisterCherryBoxDto;
+import com.tandamzi.noticeservice.dto.request.RegisterOrderDto;
 import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
@@ -61,8 +62,8 @@ public class NoticeService {
         for (String token : tokens) {
             Message message = Message.builder()
                     .setToken(token)
-                    .putData("title", "제목")
-                    .putData("body", "[모바일] 주문 목록 페이지로 이동")
+                    .putData("noticeType", "3")
+                    .putData("storeId", String.valueOf(pickUpCompleteDto.getStoreId()))
                     .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
                             .setNotification(new WebpushNotification("픽업이 완료되었습니다.", body))
                             .build())
@@ -105,7 +106,26 @@ public class NoticeService {
         notice.changeIsRead(true);
     }
 
+    public void sendNoticeForRegisterOrder(RegisterOrderDto registerOrderDto){
+        log.info("[NoticeService] sendNoticeForRegisterOrder");
+        List<String> tokens = registerOrderDto.getTokens();
 
+        String body = "체리박스 " + registerOrderDto.getQuantity() + "개 주문이 들어왔습니다.\n"
+                + registerOrderDto.getTotalSalesAmount() + "원";
+
+        for (String token : tokens) {
+            Message message = Message.builder()
+                    .setToken(token)
+                    .putData("noticeType", String.valueOf(registerOrderDto.getNoticeType()))
+                    .putData("storeId", String.valueOf(registerOrderDto.getStoreId()))
+                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
+                            .setNotification(new WebpushNotification("주문이 들어왔습니다.", body))
+                            .build())
+                    .build();
+
+            FirebaseMessaging.getInstance().sendAsync(message);
+        }
+    }
     public void sendNoticeToSubscribers(RegisterCherryBoxDto registerCherryBoxDto) {
         List<String> tokens = registerCherryBoxDto.getTokens();
         StringBuilder sb = new StringBuilder();

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tandamzi.noticeservice.domain.Notice;
 import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
+import com.tandamzi.noticeservice.dto.request.RegisterOrderDto;
 import com.tandamzi.noticeservice.dto.request.RegisterCherryBoxDto;
 import com.tandamzi.noticeservice.feign.MemberServiceClient;
 import com.tandamzi.noticeservice.repository.NoticeRepository;
@@ -34,10 +35,9 @@ public class KafkaConsumer {
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
 
-        try {
-            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {
-            });
-        } catch (JsonProcessingException e) {
+        try{
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException e){
             e.printStackTrace();
         }
 
@@ -74,6 +74,40 @@ public class KafkaConsumer {
 
         noticeService.sendPickUpComplete(dto);
 
+    }
+
+    @KafkaListener(topics = "notice-for-register-order")
+    public void noticeForRegisterOrder(String kafkaMessage){
+        log.info("KafkaConsumer topics = notice-for-register-order, kafkaMessage = {}", kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try{
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+
+        int noticeType = (int) map.get("noticeType");
+        Long targetMemberId = Long.valueOf((Integer)(map.get("targetMemberId")));
+        Long storeId = Long.valueOf((Integer)(map.get("storeId")));
+        int quantity = (int) map.get("quantity");
+        int totalSalesAmount = (int) map.get("totalSalesAmount");
+
+        List<Long> memberIds = new ArrayList<>();
+        memberIds.add(targetMemberId);
+        List<String> tokens = memberServiceClient.getTokens(memberIds).getData();
+
+        RegisterOrderDto dto = RegisterOrderDto.builder()
+                .noticeType(noticeType)
+                .storeId(storeId)
+                .quantity(quantity)
+                .totalSalesAmount(totalSalesAmount)
+                .tokens(tokens)
+                .build();
+
+        noticeService.sendNoticeForRegisterOrder(dto);
     }
 
     @KafkaListener(topics = "cherrybox-register-notification")

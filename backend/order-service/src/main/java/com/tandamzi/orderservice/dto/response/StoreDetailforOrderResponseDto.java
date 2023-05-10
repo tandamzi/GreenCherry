@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 public class StoreDetailforOrderResponseDto {
     private Long storeId;
+    private Long ownerId;
     private String name;
     private int cherryPoint;
     private boolean open;
