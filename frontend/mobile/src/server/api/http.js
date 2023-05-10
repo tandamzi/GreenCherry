@@ -27,7 +27,6 @@ localHttp.interceptors.request.use(
   config => {
     // console.log('\n\nInterceptor');
     const accessToken = Cookies.get('accessToken');
-    // console.log(accessToken);
     if (config.headers && accessToken) {
       config.headers.Authorization = accessToken;
       // console.log('1 HTTP.js ' + config.headers);

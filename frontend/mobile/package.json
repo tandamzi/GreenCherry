@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@lottiefiles/lottie-player": "^1.7.1",
     "@react-hook/resize-observer": "^1.2.6",
     "@reduxjs/toolkit": "^1.9.5",
