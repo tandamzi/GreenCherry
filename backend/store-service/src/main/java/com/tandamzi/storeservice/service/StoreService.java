@@ -251,4 +251,9 @@ public class StoreService {
 
         return subscribeDtoPage;
     }
+
+    public Integer getCherryPoint(Long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
+        return store.getCherryPoint();
+    }
 }
