@@ -1,38 +1,22 @@
 import { StatusCodes } from 'http-status-codes';
 
-import http from '../http';
-
 import { reviewFetch } from '@/server/review/review';
 import { storeFetch } from '@/server/store/store';
+import createHttpInstance from '@/utils/http';
 
 const handler = async (req, res) => {
   const { id } = req.query;
   const size = 10;
   const storeDetailInfo = {};
-
-  // await storeFetch.getStoreDetail(id).then(response => {
-  //   storeDetailInfo.storeInfo = response.data;
-  // });
+  const http = createHttpInstance(req);
 
   await http.get(`/store/${id}`).then(response => {
     storeDetailInfo.storeInfo = response.data;
   });
 
-  // await reviewFetch.getStoreReview(id, size).then(response => {
-  //   storeDetailInfo.review = response.data;
-  // });
-
   await http.get(`/review?store-id=${id}&size=${size}`).then(response => {
     storeDetailInfo.review = response.data;
   });
-
-  // await reviewFetch.getStoreTag(id).then(response => {
-  //   // console.log(response.data);
-  //   // response.data.map(tag => {
-  //   //   console.log('dsadsadsads', tag);
-  //   // });
-  //   storeDetailInfo.tag = response.data;
-  // });
 
   await http.get(`/review/tag/stats?store-id=${id}`).then(response => {
     storeDetailInfo.tag = response.data;

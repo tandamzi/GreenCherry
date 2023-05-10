@@ -9,7 +9,7 @@ import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
-import http, { localHttp } from '@/server/api/http';
+import clientHttp from '@/utils/clientHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
@@ -31,10 +31,11 @@ export const getServerSideProps = async context => {
   const { id } = context.query;
   const headers = {
     headers: {
-      Authorization: context.req.cookies.accessToken,
+      Authorization: context.req.cookies.token,
     },
   };
-  const response = await localHttp.get(`/api/store/${id}`, headers);
+  // console.log(context.req.cookies.token);
+  const response = await clientHttp.get(`/api/store/${id}`, headers);
 
   return {
     props: {

@@ -8,14 +8,15 @@ import cs from 'classnames';
 const StoreInfo = ({ storeInfo }) => {
   const [data, setData] = useState();
   useEffect(() => {
-    setData(storeInfo);
+    setData(storeInfo.data);
   }, [storeInfo]);
+
   return (
     <div className="flex-row w-full justify-self-center border-b-2 border-b-line">
       <div className="w-full flex flex-col justify-self-center mb-10">
         <div>가게 사진</div>
         <div className="text-center mb-3">
-          <p className="font-bold text-3xl"> {data && data.name}</p>
+          <p className="font-bold text-3xl"> {storeInfo.name}</p>
           <p className="font-thin">{data && data.type.name}</p>
         </div>
         <div className="text-center mb-3">
