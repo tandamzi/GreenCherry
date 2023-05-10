@@ -1,7 +1,7 @@
 import http from '../api/http';
 
 const getStoreList = async (id, myLat, myLng, radius, sub) => {
-  // console.log('BE : ' + memberId);
+  // console.log('\n BE server/store/storeList.js ');
   const res = await http.get(`/store`, {
     params: {
       memberId: id || 1,
@@ -11,6 +11,8 @@ const getStoreList = async (id, myLat, myLng, radius, sub) => {
       sub: sub || false,
     },
   });
+  // console.log('\n Server res data : ' + res.data.data.content);
+
   return res.data;
 };
 export const storeListFetch = {

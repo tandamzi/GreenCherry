@@ -24,7 +24,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -85,7 +88,7 @@ public class OrderService {
                 .memberId(order.getMemberId())
                 .storeId(order.getStoreId())
                 .storeName(info.getData().getName())
-                .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
+                .cherryPoint(order.getQuantity())
                 .quentity(order.getQuantity())
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
@@ -165,9 +168,6 @@ public class OrderService {
 
         Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
 
-//        LocalDateTime date = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
         // TODO : 리뷰량이 많은 경우 속도 느림
         // TODO : order시간 기준 최신순 정렬
         Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
@@ -210,6 +210,36 @@ public class OrderService {
         });
 
         return list;
+
+    }
+    public DateTotalSalesResponseDto getDateTotalSales(Long storeId, String orderDate){
+        log.info("[OrderService] getDateTotalSales ");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(orderDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(orderDate,formatter).atTime(LocalTime.MAX);
+
+        Tuple tuple = orderRepository.findTupleByStoreIdAndCreateDate(storeId, startDateTime, endDateTime);
+
+        Long count = tuple.get("count",Long.class);
+        Long totalSalesAmount = tuple.get("totalAmount", Long.class);
+
+        return DateTotalSalesResponseDto.create(count,totalSalesAmount);
+    }
+
+    public WeekCherryPointResponseDto getCherryPointByWeek(String currentDate){
+        log.info("[OrderService] getCherryPointByWeek ");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusWeeks(1);
+
+        Tuple tuple = orderRepository.findTupleBetWeenCurrentDateAndEndDate(startDateTime, endDateTime);
+        Long count = tuple.get("count", Long.class);
+        Long totalPoint = tuple.get("totalQuantity", Long.class);
+
+        return WeekCherryPointResponseDto.create(count,totalPoint);
+
 
     }
 

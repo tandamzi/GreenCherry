@@ -12,6 +12,6 @@ import java.util.List;
 public class StoreResponseDto {
     private Long id;
     private String name;
-    private Address address;
+    private AddressResponseDto address;
     private List<String> images;
 }

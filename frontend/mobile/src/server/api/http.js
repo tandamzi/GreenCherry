@@ -1,31 +1,39 @@
 /* eslint no-param-reassign:"error" */
 import axios from 'axios';
-import { parseCookies } from 'nookies';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
+const API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
+const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
+
 const http = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
+    // Authorization: 'ABABAB',
   },
 });
-const httpForm = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
+
+const localHttp = axios.create({
+  baseURL: LOCAL_URL,
   headers: {
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': 'application/json;charset=utf-8',
+    // Authorization: 'ABABAB',
   },
 });
 
-// accessToken이 있을 경우 처리 headers에 삽입
-http.interceptors.request.use(
+localHttp.interceptors.request.use(
   config => {
-    const { accessToken } = parseCookies();
-
+    // console.log('\n\nInterceptor');
+    const accessToken = Cookies.get('accessToken');
+    // console.log(accessToken);
     if (config.headers && accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = accessToken;
+      // console.log('1 HTTP.js ' + config.headers);
+      return config;
     }
-
+    // console.log('2 HTTP.js ' + config.headers);
     return config;
   },
   error => {
@@ -33,6 +41,12 @@ http.interceptors.request.use(
   },
 );
 
+const httpForm = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 // accessToken이 있을 경우 처리 headers에 삽입
 httpForm.interceptors.request.use(
   config => {
@@ -51,5 +65,5 @@ httpForm.interceptors.request.use(
   },
 );
 
-export { httpForm };
+export { httpForm, localHttp };
 export default http;
