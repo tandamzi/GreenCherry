@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 @ToString
 public class CherryBoxRequestDto {
-    private Long memberId;
     private int quantity;
     private int totalPriceBeforeDiscount;
     private double discountRate;

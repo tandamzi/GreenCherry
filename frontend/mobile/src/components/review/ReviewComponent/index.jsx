@@ -3,7 +3,7 @@ import Lottie from 'react-lottie-player';
 import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
 
-const UserReview = () => {
+const ReviewComponent = () => {
   return (
     <div>
       <div className="flex flex-row justify-between mx-8 mt-8">
@@ -15,4 +15,4 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+export default ReviewComponent;
