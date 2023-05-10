@@ -234,15 +234,9 @@ public class OrderService {
         LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay();
         LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusWeeks(1);
 
-        log.info("startDateTime ={}",startDateTime);
-        log.info("endDateTime ={}",endDateTime);
-
         Tuple tuple = orderRepository.findTupleBetWeenCurrentDateAndEndDate(startDateTime, endDateTime);
         Long count = tuple.get("count", Long.class);
         Long totalPoint = tuple.get("totalQuantity", Long.class);
-
-        log.info("count ={}",count);
-        log.info("totalQuantity ={}",totalPoint);
 
         return WeekCherryPointResponseDto.create(count,totalPoint);
 
