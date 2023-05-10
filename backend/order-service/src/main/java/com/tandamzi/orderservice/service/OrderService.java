@@ -3,10 +3,7 @@ package com.tandamzi.orderservice.service;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
-import com.tandamzi.orderservice.dto.MemberForOrderDto;
-import com.tandamzi.orderservice.dto.OrderStatusDto;
-import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
-import com.tandamzi.orderservice.dto.Writed;
+import com.tandamzi.orderservice.dto.*;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -59,7 +56,6 @@ public class OrderService {
         SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto);
         StoreDetailforOrderResponseDto storeDetail = result.getData();
 
-        // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
@@ -68,7 +64,18 @@ public class OrderService {
                 .totalSalesAmount(storeDetail.getTotalSalesAmount())
                 .build());
 
+        // 동기로 storeId의 주인장의
+        log.info("ownerId = {}", storeDetail.getOwnerId());
 
+        NoticeDto noticeDto = NoticeDto.builder()
+                .noticeType(2)
+                .targetMemberId(storeDetail.getOwnerId())
+                .quantity(orderDto.getOrderQuantity())
+                .totalSalesAmount(storeDetail.getTotalSalesAmount())
+                .storeId(storeDetail.getStoreId())
+                .build();
+
+        kafkaProducer.send("notice-for-register-order", noticeDto);
     }
 
     @Transactional
