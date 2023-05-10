@@ -4,7 +4,7 @@ export default function handler(req, res) {
   if (token) {
     res.setHeader(
       'Set-Cookie',
-      `token=${token}; HttpOnly=false; Path=/; Max-Age=${
+      `token=${token}; httpOnly=false; Path=/; Max-Age=${
         7 * 24 * 60 * 60
       }; Secure; SameSite=Lax`,
     );

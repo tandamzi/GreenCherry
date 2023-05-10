@@ -1,17 +1,25 @@
 import React, { useEffect, useState, useRef } from 'react';
+import Lottie from 'react-lottie-player';
 
+import refresh from '@public/assets/lottie/refresh.json';
 import axios from 'axios';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { localHttp } from '@/server/api/http';
+import clientHttp from '@/utils/clientHttp';
+
+const CHERRY_BOX_MARKER_URL = `/assets/icons/mapIcons/cherryBoxMarker.svg`;
+const MY_LOCAITON_MARKER_URL = '/assets/icons/mapIcons/myLocationMarker2.svg';
+const MY_LOCATION_URL = '/assets/icons/mapIcons/myLocationMarker.svg';
 
 const order = () => {
   const { kakao } = window;
 
   const [storeList, setStoreList] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isMapMoving, setIsMapMoving] = useState(true);
 
   const [state, setState] = useState({
     coords: {},
@@ -25,34 +33,73 @@ const order = () => {
     },
     errMsg: null,
   });
-  const currentPositionMarkerRef = useRef(null);
-  const currentPositionOverlayRef = useRef(null);
 
-  const getStoreInfos = async (id, lat, lng, radius, sub) => {
-    const myLat = lat !== undefined ? lat : state.myPostion.lat;
-    const myLng = lng !== undefined ? lng : state.myPostion.lng;
+  const mapRef = useRef();
+  const storeMarkersRef = useRef([]); // 새로운 상태 변수를 추가합니다.
+  const [storeMakkersLoading, setStoreMarkersLoading] = useState(false);
+
+  const updateStoreMarkersUpdate = content => {
+    // console.log(content);
+    // 기존의 모든 마커를 지웁니다.
+    storeMarkersRef.current.forEach(marker => marker.setMap(null));
+    storeMarkersRef.current = [];
+
+    // 각 상점에 대한 마커를 생성합니다.
+    content.forEach(store => {
+      // console.log(store);
+      const markerSrc = CHERRY_BOX_MARKER_URL;
+      const markerSize = new kakao.maps.Size(32, 32);
+      const markerOpt = { offset: new kakao.maps.Point(32, 32) };
+
+      const markerImage = new kakao.maps.MarkerImage(
+        markerSrc,
+        markerSize,
+        markerOpt,
+      );
+
+      const markerPosition = new kakao.maps.LatLng(
+        store.address.lat,
+        store.address.lng,
+      );
+
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImage,
+      });
+
+      // 마커를 지도에 추가합니다.
+      marker.setMap(mapRef.current);
+
+      // 참조에 마커를 추가합니다.
+      storeMarkersRef.current.push(marker);
+    });
+  };
+
+  const getStoreInfos = async () => {
+    const memberId = 1;
+    const myLat = state.center.lat;
+    const myLng = state.center.lng;
+    const radius = 30;
+    const sub = false;
 
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/storeList`,
-        {
-          params: {
-            memberId: id || 1,
-            lat: myLat,
-            lng: myLng,
-            radius: radius || 3,
-            sub: sub || false,
-          },
+      const response = await clientHttp.get('/api/storeList', {
+        params: {
+          memberId: memberId || 1,
+          lat: myLat,
+          lng: myLng,
+          radius: radius || 30,
+          sub: sub || false,
         },
-      );
-      const { data } = response.data;
-      // console.log('order INDEX' + response);
+      });
+      const { content } = response.data.data;
+      setStoreList(content);
+
+      updateStoreMarkersUpdate(content);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-
-  const mapRef = useRef();
 
   const getCurrentGeolocaionPosition = (
     options = { enableHighAccuracy: false, maximamAge: 0, timeout: 10000 },
@@ -71,6 +118,7 @@ const order = () => {
         ...prev,
         coords,
         myPostion: { lat: coords.latitude, lng: coords.longitude },
+        center: { lat: coords.latitude, lng: coords.longitude },
       }));
       setIsLoading(false);
     } catch (error) {
@@ -79,6 +127,9 @@ const order = () => {
       setIsLoading(false);
     }
   };
+
+  const currentPositionMarkerRef = useRef(null);
+  const currentPositionOverlayRef = useRef(null);
 
   const updateMarkerPosition = async () => {
     await getCurrentPosition();
@@ -91,7 +142,7 @@ const order = () => {
     if (currentPositionMarkerRef.current) {
       currentPositionMarkerRef.current.setPosition(currentPosition);
     } else {
-      const markerSrc = `/assets/icons/mapIcons/myLocationMarker2.svg`;
+      const markerSrc = MY_LOCAITON_MARKER_URL;
       const markerSize = new kakao.maps.Size(32, 32);
       const markerOpt = { offset: new kakao.maps.Point(32, 32) };
 
@@ -131,6 +182,7 @@ const order = () => {
     }
 
     mapRef.current.panTo(currentPosition);
+    getStoreInfos();
   };
 
   useEffect(() => {
@@ -145,9 +197,22 @@ const order = () => {
     mapRef.current.setMinLevel(1);
     mapRef.current.setMaxLevel(6);
 
+    kakao.maps.event.addListener(mapRef.current, 'dragstart', function () {
+      setIsMapMoving(false);
+    });
+
+    kakao.maps.event.addListener(mapRef.current, 'dragend', function () {
+      setIsMapMoving(true);
+    });
+
     getCurrentPosition();
   }, []);
 
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
   return (
     <Container>
       <div id="myMap" ref={mapRef} style={state.style}>
@@ -164,15 +229,35 @@ const order = () => {
             <span className="text-sm font-bold text-secondaryfont">
               내 위치
             </span>
-            <Image
-              alt="내 위치"
-              src="/assets/icons/mapIcons/myLocationMarker.svg"
-              width={20}
-              height={20}
-            />
+            <Image alt="내 위치" src={MY_LOCATION_URL} width={20} height={20} />
           </div>
         </button>
+
+        {isMapMoving && (
+          <button
+            type="button"
+            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent font-black text-base text-bgcolor cursor-pointer"
+            style={{
+              zIndex: 10,
+            }}
+            onClick={getStoreInfos}
+          >
+            <div className="flex justify-center">
+              <Lottie
+                className="mr-1"
+                style={{ width: 24, height: 24 }}
+                loop
+                animationData={refresh}
+                play
+                option={options}
+                speed={0.7}
+              />
+              <div>현 지도에서 검색</div>
+            </div>
+          </button>
+        )}
       </div>
+
       <div style={{ zIndex: 10 }}>
         <Container.MainFooterWithNavigation />
       </div>
