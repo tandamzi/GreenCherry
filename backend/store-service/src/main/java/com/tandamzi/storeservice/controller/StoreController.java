@@ -72,12 +72,6 @@ public class StoreController {
         StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId, memberId);
         return responseService.getSingleResult(storeDetailResponseDto);
     }
-    /*@GetMapping("/{store-id}")
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
-        log.info("searchStoreDetail 진입 storeId: {}", storeId);
-        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
-        return responseService.getSingleResult(storeDetailResponseDto);
-    }*/
 
     @PutMapping("/{store-id}")
     public Result updateStore(@PathVariable("store-id") Long storeId, @RequestPart(required = false) UpdateStoreRequestDto storeRequestDto, @RequestPart(required = false) List<MultipartFile> images) throws IOException {
