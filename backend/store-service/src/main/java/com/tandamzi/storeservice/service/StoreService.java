@@ -5,7 +5,7 @@ import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
-import com.tandamzi.storeservice.dto.feign.StoreDetailForOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -201,7 +201,7 @@ public class StoreService {
 
     /**[주문하기용] 가게 상세 조회 */
     @Transactional
-    public StoreDetailForOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
+    public StoreDetailforOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
         log.info("[StoreService] storeDetailforOrder");
         Store store = storeRepository.findByIdLockWithCherryBox(orderDto.getStoreId()).orElseThrow(StoreNotFoundException::new);
 
@@ -217,7 +217,7 @@ public class StoreService {
 
         cherryBoxService.decreaseCherryBox(store.getId(), orderDto.getOrderQuantity());
 
-        return StoreDetailForOrderResponseDto.create(store,totalSalesAmount);
+        return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
 
     }
 
