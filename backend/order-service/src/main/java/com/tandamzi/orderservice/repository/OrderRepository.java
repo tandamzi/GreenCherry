@@ -23,10 +23,6 @@ public interface OrderRepository extends JpaRepository<Order ,Long> , OrderRepos
 
     @Query("select count(*) as count ,sum (o.totalSalesAmount) as totalAmount from Order o " +
             "where o.storeId = :storeId and o.createDate between :startDateTime and :endDateTime")
-    Object[] findByStoreIdAndCreateDate(@Param("storeId")Long storeId, @Param("startDateTime")LocalDateTime startDateTime ,@Param("endDateTime")LocalDateTime endDateTime);
-
-    @Query("select count(*) as count ,sum (o.totalSalesAmount) as totalAmount from Order o " +
-            "where o.storeId = :storeId and o.createDate between :startDateTime and :endDateTime")
     Tuple findTupleByStoreIdAndCreateDate(@Param("storeId")Long storeId, @Param("startDateTime")LocalDateTime startDateTime , @Param("endDateTime")LocalDateTime endDateTime);
 
 }

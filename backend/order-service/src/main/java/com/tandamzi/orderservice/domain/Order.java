@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-@ToString
 @Table(name = "orders")
 public class Order extends BaseEntity{
     @Id
