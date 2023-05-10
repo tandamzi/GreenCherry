@@ -74,4 +74,11 @@ public class OrderController {
         DateTotalSalesResponseDto dateTotalSales = orderService.getDateTotalSales(storeId, orderDate);
         return responseService.getSingleResult(dateTotalSales);
     }
+
+    @GetMapping("/week/cherry-point")
+    public SingleResult<WeekCherryPointResponseDto> getCherryPointByWeek(@RequestParam("current-date") String currentDate){
+        log.info("[OrderController] getCherryPointByMemberId");
+        WeekCherryPointResponseDto byWeek = orderService.getCherryPointByWeek(currentDate);
+        return responseService.getSingleResult(byWeek);
+    }
 }
