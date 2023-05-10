@@ -4,6 +4,7 @@ import Lottie from 'react-lottie-player';
 
 import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
+import Image from 'next/image';
 
 const StoreInfo = ({ storeInfo }) => {
   const [data, setData] = useState();
@@ -12,9 +13,16 @@ const StoreInfo = ({ storeInfo }) => {
   }, [storeInfo]);
 
   return (
-    <div className="flex-row w-full justify-self-center border-b-2 border-b-line">
-      <div className="w-full flex flex-col justify-self-center mb-10">
-        <div>가게 사진</div>
+    <div className="flex-row w-full justify-self-center border-b-2 border-b-line ">
+      <div className="w-full flex flex-col justify-self-center mb-10 border-b-2 border-b-line">
+        <Image
+          src={storeInfo.images[0].url}
+          width={1000}
+          height={100}
+          className="w-full"
+          alt="devday main logo"
+        />
+
         <div className="text-center mb-3">
           <p className="font-bold text-3xl"> {storeInfo.name}</p>
           <p className="font-thin">{data && data.type.name}</p>
@@ -27,7 +35,7 @@ const StoreInfo = ({ storeInfo }) => {
             {data && data.cherryBox.pricePerCherryBox}원
           </p>
         </div>
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row justify-evenly mb-5">
           <div className="font-thin flex flex-row pl-14">
             <AiOutlineHeart
               size={13}
@@ -42,7 +50,7 @@ const StoreInfo = ({ storeInfo }) => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col mb-5">
         <div className="flex flex-row mb-2">
           <p className="ml-16 mr-10 font-thin">픽업시간</p>
           <p>
