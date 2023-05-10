@@ -1,4 +1,4 @@
-package com.tandamzi.storeservice.kafka;
+package com.tandamzi.storeservice.communication.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
