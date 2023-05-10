@@ -19,7 +19,7 @@ const store = ({ storeProps }) => {
         <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
-        <UserReview />
+        <UserReview reviewInfo={storeProps.review} />
       </div>
     </Container>
   );
@@ -36,7 +36,6 @@ export const getServerSideProps = async context => {
   };
   // console.log(context.req.cookies.token);
   const response = await clientHttp.get(`/api/store/${id}`, headers);
-
   return {
     props: {
       storeProps: response.data,
