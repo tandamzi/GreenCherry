@@ -17,7 +17,7 @@ const ReservationStatus = ({ reservationInfo }) => {
   };
 
   useEffect(() => {
-    setData(reservationInfo);
+    setData(reservationInfo.data);
   }, [reservationInfo]);
   return (
     <div className="flex flex-col justify-center text-center mt-6 border-b-2 border-b-line pb-4">
