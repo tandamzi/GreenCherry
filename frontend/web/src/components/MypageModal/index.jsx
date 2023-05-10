@@ -24,8 +24,10 @@ const MypageModal = () => {
     >
       <h2 className="text-center text-4xl">내 가게</h2>
       <div>
-        {category.map(item => {
-          return <StoreModify title={item.title} type={item.type} />;
+        {category.map((item, index) => {
+          return (
+            <StoreModify key={index} title={item.title} type={item.type} />
+          );
         })}
       </div>
     </Modal>

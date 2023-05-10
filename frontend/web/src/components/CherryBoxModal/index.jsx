@@ -61,8 +61,9 @@ const CherryBoxModal = () => {
     >
       <h1 className="text-center text-3xl mb-10">오늘의 체리박스 등록</h1>
       <div>
-        {cherryBoxDatas.map(cherryBoxData => (
+        {cherryBoxDatas.map((cherryBoxData, index) => (
           <CherryInput
+            key={index}
             title={cherryBoxData.title}
             data={cherryBoxData.data}
             onChange={handleCherryBoxChange}
