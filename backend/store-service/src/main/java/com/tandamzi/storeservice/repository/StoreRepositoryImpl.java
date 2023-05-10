@@ -4,6 +4,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.tandamzi.storeservice.domain.QStore;
 import com.tandamzi.storeservice.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.tandamzi.storeservice.domain.QStore.store;
@@ -23,6 +25,25 @@ import static com.tandamzi.storeservice.domain.QSubscribe.subscribe;
 public class StoreRepositoryImpl implements StoreRepositoryCustom {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    //memberId와 storeId로 동적쿼리 가게 조회. Store엔티티 안의 Type와 cherryBox를 fetch join해서 모두 가져옴
+    public Optional<Store> findStoreByIdAndMember(Long memberId, Long storeId) {
+        Store store = queryFactory.selectFrom(QStore.store)
+                .leftJoin(QStore.store.type).fetchJoin()
+                .leftJoin(QStore.store.cherryBox).fetchJoin()
+                .where(storeIdEq(storeId), memberIdEq(memberId))
+                .fetchOne();
+        return Optional.ofNullable(store);
+    }
+
+    private BooleanExpression memberIdEq(Long memberId) {
+        return memberId != null ? store.memberId.eq(memberId) : null;
+    }
+
+    private BooleanExpression storeIdEq(Long storeId) {
+        return storeId != null ? store.id.eq(storeId) : null;
+    }
 
     @Override
     public Page<Store> findNearbyPlacesWithSubscription(long memberId, double radius, double latitude, double longitude, boolean sub, Pageable pageable) {
