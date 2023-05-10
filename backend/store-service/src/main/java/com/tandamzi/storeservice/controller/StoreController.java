@@ -15,7 +15,6 @@ import com.tandamzi.storeservice.service.S3Service;
 import com.tandamzi.storeservice.service.CherryBoxService;
 import com.tandamzi.storeservice.service.StoreService;
 import com.tandamzi.storeservice.service.ValidationService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -67,10 +66,10 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    @GetMapping("/{store-id}")
-    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@PathVariable("store-id") Long storeId) {
-        log.info("searchStoreDetail 진입 storeId: {}", storeId);
-        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId);
+    @GetMapping("/info")
+    public SingleResult<StoreDetailResponseDto> searchStoreDetail(@RequestParam(name = "store-id",required = false) Long storeId, @RequestParam(name = "member-id",required = false) Long memberId) {
+        log.info("searchStoreDetail 진입 storeId: {}, memberId:{}", storeId, memberId);
+        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(storeId, memberId);
         return responseService.getSingleResult(storeDetailResponseDto);
     }
 
@@ -114,11 +113,17 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
+    @GetMapping("{store-id}/cherry-point")
+    public SingleResult<Integer> getCherryPoint(@PathVariable("store-id") Long storeId) {
+        log.info("[StoreController] getCherryPoint 진입 storeId: {} ", storeId);
+        return responseService.getSingleResult(storeService.getCherryPoint(storeId));
+    }
+
     @GetMapping("{member-id}/subscribe")
     public SingleResult<Page<SubScribedStoreResponseDto>> getSubScribedStore(@PathVariable("member-id") Long memberId
-            ,@PageableDefault(size = 10) Pageable pageable) {
+            , @PageableDefault(size = 10) Pageable pageable) {
         log.info("storeId: {}", memberId);
-        return responseService.getSingleResult(storeService.getSubScribedStore(memberId,pageable));
+        return responseService.getSingleResult(storeService.getSubScribedStore(memberId, pageable));
     }
 
     @PostMapping("{store-id}/subscribe")
@@ -154,20 +159,26 @@ public class StoreController {
         return responseService.getSingleResult(validationDto);
     }
 
-    /**[주문하기용] 가게 상세 조회 */
+    /**
+     * [주문하기용] 가게 상세 조회
+     */
     @PostMapping("/for-order")
-    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto){
+    public SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto) {
         log.info("[StoreController] storeDetilforOrder");
         StoreDetailforOrderResponseDto storeDetail = storeService.storeDetailforOrder(orderDto);
         return responseService.getSingleResult(storeDetail);
     }
 
     @GetMapping("{store-id}/storeInfo-for-order")
-    public SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId){
+    public SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId) {
         log.info("[StoreController] storeInfoForOrder");
         StoreInfoForOrderDto storeInfoForOrderDto = storeService.storeInfoForOrder(storeId);
         return responseService.getSingleResult(storeInfoForOrderDto);
     }
+
+
+
+
 
 
 }

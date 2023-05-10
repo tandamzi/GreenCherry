@@ -1,4 +1,4 @@
-package com.tandamzi.storeservice.kafka;
+package com.tandamzi.storeservice.communication.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

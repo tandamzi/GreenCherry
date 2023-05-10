@@ -9,14 +9,15 @@ import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
+import clientHttp from '@/utils/clientHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
   return (
     <Container>
-      <div className="grid grid-rows-5">
+      <div>
         <StoreInfo storeInfo={storeProps.storeInfo} />
-        <ReservationStatus />
+        <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
         <UserReview />
       </div>
@@ -28,7 +29,13 @@ export default store;
 
 export const getServerSideProps = async context => {
   const { id } = context.query;
-  const response = await axios.get(`@/pages/api/store/${id}`);
+  const headers = {
+    headers: {
+      Authorization: context.req.cookies.token,
+    },
+  };
+  // console.log(context.req.cookies.token);
+  const response = await clientHttp.get(`/api/store/${id}`, headers);
 
   return {
     props: {

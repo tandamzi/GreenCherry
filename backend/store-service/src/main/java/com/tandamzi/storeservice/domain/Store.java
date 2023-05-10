@@ -10,8 +10,8 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"type", "cherryBox"})
-public class Store extends BaseEntity {
+//@ToString(exclude = {"type", "cherryBox"})
+public class Store extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")

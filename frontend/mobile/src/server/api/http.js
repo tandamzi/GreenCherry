@@ -1,22 +1,68 @@
+/* eslint no-param-reassign:"error" */
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
+const API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
+const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
+
 const http = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization:
-      'Bearer JhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5IiwiaWF0IjoxNjgzNTI2Mzk5LCJleHAiOjE2OTIxNjYzOTl9.xdKP9z53RZpCTlQSlykP126u-zy0fBNvqmF9BKBY2EL47SjffG48fbgzB9MIO_3b1slSv2PKErPBmy8eyVj3Ew',
+    // Authorization: 'ABABAB',
   },
 });
 
+const localHttp = axios.create({
+  baseURL: LOCAL_URL,
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+    // Authorization: 'ABABAB',
+  },
+});
+
+localHttp.interceptors.request.use(
+  config => {
+    // console.log('\n\nInterceptor');
+    const accessToken = Cookies.get('accessToken');
+    if (config.headers && accessToken) {
+      config.headers.Authorization = accessToken;
+      // console.log('1 HTTP.js ' + config.headers);
+      return config;
+    }
+    // console.log('2 HTTP.js ' + config.headers);
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
 const httpForm = axios.create({
-  baseURL: '',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'multipart/form-data',
   },
 });
+// accessToken이 있을 경우 처리 headers에 삽입
+httpForm.interceptors.request.use(
+  config => {
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem('accessToken');
 
-export { httpForm };
+      if (config.headers && accessToken) {
+        config.headers.Authorization = accessToken;
+        return config;
+      }
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  },
+);
+
+export { httpForm, localHttp };
 export default http;

@@ -57,12 +57,13 @@ const CherryBoxModal = () => {
     <Modal
       isOpen={cherryBoxRegisterModalOpen}
       onClose={closeCherryBoxRegisterModal}
-      className="w-3/5 h-3/5 px-16 py-10 flex flex-col items-center"
+      className="p-16 flex flex-col items-center"
     >
-      <h1 className="text-center text-3xl">오늘의 체리박스 등록</h1>
+      <h1 className="text-center text-3xl mb-10">오늘의 체리박스 등록</h1>
       <div>
-        {cherryBoxDatas.map(cherryBoxData => (
+        {cherryBoxDatas.map((cherryBoxData, index) => (
           <CherryInput
+            key={index}
             title={cherryBoxData.title}
             data={cherryBoxData.data}
             onChange={handleCherryBoxChange}
@@ -71,7 +72,7 @@ const CherryBoxModal = () => {
       </div>
       <button
         type="button"
-        className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl absolute bottom-10"
+        className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl mt-10"
         onClick={handleRegisterBtnClick}
       >
         판매시작
