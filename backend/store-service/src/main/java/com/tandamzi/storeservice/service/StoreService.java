@@ -80,12 +80,13 @@ public class StoreService {
         });
     }
 
-    public StoreDetailResponseDto getStoreDetail(Long storeId) {
-        Store store = storeRepository.findByIdWithEagerTypeAndBox(storeId).orElseThrow(StoreNotFoundException::new);
+    public StoreDetailResponseDto getStoreDetail(Long storeId,Long memberId) {
+        Store store = storeRepository.findStoreByIdAndMember(storeId,memberId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
+        storeId = store.getId();
         long numberOfReview = reviewServiceClient.countReview(storeId).getData();
         long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
         log.info("numberOfReview: {}", numberOfReview);
