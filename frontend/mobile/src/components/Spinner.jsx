@@ -13,13 +13,15 @@ function Spinner() {
   };
   return (
     <Container>
-      <Lottie
-        loop
-        animationData={forkSpoonLoading}
-        play
-        option={options}
-        speed={0.7}
-      />
+      <Container.Body>
+        <Lottie
+          loop
+          animationData={forkSpoonLoading}
+          play
+          option={options}
+          speed={0.7}
+        />
+      </Container.Body>
     </Container>
   );
 }
