@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import http from '../api/http';
 
 const getStoreReview = async (id, size) => {

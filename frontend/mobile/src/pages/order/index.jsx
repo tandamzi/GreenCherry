@@ -4,8 +4,7 @@ import axios from 'axios';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
-import http from '@/server/api/http';
-import { storeListFetch } from '@/server/store/storeList';
+import { localHttp } from '@/server/api/http';
 
 const order = () => {
   const { kakao } = window;
@@ -31,23 +30,18 @@ const order = () => {
     const myLng = lng !== undefined ? lng : state.myPostion.lng;
 
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/storeList`,
-        {
-          params: {
-            memberId: id || 1,
-            lat: myLat,
-            lng: myLng,
-            radius: radius || 3,
-            sub: sub || false,
-          },
+      const response = await localHttp.get('/api/storeList', {
+        params: {
+          memberId: id || 1,
+          lat: myLat,
+          lng: myLng,
+          radius: radius || 3,
+          sub: sub || false,
         },
-      );
-      // API 호출이 성공하면 response.data에 결과가 포함됩니다.
+      });
       const { data } = response.data;
-      // console.log('Fetched data:', data);
+      // console.log('order INDEX' + response);
     } catch (error) {
-      // API 호출 중 오류가 발생하면 여기에서 처리합니다.
       console.error('Error fetching data:', error);
     }
   };
