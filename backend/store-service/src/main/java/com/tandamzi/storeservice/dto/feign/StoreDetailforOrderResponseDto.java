@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 public class StoreDetailforOrderResponseDto {
     private Long storeId;
+    private Long ownerId;
     private String name;
     private int cherryPoint;
     private boolean open;
@@ -28,9 +29,10 @@ public class StoreDetailforOrderResponseDto {
         private int pricePerCherryBox;
     }
 
-    public static StoreDetailforOrderResponseDto create(Store store,int totalSalesAmount) {
+    public static StoreDetailforOrderResponseDto create(Store store, int totalSalesAmount) {
         return StoreDetailforOrderResponseDto.builder()
                 .storeId(store.getId())
+                .ownerId(store.getMemberId())
                 .name(store.getName())
                 .cherryPoint(store.getCherryPoint())
                 .open(store.isOpen())
