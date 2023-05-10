@@ -25,7 +25,6 @@ public class RegisterStoreRequestDto {
     private List<MultipartFile> imageFileList;
     private List<Long> allergyIdList;
 
-
     public Store toEntity(Type type, CherryBox cherryBox){
         return Store.builder()
                 .name(name)
@@ -46,12 +45,14 @@ public class RegisterStoreRequestDto {
     @Builder
     public static class AddressDto {
         private String addressName;
+        private String detailAddressName;
         private double lat;
         private double lng;
 
         public Address toEntity(){
             return Address.builder()
                     .addressName(addressName)
+                    .detailAddressName(detailAddressName)
                     .lat(lat)
                     .lng(lng)
                     .build();

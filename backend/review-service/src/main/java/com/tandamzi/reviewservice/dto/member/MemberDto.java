@@ -10,5 +10,6 @@ public class MemberDto {
 
     private Long memberId;
     private String nickname;
+    private String memberImageUrl;
 
 }

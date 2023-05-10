@@ -3,10 +3,7 @@ package com.tandamzi.orderservice.service;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.domain.Order;
 import com.tandamzi.orderservice.domain.State;
-import com.tandamzi.orderservice.dto.MemberForOrderDto;
-import com.tandamzi.orderservice.dto.OrderStatusDto;
-import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
-import com.tandamzi.orderservice.dto.Writed;
+import com.tandamzi.orderservice.dto.*;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.exception.OrderNotFoundException;
@@ -24,7 +21,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -56,7 +56,6 @@ public class OrderService {
         SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto);
         StoreDetailforOrderResponseDto storeDetail = result.getData();
 
-        // TODO : 하나의 회원이 해당 가게에 대해 여러 번 주문할 경우 컬럼이 새로 생성된다.
         orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
@@ -65,7 +64,18 @@ public class OrderService {
                 .totalSalesAmount(storeDetail.getTotalSalesAmount())
                 .build());
 
+        // 동기로 storeId의 주인장의
+        log.info("ownerId = {}", storeDetail.getOwnerId());
 
+        NoticeDto noticeDto = NoticeDto.builder()
+                .noticeType(2)
+                .targetMemberId(storeDetail.getOwnerId())
+                .quantity(orderDto.getOrderQuantity())
+                .totalSalesAmount(storeDetail.getTotalSalesAmount())
+                .storeId(storeDetail.getStoreId())
+                .build();
+
+        kafkaProducer.send("notice-for-register-order", noticeDto);
     }
 
     @Transactional
@@ -85,7 +95,7 @@ public class OrderService {
                 .memberId(order.getMemberId())
                 .storeId(order.getStoreId())
                 .storeName(info.getData().getName())
-                .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
+                .cherryPoint(order.getQuantity())
                 .quentity(order.getQuantity())
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
@@ -165,9 +175,6 @@ public class OrderService {
 
         Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
 
-//        LocalDateTime date = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
         // TODO : 리뷰량이 많은 경우 속도 느림
         // TODO : order시간 기준 최신순 정렬
         Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
@@ -191,6 +198,55 @@ public class OrderService {
             }
         }
         return String.valueOf(Writed.YES);
+
+    }
+    public List<NoticeListResponseDto> noticeOrderList(List<Long> orderId){
+        log.info("[OrderService] noticeOrderList ");
+
+        List<Order> orders = orderRepository.findListById(orderId);
+
+        List<NoticeListResponseDto> list = new ArrayList<>();
+
+        orders.forEach(order -> {
+            StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
+            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
+
+            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
+            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
+            list.add(noticeListResponseDto);
+        });
+
+        return list;
+
+    }
+    public DateTotalSalesResponseDto getDateTotalSales(Long storeId, String orderDate){
+        log.info("[OrderService] getDateTotalSales ");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(orderDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(orderDate,formatter).atTime(LocalTime.MAX);
+
+        Tuple tuple = orderRepository.findTupleByStoreIdAndCreateDate(storeId, startDateTime, endDateTime);
+
+        Long count = tuple.get("count",Long.class);
+        Long totalSalesAmount = tuple.get("totalAmount", Long.class);
+
+        return DateTotalSalesResponseDto.create(count,totalSalesAmount);
+    }
+
+    public WeekCherryPointResponseDto getCherryPointByWeek(String currentDate){
+        log.info("[OrderService] getCherryPointByWeek ");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusWeeks(1);
+
+        Tuple tuple = orderRepository.findTupleBetWeenCurrentDateAndEndDate(startDateTime, endDateTime);
+        Long count = tuple.get("count", Long.class);
+        Long totalPoint = tuple.get("totalQuantity", Long.class);
+
+        return WeekCherryPointResponseDto.create(count,totalPoint);
+
 
     }
 

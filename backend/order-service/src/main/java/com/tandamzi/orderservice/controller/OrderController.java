@@ -4,9 +4,7 @@ import com.tandamzi.orderservice.common.response.ResponseService;
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
-import com.tandamzi.orderservice.dto.response.OrderDetailResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderListResponseDto;
-import com.tandamzi.orderservice.dto.response.OrderMobileListResponseDto;
+import com.tandamzi.orderservice.dto.response.*;
 import com.tandamzi.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -57,5 +57,28 @@ public class OrderController {
         log.info("[OrderController] mobileOrderList");
         Page<OrderMobileListResponseDto> responseDtos = orderService.mobileOrderList(memberId, pageable);
         return responseService.getSingleResult(responseDtos);
+    }
+
+    @GetMapping("/notice/order-list")
+    public SingleResult<List<NoticeListResponseDto>> noticeOrderList(@RequestParam("orderIds") List<Long> orderIds){
+        log.info("[OrderController] noticeOrderList");
+        List<NoticeListResponseDto> noticeOrderList = orderService.noticeOrderList(orderIds);
+        return responseService.getSingleResult(noticeOrderList);
+    }
+
+    @GetMapping("/revenue")
+    public SingleResult<DateTotalSalesResponseDto> getTotalSalesAmount(@RequestParam("store-id") Long storeId,
+                                      @RequestParam("order-date") String orderDate){
+        log.info("[OrderController] getTotalSalesAmount");
+
+        DateTotalSalesResponseDto dateTotalSales = orderService.getDateTotalSales(storeId, orderDate);
+        return responseService.getSingleResult(dateTotalSales);
+    }
+
+    @GetMapping("/week/cherry-point")
+    public SingleResult<WeekCherryPointResponseDto> getCherryPointByWeek(@RequestParam("current-date") String currentDate){
+        log.info("[OrderController] getCherryPointByMemberId");
+        WeekCherryPointResponseDto byWeek = orderService.getCherryPointByWeek(currentDate);
+        return responseService.getSingleResult(byWeek);
     }
 }

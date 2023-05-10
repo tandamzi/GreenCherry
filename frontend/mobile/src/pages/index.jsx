@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
-
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import MainCarbon from '../components/main/MainCarbon';
 
 import Container from '@/components/Container';
 import Reservation from '@/components/main/Reservation';
+import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const sendNotification = async () => {
@@ -56,6 +57,22 @@ const subscribeUser = async () => {
 };
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // 3초 동안 로딩 스피너 표시
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const dispatch = useDispatch();
   const goToPage = page => {
     dispatch(changePage(page));
@@ -72,40 +89,45 @@ export default function Home() {
     //     </button>
     //   </div>
     // </div>
-    <Container>
-      <Container.MainHeader />
-      <Container.Body>
-        <div className="grid grid-rows-8 ">
-          <div className="row-span-3">
-            <MainCarbon />
+
+    !loading ? (
+      <Container>
+        <Container.MainHeader />
+        <Container.Body>
+          <div className="grid grid-rows-8 ">
+            <div className="row-span-3">
+              <MainCarbon />
+            </div>
+            <div className="row-span-2 grid grid-cols-2 justify-items-center">
+              <Link href="/order" onClick={goToPage('내 주변 가게')}>
+                <div>
+                  <Image
+                    src="/assets/icons/selectBoxIcons/orderBoxInText.svg"
+                    width={280}
+                    height={280}
+                    alt="greencherry orderBox"
+                  />
+                </div>
+              </Link>
+              <Link href="/subscribe">
+                <div>
+                  <Image
+                    src="/assets/icons/selectBoxIcons/subscribeBoxInText.svg"
+                    width={280}
+                    height={280}
+                    alt="greencherry subscribeBox"
+                  />
+                </div>
+              </Link>
+            </div>
+            <div className="row-span-2">
+              <Reservation />
+            </div>
           </div>
-          <div className="row-span-2 grid grid-cols-2 justify-items-center">
-            <Link href="/order" onClick={goToPage('내 주변 가게')}>
-              <div>
-                <Image
-                  src="/assets/icons/selectBoxIcons/orderBoxInText.svg"
-                  width={280}
-                  height={280}
-                  alt="greencherry orderBox"
-                />
-              </div>
-            </Link>
-            <Link href="/subscribe">
-              <div>
-                <Image
-                  src="/assets/icons/selectBoxIcons/subscribeBoxInText.svg"
-                  width={280}
-                  height={280}
-                  alt="greencherry subscribeBox"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="row-span-2">
-            <Reservation />
-          </div>
-        </div>
-      </Container.Body>
-    </Container>
+        </Container.Body>
+      </Container>
+    ) : (
+      <Spinner />
+    )
   );
 }

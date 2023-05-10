@@ -16,7 +16,7 @@ const login = () => {
     <Container>
       <div className=" bg-itembg relative h-full w-full">
         <Lottie
-          className="w-full h-full bg-itembg"
+          className="w-full h-screen bg-itembg"
           loop
           animationData={foodfall}
           play

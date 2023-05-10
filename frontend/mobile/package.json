@@ -16,6 +16,7 @@
     ]
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@lottiefiles/lottie-player": "^1.7.1",
     "@react-hook/resize-observer": "^1.2.6",
     "@reduxjs/toolkit": "^1.9.5",
@@ -23,6 +24,8 @@
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "http-status-codes": "^2.2.0",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^3.1.2",
     "next": "13.3.1",
     "next-pwa": "^5.6.0",
     "next-redux-wrapper": "^8.1.0",
@@ -36,6 +39,7 @@
     "react-transition-group": "^4.4.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
+    "sweetalert2": "^11.7.5",
     "web-push": "^3.5.0"
   },
   "devDependencies": {

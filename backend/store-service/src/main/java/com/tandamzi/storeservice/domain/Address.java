@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 @Builder
 public class Address {
     private String addressName;
+    private String detailAddressName;
     private double lat;
     private double lng;
 }

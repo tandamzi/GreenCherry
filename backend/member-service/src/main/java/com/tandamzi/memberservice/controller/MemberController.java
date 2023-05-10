@@ -7,6 +7,7 @@ import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
 import com.tandamzi.memberservice.dto.member.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,13 @@ public class MemberController {
         return responseService.getSingleResult(requestDto);
     }
 
+    @GetMapping("/search-for-review")
+    public SingleResult<List<MemberForReviewDto>> findMemberForReview(@RequestParam(value = "memberIds") List<Long> memberIds){
+        log.info("MemberController findMemberForReview 실행 -> memberIds = {}", memberIds);
+        List<MemberForReviewDto> requestDto = memberService.findMemberForReview(memberIds);
+        return responseService.getSingleResult(requestDto);
+    }
+
     @PostMapping("/notice")
     public Result noticeMember(@LoginMember Member member, @RequestBody String token){
         log.info("MemberController noticeMember 실행");
@@ -86,4 +94,10 @@ public class MemberController {
         return responseService.getListResult(responseDto);
     }
 
+    @GetMapping("/total")
+    public SingleResult<Long> getTotalMemberNumber(){
+        log.info("MemberController getTotalMemberNumber 실행");
+        Long totalMemberNumber = memberService.getTotalMemberNumber();
+        return responseService.getSingleResult(totalMemberNumber);
+    }
 }
