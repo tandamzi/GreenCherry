@@ -85,4 +85,9 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    public Long getTotalMemberNumber(){
+        log.info("MemberService getTotalMemberNumber 실행");
+        Long members = memberRepository.countAllMembers();
+        return members;
+    }
 }

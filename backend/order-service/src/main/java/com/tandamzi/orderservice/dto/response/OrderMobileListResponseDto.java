@@ -26,6 +26,8 @@ public class OrderMobileListResponseDto {
     private int totalSalesAmount;
     private LocalDateTime orderDate;
     private String writed;
+    private Long memberId;
+    private Long storeId;
 
 
 
@@ -39,6 +41,8 @@ public class OrderMobileListResponseDto {
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .orderDate(order.getCreateDate())
                 .writed(writedCheck)
+                .memberId(order.getMemberId())
+                .storeId(storeInfoDto.getStoreId())
                 .build();
     }
 

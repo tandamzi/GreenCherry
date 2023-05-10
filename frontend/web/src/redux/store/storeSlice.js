@@ -45,9 +45,27 @@ export const storeSlice = createSlice({
 
       return state;
     },
+    openStoreAction: state => {
+      return {
+        ...state,
+        open: true,
+      };
+    },
+
+    closeStoreAction: state => {
+      return {
+        ...state,
+        open: false,
+      };
+    },
   },
 });
 
 const { reducer, actions } = storeSlice;
-export const { getStoreInfoAction, putStoreInfoAction } = actions;
+export const {
+  getStoreInfoAction,
+  putStoreInfoAction,
+  openStoreAction,
+  closeStoreAction,
+} = actions;
 export default reducer;

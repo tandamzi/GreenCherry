@@ -8,7 +8,10 @@ import MainHeader from './components/MainHeader';
 
 const Container = ({ children, className }) => {
   return (
-    <div id="cherry-container" className={classnames(className, 'h-full')}>
+    <div
+      id="cherry-container"
+      className={classnames(className, 'h-full', 'w-full')}
+    >
       {children}
     </div>
   );
