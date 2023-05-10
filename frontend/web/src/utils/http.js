@@ -3,10 +3,6 @@ import axios from 'axios';
 
 import parseCookies from './parseCookies';
 
-const http = axios.create({
-  baseURL: 'http://k8C207.p.ssafy.io:5000',
-});
-
 export default function createHttpInstance(req) {
   const instance = axios.create({
     baseURL: 'http://k8C207.p.ssafy.io:5000',
