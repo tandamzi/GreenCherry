@@ -4,9 +4,8 @@ import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.domain.*;
-import com.tandamzi.storeservice.dto.feign.EndpointDto;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
-import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreDetailForOrderResponseDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -20,7 +19,6 @@ import com.tandamzi.storeservice.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,6 +127,8 @@ public class StoreService {
         ListResult<String> endpoints = memberServiceClient.getEndpoints(subscribers);
         log.info("subscribers = {}", subscribers);
         log.info("endpoints = {}", endpoints.getData());
+
+        //비동기로 카프카요청
     }
 
     private List<Long> getSubscribers(Store store) {
@@ -201,7 +201,7 @@ public class StoreService {
 
     /**[주문하기용] 가게 상세 조회 */
     @Transactional
-    public StoreDetailforOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
+    public StoreDetailForOrderResponseDto storeDetailforOrder(RegisterOrderDto orderDto){
         log.info("[StoreService] storeDetailforOrder");
         Store store = storeRepository.findByIdLockWithCherryBox(orderDto.getStoreId()).orElseThrow(StoreNotFoundException::new);
 
@@ -217,7 +217,7 @@ public class StoreService {
 
         cherryBoxService.decreaseCherryBox(store.getId(), orderDto.getOrderQuantity());
 
-        return StoreDetailforOrderResponseDto.create(store,totalSalesAmount);
+        return StoreDetailForOrderResponseDto.create(store,totalSalesAmount);
 
     }
 

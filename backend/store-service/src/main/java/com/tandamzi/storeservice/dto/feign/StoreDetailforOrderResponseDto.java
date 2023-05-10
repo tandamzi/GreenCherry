@@ -8,8 +8,9 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class StoreDetailforOrderResponseDto {
+public class StoreDetailForOrderResponseDto {
     private Long storeId;
+    private Long ownerId;
     private String name;
     private int cherryPoint;
     private boolean open;
@@ -28,9 +29,10 @@ public class StoreDetailforOrderResponseDto {
         private int pricePerCherryBox;
     }
 
-    public static StoreDetailforOrderResponseDto create(Store store,int totalSalesAmount) {
-        return StoreDetailforOrderResponseDto.builder()
+    public static StoreDetailForOrderResponseDto create(Store store, int totalSalesAmount) {
+        return StoreDetailForOrderResponseDto.builder()
                 .storeId(store.getId())
+                .ownerId(store.getMemberId())
                 .name(store.getName())
                 .cherryPoint(store.getCherryPoint())
                 .open(store.isOpen())
