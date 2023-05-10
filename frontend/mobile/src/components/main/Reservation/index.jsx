@@ -1,6 +1,6 @@
 import Lottie from 'react-lottie-player';
 
-import reservation from '@public/assets/lottie/reservation1.json';
+import foodOrderBox from '@public/assets/lottie/food-order-bag.json';
 import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
 
@@ -20,17 +20,15 @@ const Reservation = () => {
       )}
     >
       <Lottie
-        className="ml-10 mb-11"
+        className=""
         loop
-        animationData={reservation}
+        animationData={foodOrderBox}
         play
         options={options}
         style={{ width: 260, height: 260 }}
         speed={1}
       />
-      <p className="relative right-10 text-base w-full mb-2">
-        진행중인 예약이 없습니다
-      </p>
+      <p className="text-base w-full mb-2">진행중인 예약이 없습니다</p>
     </div>
   );
 };
