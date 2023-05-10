@@ -1,13 +1,7 @@
-function parseCookies(cookieString) {
-  const cookies = {};
-  const keyValuePairs = cookieString.split('; ');
-
-  keyValuePairs.forEach(pair => {
-    const [key, value] = pair.split('=');
-    cookies[key] = value;
-  });
-
-  return cookies;
+export default function parseCookies(cookieString) {
+  return cookieString.split('; ').reduce((acc, current) => {
+    const [key, value] = current.split('=');
+    acc[key] = value;
+    return acc;
+  }, {});
 }
-
-export default parseCookies;
