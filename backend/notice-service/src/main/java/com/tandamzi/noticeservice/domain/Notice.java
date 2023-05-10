@@ -26,20 +26,8 @@ public class Notice {
 
     private boolean isRead;
 
-    public static Notice create(NoticeListResponseDto dto){
-        return Notice.builder()
-                .storeId(dto.getStoreId())
-                .memberId(dto.getMemberId())
-                .orderId(dto.getOrderId())
-//                읽음 표시 메소드 호출해서 확인하기
-                .isRead(false)
-                .build();
-    }
-
     public void changeIsRead(boolean isRead) {
         this.isRead = isRead;
     }
-
-
 
 }

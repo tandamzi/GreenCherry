@@ -7,6 +7,7 @@ import com.tandamzi.memberservice.common.result.Result;
 import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
 import com.tandamzi.memberservice.dto.member.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +70,13 @@ public class MemberController {
                                                        @RequestParam(value = "memberIds", required = false) List<Long> memberIds){
         log.info("MemberController findMemberForOrder 실행 -> nickname = {}, memberIds = {}", nickname, memberIds);
         List<MemberForOrderDto> requestDto = memberService.findMemberForOrder(nickname, memberIds);
+        return responseService.getSingleResult(requestDto);
+    }
+
+    @GetMapping("/search-for-review")
+    public SingleResult<List<MemberForReviewDto>> findMemberForReview(@RequestParam(value = "memberIds") List<Long> memberIds){
+        log.info("MemberController findMemberForReview 실행 -> memberIds = {}", memberIds);
+        List<MemberForReviewDto> requestDto = memberService.findMemberForReview(memberIds);
         return responseService.getSingleResult(requestDto);
     }
 
