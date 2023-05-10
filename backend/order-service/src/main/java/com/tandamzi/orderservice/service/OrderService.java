@@ -88,7 +88,7 @@ public class OrderService {
                 .memberId(order.getMemberId())
                 .storeId(order.getStoreId())
                 .storeName(info.getData().getName())
-                .cherryPoint((int) (order.getTotalSalesAmount() * 0.1))
+                .cherryPoint(order.getQuantity())
                 .quentity(order.getQuantity())
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .build();
@@ -225,6 +225,28 @@ public class OrderService {
         Long totalSalesAmount = tuple.get("totalAmount", Long.class);
 
         return DateTotalSalesResponseDto.create(count,totalSalesAmount);
+    }
+
+    public WeekCherryPointResponseDto getCherryPointByWeek(String currentDate){
+        log.info("[OrderService] getCherryPointByWeek ");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusWeeks(1);
+
+        log.info("startDateTime ={}",startDateTime);
+        log.info("endDateTime ={}",endDateTime);
+
+        Tuple tuple = orderRepository.findTupleBetWeenCurrentDateAndEndDate(startDateTime, endDateTime);
+        Long count = tuple.get("count", Long.class);
+        Long totalPoint = tuple.get("totalQuantity", Long.class);
+
+        log.info("count ={}",count);
+        log.info("totalQuantity ={}",totalPoint);
+
+        return WeekCherryPointResponseDto.create(count,totalPoint);
+
+
     }
 
 }
