@@ -11,7 +11,6 @@ import java.util.List;
 @FeignClient("member-service")
 public interface MemberServiceClient {
 
-    @GetMapping("/member/search")
-    SingleResult<List<MemberDto>> findMember(@RequestParam(value = "nickname", required = false) String nickname,
-                                             @RequestParam(value = "memberIds", required = false) List<Long> memberIds);
+    @GetMapping("/member/search-for-review")
+    SingleResult<List<MemberDto>> findMemberForReview(@RequestParam(value = "memberIds", required = false) List<Long> memberIds);
 }
