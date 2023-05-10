@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   storeId: '',
-  storeName: '',
+  storeName: '베이글베이글',
   memberId: '',
   myStoreModalOpen: false,
   cherryBoxRegisterModalOpen: false,

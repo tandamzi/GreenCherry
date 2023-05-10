@@ -4,14 +4,17 @@ import classnames from 'classnames';
 
 import style from './index.module.scss';
 
-const StoreNameButton = ({ storeName, onClick }) => {
+import useMember from '@/hooks/memberHook';
+
+const StoreNameButton = ({ onClick }) => {
+  const { memberAttributes } = useMember();
   return (
     <button
       type="button"
       className={classnames(style.storeButton, 'font-bold text-secondary')}
       onClick={onClick}
     >
-      {storeName}
+      {memberAttributes.storeName}
     </button>
   );
 };

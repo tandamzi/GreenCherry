@@ -7,13 +7,13 @@ const InfoModal = ({ isOpen, onClose, children, onClick, okBtn }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      className="w-2/5 h-2/5 px-16 py-5 flex flex-col items-center"
+      className="max-w-3xl px-16 py-14 flex flex-col items-center tablet:w-4/5 justify-center"
     >
-      <div className="text-center text-2xl">{children}</div>
+      <div className="text-center text-2xl mb-11">{children}</div>
       {okBtn && (
         <button
           type="button"
-          className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl absolute bottom-5"
+          className="text-3xl text-bgcolor bg-secondary w-60 h-12 rounded-2xl font-bold"
           onClick={onClick}
         >
           네

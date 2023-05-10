@@ -5,7 +5,6 @@ import Cookies from 'js-cookie';
 axios.defaults.withCredentials = true;
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
-const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
 
 const http = axios.create({
   baseURL: API_URL,
@@ -15,18 +14,11 @@ const http = axios.create({
   },
 });
 
-const localHttp = axios.create({
-  baseURL: LOCAL_URL,
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-    // Authorization: 'ABABAB',
-  },
-});
-
-localHttp.interceptors.request.use(
+http.interceptors.request.use(
   config => {
     // console.log('\n\nInterceptor');
     const accessToken = Cookies.get('accessToken');
+    // console.log(accessToken);
     if (config.headers && accessToken) {
       config.headers.Authorization = accessToken;
       // console.log('1 HTTP.js ' + config.headers);
@@ -64,5 +56,5 @@ httpForm.interceptors.request.use(
   },
 );
 
-export { httpForm, localHttp };
+export { httpForm };
 export default http;
