@@ -317,7 +317,11 @@ const order = () => {
           <div className="">
             <div className="flex flex-col items-center">
               <div className="relative h-44 w-44 ">
-                <Image src={selectedStore.images[0]} fill />
+                <Image
+                  src={selectedStore.images[0]}
+                  alt={selectedStore.name}
+                  fill
+                />
               </div>
               <div className="font-bold text-xl">{selectedStore.name}</div>
               <div className="font-thin text-sm">
