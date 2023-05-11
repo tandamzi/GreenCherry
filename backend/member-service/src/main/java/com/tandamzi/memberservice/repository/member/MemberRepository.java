@@ -18,8 +18,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     List<Member> findByNicknameContaining(@Param("nickname") String nickname);
 
     @Query("select m from Member m join fetch m.notice where m.id in :memberIdList")
-    List<Member> findByIdIn(@Param("memberIdList") List<Long> memberIdList);
+    List<Member> findWithNoticeByIdIn(@Param("memberIdList") List<Long> memberIdList);
 
     @Query("select count(*) from Member m ")
     Long countAllMembers();
+
+    List<Member> findByIdIn(List<Long> memberIds);
 }

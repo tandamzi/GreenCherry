@@ -3,10 +3,12 @@ package com.tandamzi.storeservice.service;
 import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
+import com.tandamzi.storeservice.communication.kafka.KafkaProducer;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
+import com.tandamzi.storeservice.dto.kafka.CherryBoxNotificationDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
 import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
@@ -44,6 +46,8 @@ public class StoreService {
     private final CherryBoxService cherryBoxService;
     private final MemberServiceClient memberServiceClient;
     private final ReviewServiceClient reviewServiceClient;
+
+    private final KafkaProducer kafkaProducer;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
         Type type = typeRepository.findById(dto.getTypeId()).orElseThrow(TypeNotFoundException::new);
@@ -124,11 +128,17 @@ public class StoreService {
 
         //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
         List<Long> subscribers = getSubscribers(store);
-        ListResult<String> endpoints = memberServiceClient.getEndpoints(subscribers);
+        List<String> endpointList = memberServiceClient.getEndpoints(subscribers).getData();
         log.info("subscribers = {}", subscribers);
-        log.info("endpoints = {}", endpoints.getData());
+        log.info("endpoints = {}", endpointList);
 
         //비동기로 카프카요청
+        kafkaProducer.send("cherrybox-register-notification",
+                CherryBoxNotificationDto.builder()
+                        .storeId(store.getId())
+                        .storeName(store.getName())
+                        .endpointList(endpointList)
+                        .build());
     }
 
     private List<Long> getSubscribers(Store store) {
