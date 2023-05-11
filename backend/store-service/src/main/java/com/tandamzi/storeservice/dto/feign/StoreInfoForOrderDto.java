@@ -10,12 +10,14 @@ import lombok.*;
 public class StoreInfoForOrderDto {
     private Long storeId;
     private String name;
+    private String storeImageUrl;
     private boolean open;
 
-    public static StoreInfoForOrderDto create(Store store){
+    public static StoreInfoForOrderDto create(Store store,String storeImageUrl){
         return StoreInfoForOrderDto.builder()
                 .storeId(store.getId())
                 .name(store.getName())
+                .storeImageUrl(storeImageUrl)
                 .open(store.isOpen())
                 .build();
     }
