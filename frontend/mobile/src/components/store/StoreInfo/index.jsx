@@ -21,7 +21,7 @@ const StoreInfo = ({ storeInfo }) => {
 
         <div className="text-center mb-3">
           <p className="font-bold text-3xl"> {storeInfo.name}</p>
-          <p className="text-secondary">{data && data.type.name}</p>
+          <p className="text-xs text-secondary">{data && data.type.name}</p>
         </div>
         <div className="text-center mb-3">
           <p className="text-secondaryfont text-decoration-line: line-through">
