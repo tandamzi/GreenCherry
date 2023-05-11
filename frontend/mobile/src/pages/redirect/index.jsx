@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
-import { saveToken } from '@/redux/member/memberReducer';
+import { saveToken, loginAsync } from '@/redux/member/memberReducer';
 
 const redirect = () => {
   const router = useRouter();
@@ -26,6 +26,7 @@ const redirect = () => {
 
         if (response.ok) {
           dispatch(saveToken(token));
+          // dispatch(loginAsync(token));
           // 쿠키 설정 후 원하는 페이지로 리다이렉트
           router.replace('/');
         } else {
