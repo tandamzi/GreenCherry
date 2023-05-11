@@ -9,8 +9,8 @@ import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
-import createHttpInstance from '@/utils/backendhttp';
-import createBFFInstance from '@/utils/bffHttp';
+import createHttpInstance from '@/utils/ssr/backendhttp';
+import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();

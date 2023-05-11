@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import createHttpInstance from '@/utils/backendhttp';
+import createHttpInstance from '@/utils/ssr/backendhttp';
 
 const handler = async (req, res) => {
   const { id } = req.query;
