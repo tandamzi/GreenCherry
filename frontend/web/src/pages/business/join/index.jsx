@@ -9,8 +9,8 @@ import style from './index.module.scss';
 
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
-import { getAllergy } from '@/utils/api/store';
-import { clientHttpForm } from '@/utils/clientHttp';
+import { getAllergy, getStoreType } from '@/utils/api/store';
+import clientHttp, { clientHttpForm } from '@/utils/clientHttp';
 
 const Join = () => {
   const {
@@ -29,10 +29,16 @@ const Join = () => {
 
   const [allergyList, setAllergyList] = useState([]);
   const [storeTypeList, setStoreTypeList] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   useEffect(() => {
     getAllergy().then(data => setAllergyList(data));
+    getStoreType().then(data => setStoreTypeList(data));
   }, []);
+
+  const handleFileChange = event => {
+    setSelectedFiles(event.target.files);
+  };
 
   const handleDateChange = e => {
     const dateValue = e.target.value;
@@ -73,17 +79,22 @@ const Join = () => {
   const onSubmit = async data => {
     // console.log('data', data);
     const formData = new FormData();
-    formData.append('images', data.images);
+    Array.from(selectedFiles).forEach((file, index) => {
+      formData.append(`images`, file);
+    });
+
+    /* for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    } */
     formData.append('data', JSON.stringify(data));
     try {
       const response = await clientHttpForm.post('/store', formData);
       return response.data;
     } catch (error) {
+      // console.log(error);
       throw new Error('File upload failed');
     }
   };
-
-  // 주소 API 사용 및 상태 업데이트를 위한 함수를 작성하세요.
 
   // 좌표를 가져오는 함수
   const getGeocode = async query => {
@@ -308,6 +319,26 @@ const Join = () => {
                   인허가 업소 정보를 확인해주세요
                 </p>
               )}
+
+            <div className="relative my-5 flex flex-col w-96">
+              <p className="text-2xl text-bgcolor">업종</p>
+              <select
+                {...register('typeId', {
+                  required: true,
+                })}
+                type="text"
+              >
+                <option value="">업종을 선택해주세요</option>
+                {storeTypeList.map(type => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
+              {errors.typeId && errors.typeId.type === 'required' && (
+                <p className={style['error-text']}>업종을 선택해주세요</p>
+              )}
+            </div>
             <div className="relative my-5 flex flex-col w-96">
               <p className="text-2xl text-bgcolor">주소</p>
               <div className="flex justify-between">
@@ -453,6 +484,7 @@ const Join = () => {
                 type="file"
                 accept="image/*"
                 multiple
+                onChange={handleFileChange}
               />
               {errors.images && errors.images.type === 'required' && (
                 <p className={style['error-text']}>이미지를 선택해주세요</p>
