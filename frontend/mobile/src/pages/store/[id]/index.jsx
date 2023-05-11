@@ -33,12 +33,6 @@ export const getServerSideProps = async context => {
   const { req } = context;
   const httpInstance = createBFFInstance(req);
 
-  // const headers = {
-  //   headers: {
-  //     Authorization: context.req.cookies.token,
-  //   },
-  // };
-  // console.log(context.req.cookies.token);
   const response = await httpInstance.get(`/api/store/${id}`);
   return {
     props: {

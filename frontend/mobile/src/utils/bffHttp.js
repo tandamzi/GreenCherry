@@ -4,8 +4,9 @@ import axios from 'axios';
 import parseCookies from './parseCookies';
 
 export default function createBFFInstance(req) {
+  const LOCAL_API_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
   const instance = axios.create({
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL: LOCAL_API_URL,
   });
 
   instance.interceptors.request.use(

@@ -1,7 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { reviewFetch } from '@/server/review/review';
-import { storeFetch } from '@/server/store/store';
 import createHttpInstance from '@/utils/backendhttp';
 
 const handler = async (req, res) => {
