@@ -9,7 +9,8 @@ import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
-import clientHttp from '@/utils/clientHttp';
+import createHttpInstance from '@/utils/ssr/backendhttp';
+import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const store = ({ storeProps }) => {
         <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />
-        <UserReview />
+        <UserReview reviewInfo={storeProps.review} />
       </div>
     </Container>
   );
@@ -29,14 +30,10 @@ export default store;
 
 export const getServerSideProps = async context => {
   const { id } = context.query;
-  const headers = {
-    headers: {
-      Authorization: context.req.cookies.token,
-    },
-  };
-  // console.log(context.req.cookies.token);
-  const response = await clientHttp.get(`/api/store/${id}`, headers);
+  const { req } = context;
+  const httpInstance = createBFFInstance(req);
 
+  const response = await httpInstance.get(`/api/store/${id}`);
   return {
     props: {
       storeProps: response.data,

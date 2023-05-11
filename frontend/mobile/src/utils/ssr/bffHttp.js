@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
 
-import parseCookies from './parseCookies';
+import parseCookies from '../parseCookies';
 
-export default function createHttpInstance(req) {
+const LOCAL_API_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
+export default function createBFFInstance(req) {
   const instance = axios.create({
-    baseURL: 'http://k8C207.p.ssafy.io:5000',
+    baseURL: LOCAL_API_URL,
   });
 
   instance.interceptors.request.use(
@@ -15,10 +16,9 @@ export default function createHttpInstance(req) {
         ? parseCookies(req.headers.cookie)
         : {};
       const { token } = cookies;
-
       if (token) {
         // 헤더에 인증 토큰을 추가합니다.
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.cookie = token;
       }
 
       return config;

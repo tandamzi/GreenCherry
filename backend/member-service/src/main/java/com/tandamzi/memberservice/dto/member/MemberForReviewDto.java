@@ -1,4 +1,4 @@
-package com.tandamzi.reviewservice.dto.member;
+package com.tandamzi.memberservice.dto.member;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class MemberDto {
+public class MemberForReviewDto {
 
     private Long memberId;
     private String nickname;

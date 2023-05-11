@@ -4,6 +4,7 @@ package com.tandamzi.memberservice.service;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.domain.Notice;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
 import com.tandamzi.memberservice.repository.member.MemberRepository;
 import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,14 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    public List<MemberForReviewDto> findMemberForReview(List<Long> memberIds){
+        log.info("MemberService findMemberForReview 실행 -> memberIds = {}", memberIds);
+
+        return memberRepository.findByIdIn(memberIds).stream()
+                .map(m -> new MemberForReviewDto(m.getId(), m.getNickname(), m.getImage()))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public void noticeMember(Member member, String token){
         log.info("MemberService noticeMember 실행");
@@ -78,9 +87,10 @@ public class MemberService {
 
     public List<String> getTokens(List<Long> memberIdList){
         log.info("MemberService getTokens 실행");
-        List<Member> members = memberRepository.findByIdIn(memberIdList);
+        List<Member> members = memberRepository.findWithNoticeByIdIn(memberIdList);
 
         return members.stream()
+                .filter(Member::isAlarm)
                 .map(m -> m.getNotice().getToken())
                 .collect(Collectors.toList());
     }
