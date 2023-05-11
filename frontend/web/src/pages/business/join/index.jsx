@@ -10,6 +10,7 @@ import style from './index.module.scss';
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
 import { getAllergy } from '@/utils/api/store';
+import { clientHttpForm } from '@/utils/clientHttp';
 
 const Join = () => {
   const {
@@ -26,10 +27,8 @@ const Join = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [allergyIdList, setAllergyIdList] = useState([]);
 
-  const [allergyList, setAllergyList] = useState([
-    { id: '1', name: '계란' },
-    { id: '2', name: '우유' },
-  ]);
+  const [allergyList, setAllergyList] = useState([]);
+  const [storeTypeList, setStoreTypeList] = useState([]);
 
   useEffect(() => {
     getAllergy().then(data => setAllergyList(data));
@@ -71,8 +70,17 @@ const Join = () => {
     }
   }, []);
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     // console.log('data', data);
+    const formData = new FormData();
+    formData.append('images', data.images);
+    formData.append('data', JSON.stringify(data));
+    try {
+      const response = await clientHttpForm.post('/store', formData);
+      return response.data;
+    } catch (error) {
+      throw new Error('File upload failed');
+    }
   };
 
   // 주소 API 사용 및 상태 업데이트를 위한 함수를 작성하세요.
@@ -137,7 +145,7 @@ const Join = () => {
     <Container>
       <Container.MainHeader />
       <Container.MainBody className="bg-secondary">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <div className="text-bgcolor text-center mb-24">
             <h1 className="text-7xl mt-20 mb-6">RESISTE YOUR STORE</h1>
             <h3 className="text-4xl font-thin">
@@ -352,7 +360,7 @@ const Join = () => {
               <input
                 {...register('phone', {
                   required: true,
-                  pattern: /^[0-9]$/,
+                  pattern: /^[0-9]{11}$/,
                 })}
                 autoComplete="off"
                 id="phone"
