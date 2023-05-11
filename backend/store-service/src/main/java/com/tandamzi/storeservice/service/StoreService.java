@@ -1,6 +1,5 @@
 package com.tandamzi.storeservice.service;
 
-import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.communication.kafka.KafkaProducer;
@@ -46,7 +45,6 @@ public class StoreService {
     private final CherryBoxService cherryBoxService;
     private final MemberServiceClient memberServiceClient;
     private final ReviewServiceClient reviewServiceClient;
-
     private final KafkaProducer kafkaProducer;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
@@ -72,6 +70,7 @@ public class StoreService {
 
     @Transactional
     public void registerStoreAllergy(RegisterStoreRequestDto dto, Store store) {
+        if(dto.getAllergyIdList() == null || dto.getAllergyIdList().isEmpty()) return;
         List<Allergy> allergyList = allergyRepository.findAllById(dto.getAllergyIdList());
         allergyList.stream().forEach(allergy -> {
             storeAllergyRepository.save(StoreAllergy.builder()
@@ -88,8 +87,7 @@ public class StoreService {
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
-        storeId = store.getId();
-        long numberOfReview = reviewServiceClient.countReview(storeId).getData();
+        long numberOfReview = reviewServiceClient.countReview(store.getId()).getData();
         long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
         log.info("numberOfReview: {}", numberOfReview);
 
