@@ -1,14 +1,21 @@
+/* eslint-disable prefer-template */
+/* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss';
 
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
+import useMember from '@/hooks/memberHook';
+import { getAllergy, getStoreType } from '@/utils/api/store';
+import clientHttp, { clientHttpForm } from '@/utils/clientHttp';
 
 const Join = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -23,11 +30,21 @@ const Join = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [allergyIdList, setAllergyIdList] = useState([]);
 
-  // TODO: 서버에서 받아온 데이터로 변경
-  const [allergyList, setAllergyList] = useState([
-    { id: '1', name: '계란' },
-    { id: '2', name: '우유' },
-  ]);
+  const [allergyList, setAllergyList] = useState([]);
+  const [storeTypeList, setStoreTypeList] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const [clicked, setClicked] = useState(false);
+
+  const { memberAttributes } = useMember();
+  useEffect(() => {
+    getAllergy().then(data => setAllergyList(data));
+    getStoreType().then(data => setStoreTypeList(data));
+  }, []);
+
+  const handleFileChange = event => {
+    setSelectedFiles(event.target.files);
+  };
 
   const handleDateChange = e => {
     const dateValue = e.target.value;
@@ -48,6 +65,8 @@ const Join = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [extraAddress, setExtraAddress] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
   useEffect(() => {
     const loadDaumPostcodeScript = () => {
@@ -65,11 +84,42 @@ const Join = () => {
     }
   }, []);
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     // console.log('data', data);
-  };
+    setClicked(true);
+    const result = {
+      ...data,
+      memberId: memberAttributes.memberId,
+      detailAddress,
+      allergyIdList,
+      lat,
+      lng,
+    };
+    // console.log(result);
+    const formData = new FormData();
+    Array.from(selectedFiles).forEach((file, index) => {
+      formData.append(`images`, file);
+    });
 
-  // 주소 API 사용 및 상태 업데이트를 위한 함수를 작성하세요.
+    /* for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    } */
+    // setClicked(false);
+    formData.append('data', JSON.stringify(result));
+    try {
+      const response = await clientHttpForm.post('/store', formData);
+      // console.log(response.data);
+      if (response.data.success) {
+        router.push('/business');
+      } else {
+        router.push('/');
+      }
+      return response.data;
+    } catch (error) {
+      // console.log(error);
+      throw new Error('File upload failed');
+    }
+  };
 
   // 좌표를 가져오는 함수
   const getGeocode = async query => {
@@ -82,9 +132,8 @@ const Join = () => {
           Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_ADDRESS_API_KEY}`,
         },
       });
-
-      // console.log(response.data.documents[0].address.x);
-      // console.log(response.data.documents[0].address.y);
+      setLng(response.data.documents[0].address.x);
+      setLat(response.data.documents[0].address.y);
     } catch (error) {
       console.error('Failed to search address:', error);
     }
@@ -102,7 +151,6 @@ const Join = () => {
           buildingName,
           apartment,
         } = data;
-        // eslint-disable-next-line prefer-destructuring
         const userSelectedType = data.userSelectedType;
 
         const addr = userSelectedType === 'R' ? roadAddress : jibunAddress;
@@ -113,11 +161,9 @@ const Join = () => {
             extraAddr += bname;
           }
           if (buildingName !== '' && apartment === 'Y') {
-            // eslint-disable-next-line prefer-template
             extraAddr += extraAddr !== '' ? ', ' + buildingName : buildingName;
           }
           if (extraAddr !== '') {
-            // eslint-disable-next-line prefer-template
             extraAddr = ' (' + extraAddr + ')';
           }
         }
@@ -134,7 +180,7 @@ const Join = () => {
     <Container>
       <Container.MainHeader />
       <Container.MainBody className="bg-secondary">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <div className="text-bgcolor text-center mb-24">
             <h1 className="text-7xl mt-20 mb-6">RESISTE YOUR STORE</h1>
             <h3 className="text-4xl font-thin">
@@ -297,6 +343,26 @@ const Join = () => {
                   인허가 업소 정보를 확인해주세요
                 </p>
               )}
+
+            <div className="relative my-5 flex flex-col w-96">
+              <p className="text-2xl text-bgcolor">업종</p>
+              <select
+                {...register('typeId', {
+                  required: true,
+                })}
+                type="text"
+              >
+                <option value="">업종을 선택해주세요</option>
+                {storeTypeList.map(type => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
+              {errors.typeId && errors.typeId.type === 'required' && (
+                <p className={style['error-text']}>업종을 선택해주세요</p>
+              )}
+            </div>
             <div className="relative my-5 flex flex-col w-96">
               <p className="text-2xl text-bgcolor">주소</p>
               <div className="flex justify-between">
@@ -349,7 +415,7 @@ const Join = () => {
               <input
                 {...register('phone', {
                   required: true,
-                  pattern: /^[0-9]$/,
+                  pattern: /^[0-9]{11}$/,
                 })}
                 autoComplete="off"
                 id="phone"
@@ -427,7 +493,7 @@ const Join = () => {
                       key={allergy.id}
                       text={allergy.name}
                       onClick={handleAllergyBtnClick}
-                      selected={allergyIdList.includes(allergy.id)}
+                      selected={allergyIdList.includes(allergy.id.toString())}
                     />
                   );
                 })}
@@ -442,6 +508,7 @@ const Join = () => {
                 type="file"
                 accept="image/*"
                 multiple
+                onChange={handleFileChange}
               />
               {errors.images && errors.images.type === 'required' && (
                 <p className={style['error-text']}>이미지를 선택해주세요</p>
@@ -451,6 +518,7 @@ const Join = () => {
               type="submit"
               className="text-secondary bg-bgcolor text-4xl h-20 w-44 rounded-full mt-10"
               onClick={handleSubmit(onSubmit)}
+              disabled={clicked}
             >
               <p>등록하기</p>
             </button>
