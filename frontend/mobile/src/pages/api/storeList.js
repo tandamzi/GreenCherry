@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
-import createHttpInstance from '@/utils/http';
+import createHttpInstance from '@/utils/csr/backendhttp';
 
 const handler = async (req, res) => {
   const { memberId, lat, lng, radius, sub } = req.query;
 
   const http = createHttpInstance(req);
+
   let storeList = {};
   try {
     await http
