@@ -27,3 +27,12 @@ export const getStoreType = async () => {
     return error;
   }
 };
+
+export const getCherryPoint = async storeId => {
+  try {
+    const res = await clientHttp.get(`/store/${storeId}/cherry-point`);
+    return res.data.data;
+  } catch (error) {
+    return error;
+  }
+};
