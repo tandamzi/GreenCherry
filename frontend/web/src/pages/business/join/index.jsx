@@ -4,15 +4,18 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss';
 
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
+import useMember from '@/hooks/memberHook';
 import { getAllergy, getStoreType } from '@/utils/api/store';
 import clientHttp, { clientHttpForm } from '@/utils/clientHttp';
 
 const Join = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -31,6 +34,9 @@ const Join = () => {
   const [storeTypeList, setStoreTypeList] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
+  const [clicked, setClicked] = useState(false);
+
+  const { memberAttributes } = useMember();
   useEffect(() => {
     getAllergy().then(data => setAllergyList(data));
     getStoreType().then(data => setStoreTypeList(data));
@@ -59,6 +65,8 @@ const Join = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [extraAddress, setExtraAddress] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
 
   useEffect(() => {
     const loadDaumPostcodeScript = () => {
@@ -78,6 +86,16 @@ const Join = () => {
 
   const onSubmit = async data => {
     // console.log('data', data);
+    setClicked(true);
+    const result = {
+      ...data,
+      memberId: memberAttributes.memberId,
+      detailAddress,
+      allergyIdList,
+      lat,
+      lng,
+    };
+    // console.log(result);
     const formData = new FormData();
     Array.from(selectedFiles).forEach((file, index) => {
       formData.append(`images`, file);
@@ -86,9 +104,16 @@ const Join = () => {
     /* for (const [key, value] of formData.entries()) {
       console.log(key, value);
     } */
-    formData.append('data', JSON.stringify(data));
+    // setClicked(false);
+    formData.append('data', JSON.stringify(result));
     try {
       const response = await clientHttpForm.post('/store', formData);
+      // console.log(response.data);
+      if (response.data.success) {
+        router.push('/business');
+      } else {
+        router.push('/');
+      }
       return response.data;
     } catch (error) {
       // console.log(error);
@@ -107,9 +132,8 @@ const Join = () => {
           Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_ADDRESS_API_KEY}`,
         },
       });
-
-      // console.log(response.data.documents[0].address.x);
-      // console.log(response.data.documents[0].address.y);
+      setLng(response.data.documents[0].address.x);
+      setLat(response.data.documents[0].address.y);
     } catch (error) {
       console.error('Failed to search address:', error);
     }
@@ -494,6 +518,7 @@ const Join = () => {
               type="submit"
               className="text-secondary bg-bgcolor text-4xl h-20 w-44 rounded-full mt-10"
               onClick={handleSubmit(onSubmit)}
+              disabled={clicked}
             >
               <p>등록하기</p>
             </button>
