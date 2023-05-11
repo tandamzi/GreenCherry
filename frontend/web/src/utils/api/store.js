@@ -18,3 +18,12 @@ export const getAllergy = async () => {
     return error;
   }
 };
+
+export const getStoreType = async () => {
+  try {
+    const res = await clientHttp.get('/store/type');
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
