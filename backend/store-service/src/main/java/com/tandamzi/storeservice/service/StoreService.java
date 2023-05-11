@@ -234,7 +234,8 @@ public class StoreService {
     public StoreInfoForOrderDto storeInfoForOrder(Long storeId){
         log.info("[StoreService] storeInfoForOrder");
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-        return StoreInfoForOrderDto.create(store);
+        StoreImage storeImage = storeImageRepository.findStoreImagesByStore(store).get(0);
+        return StoreInfoForOrderDto.create(store,storeImage.getUrl());
     }
 
     @Transactional
