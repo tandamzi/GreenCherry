@@ -128,7 +128,7 @@ public class StoreService {
 
         //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
         List<Long> subscribers = getSubscribers(store);
-        List<String> endpointList = memberServiceClient.getEndpoints(subscribers).getData();
+        List<String> endpointList = memberServiceClient.getTokens(subscribers).getData();
         log.info("subscribers = {}", subscribers);
         log.info("endpoints = {}", endpointList);
 
