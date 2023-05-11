@@ -9,3 +9,12 @@ export const getStore = async memberId => {
     return error;
   }
 };
+
+export const getAllergy = async () => {
+  try {
+    const res = await clientHttp.get('/store/allergy');
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};

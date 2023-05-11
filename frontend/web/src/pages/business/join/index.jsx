@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+/* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -7,6 +9,7 @@ import style from './index.module.scss';
 
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
+import { getAllergy } from '@/utils/api/store';
 
 const Join = () => {
   const {
@@ -23,11 +26,14 @@ const Join = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [allergyIdList, setAllergyIdList] = useState([]);
 
-  // TODO: 서버에서 받아온 데이터로 변경
   const [allergyList, setAllergyList] = useState([
     { id: '1', name: '계란' },
     { id: '2', name: '우유' },
   ]);
+
+  useEffect(() => {
+    getAllergy().then(data => setAllergyList(data));
+  }, []);
 
   const handleDateChange = e => {
     const dateValue = e.target.value;
@@ -102,7 +108,6 @@ const Join = () => {
           buildingName,
           apartment,
         } = data;
-        // eslint-disable-next-line prefer-destructuring
         const userSelectedType = data.userSelectedType;
 
         const addr = userSelectedType === 'R' ? roadAddress : jibunAddress;
@@ -113,11 +118,9 @@ const Join = () => {
             extraAddr += bname;
           }
           if (buildingName !== '' && apartment === 'Y') {
-            // eslint-disable-next-line prefer-template
             extraAddr += extraAddr !== '' ? ', ' + buildingName : buildingName;
           }
           if (extraAddr !== '') {
-            // eslint-disable-next-line prefer-template
             extraAddr = ' (' + extraAddr + ')';
           }
         }
@@ -427,7 +430,7 @@ const Join = () => {
                       key={allergy.id}
                       text={allergy.name}
                       onClick={handleAllergyBtnClick}
-                      selected={allergyIdList.includes(allergy.id)}
+                      selected={allergyIdList.includes(allergy.id.toString())}
                     />
                   );
                 })}
