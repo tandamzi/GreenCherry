@@ -27,23 +27,21 @@ const redirect = () => {
         if (response.ok) {
           dispatch(saveToken(token));
           // 쿠키 설정 후 원하는 페이지로 리다이렉트
-          router.push('/');
+          router.replace('/');
         } else {
           // 에러 처리
           // console.log('토큰이 있지만 오류남');
-          router.push('/');
+          router.replace('/');
         }
       } else {
         // 토큰이 없는 경우 처리
         // 예: 에러 페이지로 리다이렉트
         // console.log('토큰이 없다');
-        router.push('/');
+        router.replace('/');
       }
     };
 
     fetchToken();
-
-    router.push('/');
   }, []);
   return <Container />;
 };

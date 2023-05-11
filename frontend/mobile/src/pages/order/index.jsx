@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 import Container from '@/components/Container';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import clientHttp from '@/utils/clientHttp';
 
 const CHERRY_BOX_MARKER_URL = `/assets/icons/mapIcons/cherryBoxMarker.svg`;
@@ -44,6 +45,10 @@ const order = () => {
     storeMarkersRef.current.forEach(marker => marker.setMap(null));
     storeMarkersRef.current = [];
 
+    const centerPosition = new kakao.maps.LatLng(
+      state.center.lat,
+      state.center.lng,
+    );
     // 각 상점에 대한 마커를 생성합니다.
     content.forEach(store => {
       // console.log(store);
@@ -69,27 +74,27 @@ const order = () => {
 
       // 마커를 지도에 추가합니다.
       marker.setMap(mapRef.current);
+      mapRef.current.panTo(centerPosition);
 
       // 참조에 마커를 추가합니다.
       storeMarkersRef.current.push(marker);
     });
   };
-
   const getStoreInfos = async () => {
     const memberId = 1;
     const myLat = state.center.lat;
     const myLng = state.center.lng;
-    const radius = 30;
+    const radius = 8;
     const sub = false;
 
     try {
       const response = await clientHttp.get('/api/storeList', {
         params: {
-          memberId: memberId || 1,
+          memberId,
           lat: myLat,
           lng: myLng,
-          radius: radius || 30,
-          sub: sub || false,
+          radius,
+          sub,
         },
       });
       const { content } = response.data.data;
@@ -109,7 +114,6 @@ const order = () => {
     });
   };
   const getCurrentPosition = async () => {
-    setIsLoading(true);
     try {
       const position = await getCurrentGeolocaionPosition();
       const { coords } = position;
@@ -120,16 +124,13 @@ const order = () => {
         myPostion: { lat: coords.latitude, lng: coords.longitude },
         center: { lat: coords.latitude, lng: coords.longitude },
       }));
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
       console.error('위치 정보를 가져올 수 없습니다.');
-      setIsLoading(false);
     }
   };
 
   const currentPositionMarkerRef = useRef(null);
-  const currentPositionOverlayRef = useRef(null);
 
   const updateMarkerPosition = async () => {
     await getCurrentPosition();
@@ -143,8 +144,8 @@ const order = () => {
       currentPositionMarkerRef.current.setPosition(currentPosition);
     } else {
       const markerSrc = MY_LOCAITON_MARKER_URL;
-      const markerSize = new kakao.maps.Size(32, 32);
-      const markerOpt = { offset: new kakao.maps.Point(32, 32) };
+      const markerSize = new kakao.maps.Size(36, 36);
+      const markerOpt = { offset: new kakao.maps.Point(36, 36) };
 
       const markerImage = new kakao.maps.MarkerImage(
         markerSrc,
@@ -159,26 +160,6 @@ const order = () => {
 
       currentPositionMarkerRef.current = marker;
       marker.setMap(mapRef.current);
-    }
-
-    // 오버레이의 위치를 업데이트합니다.
-    if (currentPositionOverlayRef.current) {
-      currentPositionOverlayRef.current.setPosition(currentPosition);
-    } else {
-      const content =
-        '<div class="customoverlay">' +
-        '    <span class="title">내 위치</span>' +
-        '</div>';
-
-      const customOverlay = new kakao.maps.CustomOverlay({
-        map: mapRef.current,
-        position: currentPosition,
-        content,
-        yAnchor: 2,
-      });
-
-      currentPositionOverlayRef.current = customOverlay;
-      customOverlay.setMap(mapRef.current);
     }
 
     mapRef.current.panTo(currentPosition);
@@ -202,6 +183,12 @@ const order = () => {
     });
 
     kakao.maps.event.addListener(mapRef.current, 'dragend', function () {
+      const { Ma, La } = mapRef.current.getCenter();
+
+      setState(prev => ({
+        ...prev,
+        center: { lat: Ma, lng: La },
+      }));
       setIsMapMoving(true);
     });
 
@@ -265,4 +252,4 @@ const order = () => {
   );
 };
 
-export default order;
+export default PrivateRouter(order);

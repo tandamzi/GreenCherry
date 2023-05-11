@@ -26,9 +26,9 @@ const PrivateRouter = WrappedComponent => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      if (member?.accessToken) {
+      if (member?.token) {
         // 토큰 검증
-        const { exp } = jwtDecode(member.accessToken);
+        const { exp } = jwtDecode(member.token);
         const expireDate = new Date(exp * 1000);
         if (expireDate <= new Date()) {
           Toast.fire({
