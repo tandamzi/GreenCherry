@@ -36,6 +36,62 @@ const order = () => {
   });
 
   const mapRef = useRef();
+
+  const getCurrentGeolocaionPosition = (
+    options = { enableHighAccuracy: false, maximamAge: 0, timeout: 10000 },
+  ) => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  };
+
+  const currentPositionMarkerRef = useRef(null);
+  const getCurrentPosition = async () => {
+    try {
+      const position = await getCurrentGeolocaionPosition();
+      const { coords } = position;
+
+      setState(prev => ({
+        ...prev,
+        coords,
+        myPostion: { lat: coords.latitude, lng: coords.longitude },
+        center: { lat: coords.latitude, lng: coords.longitude },
+      }));
+
+      const currentPosition = new kakao.maps.LatLng(
+        coords.latitude,
+        coords.longitude,
+      );
+
+      // 마커의 위치를 업데이트합니다.
+      if (currentPositionMarkerRef.current) {
+        currentPositionMarkerRef.current.setPosition(currentPosition);
+      } else {
+        const markerSrc = MY_LOCAITON_MARKER_URL;
+        const markerSize = new kakao.maps.Size(36, 36);
+        const markerOpt = { offset: new kakao.maps.Point(36, 36) };
+
+        const markerImage = new kakao.maps.MarkerImage(
+          markerSrc,
+          markerSize,
+          markerOpt,
+        );
+
+        const marker = new kakao.maps.Marker({
+          position: currentPosition,
+          image: markerImage,
+        });
+
+        currentPositionMarkerRef.current = marker;
+        marker.setMap(mapRef.current);
+      }
+      mapRef.current.panTo(currentPosition);
+    } catch (error) {
+      console.error(error);
+      console.error('위치 정보를 가져올 수 없습니다.');
+    }
+  };
+
   const storeMarkersRef = useRef([]); // 새로운 상태 변수를 추가합니다.
   const [storeMakkersLoading, setStoreMarkersLoading] = useState(false);
 
@@ -84,7 +140,7 @@ const order = () => {
     const memberId = 1;
     const myLat = state.center.lat;
     const myLng = state.center.lng;
-    const radius = 8;
+    const radius = 1;
     const sub = false;
 
     try {
@@ -99,71 +155,10 @@ const order = () => {
       });
       const { content } = response.data.data;
       setStoreList(content);
-
       updateStoreMarkersUpdate(content);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
-
-  const getCurrentGeolocaionPosition = (
-    options = { enableHighAccuracy: false, maximamAge: 0, timeout: 10000 },
-  ) => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
-    });
-  };
-  const getCurrentPosition = async () => {
-    try {
-      const position = await getCurrentGeolocaionPosition();
-      const { coords } = position;
-
-      setState(prev => ({
-        ...prev,
-        coords,
-        myPostion: { lat: coords.latitude, lng: coords.longitude },
-        center: { lat: coords.latitude, lng: coords.longitude },
-      }));
-    } catch (error) {
-      console.error(error);
-      console.error('위치 정보를 가져올 수 없습니다.');
-    }
-  };
-
-  const currentPositionMarkerRef = useRef(null);
-
-  const updateMarkerPosition = async () => {
-    await getCurrentPosition();
-    const currentPosition = new kakao.maps.LatLng(
-      state.coords.latitude,
-      state.coords.longitude,
-    );
-
-    // 마커의 위치를 업데이트합니다.
-    if (currentPositionMarkerRef.current) {
-      currentPositionMarkerRef.current.setPosition(currentPosition);
-    } else {
-      const markerSrc = MY_LOCAITON_MARKER_URL;
-      const markerSize = new kakao.maps.Size(36, 36);
-      const markerOpt = { offset: new kakao.maps.Point(36, 36) };
-
-      const markerImage = new kakao.maps.MarkerImage(
-        markerSrc,
-        markerSize,
-        markerOpt,
-      );
-
-      const marker = new kakao.maps.Marker({
-        position: currentPosition,
-        image: markerImage,
-      });
-
-      currentPositionMarkerRef.current = marker;
-      marker.setMap(mapRef.current);
-    }
-
-    mapRef.current.panTo(currentPosition);
-    getStoreInfos();
   };
 
   useEffect(() => {
@@ -210,7 +205,7 @@ const order = () => {
             background: '#fafaf9e4',
             zIndex: 10,
           }}
-          onClick={updateMarkerPosition}
+          onClick={getCurrentPosition}
         >
           <div className="flex">
             <span className="text-sm font-bold text-secondaryfont">
