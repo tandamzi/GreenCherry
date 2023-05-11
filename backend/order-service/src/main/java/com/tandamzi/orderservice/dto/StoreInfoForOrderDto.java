@@ -9,6 +9,7 @@ import lombok.*;
 public class StoreInfoForOrderDto {
     private Long storeId;
     private String name;
+    private String storeImageUrl;
     private boolean open;
 
 }

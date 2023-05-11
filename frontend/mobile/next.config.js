@@ -12,7 +12,7 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
   images: {
-    domains: ['tandamzi-greencherry-bucket.s3.ap-northeast-2.amazonaws.com'],
+    domains: ['tandamzi-greencherry-bucket.s3.ap-northeast-2.amazonaws.com','i.ytimg.com'],
   },
   devIndicators: {
     autoPrerender: false,
@@ -33,5 +33,6 @@ const nextConfig = withPWA({
     return config;
   },
 });
+
 
 module.exports = nextConfig;
