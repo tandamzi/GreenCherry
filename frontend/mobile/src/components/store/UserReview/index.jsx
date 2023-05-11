@@ -16,7 +16,7 @@ const UserReview = ({ reviewInfo }) => {
       <div className="flex flex-row justify-between mx-8 mt-8">
         <p className="font-bold text-xl pr-4">사용자 리뷰</p>
         <p className="font-thin text-sm align-text-bottom">
-          {data && data.totalElements}건
+          <span className="text-secondary">{data && data.totalElements}</span>건
         </p>
       </div>
       <div className=" w-10/12 mx-auto mt-5">

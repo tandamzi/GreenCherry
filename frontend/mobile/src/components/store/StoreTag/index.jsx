@@ -14,7 +14,9 @@ const StoreReview = () => {
     <div className="border-b-2 border-b-line ">
       <div className="flex flex-row justify-between mx-8 mt-8">
         <p className="font-bold text-xl pr-4">이런점이 좋았어요</p>
-        <p className="font-thin text-sm align-text-bottom">40회 참여</p>
+        <span className="font-thin text-sm align-text-bottom">
+          <span className="text-secondary">40</span>회 참여
+        </span>
       </div>
       <div className=" w-9/12 mx-auto mb-8 mt-4 ">
         {/* <div className="flex flex-row justify-between">
