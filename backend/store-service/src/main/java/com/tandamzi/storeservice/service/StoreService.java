@@ -83,7 +83,7 @@ public class StoreService {
     }
 
     public StoreDetailResponseDto getStoreDetail(Long storeId,Long memberId) {
-        Store store = storeRepository.findStoreByIdAndMember(storeId,memberId).orElseThrow(StoreNotFoundException::new);
+        Store store = storeRepository.findStoreByIdAndMember(memberId,storeId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
 
         List<Allergy> allergyList = getAllergiesToList(store);
