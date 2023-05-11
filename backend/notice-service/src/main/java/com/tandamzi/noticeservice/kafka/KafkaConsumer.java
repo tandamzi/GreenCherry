@@ -121,12 +121,16 @@ public class KafkaConsumer {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        noticeService.sendNoticeToSubscribers(RegisterCherryBoxDto.builder()
+        RegisterCherryBoxDto build = RegisterCherryBoxDto.builder()
                 .noticeType(1)
-                .storeId((Long) map.get("storeId"))
+                .storeId(Long.valueOf((Integer) (map.get("storeId"))))
                 .storeName((String) map.get("storeName"))
-                .tokens((List<String>) map.get("endpoints"))
-                .build()
-        );
+                .tokens((List<String>) map.get("endpointList"))
+                .build();
+
+        log.info("storeId = {}" , build.getStoreId() );
+        log.info("tokens = {}", build.getTokens());
+
+        noticeService.sendNoticeToSubscribers(build);
     }
 }

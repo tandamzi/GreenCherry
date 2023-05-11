@@ -139,7 +139,7 @@ public class NoticeService {
                     .putData("noticeType", String.valueOf(registerCherryBoxDto.getNoticeType()))
                     .putData("storeId", String.valueOf(registerCherryBoxDto.getStoreId()))
                     .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
-                            .setNotification(new WebpushNotification("구독한 가게에서 체리박스가 등록됐어요!", body))
+                            .setNotification(new WebpushNotification(registerCherryBoxDto.getStoreName() + "에서 체리박스가 등록됐어요!", body))
                             .build())
                     .build();
             FirebaseMessaging.getInstance().sendAsync(message);
