@@ -32,8 +32,8 @@ const StoreInfo = ({ storeInfo }) => {
           </p>
         </div>
 
-        <div className="flex flex-row justify-center mb-5">
-          <div className="flex ">
+        <div className="flex flex-row justify-center items-center mb-5">
+          <div className="flex items-center">
             {/* 
             todo : 
             구독 여부에 따라 하트 바뀌게 */}
@@ -47,35 +47,39 @@ const StoreInfo = ({ storeInfo }) => {
               {data && data.numberOfSubscriber}
             </p>
           </div>
-          <p className="mx-2 font-thin text-primaryfont">|</p>
+          <p className="mx-6 font-thin text-primaryfont">|</p>
           <p className="font-thin text-primaryfont">
-            리뷰 {data && data.numberOfReview}
+            리뷰{' '}
+            <span className="text-secondary">
+              {data && data.numberOfReview}
+            </span>
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-3 my-6 text-primaryfont">
-        <p className="text-center">픽업시간</p>
+        <p className="text-center font-thin">픽업시간</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.pickUpStartTime} - {data && data.pickUpEndTime}
         </p>
 
-        <p className="text-center">위치 안내</p>
+        <p className="text-center font-thin">위치 안내</p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">
+          {data && data.address.addressName}
+          12312311213612136512143651243891249381249834129849
+        </p>
+
+        <p className="text-center font-thin">가게소개</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.address.addressName}
         </p>
 
-        <p className="text-center">가게소개</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.address.addressName}
-        </p>
-
-        <p className="text-center">체리박스</p>
+        <p className="text-center font-thin">체리박스</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.cherryBox.description} todo : 데이터가 없어요
         </p>
 
-        <p className="text-center">알레르기</p>
+        <p className="text-center font-thin">알레르기</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.allergies[0].name}
         </p>
