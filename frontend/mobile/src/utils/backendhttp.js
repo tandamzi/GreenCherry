@@ -1,20 +1,20 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
 
-const SERVER_API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
+import parseCookies from './parseCookies';
+
 export default function createHttpInstance(req) {
+  const SERVER_API_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
   const instance = axios.create({
     baseURL: SERVER_API_URL,
   });
 
   instance.interceptors.request.use(
     async config => {
-      // console.log('http.js: ' + req.cookies.token);
-      const { token } = req.cookies;
-
+      const token = req.headers.authorization;
       if (token) {
-        // console.log('헤더에 인증 토큰을 추가합니다.');
-        config.headers.Authorization = `Bearer ${token}`;
+        // 헤더에 인증 토큰을 추가합니다.
+        config.headers.Authorization = token;
         // console.log(config.headers);
       }
 

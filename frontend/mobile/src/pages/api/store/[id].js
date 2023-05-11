@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import createHttpInstance from '@/utils/http';
+import createHttpInstance from '@/utils/backendhttp';
 
 const handler = async (req, res) => {
   const { id } = req.query;
@@ -8,16 +8,16 @@ const handler = async (req, res) => {
   const storeDetailInfo = {};
   const http = createHttpInstance(req);
 
-  await http.get(`/store/${id}`).then(response => {
-    storeDetailInfo.storeInfo = response.data;
+  await http.get(`/store/info?store-id=${id}`).then(response => {
+    storeDetailInfo.storeInfo = response.data.data;
   });
 
   await http.get(`/review?store-id=${id}&size=${size}`).then(response => {
-    storeDetailInfo.review = response.data;
+    storeDetailInfo.review = response.data.data;
   });
 
   await http.get(`/review/tag/stats?store-id=${id}`).then(response => {
-    storeDetailInfo.tag = response.data;
+    storeDetailInfo.tag = response.data.data;
   });
   res.status(StatusCodes.OK).json(storeDetailInfo);
 };
