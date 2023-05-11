@@ -90,6 +90,7 @@ public class MemberService {
         List<Member> members = memberRepository.findWithNoticeByIdIn(memberIdList);
 
         return members.stream()
+                .filter(Member::isAlarm)
                 .map(m -> m.getNotice().getToken())
                 .collect(Collectors.toList());
     }
