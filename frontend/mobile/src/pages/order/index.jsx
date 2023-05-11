@@ -135,7 +135,7 @@ const order = () => {
       storeMarkersRef.current.push(marker);
     });
   };
-  const getStoreInfos = async req => {
+  const getStoreInfos = async () => {
     const memberId = 1;
     const myLat = state.center.lat;
     const myLng = state.center.lng;
