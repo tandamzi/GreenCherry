@@ -1,14 +1,10 @@
 import createHttpInstance from '@/utils/http';
 
 export default async function handler(req, res) {
-  const { memberId } = req.query;
-  if (!memberId) {
-    res.status(400).json({ message: 'member-id is required' });
-    return;
-  }
+  const { storeId } = req.query;
   try {
     const http = createHttpInstance(req);
-    const response = await http.get(`/store/info?member-id=${memberId}`);
+    const response = await http.get(`/store/${storeId}/cherry-point`);
 
     res.status(200).json(response.data);
   } catch (error) {
