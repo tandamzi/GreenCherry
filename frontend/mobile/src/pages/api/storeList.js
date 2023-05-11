@@ -1,21 +1,21 @@
 import { StatusCodes } from 'http-status-codes';
 
-import http from '@/server/api/http';
+import createHttpInstance from '@/utils/http';
 
 const handler = async (req, res) => {
   const { memberId, lat, lng, radius, sub } = req.query;
 
+  const http = createHttpInstance(req);
+  let storeList = {};
   try {
-    const response = await http.get(`/store`, {
-      params: {
-        memberId,
-        lat,
-        lng,
-        radius,
-        sub,
-      },
-    });
-    const storeList = response.data; // 'data' property contains the actual data
+    await http
+      .get(
+        `/store?memberId=${memberId}&lat=${lat}&lng=${lng}&radius=${radius}&sub=${sub}`,
+      )
+      .then(response => {
+        storeList = response.data;
+      });
+
     res.status(StatusCodes.OK).json(storeList);
   } catch (error) {
     console.error('Error while fetching store list:', error);
