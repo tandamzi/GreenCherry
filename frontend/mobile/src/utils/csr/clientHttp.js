@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const LOCAL_API_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
+
 const clientHttp = axios.create({
-  baseURL: 'http://127.0.0.1:3000',
+  baseURL: LOCAL_API_URL,
 });
 
 export default clientHttp;

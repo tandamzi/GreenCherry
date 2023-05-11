@@ -28,7 +28,9 @@ const Reservation = () => {
         style={{ width: 260, height: 260 }}
         speed={1}
       />
-      <p className="text-base w-full mb-2">진행중인 예약이 없습니다</p>
+      <p className="text-sm w-full mb-2 mob:text-base text-center ">
+        진행중인 예약이 없습니다
+      </p>
     </div>
   );
 };
