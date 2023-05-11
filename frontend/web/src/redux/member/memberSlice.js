@@ -12,6 +12,12 @@ export const memberSlice = createSlice({
   name: 'member',
   initialState,
   reducers: {
+    setMemberIdAction: (state, action) => {
+      return {
+        ...state,
+        memberId: action.payload.memberId,
+      };
+    },
     loginAction: (state, action) => {
       return {
         ...state,
@@ -57,6 +63,7 @@ export const memberSlice = createSlice({
 
 const { reducer, actions } = memberSlice;
 export const {
+  setMemberIdAction,
   loginAction,
   logoutAction,
   openMyStoreModalAction,

@@ -6,6 +6,7 @@ import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
 import com.tandamzi.noticeservice.domain.Notice;
 import com.tandamzi.noticeservice.dto.request.PickUpCompleteDto;
+import com.tandamzi.noticeservice.dto.request.RegisterCherryBoxDto;
 import com.tandamzi.noticeservice.dto.request.RegisterOrderDto;
 import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
@@ -125,5 +126,25 @@ public class NoticeService {
             FirebaseMessaging.getInstance().sendAsync(message);
         }
     }
+    public void sendNoticeToSubscribers(RegisterCherryBoxDto registerCherryBoxDto) {
+        List<String> tokens = registerCherryBoxDto.getTokens();
+        StringBuilder sb = new StringBuilder();
+        sb.append(registerCherryBoxDto.getStoreName());
+        sb.append("에서 체리박스가 등록되었습니다. 체리박스를 확인해보세요!");
+        String body = sb.toString();
+
+        for(String token : tokens){
+            Message message = Message.builder()
+                    .setToken(token)
+                    .putData("noticeType", String.valueOf(registerCherryBoxDto.getNoticeType()))
+                    .putData("storeId", String.valueOf(registerCherryBoxDto.getStoreId()))
+                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
+                            .setNotification(new WebpushNotification("구독한 가게에서 체리박스가 등록됐어요!", body))
+                            .build())
+                    .build();
+            FirebaseMessaging.getInstance().sendAsync(message);
+        }
+    }
+
 
 }
