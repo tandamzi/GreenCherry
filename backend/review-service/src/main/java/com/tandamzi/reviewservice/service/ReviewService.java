@@ -76,10 +76,10 @@ public class ReviewService {
         HashSet<Long> memberIds = new HashSet<>();
         reviews.stream().forEach(r -> memberIds.add(r.getMemberId()));
 
-        HashMap<Long, String> memberNicknames = new HashMap<>();
-        memberServiceClient.findMember(null, new ArrayList<>(memberIds))
+        HashMap<Long, MemberDto> memberNicknames = new HashMap<>();
+        memberServiceClient.findMemberForReview(new ArrayList<>(memberIds))
                 .getData()
-                .forEach(m -> memberNicknames.putIfAbsent(m.getMemberId(), m.getNickname()));
+                .forEach(m -> memberNicknames.putIfAbsent(m.getMemberId(), m));
 
          return reviews.map(r -> ReviewResponseDto.create(r, memberNicknames));
     }
