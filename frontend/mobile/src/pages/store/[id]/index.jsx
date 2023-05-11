@@ -34,7 +34,6 @@ export const getServerSideProps = async context => {
       Authorization: context.req.cookies.token,
     },
   };
-  // console.log(context.req.cookies.token);
   const response = await clientHttp.get(`/api/store/${id}`, headers);
 
   return {
