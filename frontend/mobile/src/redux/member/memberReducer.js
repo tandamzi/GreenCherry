@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 const initialState = {
   memberInfo: {},
-  accessToken: '',
+  token: '',
 };
 
 export const memberSlice = createSlice({
@@ -11,28 +11,23 @@ export const memberSlice = createSlice({
   initialState,
   reducers: {
     saveToken: (state, action) => {
-      localStorage.setItem('accessToken', `Bearer ${action.payload}`);
+      localStorage.setItem('token', `Bearer ${action.payload}`);
       // 토큰 저장 시
-      Cookies.set('accessToken', `Bearer ${action.payload}`, {
-        expires: 7,
-        sameSite: 'Lax',
-        httpOnly: false,
-      });
 
       return {
         ...state,
-        accessToken: action.payload,
+        token: action.payload,
       };
     },
     reset(state) {
-      localStorage.removeItem('accessToken');
-      Cookies.remove('accessToken');
+      localStorage.removeItem('token');
+      Cookies.remove('token');
 
       // eslint-disable-next-line no-param-reassign
       state = {
         ...state,
         memberInfo: {},
-        accessToken: '',
+        token: '',
       };
     },
   },
