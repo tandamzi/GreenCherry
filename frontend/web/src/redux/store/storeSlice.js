@@ -17,6 +17,12 @@ export const storeSlice = createSlice({
   name: 'business',
   initialState,
   reducers: {
+    setCherryPointAction: (state, action) => {
+      return {
+        ...state,
+        cherryPoint: action.payload,
+      };
+    },
     getStoreInfoAction: (state, action) => {
       return {
         ...state,
@@ -63,6 +69,7 @@ export const storeSlice = createSlice({
 
 const { reducer, actions } = storeSlice;
 export const {
+  setCherryPointAction,
   getStoreInfoAction,
   putStoreInfoAction,
   openStoreAction,
