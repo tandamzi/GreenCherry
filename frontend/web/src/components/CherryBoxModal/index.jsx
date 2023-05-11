@@ -4,6 +4,7 @@ import CherryInput from '@/components/CherryInput';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
+import { putCherryBox } from '@/utils/api/store';
 
 const CherryBoxModal = () => {
   const {
@@ -49,6 +50,14 @@ const CherryBoxModal = () => {
   };
 
   const handleRegisterBtnClick = () => {
+    // TODO: 값들 잘 넣어주기
+    putCherryBox({
+      /*       memberId: 12,
+      quantity: 11,
+      totalPriceBeforeDiscount: 30000,
+      discountRate: 11,
+      pricePerCherryBox: 1111, */
+    });
     openStore();
     closeCherryBoxRegisterModal();
   };
