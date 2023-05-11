@@ -2,13 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import Lottie from 'react-lottie-player';
 
 import refresh from '@public/assets/lottie/refresh.json';
-import axios from 'axios';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
-import clientHttp from '@/utils/clientHttp';
+import clientHttp from '@/utils/csr/clientHttp';
 
 const CHERRY_BOX_MARKER_URL = `/assets/icons/mapIcons/cherryBoxMarker.svg`;
 const MY_LOCAITON_MARKER_URL = '/assets/icons/mapIcons/myLocationMarker2.svg';
