@@ -60,7 +60,8 @@ const StoreInfo = ({ storeInfo }) => {
       <div className="grid grid-cols-3 my-6 text-primaryfont">
         <p className="text-center font-thin">픽업시간</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.pickUpStartTime} - {data && data.pickUpEndTime}
+          {data && data.pickUpStartTime} - {data && data.pickUpEndTime} todo :
+          시간도 수정해야돼요 뒤에 00 안오게
         </p>
 
         <p className="text-center font-thin">위치 안내</p>
