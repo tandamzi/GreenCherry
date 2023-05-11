@@ -53,7 +53,7 @@ const MainFooterWithNavigation = ({ className }) => {
       <Link
         href="/order"
         className="flex flex-col w-18 text-center"
-        onClick={() => handlePageChange('내 주변 가게')}
+        onClick={() => handlePageChange('주변 가게')}
       >
         <FaMapMarkerAlt
           size={28}
@@ -61,7 +61,7 @@ const MainFooterWithNavigation = ({ className }) => {
           className="shrink-0 ml-auto mr-auto"
         />
         <span className={cs(`text-secondaryfont text-xs mt-1 font-bold`)}>
-          내 주변 가게
+          주변 가게
         </span>
       </Link>
       <Link

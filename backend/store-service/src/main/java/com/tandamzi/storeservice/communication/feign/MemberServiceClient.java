@@ -12,6 +12,6 @@ import java.util.List;
 public interface MemberServiceClient {
     //가게를 구독한 memberId를 List로 넘겨주고 해당 멤버들의 List<endpoint>를 받아온다.
     @GetMapping("/member/token")
-    ListResult<String> getEndpoints(@RequestParam List<Long> memberIdList);
+    ListResult<String> getTokens(@RequestParam List<Long> memberIdList);
 
 }
