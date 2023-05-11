@@ -85,7 +85,8 @@ export const UserAvatar = ({
         alt="프로필 이미지"
         className="style.Image rounded-full object-cover"
         onClick={changable ? dummyFunction : onClickImageInput}
-        fill
+        width={100}
+        height={100}
       />
       {changable || (
         <div>
