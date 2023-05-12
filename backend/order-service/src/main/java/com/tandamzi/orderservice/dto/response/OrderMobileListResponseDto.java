@@ -21,6 +21,7 @@ import static org.springframework.beans.factory.annotation.Autowire.NO;
 public class OrderMobileListResponseDto {
     private Long orderId;
     private String storeName;
+    private String storeImageUrl;
     private int quantity;
     private String orderState;
     private int totalSalesAmount;
@@ -35,14 +36,15 @@ public class OrderMobileListResponseDto {
 
         return OrderMobileListResponseDto.builder()
                 .orderId(order.getId())
+                .storeId(storeInfoDto.getStoreId())
                 .storeName(storeInfoDto.getName())
+                .storeImageUrl(storeInfoDto.getStoreImageUrl())
                 .quantity(order.getQuantity())
                 .orderState(String.valueOf(order.getState()))
                 .totalSalesAmount(order.getTotalSalesAmount())
                 .orderDate(order.getCreateDate())
                 .writed(writedCheck)
                 .memberId(order.getMemberId())
-                .storeId(storeInfoDto.getStoreId())
                 .build();
     }
 
