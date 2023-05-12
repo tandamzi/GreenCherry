@@ -6,7 +6,7 @@ import cn from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import style from './index.module.scss';
+import style from './map.module.scss';
 
 import { Button } from '@/components/Button';
 import Container from '@/components/Container';
@@ -19,7 +19,7 @@ const MY_LOCAITON_MARKER_URL = '/assets/icons/mapIcons/myLocationMarker2.svg';
 const MY_LOCATION_ICON_URL = '/assets/icons/mapIcons/myLocationMarker.svg';
 const CLOSE_ICON_URL = '/assets/icons/mapIcons/close.svg';
 
-const order = () => {
+const map = () => {
   const { kakao } = window;
 
   const router = useRouter();
@@ -254,17 +254,14 @@ const order = () => {
       <div id="myMap" ref={mapRef} style={state.style}>
         <button
           type="button"
-          className="absolute flex top-3 left-3 rounded-3xl px-3 py-2 cursor-pointer"
+          className="absolute flex top-3 rounded-3xl pr-3 pl-5 py-2 bg-bgcolor opacity-90 cursor-pointer"
           style={{
-            background: '#fafaf9e4',
             zIndex: 10,
           }}
           onClick={getCurrentPosition}
         >
           <div className="flex">
-            <span className="text-sm font-bold text-secondaryfont">
-              내 위치
-            </span>
+            <span className="text-sm font-bold text-primaryfont">내 위치</span>
             <Image
               alt="내 위치"
               src={MY_LOCATION_ICON_URL}
@@ -277,13 +274,13 @@ const order = () => {
         {isMapMoving && (
           <button
             type="button"
-            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent cursor-pointer"
+            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent opacity-90 cursor-pointer"
             style={{
               zIndex: 10,
             }}
             onClick={getStoreInfos}
           >
-            <div className="flex justify-center">
+            <div className="flex justify-center ">
               <Lottie
                 className="mr-1"
                 style={{
@@ -345,4 +342,4 @@ const order = () => {
   );
 };
 
-export default PrivateRouter(order);
+export default PrivateRouter(map);
