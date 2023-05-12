@@ -1,9 +1,11 @@
 import React from 'react';
 
 import CarbonCircleContainer from '@/components/CarbonCircleContainer';
+import useStore from '@/hooks/storeHook';
 
 const BeforeOpen = () => {
   const totalStoreCount = 1231; // TODO: store count 가져오기
+  const { storeAttributes } = useStore();
   return (
     <div className="h-full">
       <p className="text-center text-4xl mt-10 tablet:text-3xl">
@@ -12,7 +14,7 @@ const BeforeOpen = () => {
       </p>
       <CarbonCircleContainer
         className="px-28 py-20 text-4xl leading-snug mt-5 tablet:px-10 tablet:text-3xl tablet:py-10"
-        amount={10000}
+        amount={storeAttributes.cherryPoint}
       />
       <p className="text-center text-2xl mt-10 tablet:text-xl">
         지구를 생각하는 마음으로
