@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { PURGE } from 'redux-persist';
 
 const initialState = {
   memberInfo: {},
@@ -12,11 +13,16 @@ export const memberSlice = createSlice({
   reducers: {
     saveToken: (state, action) => {
       localStorage.setItem('token', `Bearer ${action.payload}`);
-      // 토큰 저장 시
-
+      // console.log('saveToken' + action.payload);
       return {
         ...state,
         token: action.payload,
+      };
+    },
+    saveInfo: (state, action) => {
+      return {
+        ...state,
+        memberInfo: action.payload.data,
       };
     },
     reset(state) {
@@ -32,5 +38,5 @@ export const memberSlice = createSlice({
     },
   },
 });
-export const { saveToken, reset } = memberSlice.actions;
+export const { saveToken, saveInfo, reset } = memberSlice.actions;
 export default memberSlice.reducer;

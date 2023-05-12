@@ -1,6 +1,5 @@
 package com.tandamzi.storeservice.service;
 
-import com.tandamzi.storeservice.common.result.ListResult;
 import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.communication.kafka.KafkaProducer;
@@ -46,7 +45,6 @@ public class StoreService {
     private final CherryBoxService cherryBoxService;
     private final MemberServiceClient memberServiceClient;
     private final ReviewServiceClient reviewServiceClient;
-
     private final KafkaProducer kafkaProducer;
     @Transactional
     public void registerStore(RegisterStoreRequestDto dto, List<MultipartFile> imageFileList) throws IOException {
@@ -72,6 +70,7 @@ public class StoreService {
 
     @Transactional
     public void registerStoreAllergy(RegisterStoreRequestDto dto, Store store) {
+        if(dto.getAllergyIdList() == null || dto.getAllergyIdList().isEmpty()) return;
         List<Allergy> allergyList = allergyRepository.findAllById(dto.getAllergyIdList());
         allergyList.stream().forEach(allergy -> {
             storeAllergyRepository.save(StoreAllergy.builder()
@@ -83,13 +82,12 @@ public class StoreService {
     }
 
     public StoreDetailResponseDto getStoreDetail(Long storeId,Long memberId) {
-        Store store = storeRepository.findStoreByIdAndMember(storeId,memberId).orElseThrow(StoreNotFoundException::new);
+        Store store = storeRepository.findStoreByIdAndMember(memberId,storeId).orElseThrow(StoreNotFoundException::new);
         log.info("store: {}", store);
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
-        storeId = store.getId();
-        long numberOfReview = reviewServiceClient.countReview(storeId).getData();
+        long numberOfReview = reviewServiceClient.countReview(store.getId()).getData();
         long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
         log.info("numberOfReview: {}", numberOfReview);
 
@@ -128,7 +126,7 @@ public class StoreService {
 
         //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
         List<Long> subscribers = getSubscribers(store);
-        List<String> endpointList = memberServiceClient.getEndpoints(subscribers).getData();
+        List<String> endpointList = memberServiceClient.getTokens(subscribers).getData();
         log.info("subscribers = {}", subscribers);
         log.info("endpoints = {}", endpointList);
 
@@ -234,7 +232,8 @@ public class StoreService {
     public StoreInfoForOrderDto storeInfoForOrder(Long storeId){
         log.info("[StoreService] storeInfoForOrder");
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-        return StoreInfoForOrderDto.create(store);
+        StoreImage storeImage = storeImageRepository.findStoreImagesByStore(store).get(0);
+        return StoreInfoForOrderDto.create(store,storeImage.getUrl());
     }
 
     @Transactional
