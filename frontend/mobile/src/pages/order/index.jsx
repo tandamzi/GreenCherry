@@ -165,7 +165,7 @@ const order = () => {
     const sub = false;
 
     try {
-      const response = await clientHttp.get('/api/storeList', {
+      const response = await clientHttp.get('/storeList', {
         params: {
           memberId,
           lat: myLat,

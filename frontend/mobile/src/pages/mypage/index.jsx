@@ -7,7 +7,9 @@ const myPage = () => {
   return (
     <Container>
       <Container.SubPageHeader goHome title="마이페이지" />
-      <Container.MainBody>{/* <UserAvatar /> */}</Container.MainBody>
+      <Container.MainBody>
+        {/* <UserAvatar width={100} height={100} changable={true} /> */}
+      </Container.MainBody>
     </Container>
   );
 };
