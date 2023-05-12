@@ -13,7 +13,7 @@ const subscribe = () => {
 
   const getSubscribeInfo = async () => {
     try {
-      const response = await clientHttp.get('/api/subscribe/11');
+      const response = await clientHttp.get('/subscribe/11');
       setSubscribeInfo(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
