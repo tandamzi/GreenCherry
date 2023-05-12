@@ -69,9 +69,9 @@ public class ReviewController {
     }
 
     @GetMapping("/exist")
-    public SingleResult<Boolean> existReviewByOrder(@RequestParam("order-id") Long orderId){
-        log.info("ReviewController existReviewByOrder 실행 -> orderId = {}", orderId);
-        Boolean existReview = reviewService.existReviewByOrder(orderId);
-        return responseService.getSingleResult(existReview);
+    public SingleResult<List<Long>> existReviewByOrder(@RequestParam("orderList") List<Long> orderList){
+        log.info("ReviewController existReviewByOrder 실행 -> orderList = {}", orderList);
+        List<Long> existList = reviewService.existReviewByOrder(orderList);
+        return responseService.getSingleResult(existList);
     }
 }

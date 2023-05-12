@@ -118,8 +118,8 @@ public class ReviewService {
         return reviewRepository.countReviewByStoreId(storeId);
     }
 
-    public Boolean existReviewByOrder(Long orderId){
-        log.info("ReviewService existReviewByOrder 실행 -> orderId = {}", orderId);
-        return reviewRepository.existsByOrderId(orderId);
+    public List<Long> existReviewByOrder(List<Long> orderList){
+        log.info("ReviewService existReviewByOrder 실행 -> orderList = {}", orderList);
+        return reviewRepository.existsByOrderIdIn(orderList);
     }
 }
