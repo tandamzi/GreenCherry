@@ -6,13 +6,12 @@ import TotalIncome from '@/components/TotalIncome';
 
 const Order = () => {
   const totalIncome = 100000;
-  const totalCarbon = 1000;
   return (
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor h-full">
         <div className="w-full max-w-4xl">
-          <CarbonContainer amount={totalCarbon} />
+          <CarbonContainer />
           <TotalIncome price={totalIncome} />
         </div>
       </Container.MainBody>
