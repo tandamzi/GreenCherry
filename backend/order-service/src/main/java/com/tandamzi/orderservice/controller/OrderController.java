@@ -45,10 +45,11 @@ public class OrderController {
     @GetMapping("")
     public SingleResult<Page<OrderListResponseDto>> orderList(@RequestParam("store-id") Long storeId,
                                                               @RequestParam(value = "nickname", required = false) String nickname,
+                                                              @RequestParam(value = "order-date", required = false) String date,
                                                               @PageableDefault(size= 10) Pageable pageable){
         log.info("[OrderController] orderList ");
 
-        Page<OrderListResponseDto> orderListResponseDtos = orderService.orderList(storeId, nickname, pageable);
+        Page<OrderListResponseDto> orderListResponseDtos = orderService.orderList(storeId, nickname, date, pageable);
         return responseService.getSingleResult(orderListResponseDtos);
     }
     @GetMapping("/{member-id}/order-list")
