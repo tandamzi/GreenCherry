@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import SubscribeStore from '@/components/SubscribeStore';
 import clientHttp from '@/utils/csr/clientHttp';
 
@@ -13,7 +14,7 @@ const subscribe = () => {
 
   const getSubscribeInfo = async () => {
     try {
-      const response = await clientHttp.get('/api/subscribe/11');
+      const response = await clientHttp.get('/subscribe/11');
       setSubscribeInfo(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -42,4 +43,4 @@ const subscribe = () => {
   );
 };
 
-export default subscribe;
+export default PrivateRouter(subscribe);

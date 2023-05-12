@@ -12,10 +12,7 @@ const BeforeOpen = () => {
         지금까지 얼마나 <br /> 지구를 <br />
         아꼈을까요?
       </p>
-      <CarbonCircleContainer
-        className="px-28 py-20 text-4xl leading-snug mt-5 tablet:px-10 tablet:text-3xl tablet:py-10"
-        amount={storeAttributes.cherryPoint}
-      />
+      <CarbonCircleContainer className="px-28 py-20 text-4xl leading-snug mt-5 tablet:px-10 tablet:text-3xl tablet:py-10" />
       <p className="text-center text-2xl mt-10 tablet:text-xl">
         지구를 생각하는 마음으로
         <br />

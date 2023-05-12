@@ -19,7 +19,7 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
     const storeId = subscribeStoreInfo.id;
 
     const response = await clientHttp.get(
-      `/api/subscribe/change-status/${memberId}/${storeId}/${method}`,
+      `/subscribe/change-status/${memberId}/${storeId}/${method}`,
     );
   };
 

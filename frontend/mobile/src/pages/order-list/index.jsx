@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
 import OrderInfo from '@/components/OrderInfo';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import clientHttp from '@/utils/csr/clientHttp';
 
 const orderList = () => {
@@ -14,7 +15,7 @@ const orderList = () => {
   const getOrderList = async () => {
     // redux에서 memberId 꺼내서 호출하기
     try {
-      const response = await clientHttp.get('/api/order-list/1');
+      const response = await clientHttp.get('/order-list/1');
       setOrders(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -37,5 +38,4 @@ const orderList = () => {
     </Container>
   );
 };
-
-export default orderList;
+export default PrivateRouter(orderList);
