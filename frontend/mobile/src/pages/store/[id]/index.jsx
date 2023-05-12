@@ -9,14 +9,14 @@ import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
 import UserReview from '@/components/store/UserReview';
-import createHttpInstance from '@/utils/ssr/backendhttp';
 import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
   return (
     <Container>
-      <div>
+      <Container.SubPageHeader sticky={false} />
+      <div className="pb-6">
         <StoreInfo storeInfo={storeProps.storeInfo} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
         <StoreTag />

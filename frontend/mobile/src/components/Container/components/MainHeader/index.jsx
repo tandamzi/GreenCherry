@@ -1,13 +1,20 @@
 import { memo } from 'react';
-import { BiBell, BiUserCircle } from 'react-icons/bi';
+import Lottie from 'react-lottie-player';
 
+import alarm from '@public/assets/lottie/alarm.json';
+import mypage from '@public/assets/lottie/mypage.json';
 import cs from 'classnames';
 import Image from 'next/image';
+import Link from 'next/link';
 
-// import logo from './img/mainLogo.svg';
 import Header from '../Header';
 
 const MainHeader = ({ className, children }) => {
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
   return (
     <Header
       className={cs(
@@ -23,8 +30,24 @@ const MainHeader = ({ className, children }) => {
         alt="devday main logo"
       />
       <div className="flex items-center">
-        <BiBell size={20} className=" mr-1 " />
-        <BiUserCircle size={20} />
+        <Link href="/alarm" className="w-10 h-10">
+          <Lottie
+            loop
+            animationData={alarm}
+            play
+            option={options}
+            speed={0.7}
+          />
+        </Link>
+        <Link href="/mypage" className="w-10 h-10">
+          <Lottie
+            loop
+            animationData={mypage}
+            play
+            option={options}
+            speed={0.7}
+          />
+        </Link>
         {children}
       </div>
     </Header>
