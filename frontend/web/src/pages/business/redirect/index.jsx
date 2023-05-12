@@ -1,44 +1,46 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
+import useStore from '@/hooks/memberHook';
+import { getMember } from '@/utils/api/member';
+import clientHttp from '@/utils/clientHttp';
 
 const Redirect = () => {
   const router = useRouter();
+  const { login, setMemberId } = useStore();
 
   const extractTokenFromUrl = url => {
     const urlParams = new URLSearchParams(url.split('?')[1]);
-    const token = urlParams.get('token');
-    return token;
+    return urlParams.get('token');
+  };
+
+  const handleTokenResponse = async token => {
+    if (token) {
+      const response = await clientHttp.get(`/set-token?token=${token}`);
+      if (response.data.success) {
+        const data = await getMember();
+        if (data.isJoined) {
+          login(data);
+        } else {
+          setMemberId(data);
+        }
+        const destination = data.isJoined ? '/business' : '/business/join';
+        router.push(destination);
+      } else {
+        router.push('/');
+      }
+    } else {
+      router.push('/');
+    }
   };
 
   useEffect(() => {
-    const url = router.asPath;
-    const fetchToken = async () => {
-      const token = extractTokenFromUrl(url);
-
-      if (token) {
-        // 서버에 토큰을 전달하여 쿠키로 설정
-        const response = await fetch(`/api/set-token?token=${token}`);
-
-        if (response.ok) {
-          // 쿠키 설정 후 원하는 페이지로 리다이렉트
-          router.push('/business');
-        } else {
-          // console.log('토큰이 있지만 오류남');
-          router.push('/');
-        }
-      } else {
-        // 토큰이 없는 경우 처리
-        // console.log('토큰이 없다');
-        router.push('/');
-      }
-    };
-
-    fetchToken();
+    const token = extractTokenFromUrl(router.asPath);
+    handleTokenResponse(token);
   }, []);
+
   return <Container />;
 };
 
