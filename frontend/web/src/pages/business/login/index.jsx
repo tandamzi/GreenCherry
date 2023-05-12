@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <Container>
       <Container.MainHeader />
-      <Container.MainBody className="bg-secondary h-screen">
+      <Container.MainBody className="bg-secondary h-full">
         <div className="text-bgcolor text-center mb-24">
           <h1 className="text-7xl mb-6">LOGIN INTO MYSTORE</h1>
           <h3 className="text-4xl font-thin">남은 음식을 수익으로 바꿔봐요</h3>

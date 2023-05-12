@@ -78,7 +78,7 @@ const OrderList = () => {
     }, */
   ];
   return (
-    <div className="flex flex-col py-20 text-primaryfont font-thin h-5/6 max-w-4xl">
+    <div className="flex flex-col py-20 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
       <div className="flex text-2xl text-center mb-5">
         <p className="flex-1">주문내역</p>
         <p className="flex-1">닉네임</p>
