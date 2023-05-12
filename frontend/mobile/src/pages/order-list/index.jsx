@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
 import OrderInfo from '@/components/OrderInfo';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import clientHttp from '@/utils/csr/clientHttp';
 
 const orderList = () => {
@@ -37,5 +38,4 @@ const orderList = () => {
     </Container>
   );
 };
-
-export default orderList;
+export default PrivateRouter(orderList);
