@@ -2,8 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import Lottie from 'react-lottie-player';
 
 import refresh from '@public/assets/lottie/refresh.json';
+import cn from 'classnames';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
+import style from './index.module.scss';
+
+import { Button } from '@/components/Button';
 import Container from '@/components/Container';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
@@ -11,11 +16,13 @@ import clientHttp from '@/utils/csr/clientHttp';
 
 const CHERRY_BOX_MARKER_URL = `/assets/icons/mapIcons/cherryBoxMarker.svg`;
 const MY_LOCAITON_MARKER_URL = '/assets/icons/mapIcons/myLocationMarker2.svg';
-const MY_LOCATION_URL = '/assets/icons/mapIcons/myLocationMarker.svg';
+const MY_LOCATION_ICON_URL = '/assets/icons/mapIcons/myLocationMarker.svg';
+const CLOSE_ICON_URL = '/assets/icons/mapIcons/close.svg';
 
 const order = () => {
   const { kakao } = window;
 
+  const router = useRouter();
   const [storeList, setStoreList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -67,8 +74,8 @@ const order = () => {
         currentPositionMarkerRef.current.setPosition(currentPosition);
       } else {
         const markerSrc = MY_LOCAITON_MARKER_URL;
-        const markerSize = new kakao.maps.Size(36, 36);
-        const markerOpt = { offset: new kakao.maps.Point(36, 36) };
+        const markerSize = new kakao.maps.Size(40, 40);
+        const markerOpt = { offset: new kakao.maps.Point(20, 20) };
 
         const markerImage = new kakao.maps.MarkerImage(
           markerSrc,
@@ -91,11 +98,24 @@ const order = () => {
     }
   };
 
+  const [selectedStore, setSelectedStore] = useState({
+    id: -1,
+    name: '존재 하지 않는 가게입니다.',
+    address: {},
+    images: [],
+  });
+
   const storeMarkersRef = useRef([]); // 새로운 상태 변수를 추가합니다.
   const [storeMakkersLoading, setStoreMarkersLoading] = useState(false);
 
+  const bottomSheetRef = useRef(null);
+  const [show, setShow] = useState(false);
+
+  const showModal = () => {
+    setShow(prev => !prev);
+  };
+
   const updateStoreMarkersUpdate = content => {
-    // console.log(content);
     // 기존의 모든 마커를 지웁니다.
     storeMarkersRef.current.forEach(marker => marker.setMap(null));
     storeMarkersRef.current = [];
@@ -106,10 +126,9 @@ const order = () => {
     );
     // 각 상점에 대한 마커를 생성합니다.
     content.forEach(store => {
-      // console.log(store);
       const markerSrc = CHERRY_BOX_MARKER_URL;
-      const markerSize = new kakao.maps.Size(32, 32);
-      const markerOpt = { offset: new kakao.maps.Point(32, 32) };
+      const markerSize = new kakao.maps.Size(40, 40);
+      const markerOpt = { offset: new kakao.maps.Point(20, 20) };
 
       const markerImage = new kakao.maps.MarkerImage(
         markerSrc,
@@ -126,7 +145,10 @@ const order = () => {
         position: markerPosition,
         image: markerImage,
       });
-
+      kakao.maps.event.addListener(marker, 'click', () => {
+        setSelectedStore(store);
+        setShow(prev => !prev);
+      });
       // 마커를 지도에 추가합니다.
       marker.setMap(mapRef.current);
       mapRef.current.panTo(centerPosition);
@@ -139,7 +161,7 @@ const order = () => {
     const memberId = 1;
     const myLat = state.center.lat;
     const myLng = state.center.lng;
-    const radius = 1;
+    const radius = 3;
     const sub = false;
 
     try {
@@ -158,6 +180,10 @@ const order = () => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  };
+
+  const goToStore = id => {
+    router.push(`/store/${id}`);
   };
 
   useEffect(() => {
@@ -189,6 +215,22 @@ const order = () => {
     getCurrentPosition();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        bottomSheetRef.current &&
+        !bottomSheetRef.current.contains(event.target)
+      ) {
+        setShow(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [bottomSheetRef]);
+
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
@@ -196,6 +238,20 @@ const order = () => {
   };
   return (
     <Container>
+      {show && (
+        <div
+          onClick={showModal} // Overlay 클릭 시 모달 닫힘
+          style={{
+            position: 'fixed', // 화면 전체를 차지하도록
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경색을 약간 투명하게
+            zIndex: 11, // 다른 요소보다 앞에 보이도록
+          }}
+        />
+      )}
       <div id="myMap" ref={mapRef} style={state.style}>
         <button
           type="button"
@@ -210,14 +266,19 @@ const order = () => {
             <span className="text-sm font-bold text-secondaryfont">
               내 위치
             </span>
-            <Image alt="내 위치" src={MY_LOCATION_URL} width={20} height={20} />
+            <Image
+              alt="내 위치"
+              src={MY_LOCATION_ICON_URL}
+              width={20}
+              height={20}
+            />
           </div>
         </button>
 
         {isMapMoving && (
           <button
             type="button"
-            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent font-black text-base text-bgcolor cursor-pointer"
+            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent cursor-pointer"
             style={{
               zIndex: 10,
             }}
@@ -226,19 +287,58 @@ const order = () => {
             <div className="flex justify-center">
               <Lottie
                 className="mr-1"
-                style={{ width: 24, height: 24 }}
+                style={{
+                  width: 24,
+                  height: 24,
+                  marginTop: 2.5,
+                  marginLeft: -1,
+                }}
                 loop
                 animationData={refresh}
                 play
                 option={options}
                 speed={0.7}
               />
-              <div>현 지도에서 검색</div>
+              <span className="font-black text-lg text-bgcolor">
+                현 지도에서 검색
+              </span>
             </div>
           </button>
         )}
-      </div>
 
+        <div
+          className={cn(
+            'z-20 px-4 py-6',
+            style.BottomSheet,
+            style[`${show ? 'show' : ''}`],
+          )}
+          ref={bottomSheetRef}
+        >
+          <div className="">
+            <div className="flex flex-col items-center">
+              <div className="relative h-44 w-44 ">
+                <Image
+                  src={selectedStore.images[0]}
+                  alt={selectedStore.name}
+                  fill
+                />
+              </div>
+              <div className="font-bold text-xl">{selectedStore.name}</div>
+              <div className="font-thin text-sm">
+                {selectedStore.address.addressName}
+              </div>
+            </div>
+
+            <Button
+              color="primary"
+              fill
+              label="주문 하러 가기"
+              onClick={() => goToStore(selectedStore.id)}
+              className="text-2xl mt-4"
+            />
+          </div>
+        </div>
+      </div>
       <div style={{ zIndex: 10 }}>
         <Container.MainFooterWithNavigation />
       </div>
