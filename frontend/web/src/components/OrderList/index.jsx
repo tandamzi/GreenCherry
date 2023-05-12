@@ -1,6 +1,7 @@
 import React from 'react';
 
 import OrderListItem from '@/components/OrderListItem';
+import OrderZero from '@/components/OrderZero';
 
 // @ts-check
 
@@ -19,7 +20,7 @@ const OrderList = () => {
    * @type {Order[]}
    */
   const orderList = [
-    {
+    /*     {
       orderId: '1',
       nickname: '김철수',
       quantity: 1,
@@ -74,7 +75,7 @@ const OrderList = () => {
       orderState: 'PICKUP_COMPLETE',
       totalSalesAmount: '10000',
       orderDate: '2021-01-01',
-    },
+    }, */
   ];
   return (
     <div className="flex flex-col py-20 text-primaryfont font-thin h-5/6 max-w-4xl">
@@ -85,6 +86,7 @@ const OrderList = () => {
         <p className="flex-1">상태</p>
       </div>
 
+      {orderList.length === 0 && <OrderZero />}
       {orderList.map(order => (
         <OrderListItem key={order.orderId} order={order} />
       ))}
