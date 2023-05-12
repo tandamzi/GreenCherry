@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-const LOCAL_API_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
-
 const clientHttp = axios.create({
-  baseURL: LOCAL_API_URL,
+  baseURL: '/api',
+});
+const clientHttpForm = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
 });
 
 export default clientHttp;
+export { clientHttpForm };

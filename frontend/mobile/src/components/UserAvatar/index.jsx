@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 import style from './index.module.scss';
 
-import { httpForm } from '@/server/api/http';
+import { clientHttpForm } from '@/utils/csr/clientHttp';
 
 export const UserAvatar = ({
   imageURL,
@@ -47,10 +47,11 @@ export const UserAvatar = ({
     reader.readAsDataURL(inputRef.current.files[0]);
 
     const data = new FormData();
-    data.append('profileImg', inputRef.current.files[0] || null);
 
-    httpForm
-      .patch('{UPDATE_PROFILE_URL}', data)
+    data.append('images', inputRef.current.files[0] || null);
+
+    clientHttpForm
+      .put('/profile/update-profile', data)
       .then(res => {
         window.location.reload();
       })
@@ -60,8 +61,8 @@ export const UserAvatar = ({
   const updateProfileDefaultImg = () => {
     setImgFile(require('../../../public/assets/Images/default-user.png'));
 
-    httpForm
-      .patch('UPDATE_DEFAULT_PROFILE_URL')
+    clientHttpForm
+      .put('/profile/update-default-profile')
       .then(res => {
         window.location.reload();
       })
@@ -84,30 +85,26 @@ export const UserAvatar = ({
         }
         alt="프로필 이미지"
         className="style.Image rounded-full object-cover"
-        onClick={changable ? dummyFunction : onClickImageInput}
-        width={100}
-        height={100}
+        onClick={changable ? onClickImageInput : dummyFunction}
+        fill
       />
-      {changable || (
-        <div>
-          <div className="flex justify-end px-4 pt-36">
-            <ImCancelCircle
-              className="text-xl text-red-400 z-50"
-              onClick={updateProfileDefaultImg}
-            />
-          </div>
-          <input
-            style={{ display: 'none' }}
-            ref={inputRef}
-            type="file"
-            className={style.ImgInput}
-            id="logoImg"
-            accept="image/*"
-            name="file"
-            onChange={onChange}
+      <div className="hidden">
+        <div className="flex justify-end px-4 pt-36">
+          <ImCancelCircle
+            className="text-xl text-red-400 z-50"
+            onClick={updateProfileDefaultImg}
           />
         </div>
-      )}
+        <input
+          ref={inputRef}
+          type="file"
+          className={style.ImgInput}
+          id="logoImg"
+          accept="image/*"
+          name="file"
+          onChange={onChange}
+        />
+      </div>
     </div>
   );
 };
