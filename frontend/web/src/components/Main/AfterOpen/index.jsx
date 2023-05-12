@@ -12,10 +12,12 @@ const AfterOpen = () => {
   const { memberAttributes } = useMember();
   const { setCherryPoint } = useStore();
   const [quantity, setQuantity] = useState(0);
+  const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     getTodayOrderList(memberAttributes.storeId).then(res => {
       setQuantity(res.cherryBoxQuantity);
       setCherryPoint(res.cherryPoint);
+      setOrderList(res.orderList);
     });
   }, []);
   return (
@@ -23,7 +25,7 @@ const AfterOpen = () => {
       <LongBoxContainer className="fixed max-w-4xl">
         <p>{quantity}개 남았습니다</p>
       </LongBoxContainer>
-      <OrderList />
+      <OrderList orderList={orderList} />
       <CarbonContainer />
     </div>
   );
