@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -88,13 +89,16 @@ public class OrderService {
         }
         order.stateChange(State.PICKUP_COMPLETE);
 
-        SingleResult<StoreInfoForOrderDto> info = storeServiceClient.storeInfoForOrder(order.getStoreId());
+        List<Long> storeIdsByOrder = new ArrayList<>();
+        storeIdsByOrder.add(order.getStoreId());
+
+        StoreInfoForOrderDto info = storeServiceClient.storeInfoForOrder(storeIdsByOrder).getData().get(0);
 
         OrderStatusDto statusDto = OrderStatusDto.builder()
                 .orderId(order.getId())
                 .memberId(order.getMemberId())
                 .storeId(order.getStoreId())
-                .storeName(info.getData().getName())
+                .storeName(info.getName())
                 .cherryPoint(order.getQuantity())
                 .quentity(order.getQuantity())
                 .totalSalesAmount(order.getTotalSalesAmount())
@@ -170,48 +174,93 @@ public class OrderService {
     public Page<OrderMobileListResponseDto> mobileOrderList(Long memberId, Pageable pageable){
         log.info("[OrderService] mobileOrderList ");
 
-        Page<Order> pageByMemberId = orderRepository.findPageByMemberId(memberId, pageable);
+        Page<Order> orders = orderRepository.findPageByMemberId(memberId, pageable);
 
-        // TODO : 리뷰량이 많은 경우 속도 느림
-        // TODO : order시간 기준 최신순 정렬
-        Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
-            StoreInfoForOrderDto storeInfoDto = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
-            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
+//        // TODO : 리뷰량이 많은 경우 속도 느림
+//        // TODO : order시간 기준 최신순 정렬
+//        Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
+//            StoreInfoForOrderDto storeInfoDto = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
+//            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
+//
+//            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
+//            return OrderMobileListResponseDto.create(order, storeInfoDto, writedCheck);
+//        });
 
-            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
-            return OrderMobileListResponseDto.create(order, storeInfoDto, writedCheck);
+        List<Long> storeIds = new ArrayList<>();
+        List<Long> orderIds = new ArrayList<>();
+
+        orders.forEach(order -> {
+            storeIds.add(order.getStoreId());
+            orderIds.add(order.getId());
+        });
+
+        List<StoreInfoForOrderDto> storeInfoForOrderDtos = storeServiceClient.storeInfoForOrder(storeIds).getData();
+        List<Long> orderIdsByReview = reviewServiceClient.existReviewByOrder(orderIds).getData();
+
+        HashMap<Long,StoreInfoForOrderDto> storeInfoMap = new HashMap<>();
+        storeInfoForOrderDtos.forEach(storeInfo-> storeInfoMap.put(storeInfo.getStoreId(),storeInfo));
+
+        HashSet<Long> set = new HashSet<>(orderIdsByReview);
+        Page<OrderMobileListResponseDto> pages = orders.map(order -> {
+            StoreInfoForOrderDto storeInfoForOrderDto = storeInfoMap.get(order.getStoreId());
+            String writedCheck = writedCheck(order.getId(), order.getCreateDate(), LocalDateTime.now(), set);
+            return OrderMobileListResponseDto.create(order, storeInfoForOrderDto, writedCheck);
         });
 
         return pages;
 
     }
-    public String writedCheck(LocalDateTime orderDate, LocalDateTime currentTime, Boolean review){
+
+    public String writedCheck(Long orderId,LocalDateTime orderDate, LocalDateTime currentTime, HashSet<Long> set){
         log.info("[OrderService] writedCheck ");
-        if(!review){
+        if(!set.contains(orderId)){
             if(currentTime.isAfter(orderDate.plusDays(3))){
+                // 리뷰 작성 기간 만료
                 return String.valueOf(Writed.EXPIRATION);
             }else if(currentTime.isBefore(orderDate.plusDays(3))){
+                // 리뷰 안씀, 리뷰 적어주세요 띄우기
                 return String.valueOf(Writed.NO);
             }
         }
         return String.valueOf(Writed.YES);
-
     }
     public List<NoticeListResponseDto> noticeOrderList(List<Long> orderId){
         log.info("[OrderService] noticeOrderList ");
 
         List<Order> orders = orderRepository.findListById(orderId);
 
-        List<NoticeListResponseDto> list = new ArrayList<>();
+        List<Long> storeIds = new ArrayList<>();
+        List<Long> orderIds = new ArrayList<>();
 
         orders.forEach(order -> {
-            StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
-            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
-
-            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
-            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
-            list.add(noticeListResponseDto);
+            storeIds.add(order.getStoreId());
+            orderIds.add(order.getId());
         });
+
+
+        List<StoreInfoForOrderDto> storeInfoForOrderDtos = storeServiceClient.storeInfoForOrder(orderIds).getData();
+        List<Long> orderIdsByReview = reviewServiceClient.existReviewByOrder(orderIds).getData();
+
+        HashMap<Long,StoreInfoForOrderDto> storeInfoMap = new HashMap<>();
+        storeInfoForOrderDtos.forEach(storeInfo -> storeInfoMap.put(storeInfo.getStoreId(),storeInfo));
+
+        HashSet<Long> set = new HashSet<>(orderIdsByReview);
+
+        List<NoticeListResponseDto> list = orders.stream().map(order -> {
+            StoreInfoForOrderDto storeInfoForOrderDto = storeInfoMap.get(order.getStoreId());
+            String writedCheck = writedCheck(order.getId(), order.getCreateDate(), LocalDateTime.now(), set);
+            return NoticeListResponseDto.create(order, storeInfoForOrderDto, writedCheck);
+        }).collect(Collectors.toList());
+
+
+//        orders.forEach(order -> {
+//            StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
+//            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
+//
+//            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
+//            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
+//            list.add(noticeListResponseDto);
+//        });
 
         return list;
 

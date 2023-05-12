@@ -9,6 +9,8 @@ import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient(name = "store-service")
 public interface StoreServiceClient {
 
@@ -21,6 +23,6 @@ public interface StoreServiceClient {
     @PostMapping("/store/for-order")
     SingleResult<StoreDetailforOrderResponseDto> storeDetailforOrder(@RequestBody RegisterOrderDto orderDto);
 
-    @GetMapping("/store/{store-id}/storeInfo-for-order")
-    SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId);
+    @GetMapping("/store/storeInfo-for-order")
+    SingleResult<List<StoreInfoForOrderDto>> storeInfoForOrder(@RequestParam("storeIds") List<Long> storeIds);
 }

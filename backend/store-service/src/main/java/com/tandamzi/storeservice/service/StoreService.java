@@ -6,6 +6,7 @@ import com.tandamzi.storeservice.communication.kafka.KafkaProducer;
 import com.tandamzi.storeservice.domain.*;
 import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
 import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
+import com.tandamzi.storeservice.dto.feign.StoreImageQueryDto;
 import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
 import com.tandamzi.storeservice.dto.kafka.CherryBoxNotificationDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
@@ -229,11 +230,15 @@ public class StoreService {
 
     }
 
-    public StoreInfoForOrderDto storeInfoForOrder(Long storeId){
+    public List<StoreInfoForOrderDto> storeInfoForOrder(List<Long> storeId){
         log.info("[StoreService] storeInfoForOrder");
-        Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-        StoreImage storeImage = storeImageRepository.findStoreImagesByStore(store).get(0);
-        return StoreInfoForOrderDto.create(store,storeImage.getUrl());
+        List<StoreImageQueryDto> storeImgs = storeImageRepository.findByStoreIds(storeId);
+        return storeImgs.stream()
+                .map(storeImage ->
+                        StoreInfoForOrderDto.create(storeImage))
+                .collect(Collectors.toList());
+
+
     }
 
     @Transactional
