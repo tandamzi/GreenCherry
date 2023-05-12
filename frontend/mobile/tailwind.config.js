@@ -30,8 +30,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['LINESeedRg'],
         thin: ['LINESeedTh'],
+        sans: ['LINESeedRg'],
         bold: ['LINESeedBd'],
       },
     },
