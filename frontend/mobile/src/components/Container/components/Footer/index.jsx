@@ -34,11 +34,10 @@ const Footer = ({ className, children }) => {
       ref={footerRef}
       id="cherry-footer"
       className={cs(
-        'fixed m-0 rounded-full w-11/12 max-w-lg mb-5',
+        'fixed m-0 rounded-full w-11/12 max-w-lg mb-5 bg-bgcolor opacity-90',
         style['cherry-footer'],
         className,
       )}
-      style={{ background: '#fafaf9e4' }}
     >
       {children}
     </div>
