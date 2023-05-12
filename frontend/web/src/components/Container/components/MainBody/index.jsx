@@ -7,7 +7,7 @@ const MainBody = ({ className, children, ref }) => {
     <Body
       ref={ref}
       className={classnames(
-        'flex flex-col items-center py-32 justify-center',
+        'flex flex-col items-center pt-32 pb-10 justify-center',
         className,
       )}
     >

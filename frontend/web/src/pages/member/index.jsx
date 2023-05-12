@@ -6,7 +6,7 @@ const Member = () => {
   return (
     <Container>
       <Container.MainHeader />
-      <Container.MainBody className="bg-secondary h-screen">
+      <Container.MainBody className="bg-secondary h-full">
         모바일 링크
       </Container.MainBody>
     </Container>
