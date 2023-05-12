@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Container from '@/components/Container';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import { UserAvatar } from '@/components/UserAvatar';
 
 const myPage = () => {
@@ -13,5 +14,4 @@ const myPage = () => {
     </Container>
   );
 };
-
-export default myPage;
+export default PrivateRouter(myPage);

@@ -20,10 +20,9 @@ export const memberSlice = createSlice({
       };
     },
     saveInfo: (state, action) => {
-      localStorage.setItem('member', action.payload);
       return {
         ...state,
-        memberInfo: action.payload,
+        memberInfo: action.payload.data,
       };
     },
     reset(state) {
@@ -39,5 +38,5 @@ export const memberSlice = createSlice({
     },
   },
 });
-export const { saveToken, reset } = memberSlice.actions;
+export const { saveToken, saveInfo, reset } = memberSlice.actions;
 export default memberSlice.reducer;
