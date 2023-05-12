@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  setMemberIdAction,
   loginAction,
   logoutAction,
   openMyStoreModalAction,
@@ -18,6 +19,10 @@ export default function useMember() {
     cherryBoxRegisterModalOpen,
   } = useSelector(state => state.member);
   const dispatch = useDispatch();
+
+  const setMemberId = data => {
+    dispatch(setMemberIdAction(data));
+  };
 
   const login = data => {
     dispatch(loginAction(data));
@@ -49,6 +54,7 @@ export default function useMember() {
       storeName,
       memberId,
     },
+    setMemberId,
     login,
     logout,
     myStoreModalOpen,

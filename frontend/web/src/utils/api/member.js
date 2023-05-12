@@ -2,9 +2,9 @@ import clientHttp from '@/utils/clientHttp';
 
 export const getMember = async () => {
   try {
-    const data = await clientHttp.get('/member');
-    // console.log(data);
-    return data;
+    const res = await clientHttp.get('/member');
+    // console.log(res);
+    return res.data;
   } catch (error) {
     return error;
   }
