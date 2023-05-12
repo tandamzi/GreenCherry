@@ -19,7 +19,7 @@ const AfterOpen = () => {
     });
   }, []);
   return (
-    <div className="w-full max-w-4xl">
+    <div className="w-full max-w-4xl h-full relative">
       <LongBoxContainer className="fixed max-w-4xl">
         <p>{quantity}개 남았습니다</p>
       </LongBoxContainer>
