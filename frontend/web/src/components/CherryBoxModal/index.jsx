@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CherryInput from '@/components/CherryInput';
 import Modal from '@/components/Modal';
@@ -8,19 +8,13 @@ import { putCherryBox } from '@/utils/api/store';
 
 const CherryBoxModal = () => {
   const {
+    memberAttributes,
     cherryBoxRegisterModalOpen,
     openCherryBoxRegisterModal,
     closeCherryBoxRegisterModal,
   } = useMember();
 
   const { openStore } = useStore();
-
-  const [cherryBox, setCherryBox] = useState({
-    totalPriceBeforeDiscount: 0,
-    quantity: 0,
-    discountRate: 0,
-    pricePerCherryBox: 0,
-  });
 
   const cherryBoxDatas = [
     {
@@ -41,22 +35,115 @@ const CherryBoxModal = () => {
     },
   ];
 
+  const [cherryBox, setCherryBox] = useState({
+    totalPriceBeforeDiscount: 0,
+    quantity: 0,
+    discountRate: 0,
+    pricePerCherryBox: 0,
+  });
+
+  const [userModified, setUserModified] = useState({
+    discountRate: false,
+    pricePerCherryBox: false,
+  });
   const handleCherryBoxChange = e => {
     const { name, value } = e.target;
-    setCherryBox({
+    const updatedCherryBox = {
       ...cherryBox,
       [name]: value,
+    };
+
+    // Update userModified state
+    const updatedUserModified = {
+      discountRate: name === 'discountRate',
+      pricePerCherryBox: name === 'pricePerCherryBox',
+    };
+    setUserModified(updatedUserModified);
+
+    // Apply changes to cherryBox
+    setCherryBox(updatedCherryBox);
+  };
+
+  const handleInputFocus = e => {
+    const { name, value } = e.target;
+    if (value === '') {
+      setCherryBox({
+        ...cherryBox,
+        [name]: 0,
+      });
+    }
+  };
+
+  const handleInputBlur = e => {
+    const { name } = e.target;
+    setUserModified({
+      discountRate: name === 'discountRate',
+      pricePerCherryBox: name === 'pricePerCherryBox',
     });
   };
 
+  useEffect(() => {
+    if (
+      userModified.pricePerCherryBox &&
+      cherryBox.totalPriceBeforeDiscount &&
+      cherryBox.quantity &&
+      cherryBox.pricePerCherryBox
+    ) {
+      const discountPrice = cherryBox.pricePerCherryBox * cherryBox.quantity;
+      const discountRate =
+        ((cherryBox.totalPriceBeforeDiscount - discountPrice) /
+          cherryBox.totalPriceBeforeDiscount) *
+        100;
+
+      setCherryBox(prevState => ({
+        ...prevState,
+        discountRate,
+      }));
+    }
+  }, [
+    cherryBox.totalPriceBeforeDiscount,
+    cherryBox.quantity,
+    cherryBox.pricePerCherryBox,
+    userModified,
+  ]);
+
+  useEffect(() => {
+    if (
+      userModified.discountRate &&
+      cherryBox.totalPriceBeforeDiscount &&
+      cherryBox.quantity &&
+      cherryBox.discountRate
+    ) {
+      const discountPrice =
+        cherryBox.totalPriceBeforeDiscount * (1 - cherryBox.discountRate / 100);
+      const pricePerBox = discountPrice / cherryBox.quantity;
+
+      setCherryBox(prevState => ({
+        ...prevState,
+        pricePerCherryBox: pricePerBox,
+      }));
+    }
+  }, [
+    cherryBox.totalPriceBeforeDiscount,
+    cherryBox.quantity,
+    cherryBox.discountRate,
+    userModified,
+  ]);
+
   const handleRegisterBtnClick = () => {
-    // TODO: 값들 잘 넣어주기
+    /*     console.log({
+      memberId: memberAttributes.memberId,
+      quantity: cherryBox.quantity,
+      totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
+      discountRate: cherryBox.discountRate,
+      pricePerCherryBox: cherryBox.pricePerCherryBox,
+    }); */
     putCherryBox({
-      /*       memberId: 12,
-      quantity: 11,
-      totalPriceBeforeDiscount: 30000,
-      discountRate: 11,
-      pricePerCherryBox: 1111, */
+      memberId: memberAttributes.memberId,
+      quantity: cherryBox.quantity,
+      totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
+      discountRate: cherryBox.discountRate,
+      pricePerCherryBox: cherryBox.pricePerCherryBox,
     });
     openStore();
     closeCherryBoxRegisterModal();
@@ -75,7 +162,10 @@ const CherryBoxModal = () => {
             key={index}
             title={cherryBoxData.title}
             data={cherryBoxData.data}
+            value={cherryBox[cherryBoxData.data]}
             onChange={handleCherryBoxChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
           />
         ))}
       </div>
