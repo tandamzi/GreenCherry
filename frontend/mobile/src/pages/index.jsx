@@ -56,7 +56,7 @@ const subscribeUser = async () => {
   });
 };
 
-export default function Home() {
+const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const options = {
@@ -130,4 +130,6 @@ export default function Home() {
       <Spinner />
     )
   );
-}
+};
+
+export default Home;

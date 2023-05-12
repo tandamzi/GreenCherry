@@ -20,23 +20,24 @@ const ReservationStatus = ({ reservationInfo }) => {
     setData(reservationInfo);
   }, [reservationInfo]);
   return (
-    <div className="flex flex-col justify-center text-center mt-6 border-b-2 border-b-line pb-4">
-      <p className=" mx-10 py-2 rounded-3xl bg-itembg">
+    <div className="flex flex-col justify-center text-center my-6 pb-6 border-b-2 border-b-line ">
+      <p className="mx-10 py-2 rounded-3xl bg-itembg">
         {data && data.cherryBox.quantity}개 남았습니다!
       </p>
-      <div className=" flex justify-center">
-        {' '}
+      <div className=" flex justify-center -mt-5 -mb-8">
         <Lottie
           className=""
           loop
           animationData={foodOrderBox}
           play
           style={{ width: 260, height: 260 }}
-          speed={1}
+          speed={0.8}
         />
       </div>
-      <div className="mb-6 flex flex-row justify-center">
-        <div
+      <div className="mb-6 flex flex-row justify-center items-center">
+        <button
+          className="w-6 h-6 font-bold rounded-full bg-primary active:bg-primaryevent"
+          type="button"
           onClick={e => {
             e.preventDefault();
             if (orderQuantity) {
@@ -49,12 +50,13 @@ const ReservationStatus = ({ reservationInfo }) => {
               setOrderPrice(0);
             }
           }}
-          className="font-bold rounded-full py-2 px-4 bg-itembg mr-4 active:bg-primaryevent"
         >
           -
-        </div>
-        <p className="font-bold text-3xl pt-1">{orderQuantity}</p>
-        <div
+        </button>
+        <p className="font-bold text-3xl mx-3">{orderQuantity}</p>
+        <button
+          className="w-6 h-6 font-bold rounded-full bg-primary active:bg-primaryevent"
+          type="button"
           onClick={e => {
             e.preventDefault();
             if (orderQuantity < data.cherryBox.quantity) {
@@ -64,12 +66,11 @@ const ReservationStatus = ({ reservationInfo }) => {
               );
             }
           }}
-          className="font-bold rounded-full py-2 px-4 bg-itembg ml-4 active:bg-primaryevent"
         >
           +
-        </div>
+        </button>
       </div>
-      <div className="flex justify-center rounded-xl mx-auto px-8 py-1 bg-itembg">
+      <div className="flex justify-center rounded-xl mx-auto px-8 p-2 bg-itembg">
         <button
           type="button"
           onClick={e => {
@@ -77,8 +78,9 @@ const ReservationStatus = ({ reservationInfo }) => {
             toggleModal();
           }}
         >
-          <p>예약하기</p>
-          <p>{orderPrice} 원</p>
+          <span className="tracking-tighter">
+            예약하기 <br /> {orderPrice} 원
+          </span>
         </button>
       </div>
       <WarningModal
