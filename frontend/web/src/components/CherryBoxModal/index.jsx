@@ -82,6 +82,24 @@ const CherryBoxModal = () => {
     });
   };
 
+  const init = () => {
+    setCherryBox({
+      totalPriceBeforeDiscount: 0,
+      quantity: 0,
+      discountRate: 0,
+      pricePerCherryBox: 0,
+    });
+    setUserModified({
+      discountRate: false,
+      pricePerCherryBox: false,
+    });
+  };
+
+  const closeModal = () => {
+    init();
+    closeCherryBoxRegisterModal();
+  };
+
   useEffect(() => {
     if (
       userModified.pricePerCherryBox &&
@@ -131,28 +149,25 @@ const CherryBoxModal = () => {
   ]);
 
   const handleRegisterBtnClick = () => {
-    /*     console.log({
-      memberId: memberAttributes.memberId,
+    putCherryBox(memberAttributes.storeId, {
       quantity: cherryBox.quantity,
       totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
       discountRate: cherryBox.discountRate,
       pricePerCherryBox: cherryBox.pricePerCherryBox,
-    }); */
-    putCherryBox({
-      memberId: memberAttributes.memberId,
-      quantity: cherryBox.quantity,
-      totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
-      discountRate: cherryBox.discountRate,
-      pricePerCherryBox: cherryBox.pricePerCherryBox,
+    }).then(data => {
+      if (data.code === 0) {
+        openStore();
+        closeModal();
+      } else {
+        console.error('오늘의 체리박스 등록에 실패했습니다.');
+      }
     });
-    openStore();
-    closeCherryBoxRegisterModal();
   };
 
   return (
     <Modal
       isOpen={cherryBoxRegisterModalOpen}
-      onClose={closeCherryBoxRegisterModal}
+      onClose={closeModal}
       className="p-16 flex flex-col items-center"
     >
       <h1 className="text-center text-3xl mb-10">오늘의 체리박스 등록</h1>

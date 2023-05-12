@@ -8,7 +8,6 @@ export default async function handler(req, res) {
   const http = createHttpInstance(req);
   switch (method) {
     case 'PUT': {
-      // console.log(req.body);
       const response = await http.put(`/store/${storeId}/cherrybox`, req.body);
       try {
         res.status(200).json(response.data);

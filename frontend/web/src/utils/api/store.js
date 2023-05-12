@@ -37,10 +37,10 @@ export const getCherryPoint = async storeId => {
   }
 };
 
-export const putCherryBox = async cherryBoxInfo => {
+export const putCherryBox = async (storeId, cherryBoxInfo) => {
   try {
     const res = await clientHttp.put(
-      `/store/${cherryBoxInfo.storeId}/cherrybox`,
+      `/store/${storeId}/cherrybox`,
       cherryBoxInfo,
     );
     return res.data;
