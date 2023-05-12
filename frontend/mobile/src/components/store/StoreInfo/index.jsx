@@ -41,14 +41,14 @@ const StoreInfo = ({ storeInfo }) => {
               size={15}
               color="#F28482"
               // style={{ color: iconColors.home }}
-              className=" items-center mt-1"
+              className=" items-center mb-1 mr-1"
             />
             <p className="text-primaryfont">
               {data && data.numberOfSubscriber}
             </p>
           </div>
           <p className="mx-6 font-thin text-primaryfont">|</p>
-          <p className="font-thin text-primaryfont">
+          <p className="font-light text-primaryfont">
             리뷰{' '}
             <span className="text-secondary">
               {data && data.numberOfReview}
@@ -58,29 +58,29 @@ const StoreInfo = ({ storeInfo }) => {
       </div>
 
       <div className="grid grid-cols-3 my-6 text-primaryfont">
-        <p className="text-center font-thin">픽업시간</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">
+        <p className="text-center font-extralight text-secondary">픽업시간</p>
+        <p className="col-span-2 mb-3 ml-4 pr-7 font-medium">
           {data && data.pickUpStartTime} - {data && data.pickUpEndTime} todo :
           시간도 수정해야돼요 뒤에 00 안오게
         </p>
 
-        <p className="text-center font-thin">위치 안내</p>
+        <p className="text-center font-extralight text-secondary">위치 안내</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.address.addressName}
           12312311213612136512143651243891249381249834129849
         </p>
 
-        <p className="text-center font-thin">가게소개</p>
+        <p className="text-center font-extralight text-secondary">가게소개</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.address.addressName}
         </p>
 
-        <p className="text-center font-thin">체리박스</p>
+        <p className="text-center font-extralight text-secondary">체리박스</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.cherryBox.description} todo : 데이터가 없어요
         </p>
 
-        <p className="text-center font-thin">알레르기</p>
+        <p className="text-center font-extralight text-secondary">알레르기</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
           {data && data.allergies[0].name}
         </p>
