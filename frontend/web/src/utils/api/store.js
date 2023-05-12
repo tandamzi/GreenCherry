@@ -36,3 +36,15 @@ export const getCherryPoint = async storeId => {
     return error;
   }
 };
+
+export const putCherryBox = async (storeId, cherryBoxInfo) => {
+  try {
+    const res = await clientHttp.put(
+      `/store/${storeId}/cherrybox`,
+      cherryBoxInfo,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};

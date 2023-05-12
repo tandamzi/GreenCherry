@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import classnames from 'classnames';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss';
 
 const SwitchButton = ({ active }) => {
-  // TODO: store로 받아서 activeButton에 넣어주기
+  const router = useRouter();
   const [activeButton, setActiveButton] = useState('');
 
-  const handleUserClick = () => {
-    setActiveButton('user');
-  };
-
-  const handleBusinessClick = () => {
-    setActiveButton('business');
-  };
+  useEffect(() => {
+    if (router.pathname === '/member') {
+      setActiveButton('user');
+    } else if (router.pathname === '/business/login') {
+      setActiveButton('business');
+    }
+  }, [activeButton]);
   return (
     <div className={style.toggleMenu}>
-      <button
-        type="button"
+      <Link
+        href="/member"
         className={classnames(
           style.toggleButton,
           style.userButton,
           activeButton === 'user' && style.active,
           'font-bold',
         )}
-        onClick={handleUserClick}
       >
         USER
-      </button>
-      <button
-        type="button"
+      </Link>
+      <Link
+        href="/business/login"
         className={classnames(
           style.toggleButton,
           style.businessButton,
           activeButton === 'business' && style.active,
           'font-bold',
         )}
-        onClick={handleBusinessClick}
       >
         BUSINESS
-      </button>
+      </Link>
     </div>
   );
 };
