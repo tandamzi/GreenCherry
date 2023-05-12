@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 import List from './list';
 import Map from './map';
 
+import Container from '@/components/Container';
+
 const order = () => {
   const [toggleState, setToggleState] = useState(false);
   const changeToggle = () => {
     setToggleState(prev => !prev);
   };
   return (
-    <div>
-      <div className="absolute z-20 top-3 right-3 inline-block w-28 align-middle select-none transition duration-200 ease-in">
+    <Container>
+      <div className="absolute z-20 left-1/2 -translate-x-1/2 top-3 inline-block w-28 align-middle select-none transition duration-200 ease-in">
         <input
           type="checkbox"
           name="toggle"
@@ -44,7 +46,7 @@ const order = () => {
       </div>
 
       {!toggleState ? <Map /> : <List />}
-    </div>
+    </Container>
   );
 };
 
