@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import CarbonContainer from '@/components/CarbonContainer';
 import LongBoxContainer from '@/components/LongBoxContainer';
 import OrderList from '@/components/OrderList';
 import OrderZero from '@/components/OrderZero';
@@ -23,6 +24,7 @@ const AfterOpen = () => {
         <p>{quantity}개 남았습니다</p>
       </LongBoxContainer>
       <OrderList />
+      <CarbonContainer />
     </div>
   );
 };

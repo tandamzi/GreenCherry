@@ -3,8 +3,10 @@ import React from 'react';
 import classnames from 'classnames';
 
 import useMember from '@/hooks/memberHook';
+import useStore from '@/hooks/storeHook';
 
-const CarbonContainer = ({ amount, className }) => {
+const CarbonContainer = ({ className }) => {
+  const { storeAttributes } = useStore();
   const { memberAttributes } = useMember();
   return (
     <div
@@ -13,8 +15,8 @@ const CarbonContainer = ({ amount, className }) => {
         className,
       )}
     >
-      {memberAttributes.storeName} 가게는 {amount}Kg CO<sub>2</sub>e 만큼
-      줄였어요!
+      {memberAttributes.storeName} 가게는 {storeAttributes.cherryPoint}Kg CO
+      <sub>2</sub>e 만큼 줄였어요!
     </div>
   );
 };
