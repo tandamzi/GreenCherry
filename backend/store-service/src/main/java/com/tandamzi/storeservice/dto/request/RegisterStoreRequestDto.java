@@ -34,7 +34,7 @@ public class RegisterStoreRequestDto {
                 .phone(phone)
                 .pickUpStartTime(pickUpStartTime)
                 .pickUpEndTime(pickUpEndTime)
-                .open(true)
+                .open(false)
                 .cherryBox(cherryBox)
                 .build();
     }
