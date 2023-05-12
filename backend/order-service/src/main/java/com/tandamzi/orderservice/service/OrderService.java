@@ -122,7 +122,7 @@ public class OrderService {
 
     }
     /** 웹 용 */
-    public Page<OrderListResponseDto> orderList(Long storeId,String nickname, Pageable pageable){
+    public Page<OrderListResponseDto> orderList(Long storeId,String nickname, String date, Pageable pageable){
         log.info("[OrderService] orderList ");
 
         if(storeId == null ){
@@ -131,9 +131,8 @@ public class OrderService {
 
         Page<OrderListResponseDto> responseDto = null;
 
-
         if(nickname == null){
-            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, null, pageable);
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, null, date, pageable);
 
             HashSet<Long> hashSet = new HashSet<>();
             orderPage.forEach(order -> {
@@ -149,7 +148,6 @@ public class OrderService {
             });
 
             responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
-
         }else{
             SingleResult<List<MemberForOrderDto>> memberForOrder = memberServiceClient.findMemberForOrder(nickname, null);
 
@@ -161,11 +159,10 @@ public class OrderService {
             List<Long> list = new ArrayList<>(map.keySet());
 
 
-            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, list, pageable);
+            Page<Order> orderPage = orderRepository.findOrderListByStoreIdAndMemberId(storeId, list, date, pageable);
             responseDto = orderPage.map(order -> OrderListResponseDto.create(order, map));
-
-
         }
+
         return responseDto;
     }
 
