@@ -2,27 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { PURGE } from 'redux-persist';
 
-import http from '@/utils/http';
-
-export const loginAsync = createAsyncThunk(
-  'member/loginAsync',
-  async (token, { rejectWithValue }) => {
-    // console.log('loging ASYNC');
-    try {
-      const response = await http.get('/member', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // console.log(response);
-      return { memberInfo: response.data, token };
-    } catch (e) {
-      return rejectWithValue(e.response.data);
-    }
-  },
-);
-
 const initialState = {
   memberInfo: {},
   token: '',
@@ -40,6 +19,12 @@ export const memberSlice = createSlice({
         token: action.payload,
       };
     },
+    saveInfo: (state, action) => {
+      return {
+        ...state,
+        memberInfo: action.payload.data,
+      };
+    },
     reset(state) {
       localStorage.removeItem('token');
       Cookies.remove('token');
@@ -52,25 +37,6 @@ export const memberSlice = createSlice({
       };
     },
   },
-  extraReducers: builder => {
-    builder
-      .addCase(loginAsync.pending, state => {
-        return { ...state, status: 'Loading' };
-      })
-      .addCase(loginAsync.fulfilled, (state, action) => {
-        // console.log(action.payload);
-        const { memberInfo } = action.payload;
-        return {
-          ...state,
-          memberInfo,
-          status: 'Success',
-        };
-      })
-      .addCase(loginAsync.rejected, state => {
-        return { ...state, token: null, status: 'Fail' };
-      })
-      .addCase(PURGE, () => initialState);
-  },
 });
-export const { saveToken, reset } = memberSlice.actions;
+export const { saveToken, saveInfo, reset } = memberSlice.actions;
 export default memberSlice.reducer;

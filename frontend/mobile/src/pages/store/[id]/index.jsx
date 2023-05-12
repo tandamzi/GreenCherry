@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import ReservationStatus from '@/components/store/ReservationStatus';
 import StoreInfo from '@/components/store/StoreInfo';
 import StoreTag from '@/components/store/StoreTag';
@@ -25,8 +26,7 @@ const store = ({ storeProps }) => {
     </Container>
   );
 };
-
-export default store;
+export default PrivateRouter(store);
 
 export const getServerSideProps = async context => {
   const { id } = context.query;

@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CherryInput from '@/components/CherryInput';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
+import { putCherryBox } from '@/utils/api/store';
 
 const CherryBoxModal = () => {
   const {
+    memberAttributes,
     cherryBoxRegisterModalOpen,
     openCherryBoxRegisterModal,
     closeCherryBoxRegisterModal,
   } = useMember();
 
   const { openStore } = useStore();
-
-  const [cherryBox, setCherryBox] = useState({
-    totalPriceBeforeDiscount: 0,
-    quantity: 0,
-    discountRate: 0,
-    pricePerCherryBox: 0,
-  });
 
   const cherryBoxDatas = [
     {
@@ -40,23 +35,139 @@ const CherryBoxModal = () => {
     },
   ];
 
+  const [cherryBox, setCherryBox] = useState({
+    totalPriceBeforeDiscount: 0,
+    quantity: 0,
+    discountRate: 0,
+    pricePerCherryBox: 0,
+  });
+
+  const [userModified, setUserModified] = useState({
+    discountRate: false,
+    pricePerCherryBox: false,
+  });
   const handleCherryBoxChange = e => {
     const { name, value } = e.target;
-    setCherryBox({
+    const updatedCherryBox = {
       ...cherryBox,
       [name]: value,
+    };
+
+    // Update userModified state
+    const updatedUserModified = {
+      discountRate: name === 'discountRate',
+      pricePerCherryBox: name === 'pricePerCherryBox',
+    };
+    setUserModified(updatedUserModified);
+
+    // Apply changes to cherryBox
+    setCherryBox(updatedCherryBox);
+  };
+
+  const handleInputFocus = e => {
+    const { name, value } = e.target;
+    if (value === '') {
+      setCherryBox({
+        ...cherryBox,
+        [name]: 0,
+      });
+    }
+  };
+
+  const handleInputBlur = e => {
+    const { name } = e.target;
+    setUserModified({
+      discountRate: name === 'discountRate',
+      pricePerCherryBox: name === 'pricePerCherryBox',
     });
   };
 
-  const handleRegisterBtnClick = () => {
-    openStore();
+  const init = () => {
+    setCherryBox({
+      totalPriceBeforeDiscount: 0,
+      quantity: 0,
+      discountRate: 0,
+      pricePerCherryBox: 0,
+    });
+    setUserModified({
+      discountRate: false,
+      pricePerCherryBox: false,
+    });
+  };
+
+  const closeModal = () => {
+    init();
     closeCherryBoxRegisterModal();
+  };
+
+  useEffect(() => {
+    if (
+      userModified.pricePerCherryBox &&
+      cherryBox.totalPriceBeforeDiscount &&
+      cherryBox.quantity &&
+      cherryBox.pricePerCherryBox
+    ) {
+      const discountPrice = cherryBox.pricePerCherryBox * cherryBox.quantity;
+      const discountRate =
+        ((cherryBox.totalPriceBeforeDiscount - discountPrice) /
+          cherryBox.totalPriceBeforeDiscount) *
+        100;
+
+      setCherryBox(prevState => ({
+        ...prevState,
+        discountRate,
+      }));
+    }
+  }, [
+    cherryBox.totalPriceBeforeDiscount,
+    cherryBox.quantity,
+    cherryBox.pricePerCherryBox,
+    userModified,
+  ]);
+
+  useEffect(() => {
+    if (
+      userModified.discountRate &&
+      cherryBox.totalPriceBeforeDiscount &&
+      cherryBox.quantity &&
+      cherryBox.discountRate
+    ) {
+      const discountPrice =
+        cherryBox.totalPriceBeforeDiscount * (1 - cherryBox.discountRate / 100);
+      const pricePerBox = discountPrice / cherryBox.quantity;
+
+      setCherryBox(prevState => ({
+        ...prevState,
+        pricePerCherryBox: pricePerBox,
+      }));
+    }
+  }, [
+    cherryBox.totalPriceBeforeDiscount,
+    cherryBox.quantity,
+    cherryBox.discountRate,
+    userModified,
+  ]);
+
+  const handleRegisterBtnClick = () => {
+    putCherryBox(memberAttributes.storeId, {
+      quantity: cherryBox.quantity,
+      totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
+      discountRate: cherryBox.discountRate,
+      pricePerCherryBox: cherryBox.pricePerCherryBox,
+    }).then(data => {
+      if (data.code === 0) {
+        openStore();
+        closeModal();
+      } else {
+        console.error('오늘의 체리박스 등록에 실패했습니다.');
+      }
+    });
   };
 
   return (
     <Modal
       isOpen={cherryBoxRegisterModalOpen}
-      onClose={closeCherryBoxRegisterModal}
+      onClose={closeModal}
       className="p-16 flex flex-col items-center"
     >
       <h1 className="text-center text-3xl mb-10">오늘의 체리박스 등록</h1>
@@ -66,7 +177,10 @@ const CherryBoxModal = () => {
             key={index}
             title={cherryBoxData.title}
             data={cherryBoxData.data}
+            value={cherryBox[cherryBoxData.data]}
             onChange={handleCherryBoxChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
           />
         ))}
       </div>
