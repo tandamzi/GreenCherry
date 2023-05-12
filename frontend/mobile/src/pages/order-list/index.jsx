@@ -28,12 +28,12 @@ const orderList = () => {
   return (
     <Container className=" ">
       <Container.SubPageHeader goHome title="주문내역" className="" />
-      <div className="mt-4">
+      <Container.MainBody>
         {orders &&
           orders.content.map(orderInfo => {
             return <OrderInfo key={orderInfo.orderId} orderInfo={orderInfo} />;
           })}
-      </div>
+      </Container.MainBody>
     </Container>
   );
 };

@@ -27,15 +27,17 @@ const subscribe = () => {
   return (
     <Container>
       <Container.SubPageHeader goHome title="구독내역" />
-      {subscribeInfo &&
-        subscribeInfo.content.map(subscribeStoreInfo => {
-          return (
-            <SubscribeStore
-              key={subscribeStoreInfo.id}
-              subscribeStoreInfo={subscribeStoreInfo}
-            />
-          );
-        })}
+      <Container.MainBody>
+        {subscribeInfo &&
+          subscribeInfo.content.map(subscribeStoreInfo => {
+            return (
+              <SubscribeStore
+                key={subscribeStoreInfo.id}
+                subscribeStoreInfo={subscribeStoreInfo}
+              />
+            );
+          })}
+      </Container.MainBody>
     </Container>
   );
 };
