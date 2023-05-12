@@ -20,7 +20,7 @@ const Reservation = () => {
       )}
     >
       <Lottie
-        className=""
+        className="-ml-5"
         loop
         animationData={foodOrderBox}
         play
@@ -28,8 +28,9 @@ const Reservation = () => {
         style={{ width: 260, height: 260 }}
         speed={1}
       />
-      <p className="text-sm w-full mb-2 mob:text-base text-center ">
+      <p className="text-sm w-full mb-2 -ml-9 px-4 mob:text-base text-left ">
         진행중인 예약이 없습니다
+        <br /> todo : 진행중인 거 있을 때 다른문구
       </p>
     </div>
   );
