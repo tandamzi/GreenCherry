@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import { PURGE } from 'redux-persist';
 
 const initialState = {
   memberInfo: {},
@@ -13,7 +12,6 @@ export const memberSlice = createSlice({
   reducers: {
     saveToken: (state, action) => {
       localStorage.setItem('token', `Bearer ${action.payload}`);
-      // console.log('saveToken' + action.payload);
       return {
         ...state,
         token: action.payload,
