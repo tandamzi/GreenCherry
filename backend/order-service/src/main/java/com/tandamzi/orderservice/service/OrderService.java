@@ -241,17 +241,7 @@ public class OrderService {
             String writedCheck = writedCheck(order.getId(), order.getCreateDate(), LocalDateTime.now(), set);
             return NoticeListResponseDto.create(order, storeInfoForOrderDto, writedCheck);
         }).collect(Collectors.toList());
-
-
-//        orders.forEach(order -> {
-//            StoreInfoForOrderDto storeInfo = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
-//            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
-//
-//            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
-//            NoticeListResponseDto noticeListResponseDto = NoticeListResponseDto.create(order, storeInfo, writedCheck);
-//            list.add(noticeListResponseDto);
-//        });
-
+        
         return list;
 
     }
