@@ -108,7 +108,7 @@ const map = () => {
 
   const storeMarkersRef = useRef([]); // 새로운 상태 변수를 추가합니다.
 
-  const bottomSheetRef = useRef(null);
+  const bottomSheetRef = useRef(false);
   const [show, setShow] = useState(false);
 
   const showModal = () => {
