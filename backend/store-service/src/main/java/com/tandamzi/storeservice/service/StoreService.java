@@ -88,11 +88,15 @@ public class StoreService {
 
         List<Allergy> allergyList = getAllergiesToList(store);
         List<StoreImage> storeImageList = storeImageRepository.findStoreImagesByStore(store);
-        long numberOfReview = reviewServiceClient.countReview(store.getId()).getData();
+        long numberOfReview = getNumberOfReviewFromReviewService(store.getId());
         long numberOfSubscriber = subscribeRepository.countByStoreId(store.getId());
         log.info("numberOfReview: {}", numberOfReview);
 
         return StoreDetailResponseDto.create(store, allergyList, storeImageList,numberOfReview,numberOfSubscriber);
+    }
+
+    private Long getNumberOfReviewFromReviewService(Long storeId) {
+        return reviewServiceClient.countReview(storeId).getData();
     }
 
     private List<Allergy> getAllergiesToList(Store store) {
@@ -201,9 +205,11 @@ public class StoreService {
                 .id(store.getId())
                 .name(store.getName())
                 .address(AddressResponseDto.create(store.getAddress()))
+                .type(TypeResponseDto.create(store.getType()))
                 .images(storeImageRepository.findStoreImagesByStore(store).stream()
                         .map(storeImage -> storeImage.getUrl())
                         .collect(Collectors.toList()))
+                .numberOfReview(getNumberOfReviewFromReviewService(store.getId()))
                 .build());
         return storeResponseDtoPage;
     }
