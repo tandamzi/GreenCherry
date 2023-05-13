@@ -9,7 +9,7 @@
   margin: 0 auto;
   max-width: 1024px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -70,12 +70,43 @@
   font-size: 36px;
   font-weight: 700;
 }
-/* @media screen and (max-width: 768px) {
-  .love-ecology {
-    min-width: 5;
+@media screen and (max-width: 768px) {
+  .section-item {
+    padding: 120px 10px 0px;
+    align-items: flex-start;
   }
-  .greencherry-box {
-    width: 100%;
+
+  .image-container {
+    bottom: 0;
+    transform: translate(0, 0);
+  }
+
+  .image-relative {
+    width: 370px;
+    height: 437px;
+  }
+
+  .money {
+    top: 0;
+    right: 64px;
+    width: 30%;
+  }
+
+  .coins-chart {
+    width: 50%;
+  }
+
+  .money-bag {
+    width: 90%;
+  }
+
+  .title-text {
+    font-size: 60px;
+  }
+  .sub-text {
+    font-size: 18px;
+  }
+  .emphasis {
+    font-size: 24px;
   }
 }
- */

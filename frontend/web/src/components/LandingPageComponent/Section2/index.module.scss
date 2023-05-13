@@ -39,12 +39,18 @@
   font-size: 36px;
   font-weight: 700;
 }
-/* @media screen and (max-width: 768px) {
-  .love-ecology {
-    min-width: 5;
+@media screen and (max-width: 768px) {
+  .section-item {
+    padding: 0px 10px 0px;
   }
-  .greencherry-box {
-    width: 100%;
+
+  .title-text {
+    font-size: 60px;
+  }
+  .sub-text {
+    font-size: 18px;
+  }
+  .emphasis {
+    font-size: 24px;
   }
 }
- */
