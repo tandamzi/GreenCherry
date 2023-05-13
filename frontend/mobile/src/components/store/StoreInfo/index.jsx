@@ -19,7 +19,7 @@ const StoreInfo = ({ storeInfo }) => {
           <Image src={storeInfo.images[0].url} fill alt={storeInfo.name} />
         </div>
 
-        <div className="text-center mb-3">
+        <div className="text-center my-4">
           <p className="font-bold text-3xl"> {storeInfo.name}</p>
           <p className="text-xs text-secondary">{data && data.type.name}</p>
         </div>

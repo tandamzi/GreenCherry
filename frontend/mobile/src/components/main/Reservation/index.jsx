@@ -26,7 +26,7 @@ const Reservation = () => {
         play
         options={options}
         style={{ width: 260, height: 260 }}
-        speed={1}
+        speed={0.7}
       />
       <p className="text-sm w-full mb-2 -ml-9 px-4 mob:text-base text-left ">
         진행중인 예약이 없습니다
