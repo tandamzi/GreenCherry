@@ -22,8 +22,8 @@ public class S3Config {
     public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKey, secretKey);
         ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setConnectionTimeout(10000);
-        clientConfiguration.setSocketTimeout(20000);
+        clientConfiguration.setConnectionTimeout(60000);
+        clientConfiguration.setSocketTimeout(60000);
         return (AmazonS3Client) AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
