@@ -1,0 +1,81 @@
+.section-item {
+  padding: 0px 50px 0px;
+  scroll-snap-stop: always;
+  scroll-snap-align: center;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.title-text {
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.image-container {
+  position: absolute;
+  bottom: 50%;
+  right: 0;
+  transform: translate(0, 50%);
+}
+
+.image-relative {
+  position: relative;
+  width: 448px;
+  height: 496px;
+}
+
+.money,
+.coins-chart,
+.money-bag {
+  position: absolute;
+  height: auto;
+}
+
+.money {
+  max-width: 91px;
+  z-index: 1;
+  transform: rotate(-15deg);
+  top: 0;
+  right: 64px;
+}
+
+.coins-chart {
+  max-width: 294px;
+  z-index: 2;
+  top: 0px;
+  left: 0px;
+}
+
+.money-bag {
+  max-width: 342px;
+  z-index: 3;
+  bottom: 0;
+  right: 0;
+}
+.sub-text {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 24px;
+}
+
+.emphasis {
+  font-size: 36px;
+  font-weight: 700;
+}
+/* @media screen and (max-width: 768px) {
+  .love-ecology {
+    min-width: 5;
+  }
+  .greencherry-box {
+    width: 100%;
+  }
+}
+ */
