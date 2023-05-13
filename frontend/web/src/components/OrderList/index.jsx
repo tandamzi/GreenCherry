@@ -38,7 +38,7 @@ const OrderList = ({ orderList }) => {
       orderDate: '2021-01-01',
     },
     {
-      orderId: '2',
+      orderId: '3',
       nickname: '김철수',
       quantity: 1,
       orderState: 'PICKUP_COMPLETE',
@@ -46,7 +46,7 @@ const OrderList = ({ orderList }) => {
       orderDate: '2021-01-01',
     },
     {
-      orderId: '2',
+      orderId: '4',
       nickname: '김철수',
       quantity: 1,
       orderState: 'PICKUP_COMPLETE',
@@ -54,7 +54,7 @@ const OrderList = ({ orderList }) => {
       orderDate: '2021-01-01',
     },
     {
-      orderId: '2',
+      orderId: '5',
       nickname: '김철수',
       quantity: 1,
       orderState: 'PICKUP_COMPLETE',
@@ -62,7 +62,7 @@ const OrderList = ({ orderList }) => {
       orderDate: '2021-01-01',
     },
     {
-      orderId: '2',
+      orderId: '6',
       nickname: '김철수',
       quantity: 1,
       orderState: 'PICKUP_COMPLETE',
@@ -70,7 +70,7 @@ const OrderList = ({ orderList }) => {
       orderDate: '2021-01-01',
     },
     {
-      orderId: '2',
+      orderId: '7',
       nickname: '김철수',
       quantity: 1,
       orderState: 'PICKUP_COMPLETE',
@@ -80,7 +80,7 @@ const OrderList = ({ orderList }) => {
   ];
    */
   return (
-    <div className="flex flex-col py-20 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
+    <div className="flex flex-col py-5 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
       <div className="flex text-2xl text-center mb-5">
         <p className="flex-1">주문내역</p>
         <p className="flex-1">닉네임</p>
@@ -89,9 +89,11 @@ const OrderList = ({ orderList }) => {
       </div>
 
       {orderList.length === 0 && <OrderZero />}
-      {orderList.map(order => (
-        <OrderListItem key={order.orderId} order={order} />
-      ))}
+      <div className="overflow-y-scroll">
+        {orderList.map(order => (
+          <OrderListItem key={order.orderId} order={order} />
+        ))}
+      </div>
     </div>
   );
 };
