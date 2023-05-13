@@ -14,4 +14,8 @@ public class StoreResponseDto {
     private String name;
     private AddressResponseDto address;
     private List<String> images;
+
+    //리뷰 수, 업종 추가
+    private TypeResponseDto type;
+    private Long numberOfReview;
 }
