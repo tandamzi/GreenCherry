@@ -258,7 +258,7 @@ const map = () => {
         {isMapMoving && (
           <button
             type="button"
-            className="absolute p-3 left-0 right-0 top-20 mx-auto w-1/2 h-16 rounded-full bg-primaryevent opacity-90 cursor-pointer"
+            className="absolute p-3 left-0 right-0 top-28 mx-auto w-1/2 h-16 rounded-full bg-primaryevent opacity-90 cursor-pointer"
             style={{
               zIndex: 10,
             }}
@@ -304,9 +304,7 @@ const map = () => {
                 />
               </div>
               <div className="font-bold text-xl">{selectedStore.name}</div>
-              <div className="font-thin text-sm">
-                {selectedStore.address.addressName}
-              </div>
+              <div className="text-sm">{selectedStore.address.addressName}</div>
             </div>
 
             <Button
@@ -339,8 +337,8 @@ const map = () => {
           </div>
         </button>
       </div>
-      <div style={{ zIndex: 10 }}>
-        <Container.MainFooterWithNavigation />
+      <div style={{ zIndex: 50 }}>
+        <Container.MainFooterWithNavigation position="fixed" />
       </div>
     </Container>
   );

@@ -10,7 +10,7 @@ import MainFooter from '../MainFooter';
 
 import { changePage } from '@/redux/footerStatus/footerReducer';
 
-const MainFooterWithNavigation = ({ className }) => {
+const MainFooterWithNavigation = ({ className, position }) => {
   const footerStatus = useSelector(state => state.footer);
   const dispatch = useDispatch();
 
@@ -49,6 +49,7 @@ const MainFooterWithNavigation = ({ className }) => {
         'flex cursor-pointer justify-between p-6 items-center z-30 touch-none',
         className,
       )}
+      position={position}
     >
       <Link
         href="/order"
