@@ -120,6 +120,7 @@ public class StoreService {
     @Transactional
     public void updateCherryBox(Long storeId, CherryBoxRequestDto dto) {
         Store store = storeRepository.findByIdWithCherryBox(storeId).orElseThrow(StoreNotFoundException::new);
+        store.openStoreWhenUpdatedCherryBox();
         CherryBox cherryBox = store.getCherryBox();
         cherryBox.updateCherryBox(
                 dto.getQuantity(),

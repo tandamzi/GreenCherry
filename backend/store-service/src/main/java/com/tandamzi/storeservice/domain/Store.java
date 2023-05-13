@@ -56,6 +56,10 @@ public class Store extends BaseEntity{
     public void toggleOpen() {
         this.open = !this.open;
     }
+
+    public void openStoreWhenUpdatedCherryBox(){
+        this.open = true;
+    }
 }
 
 
