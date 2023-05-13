@@ -15,7 +15,7 @@ export default function Home() {
     <Container>
       <Container.MainHeader />
       <Container.PaddingZeroBody className="bg-secondary block text-bgcolor">
-        <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory">
+        <div className="h-screen overflow-x-hidden overflow-y-scroll snap-y snap-mandatory">
           <Section1 />
           <Section2 />
           <Section3 />
