@@ -1,6 +1,7 @@
 package com.tandamzi.storeservice.dto.feign;
 
 import com.tandamzi.storeservice.domain.Store;
+import com.tandamzi.storeservice.domain.StoreImage;
 import lombok.*;
 
 @Getter
@@ -13,12 +14,12 @@ public class StoreInfoForOrderDto {
     private String storeImageUrl;
     private boolean open;
 
-    public static StoreInfoForOrderDto create(Store store,String storeImageUrl){
+    public static StoreInfoForOrderDto create(StoreImageQueryDto storeImage){
         return StoreInfoForOrderDto.builder()
-                .storeId(store.getId())
-                .name(store.getName())
-                .storeImageUrl(storeImageUrl)
-                .open(store.isOpen())
+                .storeId(storeImage.getStoreId())
+                .name(storeImage.getStoreName())
+                .storeImageUrl(storeImage.getStoreImageUrl())
+                .open(storeImage.isOpen())
                 .build();
     }
 }
