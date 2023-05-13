@@ -176,16 +176,6 @@ public class OrderService {
 
         Page<Order> orders = orderRepository.findPageByMemberId(memberId, pageable);
 
-//        // TODO : 리뷰량이 많은 경우 속도 느림
-//        // TODO : order시간 기준 최신순 정렬
-//        Page<OrderMobileListResponseDto> pages = pageByMemberId.map(order -> {
-//            StoreInfoForOrderDto storeInfoDto = storeServiceClient.storeInfoForOrder(order.getStoreId()).getData();
-//            Boolean review = reviewServiceClient.existReviewByOrder(order.getId()).getData();
-//
-//            String writedCheck = writedCheck(order.getCreateDate(), LocalDateTime.now(), review);
-//            return OrderMobileListResponseDto.create(order, storeInfoDto, writedCheck);
-//        });
-
         List<Long> storeIds = new ArrayList<>();
         List<Long> orderIds = new ArrayList<>();
 

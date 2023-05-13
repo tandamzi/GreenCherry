@@ -22,7 +22,7 @@ public interface StoreImageRepository extends JpaRepository<StoreImage, Long> {
     @Query("select new com.tandamzi.storeservice.dto.feign.StoreImageQueryDto(s.id, si.id, s.name, s.open, si.url) " +
             "from StoreImage si join Store s on si.store = s " +
             "where s.id in :storeIds " +
-            "group by s.id, si.id, s.name, s.open, si.url")
+            "group by s.id")
     List<StoreImageQueryDto> findByStoreIds(@Param("storeIds")List<Long> storeIds);
 
 }
