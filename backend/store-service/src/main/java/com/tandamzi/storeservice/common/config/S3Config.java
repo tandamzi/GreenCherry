@@ -1,5 +1,6 @@
 package com.tandamzi.storeservice.common.config;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -20,10 +21,14 @@ public class S3Config {
     @Bean
     public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKey, secretKey);
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration.setConnectionTimeout(10000);
+        clientConfiguration.setSocketTimeout(20000);
         return (AmazonS3Client) AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
                 .withRegion(region)
+                .withClientConfiguration(clientConfiguration)
                 .build();
     }
 }
