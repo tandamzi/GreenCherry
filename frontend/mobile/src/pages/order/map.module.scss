@@ -9,8 +9,9 @@
   transition: bottom 0.4s ease-out; /* bottom 속성을 변경할 때, 0.5초 동안 천천히 변화 */
   z-index: 9999;
   border-radius: 20px 20px 0 0;
-  background-image: url('../../../public/assets/icons/mapIcons/modal-background.svg');
-  background-position: left top;
+  background-image: url('../../../public/assets/icons/mapIcons/modal-background2.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .BottomSheet.show {
