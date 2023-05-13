@@ -237,8 +237,6 @@ public class StoreService {
                 .map(storeImage ->
                         StoreInfoForOrderDto.create(storeImage))
                 .collect(Collectors.toList());
-
-
     }
 
     @Transactional
