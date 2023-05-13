@@ -28,13 +28,7 @@ const list = () => {
         {storeList &&
           storeList.map((item, index) => {
             return (
-              <div
-                key={item.id}
-                className={cn(
-                  'bottom py-4 border-line',
-                  index !== storeList.length - 1 ? 'border-b' : '',
-                )}
-              >
+              <div key={item.id} className={cn('bottom pt-4 border-line')}>
                 <button
                   className="cursor-pointer"
                   type="button"
@@ -47,7 +41,6 @@ const list = () => {
                     {item.type.name}
                   </span>
                 </button>
-
                 <div className="flex justify-between w-full">
                   <button
                     type="button"
@@ -67,13 +60,17 @@ const list = () => {
                     </span>
                   </button>
                 </div>
-
                 <div className="mt-2 mb-1">
                   <ImageSlider
                     onClick={() => goToStore(item.id)}
                     images={item.images}
                   />
                 </div>
+                {index !== storeList.lenght - 1 ? (
+                  <div className="pb-4 border-line border-b -mx-4" />
+                ) : (
+                  ''
+                )}
               </div>
             );
           })}

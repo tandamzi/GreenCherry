@@ -20,7 +20,7 @@ const ReservationStatus = ({ reservationInfo }) => {
     setData(reservationInfo);
   }, [reservationInfo]);
   return (
-    <div className="flex flex-col justify-center text-center my-6 pb-6 border-b-2 border-b-line ">
+    <div className="flex flex-col justify-center text-center my-6 pb-6 border-b border-b-line ">
       <p className="mx-10 py-2 rounded-3xl bg-itembg">
         {data && data.cherryBox.quantity}개 남았습니다!
       </p>

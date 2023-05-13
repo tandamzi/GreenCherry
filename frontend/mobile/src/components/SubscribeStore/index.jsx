@@ -24,15 +24,15 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
   };
 
   return (
-    <div className="flex flex-row justify-between mb-3 border-b-2 border-line">
+    <div className="flex flex-row justify-between">
       <div className="flex flex-row">
-        <Image
-          src={subscribeStoreInfo.image}
-          className="rounded-lg mr-3 m-2  mb-3"
-          width={125}
-          height={125}
-          alt="greencherry subscribeBox"
-        />
+        <div className="relative w-32 h-32 rounded-lg my-2 mr-2">
+          <Image
+            src={subscribeStoreInfo.image}
+            fill
+            alt="greencherry subscribeBox"
+          />
+        </div>
         <div className="m-2">
           <p className=" text-lg font-semibold">{subscribeStoreInfo.name}</p>
           <p className="text-xs font-thin text-disabled">

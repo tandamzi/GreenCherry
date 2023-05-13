@@ -11,7 +11,7 @@ const StoreReview = () => {
   const [freshStyle, setFreshStyle] = useState({ width: `15%` });
   const [kindStyle, setKindStyle] = useState({ width: `45%` });
   return (
-    <div className="border-b-2 border-b-line ">
+    <div className="border-b border-b-line ">
       <div className="flex flex-row justify-between items-center mx-8 mt-8">
         <p className="font-bold text-xl pr-4">이런점이 좋았어요</p>
         <span className=" text-sm align-text-bottom">
