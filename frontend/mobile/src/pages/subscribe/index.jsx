@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 import SubscribeStore from '@/components/SubscribeStore';
 import clientHttp from '@/utils/csr/clientHttp';
 
@@ -40,4 +41,4 @@ const subscribe = () => {
   );
 };
 
-export default subscribe;
+export default PrivateRouter(subscribe);
