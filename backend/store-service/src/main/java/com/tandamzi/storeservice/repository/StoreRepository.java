@@ -4,9 +4,11 @@ import com.tandamzi.storeservice.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.LockModeType;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,6 +23,9 @@ public interface StoreRepository extends JpaRepository<Store, Long>, StoreReposi
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM Store s JOIN FETCH s.cherryBox WHERE s.id = :id")
     Optional<Store> findByIdLockWithCherryBox(Long id);
+
+    @Query("select s from Store s where s.id in :storeIds")
+    List<Store> findByStoreIds(@Param("storeIds")List<Long> storeIds);
 
 
 }
