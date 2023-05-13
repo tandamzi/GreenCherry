@@ -16,7 +16,7 @@ const useSizeHeight = target => {
 
   return size;
 };
-const Footer = ({ className, children }) => {
+const Footer = ({ className, children, position }) => {
   const footerRef = useRef();
 
   const height = useSizeHeight(footerRef);
@@ -34,8 +34,10 @@ const Footer = ({ className, children }) => {
       ref={footerRef}
       id="cherry-footer"
       className={cs(
-        'fixed m-0 rounded-full w-11/12 max-w-lg mb-5 bg-bgcolor opacity-90',
-        style['cherry-footer'],
+        'm-0 mb-5 rounded-full w-11/12 max-w-lg bg-bgcolor opacity-90',
+        position === 'fixed'
+          ? style['cherry-footer-fixed']
+          : style['cherry-footer'],
         className,
       )}
     >
