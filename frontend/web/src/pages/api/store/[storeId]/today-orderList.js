@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       cherryPoint: storeInfoResponse.data.data.cherryPoint,
       orderList: orderResponse.data.data.content,
     };
-    // 해당 날짜 주문 목록 가져오기
+
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ message: 'An error occurred' });

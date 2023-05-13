@@ -48,3 +48,12 @@ export const putCherryBox = async (storeId, cherryBoxInfo) => {
     return error;
   }
 };
+
+export const closeStore = async storeId => {
+  try {
+    const res = await clientHttp.put(`/store/${storeId}/close-store`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
