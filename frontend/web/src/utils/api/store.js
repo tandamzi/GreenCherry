@@ -68,3 +68,14 @@ export const getCherryQuantity = async memberId => {
     return error;
   }
 };
+
+export const getTotalIncome = async (storeId, orderDate) => {
+  try {
+    const res = await clientHttp.put(
+      `/store/${storeId}/total-income?orderDate=${orderDate}`,
+    );
+    return res.data.data;
+  } catch (error) {
+    return error;
+  }
+};
