@@ -15,7 +15,7 @@ const OrderInfo = ({ orderInfo }) => {
   const newOrderDate = new Date(orderInfo.orderDate);
 
   return (
-    <div className="mb-3 border-b-2 border-line">
+    <div className="mb-3 border-b border-line">
       <div className="m-3 flex flex-row justify-between">
         <p>{newOrderDate.toLocaleDateString()}</p>
         <p>{orderInfo.totalSalesAmount}원</p>
