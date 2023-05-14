@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CarbonContainer from '@/components/CarbonContainer';
 import Container from '@/components/Container';
 import LongBoxContainer from '@/components/LongBoxContainer';
 import OrderList from '@/components/OrderList';
+import PrevNextButton from '@/components/PrevNextButton';
 import TotalIncome from '@/components/TotalIncome';
+import getCurrentDate from '@/utils/getCurrentDate';
 
 const Order = () => {
+  const [date, setDate] = useState('');
+  useEffect(() => {
+    setDate(getCurrentDate());
+  });
   const totalIncome = 100000;
   const orderList = [
     {
@@ -32,10 +38,11 @@ const Order = () => {
       <Container.MainBody className="bg-bgcolor h-full ">
         <div className="w-full h-full max-w-4xl relative">
           <LongBoxContainer className="fixed max-w-4xl">
-            <p>2023 - 04 - 16</p>
+            <p>{date}</p>
           </LongBoxContainer>
           <TotalIncome price={totalIncome} />
           <OrderList orderList={orderList} />
+          <PrevNextButton />
         </div>
       </Container.MainBody>
     </Container>
