@@ -8,6 +8,7 @@ import com.tandamzi.memberservice.common.result.SingleResult;
 import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
 import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
+import com.tandamzi.memberservice.dto.member.MemberNoticeDto;
 import com.tandamzi.memberservice.dto.member.MemberResponseDto;
 import com.tandamzi.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -81,9 +82,9 @@ public class MemberController {
     }
 
     @PostMapping("/notice")
-    public Result noticeMember(@LoginMember Member member, @RequestBody String token){
+    public Result noticeMember(@LoginMember Member member, @RequestBody MemberNoticeDto memberNoticeDto){
         log.info("MemberController noticeMember 실행");
-        memberService.noticeMember(member, token);
+        memberService.noticeMember(member, memberNoticeDto);
         return responseService.getSuccessResult();
     }
 
