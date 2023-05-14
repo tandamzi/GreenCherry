@@ -7,14 +7,19 @@ import OrderList from '@/components/OrderList';
 import PrevNextButton from '@/components/PrevNextButton';
 import TotalIncome from '@/components/TotalIncome';
 import getCurrentDate from '@/utils/getCurrentDate';
+import { getTotalIncome } from '@/utils/getTotalIncome';
 
 const Order = () => {
   const [date, setDate] = useState('');
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+  const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     setDate(getCurrentDate());
+    setTotalIncome(getTotalIncome().totalSalesAmount);
+    setOrderCount(getTotalIncome().count);
   });
-  const totalIncome = 100000;
-  const orderList = [
+  /*   const orderList = [
     {
       orderId: '1',
       nickname: '김철수',
@@ -31,7 +36,7 @@ const Order = () => {
       totalSalesAmount: '10000',
       orderDate: '2021-01-01',
     },
-  ];
+  ]; */
   return (
     <Container>
       <Container.BusinessHeader />
