@@ -32,10 +32,13 @@ const subscribe = () => {
         {subscribeInfo &&
           subscribeInfo.content.map(subscribeStoreInfo => {
             return (
-              <SubscribeStore
-                key={subscribeStoreInfo.id}
-                subscribeStoreInfo={subscribeStoreInfo}
-              />
+              <div>
+                <SubscribeStore
+                  key={subscribeStoreInfo.id}
+                  subscribeStoreInfo={subscribeStoreInfo}
+                />
+                <div className="border-line border-b my-4 -mx-4" />
+              </div>
             );
           })}
       </Container.MainBody>
