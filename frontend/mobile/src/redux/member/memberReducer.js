@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import { PURGE } from 'redux-persist';
 
 const initialState = {
   memberInfo: {},
@@ -13,7 +12,6 @@ export const memberSlice = createSlice({
   reducers: {
     saveToken: (state, action) => {
       localStorage.setItem('token', `Bearer ${action.payload}`);
-      // console.log('saveToken' + action.payload);
       return {
         ...state,
         token: action.payload,
@@ -25,16 +23,15 @@ export const memberSlice = createSlice({
         memberInfo: action.payload.data,
       };
     },
-    reset(state) {
+    reset: state => {
       localStorage.removeItem('token');
+      localStorage.removeItem('member');
       Cookies.remove('token');
 
       // eslint-disable-next-line no-param-reassign
-      state = {
-        ...state,
-        memberInfo: {},
-        token: '',
-      };
+      state.memberInfo = {};
+      // eslint-disable-next-line no-param-reassign
+      state.token = '';
     },
   },
 });

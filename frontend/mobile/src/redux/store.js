@@ -4,16 +4,18 @@ import storage from 'redux-persist/lib/storage';
 
 import footer from './footerStatus/footerReducer';
 import member from './member/memberReducer';
+import storeList from './storeList/storeListReducer';
 
 const combinedReducer = combineReducers({
   member,
+  storeList,
   footer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['member', 'footer'],
+  whitelist: ['member', 'footer', 'storeList'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combinedReducer);

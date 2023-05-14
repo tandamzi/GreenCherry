@@ -19,7 +19,7 @@ const Container = ({ children, className }) => {
       className={cs(
         style.Container,
         className,
-        'min-h-screen max-h-screen max-w-xl mx-auto',
+        'min-h-screen max-h-screen max-w-xl mx-auto bg-bgcolor',
       )}
     >
       {children}

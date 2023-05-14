@@ -5,6 +5,7 @@ import com.tandamzi.memberservice.domain.Member;
 import com.tandamzi.memberservice.domain.Notice;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
 import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
+import com.tandamzi.memberservice.dto.member.MemberNoticeDto;
 import com.tandamzi.memberservice.repository.member.MemberRepository;
 import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,18 +66,18 @@ public class MemberService {
     }
 
     @Transactional
-    public void noticeMember(Member member, String token){
-        log.info("MemberService noticeMember 실행");
+    public void noticeMember(Member member, MemberNoticeDto memberNoticeDto){
+        log.info("MemberService noticeMember 실행 -> token = {}", memberNoticeDto.getToken());
         Optional<Notice> optional = noticeRepository.findByMember(member);
 
         Notice notice = null;
         if(optional.isPresent()){
             notice = optional.get();
-            notice.change(token);
+            notice.change(memberNoticeDto.getToken());
         } else{
             notice = noticeRepository.save(
                     Notice.builder()
-                            .token(token)
+                            .token(memberNoticeDto.getToken())
                             .member(member)
                             .build()
             );

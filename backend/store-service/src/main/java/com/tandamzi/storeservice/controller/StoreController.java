@@ -169,11 +169,11 @@ public class StoreController {
         return responseService.getSingleResult(storeDetail);
     }
 
-    @GetMapping("{store-id}/storeInfo-for-order")
-    public SingleResult<StoreInfoForOrderDto> storeInfoForOrder(@PathVariable("store-id") Long storeId) {
+    @GetMapping("/storeInfo-for-order")
+    public SingleResult<List<StoreInfoForOrderDto>> storeInfoForOrder(@RequestParam("storeIds") List<Long> storeIds) {
         log.info("[StoreController] storeInfoForOrder");
-        StoreInfoForOrderDto storeInfoForOrderDto = storeService.storeInfoForOrder(storeId);
-        return responseService.getSingleResult(storeInfoForOrderDto);
+        List<StoreInfoForOrderDto> infoForOrderDtos = storeService.storeInfoForOrder(storeIds);
+        return responseService.getSingleResult(infoForOrderDtos);
     }
 
 
