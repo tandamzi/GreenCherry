@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useRouter } from 'next/router';
+
 import OrderListItem from '@/components/OrderListItem';
 import OrderZero from '@/components/OrderZero';
 
@@ -79,7 +81,7 @@ const OrderList = ({ orderList, updateOrderState }) => {
     },
   ];
    */
-
+  const router = useRouter();
   return (
     <div className="flex flex-col py-5 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
       <div className="flex text-2xl text-center mb-5">
@@ -89,7 +91,9 @@ const OrderList = ({ orderList, updateOrderState }) => {
         <p className="flex-1">상태</p>
       </div>
 
-      {orderList.length === 0 && <OrderZero />}
+      {router.pathname === '/business' && orderList.length === 0 && (
+        <OrderZero />
+      )}
       <div className="overflow-y-scroll">
         {orderList.map(order => (
           <OrderListItem
