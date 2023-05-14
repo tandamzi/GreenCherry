@@ -15,7 +15,7 @@ import OrderZero from '@/components/OrderZero';
  * @property {string} orderDate
  */
 
-const OrderList = ({ orderList }) => {
+const OrderList = ({ orderList, updateOrderState }) => {
   /**
    * @type {Order[]}
    */
@@ -79,6 +79,7 @@ const OrderList = ({ orderList }) => {
     },
   ];
    */
+
   return (
     <div className="flex flex-col py-5 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
       <div className="flex text-2xl text-center mb-5">
@@ -91,7 +92,11 @@ const OrderList = ({ orderList }) => {
       {orderList.length === 0 && <OrderZero />}
       <div className="overflow-y-scroll">
         {orderList.map(order => (
-          <OrderListItem key={order.orderId} order={order} />
+          <OrderListItem
+            key={order.orderId}
+            order={order}
+            updateOrderState={updateOrderState}
+          />
         ))}
       </div>
     </div>
