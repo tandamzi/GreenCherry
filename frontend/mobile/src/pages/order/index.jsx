@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import cn from 'classnames';
 
-import List from './list';
-import Map from './map';
-
 import Container from '@/components/Container';
+import List from '@/components/OrderComponet/list';
+import Map from '@/components/OrderComponet/map';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 
 const order = () => {
-  const [toggleState, setToggleState] = useState(true);
+  const [toggleState, setToggleState] = useState(false);
   const changeToggle = () => {
     setToggleState(prev => !prev);
   };
@@ -52,4 +52,4 @@ const order = () => {
   );
 };
 
-export default order;
+export default PrivateRouter(order);

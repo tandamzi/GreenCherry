@@ -30,12 +30,12 @@ const redirect = () => {
             dispatch(saveInfo(res.data));
           });
 
-          router.replace('/');
+          router.push('/');
         } else {
-          router.replace('/');
+          router.push('/');
         }
       } else {
-        router.replace('/');
+        router.push('/');
       }
     };
 
