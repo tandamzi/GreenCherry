@@ -3,9 +3,11 @@ import Lottie from 'react-lottie-player';
 
 import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
+import Image from 'next/image';
 
 import ReviewComponent from '@/components/review/ReviewComponent';
 
+const CRYING_ICON_URL = `/assets/icons/etcIcons/crying-face.svg`;
 const UserReview = ({ reviewInfo }) => {
   const [data, setData] = useState();
   useEffect(() => {
@@ -19,11 +21,19 @@ const UserReview = ({ reviewInfo }) => {
           <span className="text-secondary">{data && data.totalElements}</span>건
         </p>
       </div>
-      <div className=" w-10/12 mx-auto mt-5">
-        {reviewInfo.content.map((review, idx) => {
-          return <ReviewComponent key={idx} review={review} />;
-        })}
-      </div>
+      {data && data.totalElements ? (
+        <div className=" w-10/12 mx-auto mt-5">
+          {reviewInfo.content.map((review, idx) => {
+            return <ReviewComponent key={idx} review={review} />;
+          })}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center w-full text-2xl h-20">
+          <Image src={CRYING_ICON_URL} width={32} height={32} />
+
+          <span> 아직 작성된 리뷰가 없어요</span>
+        </div>
+      )}
     </div>
   );
 };
