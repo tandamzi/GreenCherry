@@ -49,9 +49,20 @@ export const putCherryBox = async (storeId, cherryBoxInfo) => {
   }
 };
 
-export const closeStore = async storeId => {
+export const putCloseStore = async storeId => {
   try {
     const res = await clientHttp.put(`/store/${storeId}/close-store`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCherryQuantity = async memberId => {
+  try {
+    const res = await clientHttp.get(
+      `/store/cherry-quantity?memberId=${memberId}`,
+    );
     return res.data;
   } catch (error) {
     return error;
