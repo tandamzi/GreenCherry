@@ -66,7 +66,7 @@ public class MemberService {
 
     @Transactional
     public void noticeMember(Member member, String token){
-        log.info("MemberService noticeMember 실행");
+        log.info("MemberService noticeMember 실행 -> token = {}", token);
         Optional<Notice> optional = noticeRepository.findByMember(member);
 
         Notice notice = null;
