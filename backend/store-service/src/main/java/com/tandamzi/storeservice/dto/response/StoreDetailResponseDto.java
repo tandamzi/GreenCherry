@@ -2,9 +2,11 @@ package com.tandamzi.storeservice.dto.response;
 
 import com.tandamzi.storeservice.domain.*;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +28,8 @@ public class StoreDetailResponseDto {
     private int cherryPoint;
     private boolean open;
     private CherryBoxDto cherryBox;
-    private List<AllergyDto> allergies = new ArrayList<>();
-    private List<StoreImageDto> images = new ArrayList<>();
+    private List<AllergyDto> allergies;
+    private List<StoreImageDto> images;
     private long numberOfReview;
     private long numberOfSubscriber;
 
@@ -89,44 +91,64 @@ public class StoreDetailResponseDto {
                 .memberId(store.getMemberId())
                 .snsAccount(store.getSnsAccount())
                 .description(store.getDescription())
-                .type(TypeInfoDto.builder()
-                        .id(store.getType().getId())
-                        .name(store.getType().getName())
-                        .build())
-                .address(AddressDto.builder()
-                        .addressName(store.getAddress().getAddressName())
-                        .lat(store.getAddress().getLat())
-                        .lng(store.getAddress().getLng())
-                        .build())
+                .type(getTypeBuilder(store))
+                .address(getAddressBuilder(store))
                 .phone(store.getPhone())
                 .cherryPoint(store.getCherryPoint())
                 .pickUpStartTime(store.getPickUpStartTime())
                 .pickUpEndTime(store.getPickUpEndTime())
                 .open(store.isOpen())
-                .cherryBox(CherryBoxDto.builder()
-                        .description(store.getCherryBox().getDescription())
-                        .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
-                        .quantity(store.getCherryBox().getQuantity())
-                        .discountRate(store.getCherryBox().getDiscountRate())
-                        .pricePerCherryBox(store.getCherryBox().getPricePerCherryBox())
-                        .build())
-                //allergyList가 null이 아닐때만 아래 코드 실행
-                .allergies(allergyList != null ? allergyList.stream()
-                        .map(allergy -> AllergyDto.builder()
-                                .id(allergy.getId())
-                                .name(allergy.getName())
-                                .build())
-                        .collect(Collectors.toList()) : null)
-                //images가 null이 아닐때만 아래 코드 실행
-                .images(images != null ? images.stream()
-                        .map(image -> StoreImageDto.builder()
-                                .id(image.getId())
-                                .url(image.getUrl())
-                                .build())
-                        .collect(Collectors.toList()) : null)
+                .cherryBox(getCherryBoxBuilder(store))
+                .allergies(getAllergiesBuilder(allergyList))
+                .images(getImagesBuilder(images))
                 .numberOfReview(numberOfReview)
                 .numberOfSubscriber(numberOfSubscriber)
                 .build();
+    }
+
+    private static TypeInfoDto getTypeBuilder(Store store) {
+        return TypeInfoDto.builder()
+                .id(store.getType().getId())
+                .name(store.getType().getName())
+                .build();
+    }
+
+    private static AddressDto getAddressBuilder(Store store) {
+        return AddressDto.builder()
+                .addressName(store.getAddress().getAddressName())
+                .lat(store.getAddress().getLat())
+                .lng(store.getAddress().getLng())
+                .build();
+    }
+
+    private static CherryBoxDto getCherryBoxBuilder(Store store) {
+        return CherryBoxDto.builder()
+                .description(store.getCherryBox().getDescription())
+                .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
+                .quantity(store.getCherryBox().getQuantity())
+                .discountRate(store.getCherryBox().getDiscountRate())
+                .pricePerCherryBox(store.getCherryBox().getPricePerCherryBox())
+                .build();
+    }
+
+    @NotNull
+    private static List<StoreImageDto> getImagesBuilder(List<StoreImage> images) {
+        return images != null ? images.stream()
+                .map(image -> StoreImageDto.builder()
+                        .id(image.getId())
+                        .url(image.getUrl())
+                        .build())
+                .collect(Collectors.toList()) : Collections.emptyList();
+    }
+
+    @NotNull
+    private static List<AllergyDto> getAllergiesBuilder(List<Allergy> allergyList) {
+        return allergyList != null ? allergyList.stream()
+                .map(allergy -> AllergyDto.builder()
+                        .id(allergy.getId())
+                        .name(allergy.getName())
+                        .build())
+                .collect(Collectors.toList()) : Collections.emptyList();
     }
 
 
