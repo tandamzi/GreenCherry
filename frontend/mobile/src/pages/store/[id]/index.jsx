@@ -15,7 +15,7 @@ import createBFFInstance from '@/utils/ssr/bffHttp';
 const store = ({ storeProps }) => {
   const router = useRouter();
   return (
-    <Container>
+    <Container className="overflow-scroll">
       <Container.SubPageHeader sticky={false} />
       <div className="pb-12">
         <StoreInfo storeInfo={storeProps.storeInfo} />
