@@ -1,24 +1,58 @@
-.BottomSheet {
-  position: fixed;
-  bottom: -400px; /* 아래로 숨겨진 상태 */
+.order-list-header {
+  background-image: url('../../../public/assets/icons/mapIcons/modal-background2.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.switch {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
   left: 0;
-  width: 100%;
-  height: 350px;
-  background-color: #fff;
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.3);
-  transition: bottom 0.4s ease-out; /* bottom 속성을 변경할 때, 0.5초 동안 천천히 변화 */
-  z-index: 9999;
-  border-radius: 20px 20px 0 0;
-  background-image: url('../../../public/assets/icons/mapIcons/modal-background.svg');
-  background-position: left top;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
 }
 
-.BottomSheet.show {
-  bottom: 0; /* 아래에서 올라옴 */
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
 }
 
-.ExitBtn {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

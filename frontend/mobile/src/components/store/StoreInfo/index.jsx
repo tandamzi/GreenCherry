@@ -13,13 +13,13 @@ const StoreInfo = ({ storeInfo }) => {
   }, [storeInfo]);
 
   return (
-    <div className="flex-row w-full justify-self-center border-b-2 border-b-line ">
-      <div className="w-full flex flex-col justify-self-center border-b-2 border-b-line">
+    <div className="flex-row w-full justify-self-center border-b border-b-line ">
+      <div className="w-full flex flex-col justify-self-center border-b border-b-line">
         <div className="relative w-full h-80">
           <Image src={storeInfo.images[0].url} fill alt={storeInfo.name} />
         </div>
 
-        <div className="text-center mb-3">
+        <div className="text-center my-4">
           <p className="font-bold text-3xl"> {storeInfo.name}</p>
           <p className="text-xs text-secondary">{data && data.type.name}</p>
         </div>
