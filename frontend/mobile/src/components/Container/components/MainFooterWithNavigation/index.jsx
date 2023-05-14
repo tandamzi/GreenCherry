@@ -66,7 +66,7 @@ const MainFooterWithNavigation = ({ className, position }) => {
         </span>
       </Link>
       <Link
-        href="/"
+        href="/home"
         className="flex flex-col w-18 text-center relative"
         onClick={() => handlePageChange('홈')}
       >
