@@ -6,19 +6,30 @@ import LongBoxContainer from '@/components/LongBoxContainer';
 import OrderList from '@/components/OrderList';
 import PrevNextButton from '@/components/PrevNextButton';
 import TotalIncome from '@/components/TotalIncome';
+import useMember from '@/hooks/memberHook';
+import { getOrderList, getTotalIncome } from '@/utils/api/store';
 import getCurrentDate from '@/utils/getCurrentDate';
-import { getTotalIncome } from '@/utils/getTotalIncome';
 
 const Order = () => {
-  const [date, setDate] = useState('');
+  const { memberAttributes } = useMember();
+  const [date, setDate] = useState(getCurrentDate());
   const [totalIncome, setTotalIncome] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [orderList, setOrderList] = useState([]);
+
+  const dateHandle = data => {
+    setDate(data);
+  };
+
   useEffect(() => {
-    setDate(getCurrentDate());
-    setTotalIncome(getTotalIncome().totalSalesAmount);
-    setOrderCount(getTotalIncome().count);
-  });
+    getTotalIncome(memberAttributes.storeId, date).then(res => {
+      setTotalIncome(res.totalSalesAmount || 0);
+      setOrderCount(res.count);
+    });
+    getOrderList(memberAttributes.storeId, date).then(res => {
+      setOrderList(res.orderList);
+    });
+  }, [date]);
   /*   const orderList = [
     {
       orderId: '1',
@@ -47,7 +58,7 @@ const Order = () => {
           </LongBoxContainer>
           <TotalIncome price={totalIncome} />
           <OrderList orderList={orderList} />
-          <PrevNextButton />
+          <PrevNextButton date={date} dateHandle={dateHandle} />
         </div>
       </Container.MainBody>
     </Container>
