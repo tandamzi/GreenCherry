@@ -10,7 +10,7 @@ const ReviewComponent = ({ review }) => {
   const newCreateDate = new Date(review.createDate);
 
   return (
-    <div className="flex flex-col border-b border-b-line mt-5">
+    <div className="flex flex-col mt-5">
       <div className="flex flex-row  mb-4">
         <Image
           src={review.memberImageUrl}

@@ -79,7 +79,7 @@ const list = () => {
           })}
       </div>
       <div className="sticky w-full z-20 bottom-7 flex justify-center">
-        <Container.MainFooterWithNavigation position="stiky" />
+        <Container.MainFooterWithNavigation position="sticky" />
       </div>
     </div>
   );
