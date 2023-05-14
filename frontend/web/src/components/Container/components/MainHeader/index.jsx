@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import style from './index.module.scss';
 
@@ -14,13 +15,15 @@ const MainHeader = ({ children, className }) => {
         className,
       )}
     >
-      <Image
-        src="/assets/logo/mainLogo-green.svg"
-        width={386}
-        height={69}
-        className={classnames('tablet:w-3/6 tablet:ml-0', style.logo)}
-        alt="greencherry main logo"
-      />
+      <Link href="/">
+        <Image
+          src="/assets/logo/mainLogo-green.svg"
+          width={386}
+          height={69}
+          className={classnames('tablet:w-3/6 tablet:ml-0', style.logo)}
+          alt="greencherry main logo"
+        />
+      </Link>
       <SwitchButton />
     </Header>
   );

@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 
 import classnames from 'classnames';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import style from './index.module.scss';
 
@@ -30,16 +31,18 @@ const BusinessHeader = ({ children, className }) => {
         className,
       )}
     >
-      <Image
-        src="/assets/logo/mainLogo-white.svg"
-        width={386}
-        height={69}
-        className={classnames(
-          'tablet:w-3/6 flex-none tablet:ml-0 mr-10',
-          style.logo,
-        )}
-        alt="greencherry main logo"
-      />
+      <Link href="/business">
+        <Image
+          src="/assets/logo/mainLogo-white.svg"
+          width={386}
+          height={69}
+          className={classnames(
+            'tablet:w-3/6 flex-none tablet:ml-0 mr-10',
+            style.logo,
+          )}
+          alt="greencherry main logo"
+        />
+      </Link>
       <div className={style.menu}>
         <StoreNameButton
           storeName="가게 이름 입니다"
