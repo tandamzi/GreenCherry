@@ -2,12 +2,11 @@ import createHttpInstance from '@/utils/http';
 
 export default async function handler(req, res) {
   const {
-    query: { storeId },
-    query: { orderDate },
+    query: { storeId, orderDate },
   } = req;
   try {
     const http = createHttpInstance(req);
-    const response = await http.put(
+    const response = await http.get(
       `/order/revenue?store-id=${storeId}&order-date=${orderDate}`,
     );
     res.status(200).json(response.data.data);
