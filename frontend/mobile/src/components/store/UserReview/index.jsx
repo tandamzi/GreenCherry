@@ -17,14 +17,19 @@ const UserReview = ({ reviewInfo }) => {
     <div>
       <div className="flex flex-row justify-between items-center mx-8 mt-8">
         <p className="font-bold text-xl pr-4">사용자 리뷰</p>
-        <p className="text-sm align-text-bottom">
+        <span className=" text-sm align-text-bottom">
           <span className="text-secondary">{data && data.totalElements}</span>건
-        </p>
+        </span>
       </div>
       {data && data.totalElements ? (
         <div className=" w-10/12 mx-auto mt-5">
           {reviewInfo.content.map((review, idx) => {
-            return <ReviewComponent key={idx} review={review} />;
+            return (
+              <div>
+                <ReviewComponent key={idx} review={review} />
+                <div className="pb-4 border-line border-b -mx-8" />
+              </div>
+            );
           })}
         </div>
       ) : (
