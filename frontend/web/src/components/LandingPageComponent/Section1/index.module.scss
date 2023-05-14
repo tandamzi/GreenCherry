@@ -1,0 +1,105 @@
+.section-item {
+  padding: 230px 50px 0px;
+  scroll-snap-stop: always;
+  scroll-snap-align: center;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+.image-container {
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+}
+
+.image-relative {
+  position: relative;
+  width: 498px;
+  height: 685px;
+}
+
+.money-growth,
+.love-ecology,
+.greencherry-box {
+  position: absolute;
+  height: auto;
+}
+
+.money-growth {
+  width: 156px;
+  z-index: 1;
+  transform: rotate(-15deg);
+  left: 20px;
+}
+
+.love-ecology {
+  width: 213px;
+  z-index: 2;
+  top: 60px;
+  right: 100px;
+  transform: rotate(15deg);
+}
+
+.greencherry-box {
+  width: 498px;
+  z-index: 3;
+  bottom: 0;
+}
+
+.title-text {
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.sub-text {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 24px;
+  text-align: center;
+}
+.emphasis {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  .section-item {
+    padding: 120px 10px 0px;
+  }
+
+  .image-container {
+    bottom: 0;
+  }
+
+  .image-relative {
+    width: 370px;
+    height: 437px;
+  }
+  .money-growth {
+    left: 30px;
+    width: 30%;
+  }
+  .love-ecology {
+    top: 10%;
+    right: 0;
+    width: 40%;
+  }
+  .greencherry-box {
+    width: 100%;
+    max-width: 370px;
+  }
+  .title-text {
+    font-size: 60px;
+  }
+  .sub-text {
+    font-size: 18px;
+  }
+  .emphasis {
+    font-size: 24px;
+  }
+}
