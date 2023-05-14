@@ -74,7 +74,18 @@ export const getTotalIncome = async (storeId, orderDate) => {
     const res = await clientHttp.put(
       `/store/${storeId}/total-income?orderDate=${orderDate}`,
     );
-    return res.data.data;
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getOrderList = async (storeId, orderDate) => {
+  try {
+    const res = await clientHttp.get(
+      `/store/${storeId}/orders?orderDate=${orderDate}`,
+    );
+    return res.data;
   } catch (error) {
     return error;
   }
