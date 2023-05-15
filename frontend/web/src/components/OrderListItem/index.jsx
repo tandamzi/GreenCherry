@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import OrderDetailModal from '@/components/OrderDetailModal';
 import PickUpCompleteModal from '@/components/PickUpCompleteModal';
 import StatusButton from '@/components/StatusButton';
+import { putOrderComplete } from '@/utils/api/order';
 
 // @ts-check
 
@@ -24,7 +25,7 @@ import StatusButton from '@/components/StatusButton';
 /**
  * @param {OrderListItemProps} props
  */
-const OrderListItem = ({ order }) => {
+const OrderListItem = ({ order, updateOrderState }) => {
   const [isPickUpCompleteModalOpen, setIsPickUpCompleteModalOpen] =
     useState(false);
   const handlePickUpCompleteModalOpen = () =>
@@ -33,7 +34,12 @@ const OrderListItem = ({ order }) => {
     setIsPickUpCompleteModalOpen(false);
   };
   const handlePickUpCompleteClick = () => {
-    // TODO: 픽업완료 상태로 바꾸기
+    putOrderComplete(order.orderId).then(res => {
+      if (res.status === 200) {
+        handlePickUpCompleteModalClose();
+        updateOrderState(order.orderId, 'PICKUP_COMPLETE'); // Updating the orderState
+      }
+    });
   };
 
   const [isOrderDetailModalOpen, setIsOrderDetailModalOpen] = useState(false);
