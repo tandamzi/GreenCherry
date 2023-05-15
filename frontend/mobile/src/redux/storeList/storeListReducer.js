@@ -14,12 +14,9 @@ export const storeListSlice = createSlice({
         storeList: action.payload,
       };
     },
-    reset(state) {
+    reset: state => {
       // eslint-disable-next-line no-param-reassign
-      state = {
-        ...state,
-        storeList: [],
-      };
+      state.storeList = [];
     },
   },
 });

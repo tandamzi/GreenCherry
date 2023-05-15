@@ -48,3 +48,45 @@ export const putCherryBox = async (storeId, cherryBoxInfo) => {
     return error;
   }
 };
+
+export const putCloseStore = async storeId => {
+  try {
+    const res = await clientHttp.put(`/store/${storeId}/close-store`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCherryQuantity = async memberId => {
+  try {
+    const res = await clientHttp.get(
+      `/store/cherry-quantity?memberId=${memberId}`,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getTotalIncome = async (storeId, orderDate) => {
+  try {
+    const res = await clientHttp.put(
+      `/store/${storeId}/total-income?orderDate=${orderDate}`,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getOrderList = async (storeId, orderDate) => {
+  try {
+    const res = await clientHttp.get(
+      `/store/${storeId}/orders?orderDate=${orderDate}`,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};

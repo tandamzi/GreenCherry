@@ -93,9 +93,11 @@ const map = () => {
         marker.setMap(mapRef.current);
       }
       mapRef.current.panTo(currentPosition);
+      return { lat: coords.latitude, lng: coords.longitude };
     } catch (error) {
       console.error(error);
       console.error('위치 정보를 가져올 수 없습니다.');
+      return null;
     }
   };
 
@@ -115,15 +117,12 @@ const map = () => {
     setShow(prev => !prev);
   };
 
-  const updateStoreMarkersUpdate = content => {
+  const updateStoreMarkersUpdate = (content, center) => {
     // 기존의 모든 마커를 지웁니다.
     storeMarkersRef.current.forEach(marker => marker.setMap(null));
     storeMarkersRef.current = [];
 
-    const centerPosition = new kakao.maps.LatLng(
-      state.center.lat,
-      state.center.lng,
-    );
+    const centerPosition = new kakao.maps.LatLng(center.lat, center.lng);
     // 각 상점에 대한 마커를 생성합니다.
     content.forEach(store => {
       const markerSrc = CHERRY_BOX_MARKER_URL;
@@ -157,10 +156,10 @@ const map = () => {
       storeMarkersRef.current.push(marker);
     });
   };
-  const getStoreInfos = async () => {
+  const getStoreInfos = async center => {
     const memberId = 1;
-    const myLat = state.center.lat;
-    const myLng = state.center.lng;
+    const myLat = center.lat;
+    const myLng = center.lng;
     const radius = 3;
     const sub = false;
 
@@ -177,8 +176,7 @@ const map = () => {
       const { content } = response.data.data;
 
       dispatch(saveStoreList(content));
-
-      updateStoreMarkersUpdate(content);
+      updateStoreMarkersUpdate(content, center);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -214,7 +212,12 @@ const map = () => {
       setIsMapMoving(true);
     });
 
-    getCurrentPosition();
+    (async () => {
+      const position = await getCurrentPosition();
+      if (position) {
+        getStoreInfos(position);
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -262,7 +265,7 @@ const map = () => {
             style={{
               zIndex: 10,
             }}
-            onClick={getStoreInfos}
+            onClick={() => getStoreInfos(state.center)}
           >
             <div className="flex justify-center ">
               <Lottie
@@ -344,4 +347,4 @@ const map = () => {
   );
 };
 
-export default PrivateRouter(map);
+export default map;

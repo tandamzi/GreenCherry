@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,49 +14,7 @@ import Container from '@/components/Container';
 import Reservation from '@/components/main/Reservation';
 import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
-
-const sendNotification = async () => {
-  try {
-    console.log('test');
-    const response = await fetch('/api/send-notification', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log('index');
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Error notification:', error);
-  }
-};
-
-const subscribeUser = async () => {
-  navigator.serviceWorker.ready.then(registration => {
-    registration.pushManager.getSubscription().then(subscription => {
-      if (subscription) {
-        console.log('Already sssubscribed');
-      } else {
-        registration.pushManager
-          .subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
-          })
-          .then(data => {
-            // save subscription on DB
-            fetch('/api/subscribe', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-            });
-          });
-      }
-    });
-  });
-};
+import clientHttp from '@/utils/csr/clientHttp';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -71,6 +31,81 @@ const Home = () => {
     }, 2000); // 3초 동안 로딩 스피너 표시
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: 'AIzaSyD4LajuG61T7Q5VL5-JGODdt19zM2Yej_4',
+      authDomain: 'greencherry-notice.firebaseapp.com',
+      projectId: 'greencherry-notice',
+      storageBucket: 'greencherry-notice.appspot.com',
+      messagingSenderId: '280305112250',
+      appId: '1:280305112250:web:ff845972d09a4772a45e83',
+      measurementId: 'G-WE2RP9HYFD',
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    if (Notification.permission !== 'granted') {
+      // Chrome - 유저에게 푸시 알림을 허용하겠냐고 물어보고, 허용하지 않으면 return!
+      try {
+        Notification.requestPermission().then(permission => {
+          // eslint-disable-next-line no-useless-return
+          if (permission !== 'granted') return;
+        });
+      } catch (error) {
+        // Safari - 유저에게 푸시 알림을 허용하겠냐고 물어보고, 허용하지 않으면 return!
+        if (error instanceof TypeError) {
+          Notification.requestPermission().then(permission => {
+            // eslint-disable-next-line no-useless-return
+            if (permission !== 'granted') return;
+          });
+        } else {
+          console.error(error);
+        }
+      }
+
+      // if (Notification.permission !== 'granted') {
+      //   Notification.requestPermission().then((permission) => {
+      //     if (permission === 'granted') {
+      //       new Notification();
+      //     } else {
+      //       return;
+      //     }
+      //   });
+      // } else {
+      //   new Notification();
+      // }
+    }
+
+    console.log('권한 요청 중...');
+
+    const permission = Notification.requestPermission();
+    if (permission === 'denied') {
+      console.log('알림 권한 허용 안됨');
+      return;
+    }
+
+    console.log('알림 권한이 허용됨');
+
+    const token = getToken(messaging, {
+      vapidKey:
+        'BBuoQiK6Hci6-fWBqgcIAn-a8Nzc7kF1XVpkCKfHINcvckb-u3sz8eSrsbtns2WjrXZ9bxs7j0DCsNtkNIiqjHc',
+    });
+
+    if (token) {
+      clientHttp.get('/firebase-token', {
+        params: {
+          token,
+        },
+      });
+    } else console.log('Can not get Token');
+
+    onMessage(messaging, payload => {
+      console.log('메시지가 도착했습니다.', payload);
+      // ...
+    });
   }, []);
 
   const dispatch = useDispatch();

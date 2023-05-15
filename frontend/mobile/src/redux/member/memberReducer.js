@@ -23,16 +23,15 @@ export const memberSlice = createSlice({
         memberInfo: action.payload.data,
       };
     },
-    reset(state) {
+    reset: state => {
       localStorage.removeItem('token');
+      localStorage.removeItem('member');
       Cookies.remove('token');
 
       // eslint-disable-next-line no-param-reassign
-      state = {
-        ...state,
-        memberInfo: {},
-        token: '',
-      };
+      state.memberInfo = {};
+      // eslint-disable-next-line no-param-reassign
+      state.token = '';
     },
   },
 });

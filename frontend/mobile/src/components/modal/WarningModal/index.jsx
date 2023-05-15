@@ -1,11 +1,16 @@
 import React, { Fragment, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
+
+import clientHttp from '@/utils/csr/clientHttp';
 
 const WarningModal = ({ open, setOpen, orderQuantity }) => {
   const cancelButtonRef = useRef(null);
   const navigate = useRouter();
+  const storeId = navigate.query.id;
+  const memberId = useSelector(state => state.member.memberInfo.id);
   const [warningCheck, setWarningCheck] = useState(true);
 
   return (
@@ -97,7 +102,15 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                     <button
                       type="button"
                       className="mt-3 inline-flex w-full bg-primary justify-center rounded-3xl px-4 py-2 text-base font-medium text-gray-700 shadow-sm active:bg-primaryevent sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={() => {
+                      onClick={e => {
+                        e.preventDefault();
+                        clientHttp.get('/order-complete', {
+                          params: {
+                            storeId,
+                            memberId,
+                            orderQuantity,
+                          },
+                        });
                         setOpen(false);
                         navigate.push('/');
                       }}
