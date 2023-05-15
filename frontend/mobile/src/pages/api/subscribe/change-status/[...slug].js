@@ -7,7 +7,6 @@ const handler = async (req, res) => {
   const storeId = req.query.slug[1];
   const method = req.query.slug[2];
   const http = createHttpInstance(req);
-
   if (method === 'delete') {
     try {
       await http

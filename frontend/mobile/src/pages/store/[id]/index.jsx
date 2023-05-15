@@ -18,7 +18,7 @@ const store = ({ storeProps }) => {
 
   const memberId = useSelector(state => state.member.memberInfo.id);
   return (
-    <Container className="overflow-scroll overflow-x-hidden">
+    <Container className="overflow-scroll scrollbar-hide soverflow-x-hidden">
       <Container.SubPageHeader title="가게상세" goHome sticky={false} />
       <div className="pb-12">
         <StoreInfo storeInfo={storeProps.storeInfo} memberId={memberId} />

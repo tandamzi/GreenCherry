@@ -38,6 +38,7 @@ const subscribe = () => {
               <div>
                 <SubscribeStore
                   key={subscribeStoreInfo.id}
+                  memberId={memberId}
                   subscribeStoreInfo={subscribeStoreInfo}
                 />
                 <div className="border-line border-b my-4 -mx-4" />
