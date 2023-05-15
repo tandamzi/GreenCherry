@@ -271,4 +271,8 @@ public class StoreService {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         return store.getCherryPoint();
     }
+
+    public Boolean isSubscribedStore(Long memberId, Long storeId) {
+        return subscribeRepository.findByMemberIdAndStoreId(memberId, storeId).isPresent();
+    }
 }
