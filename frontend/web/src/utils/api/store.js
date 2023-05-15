@@ -30,9 +30,9 @@ export const getStoreType = async () => {
 
 export const getCherryPoint = async storeId => {
   try {
-    // console.log(storeId);
+    // console.log('getCherryPoint, storeId; ', storeId);
     const res = await clientHttp.get(`/store/${storeId}/cherry-point`);
-    // console.log(res);
+    // console.log('getCherryPoint API: ', res);
     return res.data.data;
   } catch (error) {
     return error;
