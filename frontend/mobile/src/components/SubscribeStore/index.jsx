@@ -37,8 +37,9 @@ const SubscribeStore = ({ subscribeStoreInfo, memberId }) => {
       </div>
       <div className="mx-2">
         {subscribe ? (
-          <div className="flex justify-end  mb-3">
+          <div className="flex justify-end my-1">
             <button
+              className="mb-3"
               type="button"
               onClick={e => {
                 e.preventDefault();
@@ -50,8 +51,9 @@ const SubscribeStore = ({ subscribeStoreInfo, memberId }) => {
             </button>
           </div>
         ) : (
-          <div className="flex justify-end mb-3">
+          <div className="flex justify-end my-1">
             <button
+              className="mb-3"
               type="button"
               onClick={e => {
                 e.preventDefault();
@@ -65,10 +67,13 @@ const SubscribeStore = ({ subscribeStoreInfo, memberId }) => {
         )}
         {subscribeStoreInfo.open ? (
           <div className="text-center">
-            <p className="text-sm">
-              <p>남은수량 </p>
-              {subscribeStoreInfo.quantity}개
-            </p>
+            <span className="text-sm">
+              <span>남은수량 </span>
+              <span className="text-secondary">
+                {subscribeStoreInfo.quantity}
+              </span>
+              <span>개</span>
+            </span>
             <div className="p-2 mt-1 px-3 rounded-xl bg-itembg active:bg-primary">
               <button
                 type="button"
