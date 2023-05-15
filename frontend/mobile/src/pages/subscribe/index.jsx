@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
@@ -12,9 +13,11 @@ const subscribe = () => {
   const router = useRouter();
   const [subscribeInfo, setSubscribeInfo] = useState();
 
+  const memberId = useSelector(state => state.member.memberInfo.id);
+
   const getSubscribeInfo = async () => {
     try {
-      const response = await clientHttp.get('/subscribe/11');
+      const response = await clientHttp.get(`/subscribe/${memberId}`);
       setSubscribeInfo(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
