@@ -126,12 +126,21 @@ public class StoreController {
         return responseService.getSingleResult(storeService.getSubScribedStore(memberId, pageable));
     }
 
+    //memberId와 storeId로 member가 구독한 가게인지 반환
+    @GetMapping("{member-id}/subscribe/{store-id}")
+    public SingleResult<Boolean> isSubscribedStore(@PathVariable("member-id") Long memberId, @PathVariable("store-id") Long storeId) {
+        log.info("memberId: {}, storeId: {}", memberId, storeId);
+        return responseService.getSingleResult(storeService.isSubscribedStore(memberId, storeId));
+    }
+
     @PostMapping("{store-id}/subscribe")
     public Result subscribeStore(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
         log.info("storeId: {}, memberId: {}", storeId, memberId);
         storeService.subscribeStore(storeId, memberId);
         return responseService.getSuccessResult();
     }
+
+
 
     @DeleteMapping("{store-id}/subscribe")
     public Result deleteSubscribe(@PathVariable("store-id") Long storeId, @RequestParam Long memberId) {
@@ -175,8 +184,6 @@ public class StoreController {
         StoreInfoForOrderDto storeInfoForOrderDto = storeService.storeInfoForOrder(storeId);
         return responseService.getSingleResult(storeInfoForOrderDto);
     }
-
-
 
 
 
