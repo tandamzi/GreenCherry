@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ImCancelCircle } from 'react-icons/im';
+import { useDispatch } from 'react-redux';
 
 import classnames from 'classnames';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import Swal from 'sweetalert2';
 
 import style from './index.module.scss';
 
+import { changeProfile } from '@/redux/member/memberReducer';
 import { clientHttpForm } from '@/utils/csr/clientHttp';
 
 export const UserAvatar = ({
@@ -16,8 +18,9 @@ export const UserAvatar = ({
   changable,
   ...props
 }) => {
-  const inputRef = useRef(null);
+  const dispatch = useDispatch();
 
+  const inputRef = useRef(null);
   const [imgFile, setImgFile] = useState(imageURL);
 
   const onClickImageInput = event => {
@@ -47,13 +50,14 @@ export const UserAvatar = ({
     reader.readAsDataURL(inputRef.current.files[0]);
 
     const data = new FormData();
-
-    data.append('images', inputRef.current.files[0] || null);
+    data.append('profileImage', inputRef.current.files[0] || null);
 
     clientHttpForm
-      .put('/profile/update-profile', data)
+      .put('/member/image', data)
       .then(res => {
-        window.location.reload();
+        const imageFile = res.data.data;
+        setImgFile(imageFile);
+        dispatch(changeProfile(imageFile));
       })
       .catch(err => {});
   };
