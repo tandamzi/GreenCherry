@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import cn from 'classnames';
 
@@ -6,12 +7,19 @@ import Container from '@/components/Container';
 import List from '@/components/OrderComponet/list';
 import Map from '@/components/OrderComponet/map';
 import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
+import { changePage } from '@/redux/footerStatus/footerReducer';
 
 const order = () => {
   const [toggleState, setToggleState] = useState(false);
   const changeToggle = () => {
     setToggleState(prev => !prev);
   };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(changePage('주변 가게'));
+  });
+
   return (
     <Container>
       <div className="absolute z-20 left-1/2 -translate-x-1/2 top-14 inline-block w-28 align-middle select-none transition duration-200 ease-in">

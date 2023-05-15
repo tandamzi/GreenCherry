@@ -27,7 +27,7 @@ const orderList = () => {
   }, []);
 
   return (
-    <Container className=" ">
+    <Container>
       <Container.SubPageHeader goHome title="주문내역" className="" />
       <Container.MainBody>
         {orders &&
