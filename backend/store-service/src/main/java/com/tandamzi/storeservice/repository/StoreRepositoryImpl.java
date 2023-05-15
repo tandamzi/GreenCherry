@@ -28,13 +28,14 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom {
 
     @Override
     //memberId와 storeId로 동적쿼리 가게 조회. Store엔티티 안의 Type와 cherryBox를 fetch join해서 모두 가져옴
+    //Store의 open이 true인 것만.
     public Optional<Store> findStoreByIdAndMember(Long memberId, Long storeId) {
-        Store store = queryFactory.selectFrom(QStore.store)
-                .leftJoin(QStore.store.type).fetchJoin()
-                .leftJoin(QStore.store.cherryBox).fetchJoin()
+        Store result = queryFactory.selectFrom(store)
+                .leftJoin(store.type).fetchJoin()
+                .leftJoin(store.cherryBox).fetchJoin()
                 .where(storeIdEq(storeId), memberIdEq(memberId))
                 .fetchOne();
-        return Optional.ofNullable(store);
+        return Optional.ofNullable(result);
     }
 
     private BooleanExpression memberIdEq(Long memberId) {
@@ -45,13 +46,15 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom {
         return storeId != null ? store.id.eq(storeId) : null;
     }
 
+
+
     @Override
     public Page<Store> findNearbyPlacesWithSubscription(long memberId, double radius, double latitude, double longitude, boolean sub, Pageable pageable) {
         List<Store> stores = queryFactory.selectDistinct(store)
                 .from(store)
                 .leftJoin(subscribe)
                 .on(store.eq(subscribe.store))
-                .where(subContain(memberId, sub))
+                .where(subContain(memberId, sub), store.open.eq(true))
                 .fetch();
 
         List<Store> radiusFilteredList = stores.stream().filter(store -> {
