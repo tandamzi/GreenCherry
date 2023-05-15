@@ -92,15 +92,23 @@ const Home = () => {
     const token = getToken(messaging, {
       vapidKey:
         'BBuoQiK6Hci6-fWBqgcIAn-a8Nzc7kF1XVpkCKfHINcvckb-u3sz8eSrsbtns2WjrXZ9bxs7j0DCsNtkNIiqjHc',
-    });
-
-    if (token) {
+    }).then(res => {
       clientHttp.get('/firebase-token', {
         params: {
-          token,
+          token: res,
         },
       });
-    } else console.log('Can not get Token');
+    });
+
+    // if (token) {
+    //   console.log(token);
+    //   console.log(token);
+    //   clientHttp.get('/firebase-token', {
+    //     params: {
+    //       token,
+    //     },
+    //   });
+    // } else console.log('Can not get Token');
 
     onMessage(messaging, payload => {
       console.log('메시지가 도착했습니다.', payload);
