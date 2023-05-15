@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { modifyAction, resetModifyAction } from '@/redux/store/modifySlice';
 import {
+  setModifiableAction,
   setCherryPointAction,
   getStoreInfoAction,
   putStoreInfoAction,
@@ -26,6 +27,10 @@ export default function useStore() {
   const { modifyState, modifyType } = useSelector(state => state.modify);
 
   const dispatch = useDispatch();
+
+  const setModifiable = data => {
+    dispatch(setModifiableAction(data));
+  };
 
   const setCherryPoint = data => {
     dispatch(setCherryPointAction(data));
@@ -68,6 +73,7 @@ export default function useStore() {
       allergies,
       images,
     },
+    setModifiable,
     setCherryPoint,
     getStoreInfo,
     putStoreInfo,
