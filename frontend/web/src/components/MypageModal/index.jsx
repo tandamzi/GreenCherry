@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classnames from 'classnames';
 
 import Modal from '@/components/Modal';
 import StoreModify from '@/components/StoreModify';
 import useMember from '@/hooks/memberHook';
+import useStore from '@/hooks/storeHook';
+import { getModifiable } from '@/utils/api/store';
 
 const MypageModal = () => {
-  const { myStoreModalOpen, openMyStoreModal, closeMyStoreModal } = useMember();
+  const {
+    memberAttributes,
+    myStoreModalOpen,
+    openMyStoreModal,
+    closeMyStoreModal,
+  } = useMember();
+
+  const { setModifiable } = useStore();
 
   const category = [
     { title: '가게 소개글', type: 'storeDescription' },
@@ -15,6 +24,14 @@ const MypageModal = () => {
     { title: '인스타그램', type: 'instagram' },
     // { title: '알레르기 재료', type: 'allergies' },
   ];
+
+  useEffect(() => {
+    if (myStoreModalOpen) {
+      getModifiable(memberAttributes.storeId).then(res => {
+        setModifiable(res);
+      });
+    }
+  }, [myStoreModalOpen]);
 
   return (
     <Modal

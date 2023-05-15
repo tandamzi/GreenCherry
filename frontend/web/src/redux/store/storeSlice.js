@@ -23,6 +23,19 @@ export const storeSlice = createSlice({
         cherryPoint: action.payload,
       };
     },
+    setModifiableAction: (state, action) => {
+      return {
+        ...state,
+        storeDescription: action.payload.storeDescription,
+        pickUpStartTime: action.payload.pickUpStartTime,
+        pickUpEndTime: action.payload.pickUpEndTime,
+        cherryboxDescription: action.payload.cherryboxDescription,
+        allergies: action.payload.allergies,
+        images: action.payload.images,
+        instagram: action.payload.instagram,
+      };
+    },
+
     getStoreInfoAction: (state, action) => {
       return {
         ...state,
@@ -70,6 +83,7 @@ export const storeSlice = createSlice({
 const { reducer, actions } = storeSlice;
 export const {
   setCherryPointAction,
+  setModifiableAction,
   getStoreInfoAction,
   putStoreInfoAction,
   openStoreAction,
