@@ -3,6 +3,7 @@ import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
+import StoreAllergyModify from '@/components/StoreAllergyModify';
 import StoreInputModify from '@/components/StoreInputModify';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
@@ -12,6 +13,7 @@ const StoreModify = ({ title, children, type }) => {
   const { storeAttributes } = useStore();
   const { memberAttributes } = useMember();
   const [content, setContent] = useState(storeAttributes[type]);
+  // console.log(storeAttributes[type]);
 
   const {
     modifyState,
@@ -89,7 +91,14 @@ const StoreModify = ({ title, children, type }) => {
             content={content}
           />
         )}
-        {type === 'allergies' && <div>알러지</div>}
+        {/* {content} */}
+        {/*         {type === 'allergies' && (
+          <StoreAllergyModify
+            itemModifyState={modifyState && type === modifyType}
+            handleContentChange={handleContentChange}
+            content={content}
+          />
+        )} */}
         {/* {children} */}
       </div>
     </div>
