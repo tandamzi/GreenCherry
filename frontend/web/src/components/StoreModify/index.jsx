@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
@@ -13,7 +13,6 @@ const StoreModify = ({ title, children, type }) => {
   const { storeAttributes } = useStore();
   const { memberAttributes } = useMember();
   const [content, setContent] = useState(storeAttributes[type]);
-  // console.log(storeAttributes[type]);
 
   const {
     modifyState,
@@ -30,6 +29,11 @@ const StoreModify = ({ title, children, type }) => {
   const handlePencilClick = () => {
     putModifyState(type);
   };
+
+  useEffect(() => {
+    // console.log(storeAttributes[type]);
+    setContent(storeAttributes[type]);
+  }, [storeAttributes[type]]);
 
   const handleModifyClick = () => {
     // json 형식일 때
