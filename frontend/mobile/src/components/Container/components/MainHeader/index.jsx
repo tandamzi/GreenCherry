@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import Lottie from 'react-lottie-player';
 
-import alarm from '@public/assets/lottie/alarm.json';
-import mypage from '@public/assets/lottie/mypage.json';
+import alarm from '@public/assets/lottie/main/Notification10.json';
+import mypage from '@public/assets/lottie/main/User10.json';
 import cs from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ const MainHeader = ({ className, children }) => {
         alt="devday main logo"
       />
       <div className="flex items-center">
-        <Link href="/alarm" className="w-10 h-10">
+        <Link href="/alarm" className="w-8 h-8">
           <Lottie
             loop
             animationData={alarm}
@@ -39,7 +39,7 @@ const MainHeader = ({ className, children }) => {
             speed={0.7}
           />
         </Link>
-        <Link href="/mypage" className="w-10 h-10">
+        <Link href="/mypage" className="w-8 h-8">
           <Lottie
             loop
             animationData={mypage}

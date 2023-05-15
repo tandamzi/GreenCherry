@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import Lottie from 'react-lottie-player';
 
-import sprout1 from '@public/assets/lottie/sprout1.json';
-import cs from 'classnames';
 import Image from 'next/image';
 
+import convertTimeFormat from '@/utils/convertTimeformat';
 import clientHttp from '@/utils/csr/clientHttp';
 
 const StoreInfo = ({ storeInfo, memberId }) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(storeInfo);
   const [isSubscribe, setisSubscribe] = useState(false);
 
   const getIsSubscribe = async () => {
@@ -58,14 +56,14 @@ const StoreInfo = ({ storeInfo, memberId }) => {
 
         <div className="text-center my-4">
           <p className="font-bold text-3xl"> {storeInfo.name}</p>
-          <p className="text-xs text-secondary">{data && data.type.name}</p>
+          <p className="text-xs text-secondary">{data.type.name}</p>
         </div>
         <div className="text-center mb-3">
           <p className="text-secondaryfont text-decoration-line: line-through">
-            {data && data.cherryBox.totalPriceBeforeDiscount} 원 상당
+            {data.cherryBox.totalPriceBeforeDiscount} 원 상당
           </p>
           <p className="font-bold text-2xl">
-            {data && data.cherryBox.pricePerCherryBox}원
+            {data.cherryBox.pricePerCherryBox}원
           </p>
         </div>
 
@@ -100,16 +98,11 @@ const StoreInfo = ({ storeInfo, memberId }) => {
                 </button>
               </div>
             )}
-            <p className="text-primaryfont">
-              {data && data.numberOfSubscriber}
-            </p>
+            <p className="text-primaryfont">{data.numberOfSubscriber}</p>
           </div>
           <p className="mx-6 font-thin text-primaryfont">|</p>
           <p className="font-light text-primaryfont">
-            리뷰{' '}
-            <span className="text-secondary">
-              {data && data.numberOfReview}
-            </span>
+            리뷰 <span className="text-secondary">{data.numberOfReview}</span>
           </p>
         </div>
       </div>
@@ -117,30 +110,25 @@ const StoreInfo = ({ storeInfo, memberId }) => {
       <div className="grid grid-cols-3 my-6 text-primaryfont">
         <p className="text-center font-extralight text-secondary">픽업시간</p>
         <p className="col-span-2 mb-3 ml-4 pr-7 font-medium">
-          {data && data.pickUpStartTime} - {data && data.pickUpEndTime} todo :
-          시간도 수정해야돼요 뒤에 00 안오게
+          {convertTimeFormat(data.pickUpStartTime)} ~{' '}
+          {convertTimeFormat(data.pickUpEndTime)}
         </p>
 
         <p className="text-center font-extralight text-secondary">위치 안내</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.address.addressName}
-          12312311213612136512143651243891249381249834129849
-        </p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
 
         <p className="text-center font-extralight text-secondary">가게소개</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.address.addressName}
-        </p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
 
         <p className="text-center font-extralight text-secondary">체리박스</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.cherryBox.description} todo : 데이터가 없어요
+          {data.cherryBox.description
+            ? data.cherryBox.description
+            : '설명이 없습니다'}
         </p>
 
         <p className="text-center font-extralight text-secondary">알레르기</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">
-          {data && data.allergies[0].name}
-        </p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">{data.allergies[0].name}</p>
       </div>
     </div>
   );
