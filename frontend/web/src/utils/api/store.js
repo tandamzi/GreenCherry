@@ -99,3 +99,31 @@ export const getModifiable = async storeId => {
     return error;
   }
 };
+
+export const putModifyStore = async (storeId, storeInfo, images) => {
+  try {
+    const formData = new FormData();
+
+    Object.keys(storeInfo).forEach(key => {
+      if (storeInfo[key] !== undefined) {
+        formData.append(key, storeInfo[key]);
+      }
+    });
+
+    if (images) {
+      images.forEach((image, index) => {
+        formData.append(`image${index}`, image);
+      });
+    }
+
+    const res = await clientHttp.put(
+      `/store/${storeId}/modify-store`,
+      formData,
+    );
+    // console.log(res);
+
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
