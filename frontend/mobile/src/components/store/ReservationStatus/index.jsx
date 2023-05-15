@@ -36,7 +36,7 @@ const ReservationStatus = ({ reservationInfo }) => {
       </div>
       <div className="mb-6 flex flex-row justify-center items-center">
         <button
-          className="w-6 h-6 font-bold rounded-full bg-primary active:bg-primaryevent"
+          className="w-20 h-20 font-bold rounded-full bg-primary active:bg-primaryevent"
           type="button"
           onClick={e => {
             e.preventDefault();
