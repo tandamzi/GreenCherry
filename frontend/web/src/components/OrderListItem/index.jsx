@@ -53,7 +53,7 @@ const OrderListItem = ({ order, updateOrderState }) => {
       <PickUpCompleteModal
         isOpen={isPickUpCompleteModalOpen}
         onClose={handlePickUpCompleteModalClose}
-        onClick={handlePickUpCompleteModalOpen}
+        onClick={handlePickUpCompleteClick}
         order={order}
       />
 
