@@ -80,9 +80,7 @@ export const UserAvatar = ({
       }}
     >
       <Image
-        src={
-          imageURL || require('../../../public/assets/Images/default-user.png')
-        }
+        src={imgFile}
         alt="프로필 이미지"
         className="style.Image rounded-full object-cover"
         onClick={changable ? onClickImageInput : dummyFunction}

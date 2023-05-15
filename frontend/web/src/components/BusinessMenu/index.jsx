@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TbCherry, TbPaperBag, TbPencil, TbHome } from 'react-icons/tb';
 
 import classnames from 'classnames';
+import Link from 'next/link';
 
 import style from './index.module.scss';
 
@@ -37,10 +38,12 @@ const Menu = ({ menuOpen }) => {
             체리박스 등록
           </button>
         )}
-        <button type="button" className={style.menuItem}>
-          <TbPaperBag size={24} />
-          주문관리
-        </button>
+        <Link href="/business/order">
+          <button type="button" className={style.menuItem}>
+            <TbPaperBag size={24} />
+            주문관리
+          </button>
+        </Link>
         <button type="button" className={style.menuItem}>
           <TbPencil size={24} />
           리뷰관리

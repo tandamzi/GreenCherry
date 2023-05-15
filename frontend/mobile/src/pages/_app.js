@@ -24,6 +24,16 @@ import '../styles/fonts/style.css';
 
 export const persistor = persistStore(store);
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyD4LajuG61T7Q5VL5-JGODdt19zM2Yej_4',
+  authDomain: 'greencherry-notice.firebaseapp.com',
+  projectId: 'greencherry-notice',
+  storageBucket: 'greencherry-notice.appspot.com',
+  messagingSenderId: '280305112250',
+  appId: '1:280305112250:web:ff845972d09a4772a45e83',
+  measurementId: 'G-WE2RP9HYFD',
+};
+
 function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
 
@@ -40,20 +50,19 @@ function App({ Component, pageProps }) {
     Router.events.on('routeChangeComplete', handleComplete);
     Router.events.on('routeChangeError', handleError);
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-          console.log(
-            'Service Worker registered with scope:',
-            registration.scope,
-          );
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker
+    //     .register('/sw.js')
+    //     .then(registration => {
+    //       console.log(
+    //         'Service Worker registered with scope:',
+    //         registration.scope,
+    //       );
+    //     })
+    //     .catch(error => {
+    //       console.error('Service Worker registration failed:', error);
+    //     });
+    // }
     return () => {
       Router.events.off('routeChangeStart', handleStart);
       Router.events.off('routeChangeComplete', handleComplete);

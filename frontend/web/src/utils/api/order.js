@@ -8,3 +8,12 @@ export const getTodayOrderList = async storeId => {
     return error;
   }
 };
+
+export const putOrderComplete = async orderId => {
+  try {
+    const res = await clientHttp.put(`/order/${orderId}/order-complete`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};

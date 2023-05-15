@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 
-import style from './index.module.scss';
+import style from './list.module.scss';
 
 import Container from '@/components/Container';
 import ImageSlider from '@/components/ImageContainer/ImageSlider';
+import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 
 const list = () => {
   const storeList = useSelector(state => state.storeList.storeList);
@@ -20,9 +21,10 @@ const list = () => {
   return (
     <div className="bg-bgcolor">
       <div
-        className={
-          (style['order-list-header'], 'h-32 mb-2 opacity-70 bg-itembg')
-        }
+        className={cn(
+          style['order-list-header'],
+          'z-10 h-32 mb-2 opacity-50 bg-itembg',
+        )}
       />
       <div className="px-4 pb-20">
         {storeList &&
@@ -64,6 +66,7 @@ const list = () => {
                   <ImageSlider
                     onClick={() => goToStore(item.id)}
                     images={item.images}
+                    name={item.name}
                   />
                 </div>
                 {index !== storeList.lenght - 1 ? (
@@ -76,7 +79,7 @@ const list = () => {
           })}
       </div>
       <div className="sticky w-full z-20 bottom-7 flex justify-center">
-        <Container.MainFooterWithNavigation position="stiky" />
+        <Container.MainFooterWithNavigation position="sticky" />
       </div>
     </div>
   );
