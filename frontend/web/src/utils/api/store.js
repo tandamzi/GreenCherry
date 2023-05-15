@@ -90,3 +90,12 @@ export const getOrderList = async (storeId, orderDate) => {
     return error;
   }
 };
+
+export const getModifiable = async storeId => {
+  try {
+    const res = await clientHttp.get(`/store/${storeId}/modifiable`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
