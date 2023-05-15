@@ -61,6 +61,8 @@ const list = () => {
                 </div>
                 <div className="mt-2 mb-1">
                   <ImageSlider
+                    width={32}
+                    height={32}
                     onClick={() => goToStore(item.id)}
                     images={item.images}
                     name={item.name}
