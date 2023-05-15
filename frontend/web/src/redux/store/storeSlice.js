@@ -17,6 +17,22 @@ export const storeSlice = createSlice({
   name: 'business',
   initialState,
   reducers: {
+    logoutStoreAction: state => {
+      return {
+        ...state,
+        storeId: '',
+        open: false,
+        pickUpStartTime: '',
+        pickUpEndTime: '',
+        cherryPoint: 0,
+        storeDescription: '',
+        cherryboxDescription: '',
+        allergies: [],
+        images: [],
+        instagram: '',
+      };
+    },
+
     setCherryPointAction: (state, action) => {
       return {
         ...state,
@@ -88,5 +104,6 @@ export const {
   putStoreInfoAction,
   openStoreAction,
   closeStoreAction,
+  logoutStoreAction,
 } = actions;
 export default reducer;

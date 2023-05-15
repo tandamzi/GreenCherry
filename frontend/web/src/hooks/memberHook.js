@@ -9,6 +9,7 @@ import {
   openCherryBoxRegisterAction,
   closeCherryBoxRegisterAction,
 } from '@/redux/member/memberSlice';
+import { logoutStoreAction } from '@/redux/store/storeSlice';
 
 export default function useMember() {
   const {
@@ -30,6 +31,7 @@ export default function useMember() {
 
   const logout = () => {
     dispatch(logoutAction());
+    dispatch(logoutStoreAction());
   };
 
   const openMyStoreModal = () => {
