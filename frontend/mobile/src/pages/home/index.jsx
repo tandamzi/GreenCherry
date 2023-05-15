@@ -33,7 +33,7 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(async () => {
+  useEffect(() => {
     const firebaseConfig = {
       apiKey: 'AIzaSyD4LajuG61T7Q5VL5-JGODdt19zM2Yej_4',
       authDomain: 'greencherry-notice.firebaseapp.com',
@@ -81,7 +81,7 @@ const Home = () => {
 
     console.log('권한 요청 중...');
 
-    const permission = await Notification.requestPermission();
+    const permission = Notification.requestPermission();
     if (permission === 'denied') {
       console.log('알림 권한 허용 안됨');
       return;
@@ -89,7 +89,7 @@ const Home = () => {
 
     console.log('알림 권한이 허용됨');
 
-    const token = await getToken(messaging, {
+    const token = getToken(messaging, {
       vapidKey:
         'BBuoQiK6Hci6-fWBqgcIAn-a8Nzc7kF1XVpkCKfHINcvckb-u3sz8eSrsbtns2WjrXZ9bxs7j0DCsNtkNIiqjHc',
     });
