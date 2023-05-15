@@ -26,7 +26,7 @@ const Login = () => {
           </Link>
 
           <Link
-            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorize/google?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
+            href={`http://k8C207.p.ssafy.io:5000/oauth2/authorize/google?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
             className={`${style['google-btn']}`}
           >
             <div className={style['login-btn-img']} />

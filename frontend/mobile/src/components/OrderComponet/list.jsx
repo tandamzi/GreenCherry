@@ -21,12 +21,9 @@ const list = () => {
   return (
     <div className="bg-bgcolor">
       <div
-        className={cn(
-          style['order-list-header'],
-          'z-10 h-32 mb-2 opacity-50 bg-itembg',
-        )}
+        className={cn(style['order-list-header'], 'z-10 h-24 opacity-50 ')}
       />
-      <div className="px-4 pb-20">
+      <div className="px-4 pb-24">
         {storeList &&
           storeList.map((item, index) => {
             return (

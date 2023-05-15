@@ -4,6 +4,7 @@ import cn from 'classnames';
 import Image from 'next/image';
 
 const IconButton = ({
+  name,
   iconUrl,
   width,
   height,
@@ -15,6 +16,7 @@ const IconButton = ({
   return (
     <button className={className} type="button" onClick={onClick}>
       <Image
+        alt={label}
         className={cn('mb-2')}
         src={iconUrl}
         width={width}

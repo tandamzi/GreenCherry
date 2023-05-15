@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
-import useStore from '@/hooks/memberHook';
+import useMember from '@/hooks/memberHook';
 import { getMember } from '@/utils/api/member';
 import clientHttp from '@/utils/clientHttp';
 
 const Redirect = () => {
   const router = useRouter();
-  const { login, setMemberId } = useStore();
+  const { login, setMemberId } = useMember();
 
   const extractTokenFromUrl = url => {
     const urlParams = new URLSearchParams(url.split('?')[1]);
@@ -21,6 +21,7 @@ const Redirect = () => {
       const response = await clientHttp.get(`/set-token?token=${token}`);
       if (response.data.success) {
         const data = await getMember();
+        // console.log('redirect페이지에서 getMember로 가져온 데이터: ', data);
         if (data.isJoined) {
           login(data);
         } else {

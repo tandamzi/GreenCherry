@@ -2,7 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
 const initialState = {
-  memberInfo: {},
+  memberInfo: {
+    id: '',
+    email: '',
+    nickname: '',
+    cherryPoint: '',
+    image: '',
+    alarm: '',
+  },
   token: '',
 };
 
@@ -23,6 +30,10 @@ export const memberSlice = createSlice({
         memberInfo: action.payload.data,
       };
     },
+    changeProfile: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
+      state.memberInfo.image = action.payload;
+    },
     reset: state => {
       localStorage.removeItem('token');
       localStorage.removeItem('member');
@@ -35,5 +46,6 @@ export const memberSlice = createSlice({
     },
   },
 });
-export const { saveToken, saveInfo, reset } = memberSlice.actions;
+export const { saveToken, saveInfo, changeProfile, reset } =
+  memberSlice.actions;
 export default memberSlice.reducer;

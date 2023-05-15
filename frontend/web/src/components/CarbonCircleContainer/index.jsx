@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import classnames from 'classnames';
 
@@ -6,8 +6,14 @@ import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
 
 const CarbonCircleContainer = ({ className }) => {
+  const [cherryPoint, setCherryPoint] = useState(0);
   const { storeAttributes } = useStore();
   const { memberAttributes } = useMember();
+
+  useEffect(() => {
+    setCherryPoint(storeAttributes.cherryPoint);
+  }, [storeAttributes.cherryPoint]);
+
   return (
     <div
       className={classnames(
@@ -17,7 +23,9 @@ const CarbonCircleContainer = ({ className }) => {
     >
       {memberAttributes.storeName} 가게는 <br />
       <span className="font-bold">
-        {storeAttributes.cherryPoint}Kg CO<sub>2</sub>e
+        {!isNaN(storeAttributes.cherryPoint)
+          ? `${storeAttributes.cherryPoint}Kg CO2e`
+          : 'Loading...'}
       </span>
       <br /> 만큼 줄였어요!
     </div>
