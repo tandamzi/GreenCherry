@@ -30,7 +30,9 @@ export const getStoreType = async () => {
 
 export const getCherryPoint = async storeId => {
   try {
+    // console.log(storeId);
     const res = await clientHttp.get(`/store/${storeId}/cherry-point`);
+    // console.log(res);
     return res.data.data;
   } catch (error) {
     return error;
@@ -85,6 +87,43 @@ export const getOrderList = async (storeId, orderDate) => {
     const res = await clientHttp.get(
       `/store/${storeId}/orders?orderDate=${orderDate}`,
     );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getModifiable = async storeId => {
+  try {
+    const res = await clientHttp.get(`/store/${storeId}/modifiable`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const putModifyStore = async (storeId, storeInfo, images) => {
+  try {
+    const formData = new FormData();
+
+    Object.keys(storeInfo).forEach(key => {
+      if (storeInfo[key] !== undefined) {
+        formData.append(key, storeInfo[key]);
+      }
+    });
+
+    if (images) {
+      images.forEach((image, index) => {
+        formData.append(`image${index}`, image);
+      });
+    }
+
+    const res = await clientHttp.put(
+      `/store/${storeId}/modify-store`,
+      formData,
+    );
+    // console.log(res);
+
     return res.data;
   } catch (error) {
     return error;
