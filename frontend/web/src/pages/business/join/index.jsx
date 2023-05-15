@@ -115,6 +115,7 @@ const Join = () => {
         const memberData = await getMember();
         if (memberData.isJoined) {
           login(data);
+          // console.log(data)
         }
         router.push('/business');
       } else {
