@@ -6,12 +6,49 @@ import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
 import Image from 'next/image';
 
-const StoreInfo = ({ storeInfo }) => {
+import clientHttp from '@/utils/csr/clientHttp';
+
+const StoreInfo = ({ storeInfo, memberId }) => {
   const [data, setData] = useState();
+  const [isSubscribe, setisSubscribe] = useState(false);
+
+  const getIsSubscribe = async () => {
+    try {
+      const response = await clientHttp.get(
+        `/subscribe/is-subscribe/${memberId}/${storeInfo.storeId}`,
+      );
+      setisSubscribe(response.data.data);
+    } catch (error) {
+      console.error('Error fetching data : ', error);
+    }
+  };
+
+  const changeSubscribeStatus = async method => {
+    await clientHttp.get(
+      `/subscribe/change-status/${memberId}/${storeInfo.storeId}/${method}`,
+    );
+    if (method === 'delete') {
+      setData(prevData => ({
+        ...prevData,
+        numberOfSubscriber: prevData.numberOfSubscriber - 1,
+      }));
+    } else {
+      setData(prevData => ({
+        ...prevData,
+        numberOfSubscriber: prevData.numberOfSubscriber + 1,
+      }));
+    }
+
+    getIsSubscribe();
+  };
+
   useEffect(() => {
     setData(storeInfo);
   }, [storeInfo]);
 
+  useEffect(() => {
+    getIsSubscribe();
+  }, []);
   return (
     <div className="flex-row w-full justify-self-center border-b border-b-line ">
       <div className="w-full flex flex-col justify-self-center border-b border-b-line">
@@ -34,15 +71,35 @@ const StoreInfo = ({ storeInfo }) => {
 
         <div className="flex flex-row justify-center items-center mb-5">
           <div className="flex items-center">
-            {/* 
-            todo : 
-            구독 여부에 따라 하트 바뀌게 */}
-            <AiOutlineHeart
-              size={15}
-              color="#F28482"
-              // style={{ color: iconColors.home }}
-              className=" items-center mb-1 mr-1"
-            />
+            {isSubscribe ? (
+              <div className="flex justify-center mb-3">
+                <button
+                  className="pt-2 pr-0.5"
+                  type="button"
+                  onClick={e => {
+                    e.preventDefault();
+                    changeSubscribeStatus('delete');
+                    setisSubscribe(prev => !prev);
+                  }}
+                >
+                  <AiFillHeart size={18} className="fill-primaryevent" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center mb-3">
+                <button
+                  className="pt-2 pr-0.5"
+                  type="button"
+                  onClick={e => {
+                    e.preventDefault();
+                    changeSubscribeStatus('post');
+                    setisSubscribe(prev => !prev);
+                  }}
+                >
+                  <AiOutlineHeart size={18} className="fill-primaryevent" />
+                </button>
+              </div>
+            )}
             <p className="text-primaryfont">
               {data && data.numberOfSubscriber}
             </p>

@@ -25,8 +25,8 @@ const UserReview = ({ reviewInfo }) => {
         <div className=" w-10/12 mx-auto mt-5">
           {reviewInfo.content.map((review, idx) => {
             return (
-              <div>
-                <ReviewComponent key={idx} review={review} />
+              <div key={idx}>
+                <ReviewComponent review={review} />
                 <div className="pb-4 border-line border-b -mx-8" />
               </div>
             );
