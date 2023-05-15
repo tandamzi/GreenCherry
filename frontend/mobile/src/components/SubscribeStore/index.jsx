@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import cs from 'classnames';
 import Image from 'next/image';
@@ -51,7 +51,7 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
                 setSubscribe(prev => !prev);
               }}
             >
-              <AiFillHeart size={20} className=" fill-primaryevent" />
+              <AiFillHeart size={20} className="fill-primaryevent" />
             </button>
           </div>
         ) : (
@@ -64,7 +64,7 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
                 setSubscribe(prev => !prev);
               }}
             >
-              <AiFillHeart size={20} />
+              <AiOutlineHeart size={20} className="fill-primaryevent" />
             </button>
           </div>
         )}
