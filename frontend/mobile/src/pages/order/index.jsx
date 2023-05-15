@@ -22,7 +22,11 @@ const order = () => {
 
   return (
     <Container>
-      <div className="absolute z-20 left-1/2 -translate-x-1/2 top-14 inline-block w-28 align-middle select-none transition duration-200 ease-in">
+      <div
+        className={cn(
+          'fixed z-20 left-1/2 -translate-x-1/2 top-14 inline-block w-28 align-middle select-none transition duration-200 ease-in',
+        )}
+      >
         <input
           type="checkbox"
           name="toggle"
