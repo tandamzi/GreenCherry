@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ImCancelCircle } from 'react-icons/im';
 import { useDispatch } from 'react-redux';
 
 import classnames from 'classnames';
@@ -7,6 +6,7 @@ import Image from 'next/image';
 import Swal from 'sweetalert2';
 
 import style from './index.module.scss';
+import LoadingSpinner from '../LoadingSpinner';
 
 import { changeProfile } from '@/redux/member/memberReducer';
 import { clientHttpForm } from '@/utils/csr/clientHttp';
@@ -19,6 +19,7 @@ export const UserAvatar = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const inputRef = useRef(null);
   const [imgFile, setImgFile] = useState(imageURL);
@@ -29,6 +30,7 @@ export const UserAvatar = ({
   };
 
   const onChange = e => {
+    setLoading(true);
     const reader = new FileReader();
 
     reader.onload = ({ target }) => {
@@ -43,7 +45,14 @@ export const UserAvatar = ({
         title: '사진을 선택해주세요',
         showConfirmButton: false,
         timer: 1000,
+      }).then(() => {
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
       });
+
       return;
     }
 
@@ -59,16 +68,12 @@ export const UserAvatar = ({
         setImgFile(imageFile);
         dispatch(changeProfile(imageFile));
       })
-      .catch(err => {});
-  };
+      .then(() => {
+        const timer = setTimeout(() => {
+          setLoading(false);
+        }, 1800);
 
-  const updateProfileDefaultImg = () => {
-    setImgFile(require('../../../public/assets/Images/default-user.png'));
-
-    clientHttpForm
-      .put('/profile/update-default-profile')
-      .then(res => {
-        window.location.reload();
+        return () => clearTimeout(timer);
       })
       .catch(err => {});
   };
@@ -83,20 +88,18 @@ export const UserAvatar = ({
         height,
       }}
     >
-      <Image
-        src={imgFile}
-        alt="프로필 이미지"
-        className="style.Image rounded-full object-cover"
-        onClick={changable ? onClickImageInput : dummyFunction}
-        fill
-      />
+      {!loading ? (
+        <Image
+          src={imgFile}
+          alt="프로필 이미지"
+          className="style.Image rounded-full object-cover"
+          onClick={changable ? onClickImageInput : dummyFunction}
+          fill
+        />
+      ) : (
+        <LoadingSpinner />
+      )}
       <div className="hidden">
-        <div className="flex justify-end px-4 pt-36">
-          <ImCancelCircle
-            className="text-xl text-red-400 z-50"
-            onClick={updateProfileDefaultImg}
-          />
-        </div>
         <input
           ref={inputRef}
           type="file"

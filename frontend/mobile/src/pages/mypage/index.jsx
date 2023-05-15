@@ -75,7 +75,7 @@ const myPage = () => {
         </div>
       </Container.MainBody>
       <div className="sticky w-full z-20 bottom-7 flex justify-center">
-        <Container.MainFooterWithNavigation position="sticky" />
+        <Container.MainFooterWithNavigation position="fixed" />
       </div>
     </Container>
   );
