@@ -13,5 +13,4 @@ public class CherryBoxRequestDto {
     private int totalPriceBeforeDiscount;
     private double discountRate;
     private int pricePerCherryBox;
-
 }

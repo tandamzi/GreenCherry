@@ -5,7 +5,6 @@ import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,10 +76,10 @@ public class StoreDetailResponseDto {
     private static class CherryBoxDto {
         private String description;
         private int totalPriceBeforeDiscount;
+        private int priceBeforeDiscount;
         private int quantity;
         private double discountRate;
-        private int pricePerCherryBox;
-
+        private int priceAfterDiscount;
     }
 
     public static StoreDetailResponseDto create(Store store, List<Allergy> allergyList, List<StoreImage> images,long numberOfReview, long numberOfSubscriber) {
@@ -127,7 +126,8 @@ public class StoreDetailResponseDto {
                 .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
                 .quantity(store.getCherryBox().getQuantity())
                 .discountRate(store.getCherryBox().getDiscountRate())
-                .pricePerCherryBox(store.getCherryBox().getPricePerCherryBox())
+                .priceBeforeDiscount(store.getCherryBox().getPriceBeforeDiscount())
+                .priceAfterDiscount(store.getCherryBox().getPricePerCherryBox())
                 .build();
     }
 
