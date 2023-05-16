@@ -24,7 +24,7 @@ public class CherryBoxResponseDto {
                 .discountRate(cherryBox.getDiscountRate())
                 .priceBeforeDiscount(cherryBox.getPriceBeforeDiscount())
                 .description(cherryBox.getDescription())
-                .pricePerCherryBox(cherryBox.getPricePerCherryBox())
+                .pricePerCherryBox(cherryBox.getPriceAfterDiscount())
                 .build();
     }
 }
