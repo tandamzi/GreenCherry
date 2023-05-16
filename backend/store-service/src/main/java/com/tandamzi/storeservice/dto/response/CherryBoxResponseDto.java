@@ -12,9 +12,9 @@ public class CherryBoxResponseDto {
     private int quantity;
     private int totalPriceBeforeDiscount;
     private int priceBeforeDiscount;
+    private int priceAfterDiscount;
     private double discountRate;
     private String description;
-    private int pricePerCherryBox;
 
     public static CherryBoxResponseDto create(CherryBox cherryBox) {
         return CherryBoxResponseDto.builder()
@@ -24,7 +24,7 @@ public class CherryBoxResponseDto {
                 .discountRate(cherryBox.getDiscountRate())
                 .priceBeforeDiscount(cherryBox.getPriceBeforeDiscount())
                 .description(cherryBox.getDescription())
-                .pricePerCherryBox(cherryBox.getPriceAfterDiscount())
+                .priceAfterDiscount(cherryBox.getPriceAfterDiscount())
                 .build();
     }
 }
