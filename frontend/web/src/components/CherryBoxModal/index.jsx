@@ -31,7 +31,7 @@ const CherryBoxModal = () => {
     },
     {
       title: '체리박스 개당가격',
-      data: 'pricePerCherryBox',
+      data: 'priceAfterDiscount',
     },
   ];
 
@@ -39,12 +39,12 @@ const CherryBoxModal = () => {
     totalPriceBeforeDiscount: 0,
     quantity: 0,
     discountRate: 0,
-    pricePerCherryBox: 0,
+    priceAfterDiscount: 0,
   });
 
   const [userModified, setUserModified] = useState({
     discountRate: false,
-    pricePerCherryBox: false,
+    priceAfterDiscount: false,
   });
   const handleCherryBoxChange = e => {
     const { name, value } = e.target;
@@ -56,7 +56,7 @@ const CherryBoxModal = () => {
     // Update userModified state
     const updatedUserModified = {
       discountRate: name === 'discountRate',
-      pricePerCherryBox: name === 'pricePerCherryBox',
+      priceAfterDiscount: name === 'priceAfterDiscount',
     };
     setUserModified(updatedUserModified);
 
@@ -78,7 +78,7 @@ const CherryBoxModal = () => {
     const { name } = e.target;
     setUserModified({
       discountRate: name === 'discountRate',
-      pricePerCherryBox: name === 'pricePerCherryBox',
+      priceAfterDiscount: name === 'priceAfterDiscount',
     });
   };
 
@@ -87,11 +87,11 @@ const CherryBoxModal = () => {
       totalPriceBeforeDiscount: 0,
       quantity: 0,
       discountRate: 0,
-      pricePerCherryBox: 0,
+      priceAfterDiscount: 0,
     });
     setUserModified({
       discountRate: false,
-      pricePerCherryBox: false,
+      priceAfterDiscount: false,
     });
   };
 
@@ -102,12 +102,12 @@ const CherryBoxModal = () => {
 
   useEffect(() => {
     if (
-      userModified.pricePerCherryBox &&
+      userModified.priceAfterDiscount &&
       cherryBox.totalPriceBeforeDiscount &&
       cherryBox.quantity &&
-      cherryBox.pricePerCherryBox
+      cherryBox.priceAfterDiscount
     ) {
-      const discountPrice = cherryBox.pricePerCherryBox * cherryBox.quantity;
+      const discountPrice = cherryBox.priceAfterDiscount * cherryBox.quantity;
       const discountRate =
         ((cherryBox.totalPriceBeforeDiscount - discountPrice) /
           cherryBox.totalPriceBeforeDiscount) *
@@ -121,7 +121,7 @@ const CherryBoxModal = () => {
   }, [
     cherryBox.totalPriceBeforeDiscount,
     cherryBox.quantity,
-    cherryBox.pricePerCherryBox,
+    cherryBox.priceAfterDiscount,
     userModified,
   ]);
 
@@ -138,7 +138,7 @@ const CherryBoxModal = () => {
 
       setCherryBox(prevState => ({
         ...prevState,
-        pricePerCherryBox: pricePerBox,
+        priceAfterDiscount: pricePerBox,
       }));
     }
   }, [
@@ -153,7 +153,7 @@ const CherryBoxModal = () => {
       quantity: cherryBox.quantity,
       totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
       discountRate: cherryBox.discountRate,
-      pricePerCherryBox: cherryBox.pricePerCherryBox,
+      priceAfterDiscount: cherryBox.priceAfterDiscount,
     }).then(data => {
       if (data.code === 0) {
         openStore();
