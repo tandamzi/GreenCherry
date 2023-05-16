@@ -15,7 +15,7 @@ export default function Home() {
   const router = useRouter();
   const { memberAttributes } = useMember();
   useEffect(() => {
-    if (memberAttributes && memberAttributes.memberId) {
+    if (memberAttributes && memberAttributes.storeId) {
       router.push('/business');
     }
   }, []);

@@ -17,3 +17,14 @@ export const putOrderComplete = async orderId => {
     return error;
   }
 };
+
+export const getPagableOrderList = async (storeId, orderDate, page) => {
+  try {
+    const res = await clientHttp.get(
+      `/store/${storeId}/pagable-orders?orderDate=${orderDate}&page=${page}`,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};

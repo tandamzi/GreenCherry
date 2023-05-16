@@ -28,7 +28,7 @@ const store = ({ storeProps }) => {
       </div>
 
       <div className="pb-4 text-center text-secondaryfont">
-        연간 먹을 수 있는 음식 <br />
+        매년 먹을 수 있는 음식 <br />
         <span className="font-bold text-primaryfont">855톤</span>이 버려지고
         있습니다.
       </div>

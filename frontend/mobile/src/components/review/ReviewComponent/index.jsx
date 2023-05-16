@@ -1,7 +1,6 @@
-import Lottie from 'react-lottie-player';
-
-import sprout1 from '@public/assets/lottie/sprout1.json';
-import cs from 'classnames';
+import cn from 'classnames';
+import { formatDistanceToNow, parseISO } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 
 import ReviewTag from '../ReviewTag';
@@ -11,20 +10,26 @@ import ImageSlider from '@/components/ImageContainer/ImageSlider';
 const ReviewComponent = ({ review }) => {
   const newCreateDate = new Date(review.createDate);
 
+  const formatDate = reviewWriteDate => {
+    const date = parseISO(reviewWriteDate);
+    return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+  };
+
   return (
     <div className="flex flex-col mt-5">
-      <div className="flex flex-row  mb-4">
-        <Image
-          src={review.memberImageUrl}
-          className="rounded-full mr-3"
-          width={48}
-          height={60}
-          alt="reveiewImageUrl"
-        />
+      <div className="flex flex-row mb-4">
+        <div className="relative w-12 h-12 mr-4">
+          <Image
+            src={review.memberImageUrl}
+            className="rounded-full mr-3"
+            fill
+            alt="reveiewImageUrl"
+          />
+        </div>
         <div className="flex flex-col">
           <p className="font-bold text-xl pr-4 ">{review.memberNickname}</p>
           <p className="font-bold text-secondaryfont text-sm align-text-bottom">
-            {newCreateDate.toLocaleDateString()}
+            {formatDate(review.createDate)}
           </p>
         </div>
       </div>
@@ -32,7 +37,7 @@ const ReviewComponent = ({ review }) => {
       <div className="flex flex-row mb-3">
         <ImageSlider
           width={120}
-          height={128}
+          height={110}
           images={review.reviewImageUrls}
           name={review.memberNickname}
         />

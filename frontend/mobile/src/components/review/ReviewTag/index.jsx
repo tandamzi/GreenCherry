@@ -19,64 +19,58 @@ const ReviewTag = ({ tag }) => {
 // 조건에 따라 렌더링될 컴포넌트들
 const Component1 = ({ tag }) => {
   return (
-    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2">
-      <Image
-        src="/assets/icons/reviewIcons/deliciousIcon.svg"
-        width={100}
-        height={100}
-        className="h-5 flex-none w-fit m-1 ml-2"
-        alt="devday main logo"
-      />
-      <p className="mt-2 text-xs mob:text-sm mt-2 ">&quot;{tag}&quot;</p>
+    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+      <div className="relative w-6 h-6 ml-1">
+        <Image
+          src="/assets/icons/reviewIcons/deliciousIcon.svg"
+          fill
+          alt="맛있어요"
+        />
+      </div>
+      <p className="mt-1.5 ml-1 text-xs mob:text-sm  ">&quot;{tag}&quot;</p>
     </div>
   );
 };
 
 const Component2 = ({ tag }) => {
   return (
-    <div>
-      <div className="bg-itembg flex flex-row rounded-lg mr-4">
+    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+      <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/freshIcon.svg"
-          width={100}
-          height={100}
-          className="h-5 flex-none w-fit m-1 ml-2"
-          alt="devday main logo"
+          fill
+          alt="신선해요"
         />
-        <p className="mt-2 text-xs mob:text-sm mt-2 ">&quot;{tag}&quot;</p>
       </div>
+      <p className="mt-1.5 ml-1 text-xs mob:text-sm  ">&quot;{tag}&quot;</p>
     </div>
   );
 };
 const Component3 = ({ tag }) => {
   return (
-    <div>
-      <div className="bg-itembg flex flex-row rounded-lg  mr-4">
+    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+      <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/toomuchIcon.svg"
-          width={100}
-          height={100}
-          className="h-5 flex-none w-fit m-1 ml-2"
-          alt="devday main logo"
+          fill
+          alt="양이 많아요"
         />
-        <p className="mt-2 text-xs mob:text-sm mt-2 ">&quot;{tag}&quot;</p>
       </div>
+      <p className="mt-1.5 ml-1 text-xs mob:text-sm  ">&quot;{tag}&quot;</p>
     </div>
   );
 };
 const Component4 = ({ tag }) => {
   return (
-    <div>
-      <div className="bg-itembg flex flex-row rounded-lg mr-4">
+    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+      <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/kindIcon.svg"
-          width={100}
-          height={100}
-          className="h-5 flex-none w-fit m-1 ml-2"
-          alt="devday main logo"
+          fill
+          alt="친절해요"
         />
-        <p className="mt-2 text-xs mob:text-sm mt-2 ">&quot;{tag}&quot;</p>
       </div>
+      <p className="mt-1.5 ml-1 text-xs mob:text-sm  ">&quot;{tag}&quot;</p>
     </div>
   );
 };
