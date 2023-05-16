@@ -3,6 +3,7 @@ import Lottie from 'react-lottie-player';
 
 import foodOrderBox from '@public/assets/lottie/food-order-bag.json';
 import cs from 'classnames';
+import Swal from 'sweetalert2';
 
 import WarningModal from '@/components/modal/WarningModal';
 
@@ -13,6 +14,16 @@ const ReservationStatus = ({ reservationInfo }) => {
   const [open, setOpen] = useState(false);
 
   const toggleModal = () => {
+    if (orderQuantity <= 0) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: '수량을 선택해주세요',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      return;
+    }
     setOpen(prev => !prev);
   };
 
