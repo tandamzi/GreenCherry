@@ -38,7 +38,7 @@ const SubPageHeader = ({
           <button
             type="button"
             onClick={goToBack}
-            className="w-8 h-8 flex items-center justify-start"
+            className="w-8 h-8 flex items-center cursor-pointer justify-start"
           >
             <IoIosArrowBack size={20} />
           </button>
@@ -47,9 +47,9 @@ const SubPageHeader = ({
       <div id="sub-header-title" className="font-bold">
         {title}
       </div>
-      <div>
+      <button type="button">
         {goHome && <HiHome size={20} className="text-4xl" onClick={goToHome} />}
-      </div>
+      </button>
     </Header>
   );
 };
