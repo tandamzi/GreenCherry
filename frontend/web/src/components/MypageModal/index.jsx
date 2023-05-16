@@ -22,6 +22,7 @@ const MypageModal = () => {
     { title: '가게 소개글', type: 'storeDescription' },
     { title: '체리박스 소개글', type: 'cherryboxDescription' },
     { title: '인스타그램', type: 'instagram' },
+    // { title: '사진', type: 'images' },
     // { title: '알레르기 재료', type: 'allergies' },
   ];
 
