@@ -24,10 +24,10 @@ export default function Home() {
       <Container.MainHeader />
       <Container.PaddingZeroBody className="bg-secondary block text-bgcolor">
         <div className="h-screen w-full overflow-x-hidden overflow-y-scroll snap-y snap-mandatory">
-          <Section1 />
           <Section2 />
-          <Section3 />
+          <Section1 />
           <Section4 />
+          <Section3 />
         </div>
       </Container.PaddingZeroBody>
     </Container>
