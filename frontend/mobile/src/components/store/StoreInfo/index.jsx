@@ -118,7 +118,9 @@ const StoreInfo = ({ storeInfo, memberId }) => {
         <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
 
         <p className="text-center font-extralight text-secondary">가게소개</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">
+          {data.description ? data.description : '가게 소개가 없습니다.'}
+        </p>
 
         <p className="text-center font-extralight text-secondary">체리박스</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
@@ -128,7 +130,9 @@ const StoreInfo = ({ storeInfo, memberId }) => {
         </p>
 
         <p className="text-center font-extralight text-secondary">알레르기</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">{data.allergies[0].name}</p>
+        {data.allergies.map(allergy => (
+          <p className="col-span-2 mb-3 ml-4 pr-7">{allergy.name}</p>
+        ))}
       </div>
     </div>
   );
