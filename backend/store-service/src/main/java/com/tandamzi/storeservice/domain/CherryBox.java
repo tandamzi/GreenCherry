@@ -19,6 +19,7 @@ public class CherryBox extends BaseEntity{
     private Long id;
     private int quantity;
     private int totalPriceBeforeDiscount;
+    private int priceBeforeDiscount;
     private double discountRate;
     private String description;
     private int pricePerCherryBox;
@@ -28,6 +29,7 @@ public class CherryBox extends BaseEntity{
         this.totalPriceBeforeDiscount = totalPriceBeforeDiscount;
         this.discountRate = discountRate;
         this.pricePerCherryBox = pricePerCherryBox;
+        this.priceBeforeDiscount = (int)(totalPriceBeforeDiscount / quantity);
     }
 
     public void decreaseCherryBox(int quantity){

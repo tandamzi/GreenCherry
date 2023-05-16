@@ -153,6 +153,7 @@ public class StoreService {
     public CherryBoxResponseDto getCherryBox(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = store.getCherryBox();
+        log.info("cherryBox = {}", cherryBox);
         return CherryBoxResponseDto.create(cherryBox);
     }
 
