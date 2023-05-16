@@ -31,7 +31,7 @@ const subscribe = () => {
   return (
     <Container>
       <Container.SubPageHeader goHome title="구독내역" />
-      <Container.MainBody>
+      <Container.MainBody className="pt-4">
         {subscribeInfo &&
           subscribeInfo.content.map(subscribeStoreInfo => {
             return (

@@ -6,6 +6,8 @@ import Image from 'next/image';
 
 import ReviewTag from '../ReviewTag';
 
+import ImageSlider from '@/components/ImageContainer/ImageSlider';
+
 const ReviewComponent = ({ review }) => {
   const newCreateDate = new Date(review.createDate);
 
@@ -28,18 +30,12 @@ const ReviewComponent = ({ review }) => {
       </div>
       <p className="font-thin mb-3">{review.content}</p>
       <div className="flex flex-row mb-3">
-        {review.reviewImageUrls.map((image, idx) => {
-          return (
-            <Image
-              className="mr-2 rounded-xl"
-              key={idx}
-              src={image}
-              width={80}
-              height={100}
-              alt="reveiewImageUrl"
-            />
-          );
-        })}
+        <ImageSlider
+          width={32}
+          height={32}
+          images={review.reviewImageUrls}
+          name={review.memberNickname}
+        />
       </div>
       <div className="grid grid-cols-2 mb-6">
         {review.tags.map((tag, idx) => {
