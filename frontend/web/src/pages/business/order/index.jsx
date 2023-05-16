@@ -1,3 +1,4 @@
+/* eslint-disable no-promise-executor-return */
 import React, { useState, useEffect } from 'react';
 
 import CarbonContainer from '@/components/CarbonContainer';
@@ -7,6 +8,7 @@ import OrderList from '@/components/OrderList';
 import PrevNextButton from '@/components/PrevNextButton';
 import TotalIncome from '@/components/TotalIncome';
 import useMember from '@/hooks/memberHook';
+import { getPagableOrderList } from '@/utils/api/order';
 import { getOrderList, getTotalIncome } from '@/utils/api/store';
 import getCurrentDate from '@/utils/getCurrentDate';
 
@@ -16,6 +18,9 @@ const Order = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [orderList, setOrderList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageEnd, setpageEnd] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dateHandle = data => {
     setDate(data);
@@ -34,28 +39,29 @@ const Order = () => {
       setTotalIncome(res.totalSalesAmount || 0);
       setOrderCount(res.count);
     });
-    getOrderList(memberAttributes.storeId, date).then(res => {
+
+    getPagableOrderList(memberAttributes.storeId, date, page).then(res => {
       setOrderList(res.orderList);
     });
   }, [date]);
-  /*   const orderList = [
-    {
-      orderId: '1',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: '결제완료',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '2',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-  ]; */
+
+  const loadMoreOrders = async () => {
+    if (pageEnd || isLoading) return;
+    setIsLoading(true);
+    const nextPage = page + 1;
+    getPagableOrderList(memberAttributes.storeId, getCurrentDate(), nextPage)
+      .then(res => new Promise(resolve => setTimeout(() => resolve(res), 1000)))
+      .then(res => {
+        if (res.orderList.length === 0) {
+          setpageEnd(true);
+          return;
+        }
+        setOrderList(prevList => [...prevList, ...res.orderList]);
+        setPage(prevPage => prevPage + 1);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   return (
     <Container>
       <Container.BusinessHeader />
@@ -68,6 +74,7 @@ const Order = () => {
           <OrderList
             orderList={orderList}
             updateOrderState={updateOrderState}
+            loadMoreOrders={loadMoreOrders}
           />
           <PrevNextButton date={date} dateHandle={dateHandle} />
         </div>
