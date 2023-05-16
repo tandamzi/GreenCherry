@@ -26,11 +26,11 @@ self.addEventListener('push', function (e) {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  const data = event.notification.data;
+  const { data } = event.notification;
 
   let url = '/';
-  if (data.noticeType == 2) {
-    const storeId = data.storeId;
+  if (data.noticeType === 2) {
+    const { storeId } = data;
     url = `/business/order`;
   }
 
