@@ -18,10 +18,12 @@ export const storeSlice = createSlice({
   initialState,
   reducers: {
     loginStoreAction: (state, action) => {
+      // console.log('loginStoreAction: ', action.payload);
       return {
         ...state,
         storeId: action.payload.storeId,
         open: action.payload.open,
+        cherryPoint: action.payload.cherryPoint,
       };
     },
     logoutStoreAction: state => {
