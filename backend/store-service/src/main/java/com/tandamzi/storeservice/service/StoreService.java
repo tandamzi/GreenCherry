@@ -127,7 +127,7 @@ public class StoreService {
                 dto.getQuantity(),
                 dto.getTotalPriceBeforeDiscount(),
                 dto.getDiscountRate(),
-                dto.getPricePerCherryBox()
+                dto.getPriceAfterDiscount()
         );
 
         //cherryBox를 업데이트한 가게의 구독자들의 memberId를 memberServiceClient의 getEndpoints()에 쿼리파라미터로 보낸다
@@ -154,6 +154,7 @@ public class StoreService {
     public CherryBoxResponseDto getCherryBox(Long storeId) {
         Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
         CherryBox cherryBox = store.getCherryBox();
+        log.info("cherryBox = {}", cherryBox);
         return CherryBoxResponseDto.create(cherryBox);
     }
 
@@ -229,7 +230,7 @@ public class StoreService {
             throw new CherryBoxQuantityInsufficientException();
         }
 
-        int totalSalesAmount = orderDto.getOrderQuantity() * store.getCherryBox().getPricePerCherryBox();
+        int totalSalesAmount = orderDto.getOrderQuantity() * store.getCherryBox().getPriceAfterDiscount();
 
         cherryBoxService.decreaseCherryBox(store.getId(), orderDto.getOrderQuantity());
 
