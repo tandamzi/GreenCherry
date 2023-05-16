@@ -27,11 +27,16 @@ self.addEventListener('push', function (e) {
 
 self.addEventListener('notificationclick', function (event) {
   const data = event.notification.data;
+  console.log('noticeType = ', data.noticeType);
 
   let url = '/';
   if (data.noticeType == 1) {
     const storeId = data.storeId;
     url = `/store/${storeId}`;
+  }
+
+  if (data.noticeType == 3) {
+    url = '/order-list';
   }
 
   event.notification.close();
