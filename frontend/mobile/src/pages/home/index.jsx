@@ -79,15 +79,15 @@ const Home = () => {
       // }
     }
 
-    console.log('권한 요청 중...');
+    console.error('권한 요청 중...');
 
     const permission = Notification.requestPermission();
     if (permission === 'denied') {
-      console.log('알림 권한 허용 안됨');
+      console.error('알림 권한 허용 안됨');
       return;
     }
 
-    console.log('알림 권한이 허용됨');
+    console.error('알림 권한이 허용됨');
 
     const token = getToken(messaging, {
       vapidKey:
@@ -101,17 +101,17 @@ const Home = () => {
     });
 
     // if (token) {
-    //   console.log(token);
-    //   console.log(token);
+    //   console.error(token);
+    //   console.error(token);
     //   clientHttp.get('/firebase-token', {
     //     params: {
     //       token,
     //     },
     //   });
-    // } else console.log('Can not get Token');
+    // } else console.error('Can not get Token');
 
     onMessage(messaging, payload => {
-      console.log('메시지가 도착했습니다.', payload);
+      console.error('메시지가 도착했습니다.', payload);
       // ...
     });
   }, []);
@@ -135,7 +135,7 @@ const Home = () => {
 
     !loading ? (
       <Container>
-        <Container.MainHeader />
+        <Container.MainHeaderWithModal />
         <Container.Body>
           <div className="grid grid-rows-8 ">
             <div className="row-span-3">
