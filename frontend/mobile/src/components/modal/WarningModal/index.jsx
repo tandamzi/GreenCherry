@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 import clientHttp from '@/utils/csr/clientHttp';
 
@@ -49,7 +50,7 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               {warningCheck ? (
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-bgcolor text-left shadow-xl transition-all sm:my-8 sm:w-2/3">
+                <Dialog.Panel className="relative transform overflow-hidden w-full rounded-lg bg-bgcolor text-left shadow-xl transition-all sm:my-8 sm:w-2/3">
                   <div className="bg-bgcolor px-12 pt-4">
                     <div className="sm:flex sm:items-start">
                       <div className="mt-3 text-center sm:mt-0 sm:m-4 sm:text-left">
@@ -60,10 +61,15 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                           잠깐!
                         </Dialog.Title>
                         <div>
-                          <p className=" text-sm ">
-                            알레르기를 일으킬 수 있는 성분이 있을 수 있습니다
+                          <p>
+                            <span className="text-danger">알레르기</span>를
+                            일으킬 수 있는 <br />
+                            성분이 있을 수 있습니다
                           </p>
-                          <p className="text-sm">알레르기표를 확인해주세요!</p>
+                          <p className="pt-2">
+                            <span className="text-danger">알레르기표</span>를
+                            확인해주세요!
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -71,10 +77,10 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                   <div className=" px-8 pt-4 pb-5 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="mt-3 inline-flex w-full bg-primary justify-center rounded-3xl px-4 py-2 text-base font-medium text-gray-700 shadow-sm active:bg-primaryevent sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                      className="mt-3 inline-flex w-full bg-primary justify-center rounded-3xl px-4 py-2 text-lg font-bold  shadow-sm active:bg-primaryevent sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                       onClick={() => setWarningCheck(false)}
                     >
-                      알겠습니다!
+                      확인했습니다
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -87,19 +93,17 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                           as="h2"
                           className="text-2xl font-bold leading-6 text-primaryfont pb-4"
                         >
-                          주문!
+                          주문
                         </Dialog.Title>
                         <div>
-                          <p className="text-sm ">
+                          <p>
                             체리박스 총{' '}
                             <span className="text-bold text-danger">
                               {orderQuantity}
                             </span>
                             개
                           </p>
-                          <p className="text-sm">
-                            영업 종료시간 이전에 찾아가주세요!
-                          </p>
+                          <p>영업 종료시간 이전에 찾아가주세요!</p>
                         </div>
                       </div>
                     </div>
@@ -107,17 +111,44 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                   <div className=" px-8 pt-4 pb-5 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="mt-3 inline-flex w-full bg-primary justify-center rounded-3xl px-4 py-2 text-base font-medium text-gray-700 shadow-sm active:bg-primaryevent sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={e => {
+                      className="mt-3 inline-flex w-full bg-primary justify-center rounded-3xl px-4 py-2 text-lg font-bold text-primaryfont shadow-sm active:bg-primaryevent sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                      onClick={async e => {
                         e.preventDefault();
-                        clientHttp.get('/order-complete', {
-                          params: {
-                            storeId,
-                            memberId,
-                            orderQuantity,
-                          },
-                        });
-                        handleClose();
+                        try {
+                          await clientHttp.get('/order-complete', {
+                            params: {
+                              storeId,
+                              memberId,
+                              orderQuantity,
+                            },
+                          });
+                          handleClose();
+                        } catch (error) {
+                          if (error.response && error.response.status === 400) {
+                            if (error.response.data.code === -201) {
+                              Swal.fire({
+                                icon: 'warning',
+                                title: '죄송합니다',
+                                text: error.response.data.message,
+                                showConfirmButton: true,
+                              });
+                            } else {
+                              Swal.fire({
+                                icon: 'error',
+                                title: '죄송합니다',
+                                text: '일시적인 문제가 발생했습니다.',
+                                showConfirmButton: true,
+                              });
+                            }
+                          } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: '죄송합니다',
+                              text: '일시적인 문제가 발생했습니다.',
+                              showConfirmButton: true,
+                            });
+                          }
+                        }
                       }}
                       ref={cancelButtonRef}
                     >

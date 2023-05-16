@@ -16,7 +16,7 @@ const handler = async (req, res) => {
 
     res.status(StatusCodes.OK).json(response.data);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.response.data);
+    res.status(StatusCodes.BAD_REQUEST).json(error.response.data);
   }
 };
 

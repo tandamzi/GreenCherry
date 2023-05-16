@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { useRouter } from 'next/router';
 
@@ -17,71 +18,22 @@ import OrderZero from '@/components/OrderZero';
  * @property {string} orderDate
  */
 
-const OrderList = ({ orderList, updateOrderState }) => {
+const OrderList = ({ orderList, updateOrderState, loadMoreOrders }) => {
   /**
    * @type {Order[]}
    */
-  /*
-  const orderList = [
-       {
-      orderId: '1',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: '결제완료',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '2',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '3',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '4',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '5',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '6',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-    {
-      orderId: '7',
-      nickname: '김철수',
-      quantity: 1,
-      orderState: 'PICKUP_COMPLETE',
-      totalSalesAmount: '10000',
-      orderDate: '2021-01-01',
-    },
-  ];
-   */
   const router = useRouter();
+
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      loadMoreOrders(); // Load more orders when the ref comes into view
+    }
+  }, [inView, loadMoreOrders]);
+
   return (
     <div className="flex flex-col py-5 text-primaryfont font-thin h-5/6 max-w-4xl max-h-fit">
       <div className="flex text-2xl text-center mb-5">
@@ -90,7 +42,6 @@ const OrderList = ({ orderList, updateOrderState }) => {
         <p className="flex-1">수량</p>
         <p className="flex-1">상태</p>
       </div>
-
       {router.pathname === '/business' && orderList.length === 0 && (
         <OrderZero />
       )}
@@ -102,6 +53,7 @@ const OrderList = ({ orderList, updateOrderState }) => {
             updateOrderState={updateOrderState}
           />
         ))}
+        <div ref={ref}>Loading...</div> {/* This div will be observed */}
       </div>
     </div>
   );

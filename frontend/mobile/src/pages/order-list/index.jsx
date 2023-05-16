@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
@@ -11,11 +12,12 @@ import clientHttp from '@/utils/csr/clientHttp';
 const orderList = () => {
   const router = useRouter();
   const [orders, setOrders] = useState();
+  const member = useSelector(state => state.member.memberInfo);
 
   const getOrderList = async () => {
     // redux에서 memberId 꺼내서 호출하기
     try {
-      const response = await clientHttp.get('/order-list/1');
+      const response = await clientHttp.get(`/order-list/${member.id}`);
       setOrders(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
