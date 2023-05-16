@@ -10,6 +10,7 @@ import Section2 from '@/components/LandingPageComponent/Section2';
 import Section3 from '@/components/LandingPageComponent/Section3';
 import Section4 from '@/components/LandingPageComponent/Section4';
 import useMember from '@/hooks/memberHook';
+// changset 만들기용 주석입니다.
 
 export default function Home() {
   const router = useRouter();
