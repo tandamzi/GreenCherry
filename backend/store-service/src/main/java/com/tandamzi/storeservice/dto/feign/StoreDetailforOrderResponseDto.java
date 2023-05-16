@@ -26,7 +26,7 @@ public class StoreDetailforOrderResponseDto {
         private int totalPriceBeforeDiscount;
         private int quantity;
         private double discountRate;
-        private int pricePerCherryBox;
+        private int priceAfterDiscount;
     }
 
     public static StoreDetailforOrderResponseDto create(Store store, int totalSalesAmount) {
@@ -40,7 +40,7 @@ public class StoreDetailforOrderResponseDto {
                         .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
                         .quantity(store.getCherryBox().getQuantity())
                         .discountRate(store.getCherryBox().getDiscountRate())
-                        .pricePerCherryBox(store.getCherryBox().getPriceAfterDiscount())
+                        .priceAfterDiscount(store.getCherryBox().getPriceAfterDiscount())
                         .build())
                 .totalSalesAmount(totalSalesAmount)
                 .build();
