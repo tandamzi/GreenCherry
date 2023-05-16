@@ -1,5 +1,5 @@
 .section-item {
-  padding: 0px 50px 0px;
+  padding: 0px 0px 0px;
   scroll-snap-stop: always;
   scroll-snap-align: center;
   height: 100vh;
@@ -11,19 +11,21 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-weight: 700;
+  line-height: 300%;
+  text-align: end;
+  display: flex;
+  justify-content: space-between;
 }
 
 .title-text {
-  font-size: 88px;
-  font-weight: 700;
+  font-size: 96px;
   line-height: 110%;
 }
 
 .image-container {
-  position: absolute;
   bottom: 50%;
-  right: 0;
-  transform: translate(0, 50%);
+  right: left;
 }
 
 .image-relative {
@@ -61,52 +63,29 @@
   right: 0;
 }
 .sub-text {
-  margin-top: 10px;
   display: inline-block;
-  font-size: 24px;
+  font-size: 42px;
 }
 
 .emphasis {
-  font-size: 36px;
-  font-weight: 700;
+  color: var(--color-warning);
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .section-item {
-    padding: 120px 10px 0px;
-    align-items: flex-start;
+    padding: 96px 0px 0px;
+    font-size: 11vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    line-height: 120%;
+  }
+
+  .emphasis {
+    font-size: 1.2em;
   }
 
   .image-container {
-    bottom: 0;
-    transform: translate(0, 0);
-  }
-
-  .image-relative {
-    width: 370px;
-    height: 437px;
-  }
-
-  .money {
-    top: 0;
-    right: 64px;
-    width: 30%;
-  }
-
-  .coins-chart {
-    width: 50%;
-  }
-
-  .money-bag {
-    width: 90%;
-  }
-
-  .title-text {
-    font-size: 60px;
-  }
-  .sub-text {
-    font-size: 18px;
-  }
-  .emphasis {
-    font-size: 24px;
+    display: none;
   }
 }
