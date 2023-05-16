@@ -31,8 +31,8 @@ const ReviewComponent = ({ review }) => {
       <p className="font-thin mb-3">{review.content}</p>
       <div className="flex flex-row mb-3">
         <ImageSlider
-          width={32}
-          height={32}
+          width={120}
+          height={128}
           images={review.reviewImageUrls}
           name={review.memberNickname}
         />

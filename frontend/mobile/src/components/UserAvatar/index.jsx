@@ -28,6 +28,13 @@ export const UserAvatar = ({
     event.preventDefault();
     inputRef.current.click();
   };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  });
 
   const onChange = e => {
     setLoading(true);
