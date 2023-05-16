@@ -130,9 +130,9 @@ const StoreInfo = ({ storeInfo, memberId }) => {
         </p>
 
         <p className="text-center font-extralight text-secondary">알레르기</p>
-        {data.allergies.map(allergy => (
-          <p className="col-span-2 mb-3 ml-4 pr-7">{allergy.name}</p>
-        ))}
+        <p className="col-span-2 mb-3 ml-4 pr-7">
+          {data.allergies.map(allergy => `${allergy.name} `)}
+        </p>
       </div>
     </div>
   );
