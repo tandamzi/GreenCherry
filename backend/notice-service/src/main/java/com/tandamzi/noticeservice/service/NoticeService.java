@@ -92,7 +92,7 @@ public class NoticeService {
         });
 
         Page<ListResponseDto> page = notices.map(notice -> {
-            return ListResponseDto.createList(map.get(notice.getOrderId()), notice.isRead());
+            return ListResponseDto.createList(notice, map.get(notice.getOrderId()), notice.isRead());
         });
 
         return page;
