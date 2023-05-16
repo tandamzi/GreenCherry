@@ -15,6 +15,12 @@ const SUBSCRIBE_ICON_URL = `/assets/icons/buttonIcons/subscribeList.svg`;
 const ORDER_ICON_URL = `/assets/icons/buttonIcons/orderList.svg`;
 const REVIEW_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
 
+const TREE_1_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+const TREE_2_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+const TREE_3_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+const TREE_4_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+const TREE_5_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+
 const myPage = () => {
   const member = useSelector(state => state.member.memberInfo);
   useEffect(() => {
@@ -33,24 +39,23 @@ const myPage = () => {
   };
   return (
     <Container>
-      <Container.Header />
-      <Container.MainBody>
+      <Container.MainBody className="pt-10">
         <div className="flex flex-col justify-center items-center mb-3">
           <UserAvatar
-            width={120}
-            height={120}
+            width={150}
+            height={150}
             imageURL={member.image}
             changable
           />
-          <span className="mt-3 text-xl">{member.nickname}</span>
+          <span className="my-3 text-xl">{member.nickname}</span>
         </div>
 
         <div className="grid grid-cols-3 justify-items-center -mx-4 border-line border-b border-t">
           <IconButton
             name="subscibe"
             iconUrl={SUBSCRIBE_ICON_URL}
-            width={64}
-            height={64}
+            width={68}
+            height={68}
             className="border-line border-r px-8 py-4"
             label="구독내역"
             onClick={() => goToPage('subscribe')}
@@ -58,20 +63,30 @@ const myPage = () => {
           <IconButton
             name="order"
             iconUrl={ORDER_ICON_URL}
-            width={64}
-            height={64}
+            width={68}
+            height={68}
             label="주문내역"
             onClick={() => goToPage('order-list')}
           />
           <IconButton
             name="review"
             iconUrl={REVIEW_ICON_URL}
-            width={64}
-            height={64}
+            width={68}
+            height={68}
             className="border-line border-l px-8 py-4"
             label="리뷰내역"
             onClick={() => goToPage('review-list')}
           />
+        </div>
+
+        <div className="flex flex-col items-center mt-10 text-xl">
+          <p>지금까지</p>
+          <p>얼마나</p>
+          <p>환경을 아꼈을까요?</p>
+        </div>
+
+        <div className="rounded-full">
+          <Image />
         </div>
       </Container.MainBody>
       <div className="sticky w-full z-20 bottom-7 flex justify-center">
