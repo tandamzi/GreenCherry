@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+
 import Container from '@/components/Container';
 import AfterOpen from '@/components/Main/AfterOpen';
 import BeforeOpen from '@/components/Main/BeforeOpen';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
 import { getCherryPoint } from '@/utils/api/store';
-
 import clientHttp from '@/utils/clientHttp';
-import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 const Business = () => {
   const { storeAttributes, setCherryPoint } = useStore();
@@ -20,18 +20,18 @@ const Business = () => {
       .then(data => setCherryPoint(data))
       .catch(error => console.error(error));
   }, []); */
-  useEffect(() => {
-    // console.log('getCherryPoint 실행');
+  /*   useEffect(() => {
+    console.log('getCherryPoint 실행');
+    console.log('memberAttributes.storeId', memberAttributes.storeId);
     getCherryPoint(memberAttributes.storeId)
       .then(data => {
-        // console.log('getCherryPoint: data', data);
+        console.log('getCherryPoint: data', data);
         setCherryPoint(data);
       })
       .catch(error => console.error(error));
-  }, [memberAttributes.storeId]);
+  }, [memberAttributes.storeId]); */
 
   useEffect(() => {
-    console.log('hello');
     const firebaseConfig = {
       apiKey: 'AIzaSyD4LajuG61T7Q5VL5-JGODdt19zM2Yej_4',
       authDomain: 'greencherry-notice.firebaseapp.com',
@@ -65,15 +65,15 @@ const Business = () => {
       }
     }
 
-    console.log('권한 요청 중...');
+    // console.log('권한 요청 중...');
 
     const permission = Notification.requestPermission();
     if (permission === 'denied') {
-      console.log('알림 권한 허용 안됨');
+      // console.log('알림 권한 허용 안됨');
       return;
     }
 
-    console.log('알림 권한이 허용됨');
+    // console.log('알림 권한이 허용됨');
 
     const token = getToken(messaging, {
       vapidKey:
