@@ -69,6 +69,7 @@ const Join = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
 
   useEffect(() => {
     const loadDaumPostcodeScript = () => {
@@ -87,7 +88,6 @@ const Join = () => {
   }, []);
 
   const onSubmit = async data => {
-    // console.log('data', data);
     setClicked(true);
     const result = {
       ...data,
@@ -126,6 +126,11 @@ const Join = () => {
       // console.log(error);
       throw new Error('File upload failed');
     }
+  };
+
+  const handleSubmitButtonClick = () => {
+    setClickCount(clickCount + 1);
+    handleSubmit(onSubmit);
   };
 
   // 좌표를 가져오는 함수
@@ -203,7 +208,7 @@ const Join = () => {
                 autoComplete="off"
                 id="name"
                 type="text"
-                className="text-2xl peer placeholder-transparent h-10 w-96  bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
+                className="text-2xl peer placeholder-transparent h-10 w-96 bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
                 placeholder="상호명"
               />
               <label
@@ -525,10 +530,11 @@ const Join = () => {
               type="submit"
               className="text-secondary bg-bgcolor text-4xl h-20 w-44 rounded-full mt-10"
               onClick={handleSubmit(onSubmit)}
-              disabled={clicked}
+              // disabled={clicked}
             >
               <p>등록하기</p>
             </button>
+            <div>전송시작?{clicked ? <p>네</p> : <p>아니오</p>}</div>
           </div>
         </form>
       </Container.MainBody>
