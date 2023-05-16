@@ -77,9 +77,9 @@ public class StoreDetailResponseDto {
         private String description;
         private int totalPriceBeforeDiscount;
         private int priceBeforeDiscount;
+        private int priceAfterDiscount;
         private int quantity;
         private double discountRate;
-        private int priceAfterDiscount;
     }
 
     public static StoreDetailResponseDto create(Store store, List<Allergy> allergyList, List<StoreImage> images,long numberOfReview, long numberOfSubscriber) {
@@ -127,7 +127,7 @@ public class StoreDetailResponseDto {
                 .quantity(store.getCherryBox().getQuantity())
                 .discountRate(store.getCherryBox().getDiscountRate())
                 .priceBeforeDiscount(store.getCherryBox().getPriceBeforeDiscount())
-                .priceAfterDiscount(store.getCherryBox().getPricePerCherryBox())
+                .priceAfterDiscount(store.getCherryBox().getPriceAfterDiscount())
                 .build();
     }
 

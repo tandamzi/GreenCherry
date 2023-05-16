@@ -40,7 +40,7 @@ public class StoreDetailforOrderResponseDto {
                         .totalPriceBeforeDiscount(store.getCherryBox().getTotalPriceBeforeDiscount())
                         .quantity(store.getCherryBox().getQuantity())
                         .discountRate(store.getCherryBox().getDiscountRate())
-                        .pricePerCherryBox(store.getCherryBox().getPricePerCherryBox())
+                        .pricePerCherryBox(store.getCherryBox().getPriceAfterDiscount())
                         .build())
                 .totalSalesAmount(totalSalesAmount)
                 .build();
