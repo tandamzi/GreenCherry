@@ -8,17 +8,12 @@ const Section1 = () => {
   return (
     <div className={`${style['section-item']}`}>
       <h2 className={`${style['title-text']}`}>
-        행동을 <br />
-        통한 <br />
-        긍정적인 변화 <br />
+        지구상에서 굶주리는 <br />
+        <span className={`${style.emphasis}`}>815만명</span>의 <br />
+        사람들에게 <br />
+        1년 치 식량을 <span className={`${style.emphasis}`}>4번씩</span> <br />
+        주고도 남는 양 <br />
       </h2>
-      <p className={`${style['sub-text']}`}>
-        음식물 쓰레기로 인한 온실가스 배출량 <br />
-        <span className={`${style.emphasis}`}>
-          연간 885만톤 <br />
-        </span>
-        Green Cherry와 함께 지구를 지켜가요
-      </p>
 
       <div className={`${style['image-container']}`}>
         <div className={`${style['image-relative']}`}>
@@ -38,8 +33,8 @@ const Section1 = () => {
           />
           <Image
             src="/assets/images/food-box.svg"
-            width={498}
-            height={498}
+            width={400}
+            height={400}
             alt="greencherry box"
             className={`${style['greencherry-box']}`}
           />
