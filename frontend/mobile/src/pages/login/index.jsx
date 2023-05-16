@@ -23,7 +23,9 @@ const login = () => {
           speed={1.2}
         />
         <div>
-          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/kakao?redirect_uri=http://localhost:3000/redirect">
+          <Link
+            href={`${process.env.NEXT_PUBLIC_LOGIN_SERVER_URI}/oauth2/authorize/kakao?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_REDIRECT_URI}`}
+          >
             <Image
               className=" absolute bottom-48 m-auto left-0 right-0"
               src="/assets/logo/kakaoLogin.svg"
@@ -32,7 +34,9 @@ const login = () => {
               alt="kakaoLogin"
             />
           </Link>
-          <Link href="http://k8C207.p.ssafy.io:5000/oauth2/authorize/google?redirect_uri=http://localhost:3000/redirect">
+          <Link
+            href={`${process.env.NEXT_PUBLIC_LOGIN_SERVER_URI}/oauth2/authorize/google?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_REDIRECT_URI}`}
+          >
             <Image
               className=" absolute bottom-32 m-auto left-0 right-0"
               src="/assets/logo/googleLogin.svg"
