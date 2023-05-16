@@ -6,6 +6,7 @@ const DELICIOUS_ICON_URL = '/assets/icons/reviewIcons/deliciousIcon.svg';
 const TOOMUCH_ICON_URL = '/assets/icons/reviewIcons/toomuchIcon.svg';
 const FRESH_ICON_URL = '/assets/icons/reviewIcons/freshIcon.svg';
 const KIND_ICON_URL = '/assets/icons/reviewIcons/kindIcon.svg';
+const CRYING_ICON_URL = `/assets/icons/etcIcons/crying-face.svg`;
 
 const StoreReview = ({ tagInfo }) => {
   const [total, setTotal] = useState(0);
@@ -30,7 +31,7 @@ const StoreReview = ({ tagInfo }) => {
     }
   };
 
-  return (
+  return { total } === 0 ? (
     <div className="">
       <div className="flex flex-row justify-between items-center mx-8 mt-8 mb-3">
         <p className="font-bold text-xl pr-4">이런점이 좋았어요</p>
@@ -63,6 +64,8 @@ const StoreReview = ({ tagInfo }) => {
       ))}
       <div className="pb-8 border-line border-b -mx-4" />
     </div>
+  ) : (
+    <div />
   );
 };
 

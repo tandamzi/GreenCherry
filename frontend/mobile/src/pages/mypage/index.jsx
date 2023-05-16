@@ -15,11 +15,12 @@ const SUBSCRIBE_ICON_URL = `/assets/icons/buttonIcons/subscribeList.svg`;
 const ORDER_ICON_URL = `/assets/icons/buttonIcons/orderList.svg`;
 const REVIEW_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
 
-const TREE_1_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
-const TREE_2_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
-const TREE_3_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
-const TREE_4_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
-const TREE_5_ICON_URL = `/assets/icons/buttonIcons/reviewList.svg`;
+const TREE_1_ICON_URL = `/assets/icons/treesIcons/tree1.svg`;
+const TREE_2_ICON_URL = `/assets/icons/treesIcons/tree2.svg`;
+const TREE_3_ICON_URL = `/assets/icons/treesIcons/tree3.svg`;
+const TREE_4_ICON_URL = `/assets/icons/treesIcons/tree4.svg`;
+const TREE_5_ICON_URL = `/assets/icons/treesIcons/tree5.svg`;
+const TREE_6_ICON_URL = `/assets/icons/treesIcons/tree6.svg`;
 
 const myPage = () => {
   const member = useSelector(state => state.member.memberInfo);
@@ -33,13 +34,31 @@ const myPage = () => {
     dispatch(changePage('주변 가게'));
   });
 
+  const getTreeUrl = cherryPoint => {
+    switch (cherryPoint) {
+      case cherryPoint > 0 && cherryPoint <= 10:
+        return TREE_1_ICON_URL;
+      case cherryPoint > 10 && cherryPoint <= 20:
+        return TREE_2_ICON_URL;
+      case cherryPoint > 20 && cherryPoint <= 30:
+        return TREE_3_ICON_URL;
+      case cherryPoint > 30 && cherryPoint <= 40:
+        return TREE_4_ICON_URL;
+      case cherryPoint > 40 && cherryPoint <= 50:
+        return TREE_5_ICON_URL;
+      default:
+        return '';
+    }
+  };
   const router = useRouter();
   const goToPage = page => {
     router.push(`/${page}`);
   };
+
   return (
     <Container>
-      <Container.MainBody className="pt-10">
+      <Container.SubPageHeader />
+      <Container.MainBody>
         <div className="flex flex-col justify-center items-center mb-3">
           <UserAvatar
             width={150}
@@ -50,7 +69,7 @@ const myPage = () => {
           <span className="my-3 text-xl">{member.nickname}</span>
         </div>
 
-        <div className="grid grid-cols-3 justify-items-center -mx-4 border-line border-b border-t">
+        <div className="grid grid-cols-3 col-auto justify-items-center -mx-4 border-line border-b border-t">
           <IconButton
             name="subscibe"
             iconUrl={SUBSCRIBE_ICON_URL}
