@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import Lottie from 'react-lottie-player';
 
-import alarm from '@public/assets/lottie/main/Notification10.json';
-import mypage from '@public/assets/lottie/main/User10.json';
+import alarm from '@public/assets/lottie/main/Notification.json';
+import mypage from '@public/assets/lottie/main/User.json';
 import cs from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
