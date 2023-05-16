@@ -21,6 +21,14 @@ const Order = () => {
     setDate(data);
   };
 
+  const updateOrderState = (orderId, newState) => {
+    setOrderList(prevList =>
+      prevList.map(order =>
+        order.orderId === orderId ? { ...order, orderState: newState } : order,
+      ),
+    );
+  };
+
   useEffect(() => {
     getTotalIncome(memberAttributes.storeId, date).then(res => {
       setTotalIncome(res.totalSalesAmount || 0);
@@ -57,7 +65,10 @@ const Order = () => {
             <p>{date}</p>
           </LongBoxContainer>
           <TotalIncome price={totalIncome} />
-          <OrderList orderList={orderList} />
+          <OrderList
+            orderList={orderList}
+            updateOrderState={updateOrderState}
+          />
           <PrevNextButton date={date} dateHandle={dateHandle} />
         </div>
       </Container.MainBody>
