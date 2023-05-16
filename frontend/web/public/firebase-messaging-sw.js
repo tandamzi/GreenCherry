@@ -27,37 +27,13 @@ self.addEventListener('push', function (e) {
 
 self.addEventListener('notificationclick', function (event) {
   const data = event.notification.data;
-  console.log('noticeType = ', data.noticeType);
 
   let url = '/';
-  if (data.noticeType == 1) {
+  if (data.noticeType == 2) {
     const storeId = data.storeId;
-    url = `/store/${storeId}`;
-  }
-
-  if (data.noticeType == 3) {
-    url = '/order-list';
+    url = `/business/order`;
   }
 
   event.notification.close();
   event.waitUntil(clients.openWindow(url));
-
-  // event.waitUntil(
-  //   clients
-  //     .matchAll({ type: 'window', includeUncontrolled: true })
-  //     .then(clientList => {
-  //       for (let i = 0; i < clientList.length; i++) {
-  //         const client = clientList[i];
-  //         if (
-  //           client.url === 'greencherry.store/api/store/1' &&
-  //           'focus' in client
-  //         ) {
-  //           console.log('focus');
-  //           return client.focus();
-  //         }
-  //       }
-  //       console.log('openwindow');
-  //       return clients.openWindow(url);
-  //     }),
-  // );
 });

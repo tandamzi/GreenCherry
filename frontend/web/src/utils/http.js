@@ -5,7 +5,7 @@ import parseCookies from './parseCookies';
 
 export default function createHttpInstance(req) {
   const instance = axios.create({
-    baseURL: 'http://k8C207.p.ssafy.io:5000',
+    baseURL: `${process.env.NEXT_PUBLIC_SERVER_API_URL}`,
   });
 
   instance.interceptors.request.use(
@@ -33,7 +33,7 @@ export default function createHttpInstance(req) {
 
 export function createHttpFormInstance(req) {
   const instance = axios.create({
-    baseURL: 'http://k8C207.p.ssafy.io:5000',
+    baseURL: `${process.env.NEXT_PUBLIC_SERVER_API_URL}`,
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 

@@ -17,6 +17,13 @@ export const storeSlice = createSlice({
   name: 'business',
   initialState,
   reducers: {
+    loginStoreAction: (state, action) => {
+      return {
+        ...state,
+        storeId: action.payload.storeId,
+        open: action.payload.open,
+      };
+    },
     logoutStoreAction: state => {
       return {
         ...state,
@@ -98,6 +105,7 @@ export const storeSlice = createSlice({
 
 const { reducer, actions } = storeSlice;
 export const {
+  loginStoreAction,
   setCherryPointAction,
   setModifiableAction,
   getStoreInfoAction,
