@@ -81,12 +81,13 @@ const reviewForm = req => {
       <Container.MainBody>
         <p className="font-bold text-xl my-2">이런점이 좋았어요</p>
         <form>
-          <div className="grid grid-cols-2 border-b border-line">
+          <div className="grow grid grid-cols-2 ">
             <div
               className={classnames(
+                'w-11/12',
                 deliciousTag
-                  ? 'bg-primary flex flex-row rounded-lg mr-4 mb-2 p-1 active:bg-itembg'
-                  : 'bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1  active:bg-primary',
+                  ? 'bg-primary flex flex-row rounded-lg  mb-2 p-1 active:bg-itembg'
+                  : 'bg-itembg flex flex-row rounded-lg  mb-2 p-1  active:bg-primary',
               )}
               onClick={e => {
                 e.preventDefault();
@@ -107,9 +108,10 @@ const reviewForm = req => {
             </div>
             <div
               className={classnames(
+                'w-11/12',
                 freshTag
-                  ? 'bg-primary flex flex-row rounded-lg mr-4 mb-2 p-1 active:bg-itembg'
-                  : 'bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1  active:bg-primary',
+                  ? 'bg-primary flex flex-row rounded-lg mb-2 p-1 active:bg-itembg'
+                  : 'bg-itembg flex flex-row rounded-lg mb-2 p-1  active:bg-primary',
               )}
               onClick={e => {
                 e.preventDefault();
@@ -130,9 +132,10 @@ const reviewForm = req => {
             </div>
             <div
               className={classnames(
+                'w-11/12',
                 tooMuchTag
-                  ? 'bg-primary flex flex-row rounded-lg mr-4 mb-2 p-1 active:bg-itembg'
-                  : 'bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1  active:bg-primary',
+                  ? 'bg-primary flex flex-row rounded-lg mb-2 p-1 active:bg-itembg'
+                  : 'bg-itembg flex flex-row rounded-lg mb-2 p-1  active:bg-primary',
               )}
               onClick={e => {
                 e.preventDefault();
@@ -153,9 +156,10 @@ const reviewForm = req => {
             </div>
             <div
               className={classnames(
+                'w-11/12',
                 kindTag
-                  ? 'bg-primary flex flex-row rounded-lg mr-4 mb-2 p-1 active:bg-itembg'
-                  : 'bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1  active:bg-primary',
+                  ? 'bg-primary flex flex-row rounded-lg mb-2 p-1 active:bg-itembg'
+                  : 'bg-itembg flex flex-row rounded-lg mb-2 p-1  active:bg-primary',
               )}
               onClick={e => {
                 e.preventDefault();
@@ -175,6 +179,8 @@ const reviewForm = req => {
               </p>
             </div>
           </div>
+          <div className="pb-4 border-line border-b -mx-8" />
+
           <div className="flex flex-row my-4">
             <ReviewImageUpload
               id={0}
@@ -198,7 +204,7 @@ const reviewForm = req => {
                 required: true,
               })}
               placeholder="리뷰를 작성해주세요"
-              className=" bg-itembg rounded-xl w-full h-56 p-2"
+              className=" bg-itembg rounded-xl w-full h-56 p-4"
             />
           </div>
           <div className="flex flex-col mt-1">
