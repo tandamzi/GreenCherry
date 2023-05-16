@@ -25,7 +25,7 @@ const MainFooterWithNavigation = ({ className, position }) => {
     setIconColors(prevColors => ({
       ...prevColors,
       mapMarker:
-        currentPage === '내 주변 가게'
+        currentPage === '주변 가게'
           ? 'var(--color-primary-event)'
           : 'var(--color-line)',
       home:

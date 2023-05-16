@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import cs from 'classnames';
 import Image from 'next/image';
@@ -7,18 +7,13 @@ import { useRouter } from 'next/router';
 
 import clientHttp from '@/utils/csr/clientHttp';
 
-const SubscribeStore = ({ subscribeStoreInfo }) => {
+const SubscribeStore = ({ subscribeStoreInfo, memberId }) => {
   const [subscribe, setSubscribe] = useState(true);
   const navigate = useRouter();
-
-  // const changeSubscribe = prev => {
-  //   setSubscribe(!prev);
-  // };
   const changeSubscribeStatus = async method => {
-    const memberId = 11;
     const storeId = subscribeStoreInfo.id;
 
-    const response = await clientHttp.get(
+    await clientHttp.get(
       `/subscribe/change-status/${memberId}/${storeId}/${method}`,
     );
   };
@@ -26,24 +21,25 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-row">
-        <div className="relative w-32 h-32 rounded-lg my-2 mr-2">
+        <div className="flex justify-center items-center relative w-28 h-28 rounded-lg mr-2">
           <Image
             src={subscribeStoreInfo.image}
             fill
             alt="greencherry subscribeBox"
           />
         </div>
-        <div className="m-2">
+        <div className="mx-2">
           <p className=" text-lg font-semibold">{subscribeStoreInfo.name}</p>
           <p className="text-xs font-thin text-disabled">
             {subscribeStoreInfo.type}
           </p>
         </div>
       </div>
-      <div className="m-2">
+      <div className="mx-2">
         {subscribe ? (
-          <div className="flex justify-end  mb-3">
+          <div className="flex justify-end my-1">
             <button
+              className="mb-3"
               type="button"
               onClick={e => {
                 e.preventDefault();
@@ -51,12 +47,13 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
                 setSubscribe(prev => !prev);
               }}
             >
-              <AiFillHeart size={20} className=" fill-primaryevent" />
+              <AiFillHeart size={20} className="fill-primaryevent" />
             </button>
           </div>
         ) : (
-          <div className="flex justify-end mb-3">
+          <div className="flex justify-end my-1">
             <button
+              className="mb-3"
               type="button"
               onClick={e => {
                 e.preventDefault();
@@ -64,14 +61,19 @@ const SubscribeStore = ({ subscribeStoreInfo }) => {
                 setSubscribe(prev => !prev);
               }}
             >
-              <AiFillHeart size={20} />
+              <AiOutlineHeart size={20} className="fill-primaryevent" />
             </button>
           </div>
         )}
         {subscribeStoreInfo.open ? (
           <div className="text-center">
-            <p>체리박스</p>
-            <p>{subscribeStoreInfo.quantity}개</p>
+            <span className="text-sm">
+              <span>남은수량 </span>
+              <span className="text-secondary">
+                {subscribeStoreInfo.quantity}
+              </span>
+              <span>개</span>
+            </span>
             <div className="p-2 mt-1 px-3 rounded-xl bg-itembg active:bg-primary">
               <button
                 type="button"

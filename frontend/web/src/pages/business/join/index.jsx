@@ -11,6 +11,7 @@ import style from './index.module.scss';
 import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
 import useMember from '@/hooks/memberHook';
+import { getMember } from '@/utils/api/member';
 import { getAllergy, getStoreType } from '@/utils/api/store';
 import clientHttp, { clientHttpForm } from '@/utils/clientHttp';
 
@@ -36,7 +37,8 @@ const Join = () => {
 
   const [clicked, setClicked] = useState(false);
 
-  const { memberAttributes } = useMember();
+  const { memberAttributes, login, setMemberId } = useMember();
+
   useEffect(() => {
     getAllergy().then(data => setAllergyList(data));
     getStoreType().then(data => setStoreTypeList(data));
@@ -110,6 +112,11 @@ const Join = () => {
       const response = await clientHttpForm.post('/store', formData);
       // console.log(response.data);
       if (response.data.success) {
+        const memberData = await getMember();
+        if (memberData.isJoined) {
+          login(data);
+          // console.log(data)
+        }
         router.push('/business');
       } else {
         router.push('/');

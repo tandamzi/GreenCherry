@@ -25,8 +25,8 @@ const UserReview = ({ reviewInfo }) => {
         <div className=" w-10/12 mx-auto mt-5">
           {reviewInfo.content.map((review, idx) => {
             return (
-              <div>
-                <ReviewComponent key={idx} review={review} />
+              <div key={idx}>
+                <ReviewComponent review={review} />
                 <div className="pb-4 border-line border-b -mx-8" />
               </div>
             );
@@ -34,7 +34,7 @@ const UserReview = ({ reviewInfo }) => {
         </div>
       ) : (
         <div className="flex justify-center items-center w-full text-2xl h-20">
-          <Image src={CRYING_ICON_URL} width={32} height={32} />
+          <Image alt="no-review" src={CRYING_ICON_URL} width={32} height={32} />
 
           <span> 아직 작성된 리뷰가 없어요</span>
         </div>

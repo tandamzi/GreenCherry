@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
@@ -16,5 +17,5 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
     List<Subscribe> findAllByStore(Store store);
     Long countByStoreId(Long storeId);
     Page<Subscribe> findAllByMemberId(Long memberId, Pageable pageable);
-
+    Optional<Subscribe> findByMemberIdAndStoreId(Long memberId, Long storeId);
 }

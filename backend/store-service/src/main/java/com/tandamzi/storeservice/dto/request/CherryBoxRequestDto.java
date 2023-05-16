@@ -1,6 +1,5 @@
 package com.tandamzi.storeservice.dto.request;
 
-import com.tandamzi.storeservice.domain.CherryBox;
 import lombok.*;
 
 @Getter
@@ -12,6 +11,5 @@ public class CherryBoxRequestDto {
     private int quantity;
     private int totalPriceBeforeDiscount;
     private double discountRate;
-    private int pricePerCherryBox;
-
+    private int priceAfterDiscount;
 }

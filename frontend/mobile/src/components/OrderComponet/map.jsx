@@ -306,17 +306,21 @@ const map = () => {
                   fill
                 />
               </div>
-              <div className="font-bold text-xl">{selectedStore.name}</div>
-              <div className="text-sm">{selectedStore.address.addressName}</div>
-            </div>
+              <span className="mt-2 font-bold text-xl">
+                {selectedStore.name}
+              </span>
+              <span className="text-sm">
+                {selectedStore.address.addressName}
+              </span>
 
-            <Button
-              color="primary"
-              fill
-              label="주문 하러 가기"
-              onClick={() => goToStore(selectedStore.id)}
-              className="text-2xl mt-4"
-            />
+              <Button
+                color="primary"
+                fill
+                label="주문 하러 가기"
+                onClick={() => goToStore(selectedStore.id)}
+                className="text-2xl mt-4"
+              />
+            </div>
           </div>
         </div>
         <button

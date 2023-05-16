@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TiPencil } from 'react-icons/ti';
 
 import classnames from 'classnames';
 
+import StoreAllergyModify from '@/components/StoreAllergyModify';
 import StoreInputModify from '@/components/StoreInputModify';
+import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
+import { putModifyStore } from '@/utils/api/store';
 
 const StoreModify = ({ title, children, type }) => {
   const { storeAttributes } = useStore();
+  const { memberAttributes } = useMember();
   const [content, setContent] = useState(storeAttributes[type]);
 
   const {
@@ -26,17 +30,30 @@ const StoreModify = ({ title, children, type }) => {
     putModifyState(type);
   };
 
+  useEffect(() => {
+    // console.log(storeAttributes[type]);
+    setContent(storeAttributes[type]);
+  }, [storeAttributes[type]]);
+
   const handleModifyClick = () => {
-    putStoreInfo({
-      [type]: content,
-    });
+    // json 형식일 때
+    try {
+      putModifyStore(memberAttributes.storeId, { [type]: content }).then(
+        res => {
+          putStoreInfo({
+            [type]: content,
+          });
+        },
+      );
+    } catch (error) {
+      console.error('Error in modifying the store: ', error);
+    }
 
     resetModifyState();
   };
 
   const handleCancelClick = () => {
     setContent(storeAttributes[type]);
-
     resetModifyState();
   };
 
@@ -78,7 +95,14 @@ const StoreModify = ({ title, children, type }) => {
             content={content}
           />
         )}
-        {type === 'allergies' && <div>알러지</div>}
+        {/* {content} */}
+        {/*         {type === 'allergies' && (
+          <StoreAllergyModify
+            itemModifyState={modifyState && type === modifyType}
+            handleContentChange={handleContentChange}
+            content={content}
+          />
+        )} */}
         {/* {children} */}
       </div>
     </div>
