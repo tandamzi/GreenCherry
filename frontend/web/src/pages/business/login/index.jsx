@@ -18,7 +18,7 @@ const Login = () => {
         </div>
         <div className={style['login-container']}>
           <Link
-            href={`http://k8C207.p.ssafy.io:5000/oauth2/authorize/kakao?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
+            href={`${process.env.NEXT_PUBLIC_LOGIN_SERVER_URI}/oauth2/authorize/kakao?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
             className={`${style['kakao-btn']}`}
           >
             <div className={`${style['login-btn-img']}`} />
@@ -26,7 +26,7 @@ const Login = () => {
           </Link>
 
           <Link
-            href={`http://k8C207.p.ssafy.io:5000/oauth2/authorize/google?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
+            href={`${process.env.NEXT_PUBLIC_LOGIN_SERVER_URI}/oauth2/authorize/google?redirect_uri=${process.env.NEXT_PUBLIC_OAUTH2_BUSINESS_REDIRECT_URI}`}
             className={`${style['google-btn']}`}
           >
             <div className={style['login-btn-img']} />
