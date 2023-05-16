@@ -6,9 +6,11 @@ const handler = async (req, res) => {
   const { id } = req.query;
   const http = createHttpInstance(req);
 
-  await http.get(`order/${id}/order-list`).then(response => {
-    res.status(StatusCodes.OK).json(response.data);
-  });
+  await http
+    .get(`order/${id}/order-list?sort=createDate,desc`)
+    .then(response => {
+      res.status(StatusCodes.OK).json(response.data);
+    });
 };
 
 export default handler;

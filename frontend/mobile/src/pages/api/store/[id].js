@@ -12,9 +12,11 @@ const handler = async (req, res) => {
     storeDetailInfo.storeInfo = response.data.data;
   });
 
-  await http.get(`/review?store-id=${id}&size=${size}`).then(response => {
-    storeDetailInfo.review = response.data.data;
-  });
+  await http
+    .get(`/review?store-id=${id}&size=${size}&sort=createDate,desc`)
+    .then(response => {
+      storeDetailInfo.review = response.data.data;
+    });
 
   await http.get(`/review/tag/stats?store-id=${id}`).then(response => {
     storeDetailInfo.tag = response.data.data;
