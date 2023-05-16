@@ -22,7 +22,7 @@ const SubPageHeader = ({
   };
 
   const goToHome = () => {
-    router.push('/');
+    router.push('/home');
   };
 
   return (

@@ -59,11 +59,11 @@ const StoreInfo = ({ storeInfo, memberId }) => {
           <p className="text-xs text-secondary">{data.type.name}</p>
         </div>
         <div className="text-center mb-3">
-          <p className="text-secondaryfont text-decoration-line: line-through">
-            {data.cherryBox.totalPriceBeforeDiscount} 원 상당
-          </p>
+          <span className="text-secondaryfont text-decoration-line: line-through">
+            {data.cherryBox.priceBeforeDiscount}원 상당
+          </span>
           <p className="font-bold text-2xl">
-            {data.cherryBox.pricePerCherryBox}원
+            {data.cherryBox.priceAfterDiscount}원
           </p>
         </div>
 
