@@ -9,8 +9,16 @@ import Section1 from '@/components/LandingPageComponent/Section1';
 import Section2 from '@/components/LandingPageComponent/Section2';
 import Section3 from '@/components/LandingPageComponent/Section3';
 import Section4 from '@/components/LandingPageComponent/Section4';
+import useMember from '@/hooks/memberHook';
 
 export default function Home() {
+  const router = useRouter();
+  const { memberAttributes } = useMember();
+  useEffect(() => {
+    if (memberAttributes && memberAttributes.memberId) {
+      router.push('/business');
+    }
+  }, []);
   return (
     <Container>
       <Container.MainHeader />
