@@ -35,7 +35,7 @@ const OrderListItem = ({ order, updateOrderState }) => {
   };
   const handlePickUpCompleteClick = () => {
     putOrderComplete(order.orderId).then(res => {
-      if (res.status === 200) {
+      if (res.code === 0) {
         handlePickUpCompleteModalClose();
         updateOrderState(order.orderId, 'PICKUP_COMPLETE'); // Updating the orderState
       }
@@ -53,7 +53,7 @@ const OrderListItem = ({ order, updateOrderState }) => {
       <PickUpCompleteModal
         isOpen={isPickUpCompleteModalOpen}
         onClose={handlePickUpCompleteModalClose}
-        onClick={handlePickUpCompleteModalOpen}
+        onClick={handlePickUpCompleteClick}
         order={order}
       />
 

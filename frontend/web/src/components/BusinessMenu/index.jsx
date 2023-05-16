@@ -3,6 +3,7 @@ import { TbCherry, TbPaperBag, TbPencil, TbHome } from 'react-icons/tb';
 
 import classnames from 'classnames';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss';
 
@@ -15,6 +16,15 @@ const Menu = ({ menuOpen }) => {
   const { openCherryBoxRegisterModal } = useMember();
   const { openCloseStoreModal } = useModal();
   const { storeAttributes } = useStore();
+  const { logout } = useMember();
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
+
   return (
     <div className={classnames(style.menu, menuOpen ? style.menuOpen : '')}>
       <h2 className={style.title}>Menu</h2>
@@ -50,6 +60,9 @@ const Menu = ({ menuOpen }) => {
         </button>
         <button type="button" className={style.menuItem}>
           <TbHome size={24} />내 가게
+        </button>
+        <button type="button" className={style.menuItem} onClick={handleLogout}>
+          <TbHome size={24} /> 로그아웃
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -14,13 +15,15 @@ import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const store = ({ storeProps }) => {
   const router = useRouter();
+
+  const memberId = useSelector(state => state.member.memberInfo.id);
   return (
-    <Container className="overflow-scroll">
-      <Container.SubPageHeader sticky={false} />
+    <Container className="overflow-scroll scrollbar-hide overflow-x-hidden">
+      <Container.SubPageHeader title="가게상세" goHome sticky={false} />
       <div className="pb-12">
-        <StoreInfo storeInfo={storeProps.storeInfo} />
+        <StoreInfo storeInfo={storeProps.storeInfo} memberId={memberId} />
         <ReservationStatus reservationInfo={storeProps.storeInfo} />
-        <StoreTag />
+        <StoreTag tagInfo={storeProps.tag} />
         <UserReview reviewInfo={storeProps.review} />
       </div>
 
