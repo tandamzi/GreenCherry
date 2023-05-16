@@ -12,13 +12,13 @@ async function fetchMemberAndStoreInfo(req) {
   // store 등록 여부 확인 + store 정보 가져오기
   try {
     const storeResponse = await http.get(`/store/info?member-id=${memberId}`);
-    const { storeId, name } = storeResponse.data.data;
-
+    const { storeId, name, open } = storeResponse.data.data;
     return {
       isJoined: true,
       memberId,
       storeId,
       storeName: name,
+      open,
     };
   } catch (error) {
     if (error.response && error.response.status === 404) {
