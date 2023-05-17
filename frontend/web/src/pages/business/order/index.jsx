@@ -35,6 +35,7 @@ const Order = () => {
   };
 
   useEffect(() => {
+    setPage(0); // date가 변경될 때마다 page를 0으로 초기화
     getTotalIncome(memberAttributes.storeId, date).then(res => {
       setTotalIncome(res.totalSalesAmount || 0);
       setOrderCount(res.count);
@@ -42,8 +43,9 @@ const Order = () => {
 
     getPagableOrderList(memberAttributes.storeId, date, page).then(res => {
       setOrderList(res.orderList);
+      setpageEnd(false); // date가 변경될 때마다 pageEnd를 false로 초기화
     });
-  }, [date]);
+  }, [date, memberAttributes.storeId]);
 
   const loadMoreOrders = async () => {
     if (pageEnd || isLoading) return;
@@ -75,6 +77,7 @@ const Order = () => {
             orderList={orderList}
             updateOrderState={updateOrderState}
             loadMoreOrders={loadMoreOrders}
+            pageEnd={pageEnd}
           />
           <PrevNextButton date={date} dateHandle={dateHandle} />
         </div>
