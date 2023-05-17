@@ -141,7 +141,7 @@
 <br>
 
 ### 5) 아키텍처
-
+![architecture](./exec/greencherry-architecture.png)
 <br>
 
 ### 6) [REST API](https://friendly-antimatter-c82.notion.site/API-9be663a606a14e43970806ea6a6228dd)
