@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ListResponseDto {
+    private Long noticeId;
     private Long orderId;
     private String storeName;
     private int quantity;
@@ -35,8 +36,9 @@ public class ListResponseDto {
                 .isRead(isRead)
                 .build();
     }
-    public static ListResponseDto createList(ListResponseDto dto,boolean isRead){
+    public static ListResponseDto createList(Notice notice, ListResponseDto dto,boolean isRead){
         return ListResponseDto.builder()
+                .noticeId(notice.getId())
                 .orderId(dto.getOrderId())
                 .storeName(dto.getStoreName())
                 .quantity(dto.getQuantity())

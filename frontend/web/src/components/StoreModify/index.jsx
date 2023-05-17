@@ -4,6 +4,7 @@ import { TiPencil } from 'react-icons/ti';
 import classnames from 'classnames';
 
 import StoreAllergyModify from '@/components/StoreAllergyModify';
+import StoreFileModify from '@/components/StoreFileModify';
 import StoreInputModify from '@/components/StoreInputModify';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
@@ -87,12 +88,19 @@ const StoreModify = ({ title, children, type }) => {
         )}
       >
         {(type === 'storeDescription' ||
-          'cherryboxDescription' ||
+          'cherryBoxDescription' ||
           'instagram') && (
           <StoreInputModify
             itemModifyState={modifyState && type === modifyType}
             handleContentChange={handleContentChange}
             content={content}
+          />
+        )}
+        {type === 'images' && (
+          <StoreFileModify
+            itemModifyState={modifyState && type === modifyType}
+            handleContentChange={handleContentChange}
+            // content={content}
           />
         )}
         {/* {content} */}

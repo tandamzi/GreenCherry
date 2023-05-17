@@ -59,11 +59,11 @@ const StoreInfo = ({ storeInfo, memberId }) => {
           <p className="text-xs text-secondary">{data.type.name}</p>
         </div>
         <div className="text-center mb-3">
-          <p className="text-secondaryfont text-decoration-line: line-through">
-            {data.cherryBox.totalPriceBeforeDiscount} 원 상당
-          </p>
+          <span className="text-secondaryfont text-decoration-line: line-through">
+            {data.cherryBox.priceBeforeDiscount}원 상당
+          </span>
           <p className="font-bold text-2xl">
-            {data.cherryBox.pricePerCherryBox}원
+            {data.cherryBox.priceAfterDiscount}원
           </p>
         </div>
 
@@ -118,7 +118,9 @@ const StoreInfo = ({ storeInfo, memberId }) => {
         <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
 
         <p className="text-center font-extralight text-secondary">가게소개</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">{data.address.addressName}</p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">
+          {data.description ? data.description : '가게 소개가 없습니다.'}
+        </p>
 
         <p className="text-center font-extralight text-secondary">체리박스</p>
         <p className="col-span-2 mb-3 ml-4 pr-7">
@@ -128,7 +130,9 @@ const StoreInfo = ({ storeInfo, memberId }) => {
         </p>
 
         <p className="text-center font-extralight text-secondary">알레르기</p>
-        <p className="col-span-2 mb-3 ml-4 pr-7">{data.allergies[0].name}</p>
+        <p className="col-span-2 mb-3 ml-4 pr-7">
+          {data.allergies.map(allergy => `${allergy.name} `)}
+        </p>
       </div>
     </div>
   );

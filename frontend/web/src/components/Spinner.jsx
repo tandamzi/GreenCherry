@@ -1,15 +1,29 @@
 import React from 'react';
+import Lottie from 'react-lottie-player';
 
-function Spinner({ content }) {
+import forkSpoonLoading from 'public/assets/lottie/forkSpoonLoading.json';
+
+import Container from '@/components/Container';
+
+function Spinner() {
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
   return (
-    <div>
-      <p className="text-center font-bold text-4xl mt-20">{content}</p>
-    </div>
+    <Container>
+      <Container.Body>
+        <Lottie
+          loop
+          animationData={forkSpoonLoading}
+          play
+          option={options}
+          speed={0.7}
+        />
+      </Container.Body>
+    </Container>
   );
 }
-
-Spinner.defaultProps = {
-  content: '로딩중.....♡',
-};
 
 export default Spinner;

@@ -1,3 +1,4 @@
+/* eslint-disable no-promise-executor-return */
 import React, { useState, useEffect } from 'react';
 
 import CarbonContainer from '@/components/CarbonContainer';
@@ -6,20 +7,46 @@ import OrderList from '@/components/OrderList';
 import OrderZero from '@/components/OrderZero';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
-import { getTodayOrderList } from '@/utils/api/order';
+import { getTodayOrderList, getPagableOrderList } from '@/utils/api/order';
+import getCurrentDate from '@/utils/getCurrentDate';
 
 const AfterOpen = () => {
   const { memberAttributes } = useMember();
   const { setCherryPoint } = useStore();
   const [quantity, setQuantity] = useState(0);
   const [orderList, setOrderList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageEnd, setpageEnd] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    getPagableOrderList(memberAttributes.storeId, getCurrentDate(), page).then(
+      res => {
+        setOrderList(res.orderList);
+      },
+    );
     getTodayOrderList(memberAttributes.storeId).then(res => {
       setQuantity(res.cherryBoxQuantity);
       setCherryPoint(res.cherryPoint);
-      setOrderList(res.orderList);
     });
   }, []);
+
+  const loadMoreOrders = async () => {
+    if (pageEnd || isLoading) return;
+    setIsLoading(true);
+    const nextPage = page + 1;
+    getPagableOrderList(memberAttributes.storeId, getCurrentDate(), nextPage)
+      .then(res => new Promise(resolve => setTimeout(() => resolve(res), 1000)))
+      .then(res => {
+        if (res.orderList.length === 0) {
+          setpageEnd(true);
+          return;
+        }
+        setOrderList(prevList => [...prevList, ...res.orderList]);
+        setPage(prevPage => prevPage + 1);
+      })
+      .finally(() => setIsLoading(false)); // Stop loading
+  };
 
   const updateOrderState = (orderId, newState) => {
     setOrderList(prevList =>
@@ -33,7 +60,11 @@ const AfterOpen = () => {
       <LongBoxContainer className="fixed max-w-4xl">
         <p>{quantity}개 남았습니다</p>
       </LongBoxContainer>
-      <OrderList orderList={orderList} updateOrderState={updateOrderState} />
+      <OrderList
+        orderList={orderList}
+        updateOrderState={updateOrderState}
+        loadMoreOrders={loadMoreOrders}
+      />
       <CarbonContainer />
     </div>
   );

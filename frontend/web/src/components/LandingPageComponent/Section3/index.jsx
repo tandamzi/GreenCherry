@@ -17,17 +17,16 @@ const Section3 = () => {
         />
       </div>
       <div>
-        <h2 className={`${style['title-text']}`}>
-          절약적인 <br />
-          소비가 <br />
-          가능해요! <br />
-        </h2>
         <p className={`${style['sub-text']}`}>
-          <span className={`${style.emphasis}`}>
-            현명한 소비습관 <br />
-          </span>
-          음식을 싸게 구해요 뭐라하지?
+          환경도 지키고 합리적인 가격에 <br /> 만나보는 체리박스.
         </p>
+        <h2 className={`${style['title-text']}`}>
+          최대
+          <span className={`${style.emphasis}`}>70%</span>
+          <br />
+          할인된 가격에 <br />
+          만나보세요! <br />
+        </h2>
       </div>
     </div>
   );

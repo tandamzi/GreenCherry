@@ -16,13 +16,17 @@ const Menu = ({ menuOpen }) => {
   const { openCherryBoxRegisterModal } = useMember();
   const { openCloseStoreModal } = useModal();
   const { storeAttributes } = useStore();
-  const { logout } = useMember();
+  const { logout, openMyStoreModal } = useMember();
 
   const router = useRouter();
 
   const handleLogout = () => {
     logout();
     router.push('/');
+  };
+
+  const handleMyStoreClick = () => {
+    openMyStoreModal();
   };
 
   return (
@@ -58,7 +62,11 @@ const Menu = ({ menuOpen }) => {
           <TbPencil size={24} />
           리뷰관리
         </button>
-        <button type="button" className={style.menuItem}>
+        <button
+          type="button"
+          className={style.menuItem}
+          onClick={handleMyStoreClick}
+        >
           <TbHome size={24} />내 가게
         </button>
         <button type="button" className={style.menuItem} onClick={handleLogout}>

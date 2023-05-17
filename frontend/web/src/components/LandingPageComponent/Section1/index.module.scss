@@ -1,5 +1,5 @@
 .section-item {
-  padding: 230px 50px 0px;
+  padding: 96px 0px 0px;
   scroll-snap-stop: always;
   scroll-snap-align: center;
   height: 100vh;
@@ -8,18 +8,23 @@
   position: relative;
   margin: 0 auto;
   max-width: 1024px;
+  font-weight: 700;
+  font-size: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 130%;
 }
 
 .image-container {
-  position: absolute;
-  bottom: 30px;
+  bottom: 10%;
   right: 0;
 }
 
 .image-relative {
   position: relative;
   width: 498px;
-  height: 685px;
+  height: 640px;
 }
 
 .money-growth,
@@ -33,73 +38,44 @@
   width: 156px;
   z-index: 1;
   transform: rotate(-15deg);
-  left: 20px;
+  left: 100px;
 }
 
 .love-ecology {
   width: 213px;
   z-index: 2;
-  top: 60px;
-  right: 100px;
+  top: 100px;
+  right: 60px;
   transform: rotate(15deg);
 }
 
 .greencherry-box {
-  width: 498px;
+  width: 420px;
   z-index: 3;
-  bottom: 0;
+  bottom: 0px;
+  right: 10px;
 }
 
 .title-text {
-  font-size: 88px;
-  font-weight: 700;
-  line-height: 110%;
-}
-
-.sub-text {
-  margin-top: 10px;
+  text-align: end;
   display: inline-block;
-  font-size: 24px;
-  text-align: center;
 }
 .emphasis {
-  font-size: 36px;
-  font-weight: 700;
+  font-size: 80px;
+  color: var(--color-warning);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .section-item {
-    padding: 120px 10px 0px;
+    padding: 96px 0px 0px;
+    font-size: 11vw;
+  }
+
+  .emphasis {
+    font-size: 1.2em;
   }
 
   .image-container {
-    bottom: 0;
-  }
-
-  .image-relative {
-    width: 370px;
-    height: 437px;
-  }
-  .money-growth {
-    left: 30px;
-    width: 30%;
-  }
-  .love-ecology {
-    top: 10%;
-    right: 0;
-    width: 40%;
-  }
-  .greencherry-box {
-    width: 100%;
-    max-width: 370px;
-  }
-  .title-text {
-    font-size: 60px;
-  }
-  .sub-text {
-    font-size: 18px;
-  }
-  .emphasis {
-    font-size: 24px;
+    display: none;
   }
 }

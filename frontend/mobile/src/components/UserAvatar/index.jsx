@@ -99,7 +99,7 @@ export const UserAvatar = ({
         <Image
           src={imgFile}
           alt="프로필 이미지"
-          className="style.Image rounded-full object-cover"
+          className="style.Image rounded-full shadow-xl object-cover"
           onClick={changable ? onClickImageInput : dummyFunction}
           fill
         />
