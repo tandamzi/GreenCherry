@@ -30,6 +30,7 @@ const ImageSlider = ({
             src={image}
             alt={name}
             fill
+            responsive
           />
         </div>
       ))}
