@@ -12,6 +12,7 @@ import com.tandamzi.orderservice.exception.StoreNotOpenException;
 import com.tandamzi.orderservice.feign.MemberServiceClient;
 import com.tandamzi.orderservice.feign.ReviewServiceClient;
 import com.tandamzi.orderservice.feign.StoreServiceClient;
+import com.tandamzi.orderservice.feign.dto.StoreNameDto;
 import com.tandamzi.orderservice.kafka.KafkaProducer;
 import com.tandamzi.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -109,21 +110,22 @@ public class OrderService {
 
     }
     
-    public OrderDetailResponseDto detailOrder(Long orderId){
-        log.info("[OrderService] detailOrder ");
-        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+    public List<ProgressOrderResponseDto> progressOrder(Long memberId){
+        log.info("[OrderService] progressOrder 실행 -> memberId = {}", memberId);
+        List<Order> orders = orderRepository.findProgressOrder(memberId, State.ORDER_COMPLETE);
 
-        SingleResult<String> result = memberServiceClient.findNickname(order.getMemberId());
-        String nickname = result.getData();
+        HashSet<Long> storeIdSet = new HashSet<>();
+        orders.forEach(o -> storeIdSet.add(o.getStoreId()));
 
-        return OrderDetailResponseDto.builder()
-                .orderId(orderId)
-                .name(nickname)
-                .orderState(String.valueOf(order.getState()))
-                .quantity(order.getQuantity())
-                .totalSalesAmount(order.getTotalSalesAmount())
-                .build();
+        List<Long> storeIds = new ArrayList<>(storeIdSet);
+        List<StoreNameDto> clientResult = storeServiceClient.storeNameForProgressOrder(storeIds).getData();
 
+        HashMap<Long, String> storeNames = new HashMap<>();
+        clientResult.forEach(s -> storeNames.put(s.getStoreId(), s.getName()));
+
+        return orders.stream()
+                .map(o -> ProgressOrderResponseDto.create(o, storeNames))
+                .collect(Collectors.toList());
     }
     /** 웹 용 */
     public Page<OrderListResponseDto> orderList(Long storeId,String nickname, String date, Pageable pageable){

@@ -15,5 +15,4 @@ public class RegisterOrderDto {
     private int quantity;
     private int totalSalesAmount;
     private List<String> tokens;
-
 }
