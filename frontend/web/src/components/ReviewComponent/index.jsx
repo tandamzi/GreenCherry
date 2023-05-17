@@ -32,7 +32,7 @@ const ReviewComponent = ({ review }) => {
           </p>
         </div>
       </div>
-      <p className="font-thin mb-3">{review.content}</p>
+      <p className="font-thin mb-3 text-left">{review.content}</p>
       <div className="flex flex-row mb-3">
         <ImageSlider
           width={120}

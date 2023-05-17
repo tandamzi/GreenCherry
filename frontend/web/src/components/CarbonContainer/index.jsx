@@ -11,7 +11,7 @@ const CarbonContainer = ({ className }) => {
   return (
     <div
       className={classnames(
-        'bg-secondary opacity-50 text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-secondary absolute bottom-0',
+        'bg-secondary opacity-50 text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-secondary absolute bottom-0 tablet:text-xl',
         className,
       )}
     >

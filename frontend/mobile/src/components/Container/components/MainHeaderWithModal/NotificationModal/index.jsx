@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Lottie from 'react-lottie-player';
 import { useSelector } from 'react-redux';
 
+import empty from '@public/assets/lottie/empty-box.json';
 import cn from 'classnames';
 import { Router, useRouter } from 'next/router';
 
@@ -36,12 +38,17 @@ const NotificationList = ({ show }) => {
     router.push(`/review-form/${memberId}/${storeId}/${orderId}`);
   };
 
+  const options = {
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
+    },
+  };
   return (
     <div
       className={cn(
         'w-full h-11/12 px-4 pt-4 pb-20 bg-bgcolor shadow-2xl rounded-t-3xl overflow-scroll scrollbar-hide',
         style['notification-list'],
-        `${show ? style.show : ''}`,
+        { [style.show]: show },
       )}
     >
       <div className="mb-32">
@@ -82,42 +89,49 @@ const NotificationList = ({ show }) => {
           </div>
         </div>
       </div>
-      {notificationList && notificationList.content ? '' : ''}
-      {notificationList.content.map(item => {
-        return (
-          <div
-            className={cn(
-              'w-full flex px-4 py-6 my-8 rounded-xl',
-              style['notification-item'],
-            )}
-          >
-            <div className="w-full ">
-              <p>
-                <span className="font-bold">
-                  {item.storeName}에서의 주문은 어떠셨나요?
-                </span>
-                <br />
-                <span className="text-sm">
-                  {member.nickname}님의 소중한 리뷰를 남겨주세요
-                </span>
-              </p>
-              <div className="mt-4 flex justify-end">
-                <button
-                  type="button"
-                  className="bg-primary py-1 px-2 rounded-xl"
-                  onClick={() =>
-                    goToWriteReview(member.id, item.storeId, item.orderId)
-                  }
-                >
-                  리뷰 작성하러가기
-                </button>
+      {notificationList && notificationList.content.length > 0 ? (
+        notificationList.content.map(item => {
+          return (
+            <div
+              className={cn(
+                'w-full flex px-4 py-6 my-8 rounded-xl',
+                style['notification-item'],
+              )}
+            >
+              <div className="w-full ">
+                <p>
+                  <span className="font-bold">
+                    {item.storeName}에서의 주문은 어떠셨나요?
+                  </span>
+                  <br />
+                  <span className="text-sm">
+                    {member.nickname}님의 소중한 리뷰를 남겨주세요
+                  </span>
+                </p>
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    className="bg-primary py-1 px-2 rounded-xl"
+                    onClick={() =>
+                      goToWriteReview(member.id, item.storeId, item.orderId)
+                    }
+                  >
+                    리뷰 작성하러가기
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div />
-          </div>
-        );
-      })}
+              <div />
+            </div>
+          );
+        })
+      ) : (
+        <div className="flex justify-center items-center mb-5 h-20">
+          <Lottie loop animationData={empty} play option={options} speed={1} />
+
+          {/* <span className="ml-1 pt-1"> 새로온 알림이 없어요</span> */}
+        </div>
+      )}
     </div>
   );
 };

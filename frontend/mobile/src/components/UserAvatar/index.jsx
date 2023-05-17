@@ -9,7 +9,7 @@ import style from './index.module.scss';
 import LoadingSpinner from '../LoadingSpinner';
 
 import { changeProfile } from '@/redux/member/memberReducer';
-import { clientHttpForm } from '@/utils/csr/clientHttp';
+import { serverHttpForm } from '@/utils/csr/clientHttp';
 
 export const UserAvatar = ({
   imageURL,
@@ -68,7 +68,7 @@ export const UserAvatar = ({
     const data = new FormData();
     data.append('profileImage', inputRef.current.files[0] || null);
 
-    clientHttpForm
+    serverHttpForm
       .put('/member/image', data)
       .then(res => {
         const imageFile = res.data.data;

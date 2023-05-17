@@ -9,6 +9,13 @@ const withPWA = require('next-pwa')({
 });
 
 const nextConfig = withPWA({
+  images: {
+    domains: [
+      'firebasestorage.googleapis.com',
+      'tandamzi-greencherry-bucket.s3.ap-northeast-2.amazonaws.com',
+      'i.ytimg.com',
+    ],
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
