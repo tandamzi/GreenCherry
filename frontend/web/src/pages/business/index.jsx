@@ -14,22 +14,7 @@ import clientHttp from '@/utils/clientHttp';
 const Business = () => {
   const { storeAttributes, setCherryPoint } = useStore();
   const { memberAttributes } = useMember();
-
-  /*   useEffect(() => {
-    getCherryPoint(memberAttributes.storeId)
-      .then(data => setCherryPoint(data))
-      .catch(error => console.error(error));
-  }, []); */
-  /*   useEffect(() => {
-    console.log('getCherryPoint 실행');
-    console.log('memberAttributes.storeId', memberAttributes.storeId);
-    getCherryPoint(memberAttributes.storeId)
-      .then(data => {
-        console.log('getCherryPoint: data', data);
-        setCherryPoint(data);
-      })
-      .catch(error => console.error(error));
-  }, [memberAttributes.storeId]); */
+  const [renderKey, setRenderKey] = useState(0);
 
   useEffect(() => {
     const firebaseConfig = {
@@ -73,6 +58,13 @@ const Business = () => {
       return;
     }
 
+    const channel = new BroadcastChannel('fcm_channel');
+    channel.onmessage = function (e) {
+      // console.log('Message received. ', e.data);
+      setRenderKey(prevKey => prevKey + 1);
+      // console.log('renderKey', renderKey);
+    };
+
     // console.log('알림 권한이 허용됨');
 
     const token = getToken(messaging, {
@@ -91,7 +83,11 @@ const Business = () => {
     <Container>
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor h-full">
-        {storeAttributes.open ? <AfterOpen /> : <BeforeOpen />}
+        {storeAttributes.open ? (
+          <AfterOpen renderKey={renderKey} />
+        ) : (
+          <BeforeOpen />
+        )}
       </Container.MainBody>
     </Container>
   );
