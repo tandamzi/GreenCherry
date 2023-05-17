@@ -58,7 +58,7 @@ public class OrderService {
         SingleResult<StoreDetailforOrderResponseDto> result = storeServiceClient.storeDetailforOrder(orderDto);
         StoreDetailforOrderResponseDto storeDetail = result.getData();
 
-        orderRepository.save(Order.builder()
+        Order order = orderRepository.save(Order.builder()
                 .memberId(orderDto.getMemberId())
                 .storeId(orderDto.getStoreId())
                 .state(State.ORDER_COMPLETE)
@@ -69,12 +69,18 @@ public class OrderService {
         // 동기로 storeId의 주인장의
         log.info("ownerId = {}", storeDetail.getOwnerId());
 
+        String memberNickname = memberServiceClient.findNickname(order.getMemberId()).getData();
+
         NoticeDto noticeDto = NoticeDto.builder()
                 .noticeType(2)
                 .targetMemberId(storeDetail.getOwnerId())
                 .quantity(orderDto.getOrderQuantity())
                 .totalSalesAmount(storeDetail.getTotalSalesAmount())
                 .storeId(storeDetail.getStoreId())
+                .orderId(order.getId())
+                .nickname(memberNickname)
+                .orderState(order.getState().toString())
+                .orderDate(order.getCreateDate())
                 .build();
 
         kafkaProducer.send("notice-for-register-order", noticeDto);
