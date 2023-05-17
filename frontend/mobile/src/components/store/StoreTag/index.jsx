@@ -31,7 +31,7 @@ const StoreReview = ({ tagInfo }) => {
     }
   };
 
-  return { total } === 0 ? (
+  return { total } > 0 ? (
     <div className="">
       <div className="flex flex-row justify-between items-center mx-8 mt-8 mb-3">
         <p className="font-bold text-xl pr-4">이런점이 좋았어요</p>
