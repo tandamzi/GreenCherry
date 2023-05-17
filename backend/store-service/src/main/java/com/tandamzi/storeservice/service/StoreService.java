@@ -4,10 +4,7 @@ import com.tandamzi.storeservice.communication.feign.MemberServiceClient;
 import com.tandamzi.storeservice.communication.feign.ReviewServiceClient;
 import com.tandamzi.storeservice.communication.kafka.KafkaProducer;
 import com.tandamzi.storeservice.domain.*;
-import com.tandamzi.storeservice.dto.feign.RegisterOrderDto;
-import com.tandamzi.storeservice.dto.feign.StoreDetailforOrderResponseDto;
-import com.tandamzi.storeservice.dto.feign.StoreImageQueryDto;
-import com.tandamzi.storeservice.dto.feign.StoreInfoForOrderDto;
+import com.tandamzi.storeservice.dto.feign.*;
 import com.tandamzi.storeservice.dto.kafka.CherryBoxNotificationDto;
 import com.tandamzi.storeservice.dto.request.CherryBoxRequestDto;
 import com.tandamzi.storeservice.dto.request.RegisterStoreRequestDto;
@@ -279,5 +276,11 @@ public class StoreService {
 
     public Boolean isSubscribedStore(Long memberId, Long storeId) {
         return subscribeRepository.findByMemberIdAndStoreId(memberId, storeId).isPresent();
+    }
+
+    public List<StoreNameDto> storeNameForProgressOrder(List<Long> storeIds){
+        log.info("[StoreService] storeNameForProgressOrder 실행 -> storeIds = {}", storeIds);
+        List<Store> stores = storeRepository.findByStoreIds(storeIds);
+        return stores.stream().map(StoreNameDto::create).collect(Collectors.toList());
     }
 }

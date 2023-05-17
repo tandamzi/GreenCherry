@@ -1,12 +1,14 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
+import { FiMoreHorizontal } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 
 import MainCarbon from '../../components/main/MainCarbon';
 
@@ -18,15 +20,16 @@ import { changePage } from '@/redux/footerStatus/footerReducer';
 import clientHttp from '@/utils/csr/clientHttp';
 import createBFFInstance from '@/utils/ssr/bffHttp';
 
+const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
+
 const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
     },
   };
-
-  console.log(homeProps);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -68,18 +71,6 @@ const Home = ({ homeProps }) => {
           console.error(error);
         }
       }
-
-      // if (Notification.permission !== 'granted') {
-      //   Notification.requestPermission().then((permission) => {
-      //     if (permission === 'granted') {
-      //       new Notification();
-      //     } else {
-      //       return;
-      //     }
-      //   });
-      // } else {
-      //   new Notification();
-      // }
     }
 
     console.error('권한 요청 중...');
@@ -102,20 +93,8 @@ const Home = ({ homeProps }) => {
         },
       });
     });
-
-    // if (token) {
-    //   console.error(token);
-    //   console.error(token);
-    //   clientHttp.get('/firebase-token', {
-    //     params: {
-    //       token,
-    //     },
-    //   });
-    // } else console.error('Can not get Token');
-
     onMessage(messaging, payload => {
       console.error('메시지가 도착했습니다.', payload);
-      // ...
     });
   }, []);
 
@@ -123,74 +102,82 @@ const Home = ({ homeProps }) => {
   const goToPage = page => {
     dispatch(changePage(page));
   };
-  return (
-    // <div>
-    //   <h1 className="text-primaryevent">Welcome to your PWA</h1>
-    //   <div>
-    //     <button type="button" onClick={subscribeUser}>
-    //       Subscribe for push notifications
-    //     </button>
-    //     <button type="button" onClick={sendNotification}>
-    //       Send notification
-    //     </button>
-    //   </div>
-    // </div>
 
-    !loading ? (
-      <Container>
-        <Container.MainHeaderWithModal />
-        <Container.Body>
-          <div className="grid grid-rows-8 ">
-            <div className="row-span-3">
-              <MainCarbon />
+  const goToMoreShorts = () => {
+    router.push('/');
+  };
+  return !loading ? (
+    <Container className="overflow-y-scroll scrollbar-hide">
+      <Container.MainHeaderWithModal />
+      <Container.Body>
+        <div className="grid grid-rows-8 ">
+          <div className="row-span-3">
+            <MainCarbon />
+          </div>
+          <div className="row-span-2 grid grid-cols-2 justify-items-center">
+            <Link href="/order" onClick={goToPage('내 주변 가게')}>
+              <div>
+                <Image
+                  src="/assets/icons/selectBoxIcons/orderBoxInText.svg"
+                  width={280}
+                  height={280}
+                  alt="greencherry orderBox"
+                />
+              </div>
+            </Link>
+            <Link href="/subscribe">
+              <div>
+                <Image
+                  src="/assets/icons/selectBoxIcons/subscribeBoxInText.svg"
+                  width={280}
+                  height={280}
+                  alt="greencherry subscribeBox"
+                />
+              </div>
+            </Link>
+          </div>
+          <div className="row-span-2">
+            <Reservation />
+          </div>
+          <div className="flex justify-between">
+            <div className="relative w-20 h-10 mt-3">
+              <Image src={SHORTS_ICON_URL} fill alt="shorts" />
             </div>
-            <div className="row-span-2 grid grid-cols-2 justify-items-center">
-              <Link href="/order" onClick={goToPage('내 주변 가게')}>
-                <div>
-                  <Image
-                    src="/assets/icons/selectBoxIcons/orderBoxInText.svg"
-                    width={280}
-                    height={280}
-                    alt="greencherry orderBox"
-                  />
-                </div>
-              </Link>
-              <Link href="/subscribe">
-                <div>
-                  <Image
-                    src="/assets/icons/selectBoxIcons/subscribeBoxInText.svg"
-                    width={280}
-                    height={280}
-                    alt="greencherry subscribeBox"
-                  />
-                </div>
-              </Link>
-            </div>
-            <div className="row-span-2">
-              <Reservation />
-            </div>
-            <div>
-              <ShortComponent width={126} height={224} />
+            <button
+              className="flex items-center mt-3 mr-4"
+              type="button"
+              onClick={() => goToMoreShorts()}
+            >
+              <FiMoreHorizontal width={20} height={10} />
+            </button>
+          </div>
+          <div className="h-60">
+            <div className="relative">
+              <ShortComponent shortInfo={homeProps} width={120} height={220} />
             </div>
           </div>
-        </Container.Body>
-      </Container>
-    ) : (
-      <Spinner />
-    )
+        </div>{' '}
+        <div className="mt-10 pb-4 text-center">
+          <span className="font-bold text-secondary">Green </span>
+          <span className="font-bold text-primary">Cherry</span>
+        </div>
+      </Container.Body>
+    </Container>
+  ) : (
+    <Spinner />
   );
 };
 
 export default Home;
 
-// export const getServerSideProps = async context => {
-//   const { req } = context;
-//   const httpInstance = createBFFInstance(req);
+export const getServerSideProps = async context => {
+  const { req } = context;
+  const httpInstance = createBFFInstance(req);
 
-//   const response = await httpInstance.get(`/api/youtube-short`);
-//   return {
-//     props: {
-//       homeProps: response.data,
-//     },
-//   };
-// };
+  const response = await httpInstance.get(`/api/home/youtube-short`);
+  return {
+    props: {
+      homeProps: response.data,
+    },
+  };
+};

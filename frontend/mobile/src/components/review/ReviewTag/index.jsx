@@ -19,7 +19,7 @@ const ReviewTag = ({ tag }) => {
 // 조건에 따라 렌더링될 컴포넌트들
 const Component1 = ({ tag }) => {
   return (
-    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+    <div className="bg-itembg flex flex-row rounded-lg mr-2 mb-2 py-1 px-0.5">
       <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/deliciousIcon.svg"
@@ -34,7 +34,7 @@ const Component1 = ({ tag }) => {
 
 const Component2 = ({ tag }) => {
   return (
-    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+    <div className="bg-itembg flex flex-row rounded-lg mr-2 mb-2 py-1 px-0.5">
       <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/freshIcon.svg"
@@ -48,7 +48,7 @@ const Component2 = ({ tag }) => {
 };
 const Component3 = ({ tag }) => {
   return (
-    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+    <div className="bg-itembg flex flex-row rounded-lg mr-2 mb-2 py-1 px-0.5">
       <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/toomuchIcon.svg"
@@ -62,7 +62,7 @@ const Component3 = ({ tag }) => {
 };
 const Component4 = ({ tag }) => {
   return (
-    <div className="bg-itembg flex flex-row rounded-lg mr-4 mb-2 p-1">
+    <div className="bg-itembg flex flex-row rounded-lg mr-2 mb-2 py-1 px-0.5">
       <div className="relative w-6 h-6 ml-1">
         <Image
           src="/assets/icons/reviewIcons/kindIcon.svg"

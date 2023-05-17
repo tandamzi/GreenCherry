@@ -30,7 +30,7 @@ const Review = () => {
     getPagableReviewList(memberAttributes.storeId, nextPage)
       .then(res => new Promise(resolve => setTimeout(() => resolve(res), 1000)))
       .then(res => {
-        if (res.orderList.length === 0) {
+        if (res.reviewList.length === 0) {
           setpageEnd(true);
           return;
         }
@@ -55,6 +55,7 @@ const Review = () => {
             reviewList={reviewList}
             reviewCount={reviewCount}
             loadMoreReviews={loadMoreReviews}
+            pageEnd={pageEnd}
           />
         </div>
       </Container.MainBody>

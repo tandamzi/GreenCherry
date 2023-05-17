@@ -64,6 +64,7 @@ const AfterOpen = () => {
         orderList={orderList}
         updateOrderState={updateOrderState}
         loadMoreOrders={loadMoreOrders}
+        pageEnd={pageEnd}
       />
       <CarbonContainer />
     </div>
