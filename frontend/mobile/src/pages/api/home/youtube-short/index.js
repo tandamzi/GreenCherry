@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 
-import createHttpInstance from '@/utils/ssr/backendhttp';
 import createYoutubeIntstacne from '@/utils/youtube';
 
 const handler = async (req, res) => {
