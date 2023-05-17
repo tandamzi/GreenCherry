@@ -12,18 +12,21 @@ import MainCarbon from '../../components/main/MainCarbon';
 
 import Container from '@/components/Container';
 import Reservation from '@/components/main/Reservation';
+import ShortComponent from '@/components/ShortComponent';
 import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
 import clientHttp from '@/utils/csr/clientHttp';
+import createBFFInstance from '@/utils/ssr/bffHttp';
 
-const Home = () => {
+const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
-
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
     },
   };
+
+  console.log(homeProps);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -79,15 +82,15 @@ const Home = () => {
       // }
     }
 
-    console.log('권한 요청 중...');
+    console.error('권한 요청 중...');
 
     const permission = Notification.requestPermission();
     if (permission === 'denied') {
-      console.log('알림 권한 허용 안됨');
+      console.error('알림 권한 허용 안됨');
       return;
     }
 
-    console.log('알림 권한이 허용됨');
+    console.error('알림 권한이 허용됨');
 
     const token = getToken(messaging, {
       vapidKey:
@@ -101,17 +104,17 @@ const Home = () => {
     });
 
     // if (token) {
-    //   console.log(token);
-    //   console.log(token);
+    //   console.error(token);
+    //   console.error(token);
     //   clientHttp.get('/firebase-token', {
     //     params: {
     //       token,
     //     },
     //   });
-    // } else console.log('Can not get Token');
+    // } else console.error('Can not get Token');
 
     onMessage(messaging, payload => {
-      console.log('메시지가 도착했습니다.', payload);
+      console.error('메시지가 도착했습니다.', payload);
       // ...
     });
   }, []);
@@ -135,7 +138,7 @@ const Home = () => {
 
     !loading ? (
       <Container>
-        <Container.MainHeader />
+        <Container.MainHeaderWithModal />
         <Container.Body>
           <div className="grid grid-rows-8 ">
             <div className="row-span-3">
@@ -166,6 +169,9 @@ const Home = () => {
             <div className="row-span-2">
               <Reservation />
             </div>
+            <div>
+              <ShortComponent shortInfo={homeProps} width={126} height={224} />
+            </div>
           </div>
         </Container.Body>
       </Container>
@@ -176,3 +182,15 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async context => {
+  const { req } = context;
+  const httpInstance = createBFFInstance(req);
+
+  const response = await httpInstance.get(`/api/youtube-short`);
+  return {
+    props: {
+      homeProps: response.data,
+    },
+  };
+};

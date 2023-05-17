@@ -88,7 +88,7 @@ const StoreModify = ({ title, children, type }) => {
         )}
       >
         {(type === 'storeDescription' ||
-          'cherryboxDescription' ||
+          'cherryBoxDescription' ||
           'instagram') && (
           <StoreInputModify
             itemModifyState={modifyState && type === modifyType}
