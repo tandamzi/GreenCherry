@@ -8,6 +8,7 @@ import {
   putStoreInfoAction,
   openStoreAction,
   closeStoreAction,
+  setOpenAction,
 } from '@/redux/store/storeSlice';
 
 export default function useStore() {
@@ -27,6 +28,10 @@ export default function useStore() {
   const { modifyState, modifyType } = useSelector(state => state.modify);
 
   const dispatch = useDispatch();
+
+  const setOpen = data => {
+    dispatch(setOpenAction(data));
+  };
 
   const setModifiable = data => {
     dispatch(setModifiableAction(data));
@@ -74,6 +79,7 @@ export default function useStore() {
       allergies,
       images,
     },
+    setOpen,
     setModifiable,
     setCherryPoint,
     getStoreInfo,
