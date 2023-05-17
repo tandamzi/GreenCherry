@@ -7,21 +7,32 @@ const handler = async (req, res) => {
   const size = 10;
   const storeDetailInfo = {};
   const http = createHttpInstance(req);
-
-  await http.get(`/store/info?store-id=${id}`).then(response => {
-    storeDetailInfo.storeInfo = response.data.data;
-  });
-
-  await http
-    .get(`/review?store-id=${id}&size=${size}&sort=createDate,desc`)
-    .then(response => {
-      storeDetailInfo.review = response.data.data;
+  try {
+    await http.get(`/store/info?store-id=${id}`).then(response => {
+      storeDetailInfo.storeInfo = response.data.data;
     });
+  } catch (error) {
+    console.error('Error while fetching storeDetailInfo:', error);
+  }
 
-  await http.get(`/review/tag/stats?store-id=${id}`).then(response => {
-    storeDetailInfo.tag = response.data.data;
-  });
-  res.status(StatusCodes.OK).json(storeDetailInfo);
+  try {
+    await http
+      .get(`/review?store-id=${id}&size=${size}&sort=createDate,desc`)
+      .then(response => {
+        storeDetailInfo.review = response.data.data;
+      });
+  } catch (error) {
+    console.error('Error while storeDetailInfo review:', error);
+  }
+
+  try {
+    await http.get(`/review/tag/stats?store-id=${id}`).then(response => {
+      storeDetailInfo.tag = response.data.data;
+    });
+    res.status(StatusCodes.OK).json(storeDetailInfo);
+  } catch (error) {
+    console.error('Error while storeDetailInfo tag:', error);
+  }
 };
 
 export default handler;
