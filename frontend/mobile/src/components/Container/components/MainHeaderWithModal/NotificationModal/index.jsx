@@ -46,7 +46,7 @@ const NotificationList = ({ show }) => {
   return (
     <div
       className={cn(
-        'fixed w-full h-11/12 px-4 pt-4 pb-20 bg-bgcolor shadow-2xl rounded-t-3xl overflow-scroll scrollbar-hide',
+        'w-full h-11/12 px-4 pt-4 pb-20 bg-bgcolor shadow-2xl rounded-t-3xl overflow-scroll scrollbar-hide',
         style['notification-list'],
         { [style.show]: show },
       )}
