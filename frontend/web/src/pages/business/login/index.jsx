@@ -13,8 +13,12 @@ const Login = () => {
       <Container.MainHeader />
       <Container.MainBody className="bg-secondary h-full">
         <div className="text-bgcolor text-center mb-24">
-          <h1 className="text-7xl mb-6">LOGIN INTO MYSTORE</h1>
-          <h3 className="text-4xl font-thin">남은 음식을 수익으로 바꿔봐요</h3>
+          <h1 className="text-7xl mb-6 font-bold tablet:text-4xl">
+            LOGIN INTO MYSTORE
+          </h1>
+          <h3 className="text-4xl font-thin tablet:text-xl">
+            남은 음식을 수익으로 바꿔봐요
+          </h3>
         </div>
         <div className={style['login-container']}>
           <Link
