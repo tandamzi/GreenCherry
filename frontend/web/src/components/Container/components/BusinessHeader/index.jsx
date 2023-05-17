@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import classnames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss';
 
@@ -18,6 +19,7 @@ const BusinessHeader = ({ children, className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { memberAttributes, openMyStoreModal } = useMember();
   const { setOpen } = useStore();
+  const router = useRouter();
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
@@ -31,6 +33,7 @@ const BusinessHeader = ({ children, className }) => {
     getStoreOpen(memberAttributes.storeId).then(res => {
       setOpen(res);
     });
+    router.push('/business');
   };
 
   return (
