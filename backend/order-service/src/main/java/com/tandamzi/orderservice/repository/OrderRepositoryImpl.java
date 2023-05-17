@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime startDateTime = LocalDate.parse(date, formatter).atStartOfDay();
-        LocalDateTime endDateTime = LocalDate.parse(date, formatter).atStartOfDay().plusWeeks(1);
+        LocalDateTime endDateTime = LocalDate.parse(date, formatter).atTime(LocalTime.MAX);
 
         return order.createDate.between(startDateTime, endDateTime);
     }
