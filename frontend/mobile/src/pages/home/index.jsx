@@ -18,6 +18,8 @@ import { changePage } from '@/redux/footerStatus/footerReducer';
 import clientHttp from '@/utils/csr/clientHttp';
 import createBFFInstance from '@/utils/ssr/bffHttp';
 
+const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
+
 const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
   const options = {
@@ -137,7 +139,7 @@ const Home = ({ homeProps }) => {
     // </div>
 
     !loading ? (
-      <Container>
+      <Container className="overflow-y-scroll scrollbar-hide">
         <Container.MainHeaderWithModal />
         <Container.Body>
           <div className="grid grid-rows-8 ">
@@ -169,9 +171,22 @@ const Home = ({ homeProps }) => {
             <div className="row-span-2">
               <Reservation />
             </div>
-            <div>
-              <ShortComponent shortInfo={homeProps} width={126} height={224} />
+            <div className="relative w-20 h-10 mt-3">
+              <Image src={SHORTS_ICON_URL} fill alt="shorts" />
             </div>
+            <div className="h-60">
+              <div className="relative">
+                <ShortComponent
+                  shortInfo={homeProps}
+                  width={120}
+                  height={220}
+                />
+              </div>
+            </div>
+          </div>{' '}
+          <div className="mt-10 pb-4 text-center">
+            <span className="font-bold text-secondary">Green </span>
+            <span className="font-bold text-primary">Cherry</span>
           </div>
         </Container.Body>
       </Container>
