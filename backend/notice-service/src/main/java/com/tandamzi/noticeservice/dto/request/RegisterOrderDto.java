@@ -20,5 +20,5 @@ public class RegisterOrderDto {
     private Long orderId;
     private String nickname;
     private String orderState;
-    private LocalDateTime orderDate;
+    private String orderDate;
 }
