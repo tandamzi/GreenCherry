@@ -58,10 +58,12 @@ const Menu = ({ menuOpen }) => {
             주문관리
           </button>
         </Link>
-        <button type="button" className={style.menuItem}>
-          <TbPencil size={24} />
-          리뷰관리
-        </button>
+        <Link href="/business/review">
+          <button type="button" className={style.menuItem}>
+            <TbPencil size={24} />
+            리뷰관리
+          </button>
+        </Link>
         <button
           type="button"
           className={style.menuItem}
