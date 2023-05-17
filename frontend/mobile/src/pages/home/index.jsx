@@ -12,18 +12,21 @@ import MainCarbon from '../../components/main/MainCarbon';
 
 import Container from '@/components/Container';
 import Reservation from '@/components/main/Reservation';
+import ShortComponent from '@/components/ShortComponent';
 import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
 import clientHttp from '@/utils/csr/clientHttp';
+import createBFFInstance from '@/utils/ssr/bffHttp';
 
-const Home = () => {
+const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
-
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
     },
   };
+
+  console.log(homeProps);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -166,6 +169,9 @@ const Home = () => {
             <div className="row-span-2">
               <Reservation />
             </div>
+            <div>
+              <ShortComponent shortInfo={homeProps} width={126} height={224} />
+            </div>
           </div>
         </Container.Body>
       </Container>
@@ -176,3 +182,15 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async context => {
+  const { req } = context;
+  const httpInstance = createBFFInstance(req);
+
+  const response = await httpInstance.get(`/api/youtube-short`);
+  return {
+    props: {
+      homeProps: response.data,
+    },
+  };
+};
