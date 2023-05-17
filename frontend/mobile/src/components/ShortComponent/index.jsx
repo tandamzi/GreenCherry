@@ -18,7 +18,7 @@ const ShortComponent = ({ shortInfo, width, height }) => {
 
   return (
     <div className={style['youtube-container']}>
-      {shortInfo.items.map((item, idx) => (
+      {shortInfo.map((item, idx) => (
         <div
           key={idx}
           className={cn(
@@ -27,10 +27,10 @@ const ShortComponent = ({ shortInfo, width, height }) => {
           )}
         >
           <YouTube
-            key={item.id.videoId}
+            key={item.videoId}
             className={style.player}
             opts={opts}
-            videoId={item.id.videoId}
+            videoId={item.videoId}
           />
         </div>
       ))}
