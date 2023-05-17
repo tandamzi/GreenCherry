@@ -12,23 +12,29 @@ const clientHttpForm = axios.create({
   },
 });
 
-// clientHttpForm.interceptors.request.use(
-//   config => {
-//     if (typeof window !== 'undefined') {
-//       const accessToken = localStorage.getItem('token');
+const serverHttpForm = axios.create({
+  baseURL: SERVER_API_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+serverHttpForm.interceptors.request.use(
+  config => {
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem('token');
 
-//       if (config.headers && accessToken) {
-//         // eslint-disable-next-line no-param-reassign
-//         config.headers.Authorization = accessToken;
-//         return config;
-//       }
-//     }
-//     return config;
-//   },
-//   err => {
-//     return Promise.reject(err);
-//   },
-// );
+      if (config.headers && accessToken) {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.Authorization = accessToken;
+        return config;
+      }
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  },
+);
 
 export default clientHttp;
-export { clientHttpForm };
+export { clientHttpForm, serverHttpForm };
