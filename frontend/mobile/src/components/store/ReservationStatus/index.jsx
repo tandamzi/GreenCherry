@@ -54,7 +54,7 @@ const ReservationStatus = ({ reservationInfo }) => {
             if (orderQuantity) {
               setOrderQuantity(orderQuantity - 1);
               setOrderPrice(
-                (orderQuantity - 1) * data.cherryBox.pricePerCherryBox,
+                (orderQuantity - 1) * data.cherryBox.priceAfterDiscount,
               );
             } else {
               setOrderQuantity(0);
@@ -73,7 +73,7 @@ const ReservationStatus = ({ reservationInfo }) => {
             if (orderQuantity < data.cherryBox.quantity) {
               setOrderQuantity(orderQuantity + 1);
               setOrderPrice(
-                (orderQuantity + 1) * data.cherryBox.pricePerCherryBox,
+                (orderQuantity + 1) * data.cherryBox.priceAfterDiscount,
               );
             }
           }}
