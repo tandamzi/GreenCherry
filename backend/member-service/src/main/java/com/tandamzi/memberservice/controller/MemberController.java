@@ -101,4 +101,11 @@ public class MemberController {
         Long totalMemberNumber = memberService.getTotalMemberNumber();
         return responseService.getSingleResult(totalMemberNumber);
     }
+
+    @GetMapping("/{member-id}/nickname")
+    public SingleResult<String> findMemberNickname(@PathVariable("member-id") Long memberId){
+        log.info("MemberController findMemberNickname 실행 -> memberId = {}", memberId);
+        String memberNickname = memberService.findMemberNickname(memberId);
+        return responseService.getSingleResult(memberNickname);
+    }
 }

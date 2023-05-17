@@ -20,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r.orderId from Review r where r.orderId in :orderList")
     List<Long> existsByOrderIdIn(@Param("orderList") List<Long> orderList);
 
+    Page<Review> findPageByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+
 }

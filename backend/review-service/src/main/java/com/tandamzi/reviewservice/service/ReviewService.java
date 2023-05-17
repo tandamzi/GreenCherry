@@ -5,6 +5,7 @@ import com.tandamzi.reviewservice.domain.ReviewImage;
 import com.tandamzi.reviewservice.domain.ReviewTag;
 import com.tandamzi.reviewservice.domain.Tag;
 import com.tandamzi.reviewservice.dto.member.MemberDto;
+import com.tandamzi.reviewservice.dto.review.MyReviewDto;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
 import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
 import com.tandamzi.reviewservice.dto.tag.TagStatsDto;
@@ -122,4 +123,11 @@ public class ReviewService {
         log.info("ReviewService existReviewByOrder 실행 -> orderList = {}", orderList);
         return reviewRepository.existsByOrderIdIn(orderList);
     }
+
+    public Page<MyReviewDto> myReviewList(Long memberId, Pageable pageable){
+        log.info("ReviewService myReviewList 실행 -> memberId = {}", memberId);
+        Page<Review> reviews = reviewRepository.findPageByMemberId(memberId, pageable);
+        return reviews.map(MyReviewDto::create);
+    }
+
 }

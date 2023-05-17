@@ -185,10 +185,13 @@ export const getServerSideProps = async context => {
   const httpInstance = createBFFInstance(req);
 
   const response = await httpInstance.get(`/api/home/youtube-short`);
-  const getCherryPoint = await httpInstance.get(`/api/home/cherry-point`);
+  // const getCherryPoint = await httpInstance.get(`/api/home/cherry-point`);
+
+  // console.log(getCherryPoint);
   return {
     props: {
       homeProps: response.data,
+      // cherryPorintProps: getCherryPoint.data,
     },
   };
 };

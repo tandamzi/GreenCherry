@@ -10,7 +10,7 @@ import useStore from '@/hooks/storeHook';
 import { getTodayOrderList, getPagableOrderList } from '@/utils/api/order';
 import getCurrentDate from '@/utils/getCurrentDate';
 
-const AfterOpen = () => {
+const AfterOpen = ({ renderKey }) => {
   const { memberAttributes } = useMember();
   const { setCherryPoint } = useStore();
   const [quantity, setQuantity] = useState(0);
@@ -29,7 +29,7 @@ const AfterOpen = () => {
       setQuantity(res.cherryBoxQuantity);
       setCherryPoint(res.cherryPoint);
     });
-  }, []);
+  }, [renderKey]);
 
   const loadMoreOrders = async () => {
     if (pageEnd || isLoading) return;
