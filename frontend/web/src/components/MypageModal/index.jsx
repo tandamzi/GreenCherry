@@ -38,7 +38,7 @@ const MypageModal = () => {
     <Modal
       isOpen={myStoreModalOpen}
       onClose={closeMyStoreModal}
-      className="w-2/3 h-5/6 px-40 py-11"
+      className="w-2/3 h-5/6 px-40 py-11 tablet:w-full tablet:px-1"
     >
       <h2 className="text-center text-4xl">내 가게</h2>
       <div>
