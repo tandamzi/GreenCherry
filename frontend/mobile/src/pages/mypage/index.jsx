@@ -51,7 +51,7 @@ const myPage = () => {
   });
 
   const getTreeUrl = cherryPoint => {
-    if (cherryPoint > 0 && cherryPoint <= 8) {
+    if (cherryPoint >= 0 && cherryPoint <= 8) {
       return tree1;
     }
     if (cherryPoint > 8 && cherryPoint <= 16) {
