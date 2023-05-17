@@ -36,7 +36,7 @@ const UserReview = ({ reviewInfo }) => {
         <div className="flex justify-center items-center w-full text-2xl h-20">
           <Image alt="no-review" src={CRYING_ICON_URL} width={32} height={32} />
 
-          <span> 아직 작성된 리뷰가 없어요</span>
+          <span className="ml-1 pt-1"> 아직 작성된 리뷰가 없어요</span>
         </div>
       )}
     </div>

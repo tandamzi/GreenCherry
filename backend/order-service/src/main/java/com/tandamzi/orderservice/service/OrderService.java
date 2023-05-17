@@ -228,7 +228,7 @@ public class OrderService {
         });
 
 
-        List<StoreInfoForOrderDto> storeInfoForOrderDtos = storeServiceClient.storeInfoForOrder(orderIds).getData();
+        List<StoreInfoForOrderDto> storeInfoForOrderDtos = storeServiceClient.storeInfoForOrder(storeIds).getData();
         List<Long> orderIdsByReview = reviewServiceClient.existReviewByOrder(orderIds).getData();
 
         HashMap<Long,StoreInfoForOrderDto> storeInfoMap = new HashMap<>();

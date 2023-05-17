@@ -19,7 +19,7 @@ export default function useStore() {
     cherryPoint,
     instagram,
     storeDescription,
-    cherryboxDescription,
+    cherryBoxDescription,
     allergies,
     images,
   } = useSelector(state => state.business);
@@ -70,7 +70,7 @@ export default function useStore() {
       cherryPoint,
       instagram,
       storeDescription,
-      cherryboxDescription,
+      cherryBoxDescription,
       allergies,
       images,
     },

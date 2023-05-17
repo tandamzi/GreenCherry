@@ -24,7 +24,7 @@ public class StoreDetailforOrderResponseDto {
         private int totalPriceBeforeDiscount;
         private int quantity;
         private double discountRate;
-        private int pricePerCherryBox;
+        private int priceAfterDiscount;
     }
 
 }
