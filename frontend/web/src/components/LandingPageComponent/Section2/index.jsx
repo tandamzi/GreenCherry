@@ -8,13 +8,13 @@ const Section2 = () => {
   return (
     <div className={`${style['section-item']}`}>
       <div className={`${style['text-container']}`}>
-        <h2 className={`${style['title-text']}`}>환경을 생각해요!</h2>
         <p className={`${style['sub-text']}`}>
-          <span className={`${style.emphasis}`}>
-            지구를 위한 작은 소비 <br />
-          </span>
-          버려질 위기의 음식을 구해서 환경을 살리는
-          <br /> 가치있는 소비에 동참해주세요!
+          음식점과 가정에서 버려지는 음식
+        </p>
+        <h2 className={`${style['title-text']}`}>약 11,000만톤</h2>
+        <p className={`${style['sub-text']}`}>
+          이 중 먹기도 전에 버지는 음식
+          <br /> 약 <span className={`${style.emphasis}`}>3000만 </span> 톤
         </p>
       </div>
 

@@ -9,6 +9,7 @@ import MainBody from './components/MainBody';
 import MainFooter from './components/MainFooter';
 import MainFooterWithNavigation from './components/MainFooterWithNavigation';
 import MainHeader from './components/MainHeader';
+import MainHeaderWithModal from './components/MainHeaderWithModal';
 import SubPageHeader from './components/SubPageHeader';
 import style from './index.module.scss';
 
@@ -28,6 +29,7 @@ const Container = ({ children, className }) => {
 };
 
 Container.Header = Header;
+Container.MainHeaderWithModal = MainHeaderWithModal;
 Container.MainHeader = MainHeader;
 Container.Body = Body;
 Container.MainBody = MainBody;
