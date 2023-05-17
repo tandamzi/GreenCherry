@@ -10,6 +10,7 @@ self.addEventListener('install', function (e) {
 // });
 
 self.addEventListener('push', function (e) {
+  const bc = new BroadcastChannel('fcm_channel');
   console.log('push: ', e.data.json());
   if (!e.data.json()) return;
 
@@ -20,9 +21,12 @@ self.addEventListener('push', function (e) {
     data: resultData.data,
     ...resultData,
   };
-  // console.log('push: ', { resultData, notificationTitle, notificationOptions });
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  e.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions),
+  );
+
+  bc.postMessage(resultData);
 });
 
 self.addEventListener('notificationclick', function (event) {
