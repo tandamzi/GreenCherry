@@ -9,7 +9,7 @@
 
 .selected {
   border-color: var(--color-bgcolor);
-  background-color: var(--color-bgcolor);
+  background-color: var(--color-bgcolor) !important;
   color: var(--color-secondary);
 }
 
