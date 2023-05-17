@@ -45,7 +45,7 @@ const Review = () => {
       <Container.BusinessHeader />
       <Container.MainBody className="bg-bgcolor h-full ">
         <div className="flex items-center mx-8 mt-8">
-          <p className="font-bold text-xl pr-4">사용자 리뷰</p>
+          <p className="font-bold text-xl pr-4">총리뷰 리뷰</p>
           <span className=" text-sm align-text-bottom">
             <span className="text-secondary">{reviewCount}</span>건
           </span>
