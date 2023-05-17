@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       instagram: response.data.data.snsAccount || '',
       pickUpStartTime: response.data.data.pickUpStartTime,
       pickUpEndTime: response.data.data.pickUpEndTime,
-      cherryboxDescription: response.data.data.cherryBox.description || '',
+      cherryBoxDescription: response.data.data.cherryBox.description || '',
       allergies: response.data.data.allergies,
       images: response.data.data.images,
     };
