@@ -135,6 +135,7 @@
 
 
 ### 4) ERD
+<img width="694" alt="erd" src="https://github.com/0takkk/Algorithm/assets/89503136/c7cb5dd0-5924-4947-ab11-453ec7105b83">
 
 
 <br>
