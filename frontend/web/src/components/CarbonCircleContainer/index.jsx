@@ -17,14 +17,16 @@ const CarbonCircleContainer = ({ className }) => {
   return (
     <div
       className={classnames(
-        'bg-secondary text-bgcolor text-center rounded-full shadow-second',
+        'bg-secondary text-bgcolor text-center rounded-full shadow-secondary',
         className,
       )}
     >
-      {memberAttributes.storeName} 가게는 <br />
+      {memberAttributes.storeName}
+      <br />
+      가게는
       <span className="font-bold">
         {!isNaN(storeAttributes.cherryPoint)
-          ? `${storeAttributes.cherryPoint}Kg CO2e`
+          ? ` ${storeAttributes.cherryPoint}Kg CO2e`
           : 'Loading...'}
       </span>
       <br /> 만큼 줄였어요!
