@@ -1,5 +1,14 @@
 import clientHttp from '@/utils/clientHttp';
 
+export const getStoreOpen = async storeId => {
+  try {
+    const res = await clientHttp.get(`/store/${storeId}/open`);
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getStore = async memberId => {
   try {
     const data = await clientHttp.get(`/store/info?member-id=${memberId}`);

@@ -15,6 +15,7 @@ const ShortComponent = ({ shortInfo, width, height }) => {
       iv_load_policy: 3,
     },
   };
+
   return (
     <div className={style['youtube-container']}>
       {shortInfo.items.map((item, idx) => (

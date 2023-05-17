@@ -8,6 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 
 import MainCarbon from '../../components/main/MainCarbon';
 
@@ -23,6 +24,7 @@ const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
 
 const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
@@ -100,6 +102,10 @@ const Home = ({ homeProps }) => {
   const goToPage = page => {
     dispatch(changePage(page));
   };
+
+  const goToMoreShorts = () => {
+    router.push('/');
+  };
   return !loading ? (
     <Container className="overflow-y-scroll scrollbar-hide">
       <Container.MainHeaderWithModal />
@@ -137,9 +143,13 @@ const Home = ({ homeProps }) => {
             <div className="relative w-20 h-10 mt-3">
               <Image src={SHORTS_ICON_URL} fill alt="shorts" />
             </div>
-            <div className="flex items-center mt-3 mr-4 ">
+            <button
+              className="flex items-center mt-3 mr-4"
+              type="button"
+              onClick={() => goToMoreShorts()}
+            >
               <FiMoreHorizontal width={20} height={10} />
-            </div>
+            </button>
           </div>
           <div className="h-60">
             <div className="relative">

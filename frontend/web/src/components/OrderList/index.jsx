@@ -18,7 +18,12 @@ import OrderZero from '@/components/OrderZero';
  * @property {string} orderDate
  */
 
-const OrderList = ({ orderList, updateOrderState, loadMoreOrders }) => {
+const OrderList = ({
+  orderList,
+  updateOrderState,
+  loadMoreOrders,
+  pageEnd,
+}) => {
   /**
    * @type {Order[]}
    */
@@ -53,7 +58,7 @@ const OrderList = ({ orderList, updateOrderState, loadMoreOrders }) => {
             updateOrderState={updateOrderState}
           />
         ))}
-        <div ref={ref}>Loading...</div> {/* This div will be observed */}
+        {!pageEnd && <div ref={ref}>Loading...</div>}
       </div>
     </div>
   );
