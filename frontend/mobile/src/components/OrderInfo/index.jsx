@@ -31,18 +31,28 @@ const OrderInfo = ({ orderInfo }) => {
         <div className="w-full">
           <p className="font-bold text-2xl mt-3">{orderInfo.storeName}</p>
           <p className="font-thin mb-2">체리박스 {orderInfo.quantity}</p>
-          {orderInfo.writed === 'YES' ? (
-            <div
-              className="text-center w-full bg-itembg py-1 rounded-lg active:bg-primary"
-              onClick={() => {
-                navigate.push('/');
-              }}
-            >
-              <p>리뷰작성</p>
-            </div>
-          ) : (
+          {orderInfo.writed === 'EXPIRATION' ? (
             <div className="text-center w-full py-1 rounded-lg border border-disabled">
               <p className="text-disabled">리뷰 작성일이 지났습니다</p>
+            </div>
+          ) : (
+            <div>
+              {orderInfo.writed === 'NO' ? (
+                <div
+                  className="text-center w-full bg-itembg py-1 rounded-lg active:bg-primary"
+                  onClick={() => {
+                    navigate.push(
+                      `review-form/${orderInfo.memberId}/${orderInfo.storeId}/${orderInfo.orderId}`,
+                    );
+                  }}
+                >
+                  <p>리뷰작성</p>
+                </div>
+              ) : (
+                <div className="text-center w-full py-1 rounded-lg border border-disabled">
+                  <p className="text-disabled">이미 리뷰를 작성했습니다</p>
+                </div>
+              )}
             </div>
           )}
         </div>

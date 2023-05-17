@@ -9,7 +9,7 @@ const handler = async (req, res) => {
 
   await youtube
     .get(
-      `search?part=snippet&type=short&key=${API_KEY}&q=toogoodtogo&maxResults=1&order=date`,
+      `search?part=snippet&type=short&key=${API_KEY}&q=toogoodtogo&maxResults=60&order=date`,
     )
     .then(response => {
       res.status(StatusCodes.OK).json(response.data);
