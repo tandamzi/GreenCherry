@@ -1,6 +1,7 @@
 package com.tandamzi.orderservice.repository;
 
 import com.tandamzi.orderservice.domain.Order;
+import com.tandamzi.orderservice.domain.State;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,4 +30,6 @@ public interface OrderRepository extends JpaRepository<Order ,Long> , OrderRepos
             "where o.createDate between :startDateTime and :endDateTime")
     Tuple findTupleBetWeenCurrentDateAndEndDate(@Param("startDateTime")LocalDateTime startDateTime , @Param("endDateTime")LocalDateTime endDateTime);
 
+    @Query("select o from Order o where o.state = :state and o.memberId = :memberId")
+    List<Order> findProgressOrder(@Param("memberId") Long memberId, @Param("state") State state);
 }
