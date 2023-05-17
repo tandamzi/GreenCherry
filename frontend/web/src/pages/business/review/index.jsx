@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Lottie from 'react-lottie-player';
 
-import sprout1 from '@public/assets/lottie/sprout1.json';
 import cs from 'classnames';
 import Image from 'next/image';
 
-import ReviewComponent from '@/components/review/ReviewComponent';
+import ReviewComponent from '@/components/ReviewComponent';
 
-const CRYING_ICON_URL = `/assets/icons/etcIcons/crying-face.svg`;
+const CRYING_ICON_URL = `/assets/icons/crying-face.svg`;
 const Review = ({ reviewInfo }) => {
   const [data, setData] = useState();
   useEffect(() => {
