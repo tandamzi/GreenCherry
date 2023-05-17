@@ -2,6 +2,7 @@ package com.tandamzi.noticeservice.dto.request;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,4 +17,8 @@ public class RegisterOrderDto {
     private int totalSalesAmount;
     private List<String> tokens;
 
+    private Long orderId;
+    private String nickname;
+    private String orderState;
+    private LocalDateTime orderDate;
 }
