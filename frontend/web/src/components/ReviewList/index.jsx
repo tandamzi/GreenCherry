@@ -8,7 +8,7 @@ import Image from 'next/image';
 import ReviewComponent from '@/components/ReviewComponent';
 
 const CRYING_ICON_URL = `/assets/icons/crying-face.svg`;
-const ReviewList = ({ reviewList, loadMoreOrders }) => {
+const ReviewList = ({ reviewList, loadMoreReviews, pageEnd }) => {
   const [data, setData] = useState();
 
   const { ref, inView, entry } = useInView({
@@ -17,9 +17,9 @@ const ReviewList = ({ reviewList, loadMoreOrders }) => {
 
   useEffect(() => {
     if (inView) {
-      loadMoreOrders(); // Load more orders when the ref comes into view
+      loadMoreReviews(); // Load more orders when the ref comes into view
     }
-  }, [inView, loadMoreOrders]);
+  }, [inView, loadMoreReviews]);
   return (
     <div className="flex flex-col py-5 text-primaryfont font-thin h-full max-w-4xl max-h-fit">
       {reviewList && reviewList.length !== 0 ? (
@@ -34,7 +34,7 @@ const ReviewList = ({ reviewList, loadMoreOrders }) => {
               );
             })}
           </div>
-          <div ref={ref}>Loading...</div> {/* This div will be observed */}
+          {!pageEnd && <div ref={ref}>Loading...</div>}
         </>
       ) : (
         <div className="flex justify-center items-center w-full text-2xl h-20">
