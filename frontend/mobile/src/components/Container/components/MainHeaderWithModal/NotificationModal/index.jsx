@@ -64,7 +64,7 @@ const NotificationList = ({ show }) => {
           >
             <span
               className={`toggle-inner block w-14 h-9 bg-primaryevent rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${
-                toggleState ? 'translate-x-full' : 'translate-x-0 '
+                !toggleState ? 'translate-x-full' : 'translate-x-0 '
               }`}
             />
           </label>
