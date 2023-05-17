@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
@@ -25,18 +25,28 @@ const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
 const Home = ({ homeProps }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const options = {
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
-    },
-  };
 
+  const member = useSelector(state => state.member.memberInfo);
+
+  const [reservationList, setReservationList] = useState([]);
+
+  const getReservationList = async id => {
+    try {
+      const response = await clientHttp.get(`/reservation/${id}`);
+      setReservationList(response.data.data);
+    } catch (error) {
+      console.log('Error fetching data:', error);
+    }
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000); // 3초 동안 로딩 스피너 표시
 
     return () => clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    getReservationList(member.id);
   }, []);
 
   useEffect(() => {
@@ -137,7 +147,7 @@ const Home = ({ homeProps }) => {
             </Link>
           </div>
           <div className="row-span-2">
-            <Reservation />
+            <Reservation reservationList={reservationList} />
           </div>
           <div className="flex justify-between">
             <div className="relative w-20 h-10 mt-3">
@@ -175,6 +185,7 @@ export const getServerSideProps = async context => {
   const httpInstance = createBFFInstance(req);
 
   const response = await httpInstance.get(`/api/home/youtube-short`);
+  const getCherryPoint = await httpInstance.get(`/api/home/cherry-point`);
   return {
     props: {
       homeProps: response.data,
