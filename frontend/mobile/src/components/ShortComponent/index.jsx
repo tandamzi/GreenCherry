@@ -26,12 +26,14 @@ const ShortComponent = ({ shortInfo, width, height }) => {
       iv_load_policy: 3,
     },
   };
+
   return (
     <div className="w-fit">
       <div
         className={(style['image-container'], 'flex overflow-x-auto w-full')}
       >
-        {shortInfo.items.map((item, idx) => (
+        <YouTube opts={opts} videoId="OLHmy0ZdWyY" />
+        {/* {shortInfo.items.map((item, idx) => (
           <div
             key={idx}
             className={cn(
@@ -39,9 +41,9 @@ const ShortComponent = ({ shortInfo, width, height }) => {
             )}
             style={{ width, height }}
           >
-            <YouTube opts={opts} videoId={item.id.videoId} />
+            <YouTube opts={opts} videoId="OLHmy0ZdWyY" />
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
