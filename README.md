@@ -135,12 +135,13 @@
 
 
 ### 4) ERD
+<img width="694" alt="erd" src="https://github.com/0takkk/Algorithm/assets/89503136/c7cb5dd0-5924-4947-ab11-453ec7105b83">
 
 
 <br>
 
 ### 5) 아키텍처
-
+![architecture](./exec/greencherry-architecture.png)
 <br>
 
 ### 6) [REST API](https://friendly-antimatter-c82.notion.site/API-9be663a606a14e43970806ea6a6228dd)

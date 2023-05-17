@@ -17,6 +17,12 @@ export const storeSlice = createSlice({
   name: 'business',
   initialState,
   reducers: {
+    setOpenAction: (state, action) => {
+      return {
+        ...state,
+        open: action.payload,
+      };
+    },
     loginStoreAction: (state, action) => {
       // console.log('loginStoreAction: ', action.payload);
       return {
@@ -115,5 +121,6 @@ export const {
   openStoreAction,
   closeStoreAction,
   logoutStoreAction,
+  setOpenAction,
 } = actions;
 export default reducer;
