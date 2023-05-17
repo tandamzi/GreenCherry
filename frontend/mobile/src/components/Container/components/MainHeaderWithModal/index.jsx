@@ -26,7 +26,7 @@ const MainHeader = ({ className, children }) => {
   return (
     <Header
       className={cs(
-        'flex justify-between items-center sticky top-0 z-30 bg-white px-12 touch-none ',
+        'flex justify-between items-center sticky top-0 z-30 bg-bgcolor px-12 touch-none ',
         className,
       )}
     >
