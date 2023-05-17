@@ -170,7 +170,7 @@ const Home = ({ homeProps }) => {
               <Reservation />
             </div>
             <div>
-              <ShortComponent shortInfo={homeProps} width={126} height={224} />
+              <ShortComponent width={126} height={224} />
             </div>
           </div>
         </Container.Body>
@@ -183,14 +183,14 @@ const Home = ({ homeProps }) => {
 
 export default Home;
 
-export const getServerSideProps = async context => {
-  const { req } = context;
-  const httpInstance = createBFFInstance(req);
+// export const getServerSideProps = async context => {
+//   const { req } = context;
+//   const httpInstance = createBFFInstance(req);
 
-  const response = await httpInstance.get(`/api/youtube-short`);
-  return {
-    props: {
-      homeProps: response.data,
-    },
-  };
-};
+//   const response = await httpInstance.get(`/api/youtube-short`);
+//   return {
+//     props: {
+//       homeProps: response.data,
+//     },
+//   };
+// };
