@@ -10,15 +10,12 @@ import com.tandamzi.noticeservice.dto.request.RegisterCherryBoxDto;
 import com.tandamzi.noticeservice.dto.request.RegisterOrderDto;
 import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
-import com.tandamzi.noticeservice.dto.response.OrderMobileListResponseDto;
 import com.tandamzi.noticeservice.exception.NoticeNotFoundException;
 import com.tandamzi.noticeservice.feign.OrderServiceClient;
-import com.tandamzi.noticeservice.kafka.KafkaConsumer;
 import com.tandamzi.noticeservice.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,12 +115,6 @@ public class NoticeService {
                     .setToken(token)
                     .putData("noticeType", String.valueOf(registerOrderDto.getNoticeType()))
                     .putData("storeId", String.valueOf(registerOrderDto.getStoreId()))
-                    .putData("orderId", String.valueOf(registerOrderDto.getOrderId()))
-                    .putData("nickname", String.valueOf(registerOrderDto.getNickname()))
-                    .putData("quantity", String.valueOf(registerOrderDto.getQuantity()))
-                    .putData("orderState", String.valueOf(registerOrderDto.getOrderState()))
-                    .putData("totalSalesAmount", String.valueOf(registerOrderDto.getTotalSalesAmount()))
-                    .putData("orderDate", String.valueOf(registerOrderDto.getOrderDate()))
                     .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "1000")
                             .setNotification(new WebpushNotification("주문이 들어왔습니다.", body))
                             .build())
