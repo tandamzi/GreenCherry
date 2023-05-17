@@ -6,6 +6,7 @@ import com.tandamzi.memberservice.domain.Notice;
 import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
 import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
 import com.tandamzi.memberservice.dto.member.MemberNoticeDto;
+import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
 import com.tandamzi.memberservice.repository.member.MemberRepository;
 import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -100,5 +101,11 @@ public class MemberService {
         log.info("MemberService getTotalMemberNumber 실행");
         Long members = memberRepository.countAllMembers();
         return members;
+    }
+
+    public String findMemberNickname(Long memberId){
+        log.info("MemberService findMemberNickname 실행 -> memberId = {}", memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return member.getNickname();
     }
 }

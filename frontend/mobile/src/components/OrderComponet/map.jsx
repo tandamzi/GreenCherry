@@ -196,7 +196,7 @@ const map = () => {
     };
     mapRef.current = new kakao.maps.Map(container, options);
     mapRef.current.setMinLevel(1);
-    mapRef.current.setMaxLevel(7);
+    mapRef.current.setMaxLevel(9);
 
     kakao.maps.event.addListener(mapRef.current, 'dragstart', function () {
       setIsMapMoving(false);

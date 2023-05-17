@@ -49,7 +49,7 @@ const OrderListItem = ({ order, updateOrderState }) => {
   };
 
   return (
-    <div className="flex w-full text-3xl text-center py-3 items-center max-w-4xl">
+    <div className="flex w-full text-3xl text-center py-3 items-center max-w-4xl tablet:text-2xl">
       <PickUpCompleteModal
         isOpen={isPickUpCompleteModalOpen}
         onClose={handlePickUpCompleteModalClose}

@@ -8,6 +8,7 @@
   background-color: rgba(var(--color-bgcolor-rgb), 0.7);
   box-shadow: 0px 3.91919px 3.91919px rgba(73, 91, 87, 0.25);
   margin-right: calc(min(128px, 10vw));
+  transition: transform 0.3s ease-out;
 }
 
 .toggleButton {
@@ -22,15 +23,17 @@
   transition: background-color 0.3s, color 0.3s;
   color: var(--color-secondary);
   height: 100%;
+  padding: 0 25px;
 }
 
 .userButton {
   border-radius: 24px;
+  padding: 0;
 }
 
 .businessButton {
   border-radius: 24px;
-  padding: 0 25px;
+  padding: 0;
 }
 
 .toggleButton:active {
@@ -47,10 +50,10 @@
   .toggleMenu {
     margin-right: 10px;
     width: 180px;
-    // width: calc(min(312px, 40%));
+    transform: scale(0.8);
   }
   .toggleButton {
-    font-size: 16px;
+    font-size: 2vw;
   }
   .businessButton {
     padding: 0 10px;

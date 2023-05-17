@@ -6,7 +6,7 @@ const LongBoxContainer = ({ children, className }) => {
   return (
     <div
       className={classnames(
-        'bg-secondary text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-second',
+        'bg-secondary text-bgcolor w-full text-3xl text-center rounded-full py-2 shadow-second tablet:text-2xl',
         className,
       )}
     >
