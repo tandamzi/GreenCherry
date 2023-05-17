@@ -6,6 +6,7 @@ import com.tandamzi.orderservice.dto.StoreInfoForOrderDto;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailResponseDto;
 import com.tandamzi.orderservice.dto.response.StoreDetailforOrderResponseDto;
+import com.tandamzi.orderservice.feign.dto.StoreNameDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,4 +26,7 @@ public interface StoreServiceClient {
 
     @GetMapping("/store/storeInfo-for-order")
     SingleResult<List<StoreInfoForOrderDto>> storeInfoForOrder(@RequestParam("storeIds") List<Long> storeIds);
+
+    @GetMapping("/store/storeName")
+    SingleResult<List<StoreNameDto>> storeNameForProgressOrder(@RequestParam("storeIds") List<Long> storeIds);
 }

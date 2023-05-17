@@ -1,6 +1,7 @@
 package com.tandamzi.orderservice.controller;
 
 import com.tandamzi.orderservice.common.response.ResponseService;
+import com.tandamzi.orderservice.common.result.ListResult;
 import com.tandamzi.orderservice.common.result.Result;
 import com.tandamzi.orderservice.common.result.SingleResult;
 import com.tandamzi.orderservice.dto.request.RegisterOrderDto;
@@ -37,10 +38,12 @@ public class OrderController {
         orderService.changeOrderState(orderId,state);
         return responseService.getSuccessResult();
     }
-    @GetMapping("/{order-id}")
-    public SingleResult<OrderDetailResponseDto> detailOrder(@PathVariable("order-id") Long orderId){
-        log.info("[OrderController] detailOrder ");
-        return responseService.getSingleResult(orderService.detailOrder(orderId));
+    @GetMapping("/progress")
+    public ListResult<ProgressOrderResponseDto> progressOrder(@RequestParam("member-id") Long memberId){
+        log.info("[OrderController] progressOrder 실행 -> memberId = {} ", memberId);
+
+        List<ProgressOrderResponseDto> requestDto = orderService.progressOrder(memberId);
+        return responseService.getListResult(requestDto);
     }
     @GetMapping("")
     public SingleResult<Page<OrderListResponseDto>> orderList(@RequestParam("store-id") Long storeId,
