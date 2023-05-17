@@ -114,10 +114,9 @@ const Join = () => {
       if (response.data.success) {
         const memberData = await getMember();
         if (memberData.isJoined) {
-          login(data);
-          // console.log(data)
+          login(memberData);
+          router.push('/business');
         }
-        router.push('/business');
       } else {
         router.push('/');
       }
@@ -534,7 +533,7 @@ const Join = () => {
             >
               <p>등록하기</p>
             </button>
-            <div>전송시작?{clicked ? <p>네</p> : <p>아니오</p>}</div>
+            {/* <div>전송시작?{clicked ? <p>네</p> : <p>아니오</p>}</div> */}
           </div>
         </form>
       </Container.MainBody>
