@@ -15,9 +15,30 @@
   overflow: hidden;
   border-radius: 20px; /* 둥근 모서리를 원하시면 이 값을 조정하세요. */
 }
-
 .youtube-container::-webkit-scrollbar {
   display: none;
+}
+
+/* 1024px 이상 너비에서는 스크롤바를 보이게 함 */
+@media screen and (min-width: 1024px) {
+  .youtube-container::-webkit-scrollbar {
+    display: block;
+    width: 2px; /* 스크롤바의 너비 */
+    height: 16px; /* 스크롤바의 높이 */
+  }
+
+  .youtube-container::-webkit-scrollbar-track {
+    background: var(--color-bgcolor); /* 배경 색상 */
+  }
+
+  .youtube-container::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: var(--color-primary); /* 배경 색상 */
+  }
+
+  .youtube-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-event); /* 배경 색상 */
+  }
 }
 
 .youtube-container {
