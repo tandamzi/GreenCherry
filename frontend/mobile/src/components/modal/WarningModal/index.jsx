@@ -115,14 +115,29 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                       onClick={async e => {
                         e.preventDefault();
                         try {
-                          await clientHttp.get('/order-complete', {
-                            params: {
-                              storeId,
-                              memberId,
-                              orderQuantity,
-                            },
-                          });
-                          handleClose();
+                          await clientHttp
+                            .get('/order-complete', {
+                              params: {
+                                storeId,
+                                memberId,
+                                orderQuantity,
+                              },
+                            })
+                            .then(() => {
+                              handleClose();
+                            })
+                            .then(async () => {
+                              await Swal.fire({
+                                icon: 'success',
+                                title: '주문 성공',
+                                text: '정해진 시간 내 픽업해주세요',
+                                showConfirmButton: true,
+                              }).then(result => {
+                                if (result.isConfirmed) {
+                                  location.reload();
+                                }
+                              });
+                            });
                         } catch (error) {
                           if (error.response && error.response.status === 400) {
                             if (error.response.data.code === -201) {
