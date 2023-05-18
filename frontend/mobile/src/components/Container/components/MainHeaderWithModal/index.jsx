@@ -40,9 +40,9 @@ const MainHeader = ({ className, children }) => {
             alt="greenCherry"
           />
         </div>
-        <span className="mt-1 text-primary font-bold">
+        <span className="mt-1 text-secondary font-bold">
           Green
-          <span className="text-secondary font-bold">Cherry</span>
+          <span className="text-primary font-bold">Cherry</span>
         </span>
       </div>
       <div className="flex items-center">
