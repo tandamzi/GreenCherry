@@ -222,13 +222,18 @@ public class OrderService {
         List<Order> orders = orderRepository.findListById(orderId);
 
         List<Long> storeIds = new ArrayList<>();
+        HashSet<Long> storeIdSet = new HashSet<>();
         List<Long> orderIds = new ArrayList<>();
 
         orders.forEach(order -> {
-            storeIds.add(order.getStoreId());
+            storeIdSet.add(order.getStoreId());
             orderIds.add(order.getId());
         });
 
+        storeIds = new ArrayList<>(storeIdSet);
+
+        log.info("orderIds = {}", orderIds);
+        log.info("storeIds = {}", storeIds);
 
         List<StoreInfoForOrderDto> storeInfoForOrderDtos = storeServiceClient.storeInfoForOrder(storeIds).getData();
         List<Long> orderIdsByReview = reviewServiceClient.existReviewByOrder(orderIds).getData();
