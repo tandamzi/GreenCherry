@@ -76,7 +76,7 @@ public class NoticeService {
     }
 
     public Page<ListResponseDto> getNoticeList(Long memberId, Pageable pageable){
-        log.info("[NoticeService] getNoticeList");
+        log.info("[NoticeService] getNoticeList 실행 -> memberId = {}", memberId);
         Page<Notice> notices = noticeRepository.findByMemberId(memberId, pageable);
 
         List<Long> orderIds = new ArrayList<>();
@@ -84,12 +84,18 @@ public class NoticeService {
             orderIds.add(notice.getOrderId());
         });
 
+        log.info("orderIds = {}", orderIds);
+
         HashSet<Long> existedOrderIds = new HashSet<>(reviewServiceClient.existReviewByOrder(orderIds).getData());
+
+        log.info("existedOrderIds = {}", existedOrderIds);
 
         List<Long> nonExistedOrderIds = new ArrayList<>();
         orderIds.stream()
                 .filter(id -> !existedOrderIds.contains(id))
                 .forEach(nonExistedOrderIds::add);
+
+        log.info("nonExistedOrderIds = {}", nonExistedOrderIds);
 
         List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(nonExistedOrderIds).getData();
 
