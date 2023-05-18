@@ -51,10 +51,10 @@ const NotificationList = ({ show }) => {
         { [style.show]: show },
       )}
     >
-      <div className="mb-32">
+      <div className="mb-28">
         <div
           className={cn(
-            'fixed z-20 left-1/2 -translate-x-1/2 top-14 inline-block w-28 align-middle select-none transition duration-200 ease-in',
+            'fixed z-20 left-1/2 -translate-x-1/2 top-30 inline-block w-28 align-middle select-none transition duration-200 ease-in',
           )}
         >
           <input
@@ -94,7 +94,7 @@ const NotificationList = ({ show }) => {
           return (
             <div
               className={cn(
-                'w-full flex px-4 py-6 my-8 rounded-xl',
+                'w-full flex px-4 py-6 mb-8 rounded-xl',
                 style['notification-item'],
               )}
             >
@@ -126,10 +126,10 @@ const NotificationList = ({ show }) => {
           );
         })
       ) : (
-        <div className="flex justify-center items-center mb-5 h-20">
+        <div className="flex flex-col justify-center items-center mb-5 h-full">
           <Lottie loop animationData={empty} play option={options} speed={1} />
 
-          {/* <span className="ml-1 pt-1"> 새로온 알림이 없어요</span> */}
+          <span className="text-xl mt-6 pt-1"> 새로온 알림이 없어요</span>
         </div>
       )}
     </div>
