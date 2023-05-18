@@ -99,6 +99,11 @@ public class NoticeService {
 
         List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(nonExistedOrderIds).getData();
 
+        log.info("list.size = {}", list.size());
+        for (NoticeListResponseDto noticeListResponseDto : list) {
+            log.info("orderId = {}", noticeListResponseDto.getOrderId());
+        }
+
         boolean isRead = false;
         HashMap<Long, ListResponseDto> map = new HashMap<>();
         list.forEach(dto->{
