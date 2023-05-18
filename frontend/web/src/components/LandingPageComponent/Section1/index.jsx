@@ -8,7 +8,8 @@ const Section1 = () => {
   return (
     <div className={`${style['section-item']}`}>
       <h2 className={`${style['title-text']}`}>
-        지구상에서 굶주리는 <br />
+        <span className={`${style['line-wrapper']}`}>지구상에서 굶주리는</span>
+        <br />
         <span className={`${style.emphasis}`}>815만명</span>의 <br />
         사람들에게 <br />
         <span className={`${style['line-wrapper']}`}>
