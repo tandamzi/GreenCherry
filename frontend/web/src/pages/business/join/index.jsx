@@ -191,15 +191,17 @@ const Join = () => {
     <Container>
       <Container.MainHeader />
       <Container.MainBody className="bg-secondary">
-        <form>
+        <form className="max-w-sm">
           <div className="text-bgcolor text-center mb-24">
-            <h1 className="text-7xl mt-20 mb-6">RESISTE YOUR STORE</h1>
-            <h3 className="text-4xl font-thin">
+            <h1 className="text-7xl mt-20 mb-6 tablet:text-3xl tablet:font-bold">
+              RESISTE YOUR STORE
+            </h1>
+            <h3 className="text-4xl font-thin tablet:text-xl">
               남은 음식을 수익으로 바꿔봐요
             </h3>
           </div>
-          <div className="flex flex-col items-center">
-            <div className="relative my-5 border-b-2 border-bgcolor">
+          <div className="flex flex-col items-center ">
+            <div className="relative my-5 border-b-2 border-bgcolor w-full">
               <input
                 {...register('name', {
                   required: true,
@@ -207,7 +209,7 @@ const Join = () => {
                 autoComplete="off"
                 id="name"
                 type="text"
-                className="text-2xl peer placeholder-transparent h-10 w-96 bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
+                className="text-2xl peer placeholder-transparent h-10 w-full bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
                 placeholder="상호명"
               />
               <label
@@ -220,8 +222,8 @@ const Join = () => {
             {errors.name && errors.name.type === 'required' && (
               <p className={style['error-text']}>상호명을 입력해주세요</p>
             )}
-            <div className="relative my-5 border-b-2 border-bgcolor w-96 flex">
-              <div className="w-80 overflow-hidden">
+            <div className="relative my-5 border-b-2 border-bgcolor w-full flex justify-between">
+              <div>
                 <input
                   {...register('businessLicenseNumber', {
                     required: true,
@@ -241,10 +243,8 @@ const Join = () => {
                   사업자 등록 번호
                 </label>
               </div>
-              <button type="button" className={`${style['check-button']}`}>
-                확인하기
-              </button>
             </div>
+
             {errors.businessLicenseNumber &&
               errors.businessLicenseNumber.type === 'required' && (
                 <p className={style['error-text']}>
@@ -263,7 +263,10 @@ const Join = () => {
                   사업자 등록 번호를 확인해주세요
                 </p>
               )}
-            <div className="relative my-5 border-b-2 border-bgcolor">
+            <button type="button" className={`${style['check-button']}`}>
+              확인하기
+            </button>
+            <div className="relative my-5 border-b-2 border-bgcolor w-full">
               <input
                 {...register('ownerName', {
                   required: true,
@@ -272,7 +275,7 @@ const Join = () => {
                 autoComplete="off"
                 id="ownerName"
                 type="text"
-                className="text-2xl peer placeholder-transparent h-10 w-96 bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
+                className="text-2xl peer placeholder-transparent h-10 w-full bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
                 placeholder="대표자 성명"
               />
               <label
@@ -290,7 +293,7 @@ const Join = () => {
                 대표자 성명은 2~10자 한글로 입력해주세요
               </p>
             )}
-            <div className="relative my-5 border-b-2 border-bgcolor">
+            <div className="relative my-5 border-b-2 border-bgcolor w-full">
               <input
                 {...register('startDate', {
                   required: true,
@@ -299,7 +302,7 @@ const Join = () => {
                 id="startDate"
                 type="date"
                 onChange={handleDateChange}
-                className="text-2xl peer placeholder-transparent h-10 w-96 bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
+                className="text-2xl peer placeholder-transparent h-10 w-full bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
                 placeholder="개업일"
               />
               <label
@@ -312,7 +315,7 @@ const Join = () => {
             {errors.startDate && errors.startDate.type === 'required' && (
               <p className={style['error-text']}>개업일을 입력해주세요</p>
             )}
-            <div className="relative my-5 border-b-2 border-bgcolor w-96 flex">
+            <div className="relative my-5 border-b-2 border-bgcolor w-full flex justify-between">
               <div className="w-80 overflow-hidden">
                 <input
                   {...register('businessPermission', {
@@ -332,10 +335,8 @@ const Join = () => {
                   인허가 업소 정보
                 </label>
               </div>
-              <button type="button" className={`${style['check-button']}`}>
-                확인하기
-              </button>
             </div>
+
             {errors.businessPermission &&
               errors.businessPermission.type === 'required' && (
                 <p className={style['error-text']}>
@@ -354,8 +355,10 @@ const Join = () => {
                   인허가 업소 정보를 확인해주세요
                 </p>
               )}
-
-            <div className="relative my-5 flex flex-col w-96">
+            <button type="button" className={`${style['check-button']}`}>
+              확인하기
+            </button>
+            <div className="relative my-5 flex flex-col w-full">
               <p className="text-2xl text-bgcolor">업종</p>
               <select
                 {...register('typeId', {
@@ -374,7 +377,7 @@ const Join = () => {
                 <p className={style['error-text']}>업종을 선택해주세요</p>
               )}
             </div>
-            <div className="relative my-5 flex flex-col w-96">
+            <div className="relative my-5 flex flex-col w-full">
               <p className="text-2xl text-bgcolor">주소</p>
               <div className="flex justify-between">
                 <input
@@ -422,7 +425,7 @@ const Join = () => {
                 className="text-2xl h-10 bg-secondary text-secondaryfont focus:outline-none placeholder-secondaryfont"
               />
             </div>
-            <div className="relative my-5 border-b-2 border-bgcolor">
+            <div className="relative my-5 border-b-2 border-bgcolor w-full">
               <input
                 {...register('phone', {
                   required: true,
@@ -431,7 +434,7 @@ const Join = () => {
                 autoComplete="off"
                 id="phone"
                 type="phone"
-                className="text-2xl peer placeholder-transparent h-10 w-96 bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
+                className="text-2xl peer placeholder-transparent h-10 w-full bg-secondary text-bgcolor focus:outline-none placeholder-secondary"
                 placeholder="연락처"
               />
               <label
@@ -448,8 +451,8 @@ const Join = () => {
               <p className={style['error-text']}>제대로 입력해주세요</p>
             )}
 
-            <div className="relative my-5 border-b-2 border-bgcolor flex w-96">
-              <div className="flex-1">
+            <div className="relative my-5 border-b-2 border-bgcolor flex w-full justify-between">
+              <div>
                 <input
                   {...register('pickUpStartTime', {
                     required: true,
@@ -467,7 +470,7 @@ const Join = () => {
                   OPEN
                 </label>
               </div>
-              <div className="flex-1">
+              <div>
                 <input
                   {...register('pickUpEndTime', {
                     required: true,
@@ -480,7 +483,7 @@ const Join = () => {
                 />
                 <label
                   htmlFor="pickUpEndTime"
-                  className="text-base absolute left-48 -top-3.5 text-bgcolor peer-placeholder-shown:text-2xl peer-placeholder-shown:text-bgcolor peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-bgcolor peer-focus:text-base"
+                  className="text-base absolute right-24 -top-3.5 text-bgcolor peer-placeholder-shown:text-2xl peer-placeholder-shown:text-bgcolor peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-bgcolor peer-focus:text-base"
                 >
                   CLOSE
                 </label>
@@ -494,7 +497,7 @@ const Join = () => {
               errors.pickUpEndTime.type === 'required' && (
                 <p className={style['error-text']}>CLOSE 시간을 입력해주세요</p>
               )}
-            <div className="relative my-5 flex flex-col w-96">
+            <div className="relative my-5 flex flex-col w-full">
               <p className="text-2xl text-bgcolor">알레르기 재료</p>
               <div>
                 {allergyList.map((allergy, index) => {
@@ -510,7 +513,7 @@ const Join = () => {
                 })}
               </div>
             </div>
-            <div className="relative my-5 flex flex-col w-96">
+            <div className="relative my-5 flex flex-col w-full">
               <p className="text-2xl text-bgcolor">가게이미지</p>
               <input
                 {...register('images', {
