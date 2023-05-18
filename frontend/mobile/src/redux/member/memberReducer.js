@@ -11,6 +11,7 @@ const initialState = {
     alarm: '',
   },
   token: '',
+  fbToken: '',
 };
 
 export const memberSlice = createSlice({
@@ -33,6 +34,12 @@ export const memberSlice = createSlice({
     changeProfile: (state, action) => {
       // eslint-disable-next-line no-param-reassign
       state.memberInfo.image = action.payload;
+    },
+    saveFbToken: (state, action) => {
+      return {
+        ...state,
+        fbToken: action.payload.data,
+      };
     },
     reset: state => {
       localStorage.removeItem('token');
