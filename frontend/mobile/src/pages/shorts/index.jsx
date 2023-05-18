@@ -5,12 +5,21 @@ import YouTube from 'react-youtube';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
+import ShortsPlayModal from '@/components/modal/ShortsPlayModal';
 import clientHttp from '@/utils/csr/clientHttp';
 import createYoutubeIntstacne from '@/utils/youtube';
 
 const Shorts = () => {
   const [videos, setVideos] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [open, setOpen] = useState(false);
+  const maxWidth = 575;
+  const [videoWidth, setVideoWidth] = useState(() => {
+    if (window.innerWidth <= maxWidth) {
+      return parseInt(window.innerWidth / 3);
+    } else {
+      return parseInt(maxWidth / 3);
+    }
+  });
 
   useEffect(() => {
     clientHttp.get(`home/youtube-short`).then(res => {
@@ -18,33 +27,27 @@ const Shorts = () => {
     });
   }, []);
 
+  // 창의 크기가 변경될 때마다 너비 값을 업데이트
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      if (window.innerWidth <= maxWidth) {
+        setVideoWidth(parseInt(window.innerWidth / 3));
+      } else {
+        setVideoWidth(parseInt(maxWidth / 3));
+      }
     };
 
     window.addEventListener('resize', handleResize);
 
+    // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  const getVideoWidth = () => {
-    if (windowWidth >= 768) {
-      // 화면 너비가 768px 이상인 경우
-      return windowWidth / 3;
-    } else if (windowWidth >= 480) {
-      // 화면 너비가 480px 이상인 경우
-      return windowWidth / 2;
-    } else {
-      // 화면 너비가 480px 미만인 경우
-      return windowWidth;
-    }
-  };
-
   const opts = {
-    height: '224',
+    width: videoWidth,
+    height: '220',
     playerVars: {
       controls: 0,
       loop: 1,
@@ -61,20 +64,24 @@ const Shorts = () => {
   return (
     <Container>
       <Container.SubPageHeader title="short" />
-      <div className="grid grid-cols-3 justify-items-center ">
+      <div className="grid grid-cols-3 justify-items-center">
         {videos &&
           videos.map((item, idx) => {
-            const videoWidth = getVideoWidth();
-            return (
-              <YouTube
-                opts={opts}
-                videoId={item.videoId}
-                key={idx}
-                width={videoWidth}
-              />
-            );
+            return <YouTube opts={opts} videoId={item.videoId} key={idx} />;
           })}
+        <div>
+          <div
+            type="button"
+            onClick={e => {
+              setOpen(prev => !prev);
+            }}
+          >
+            {' '}
+            modal
+          </div>
+        </div>
       </div>
+      <ShortsPlayModal open={open} setOpen={setOpen} />
     </Container>
   );
 };

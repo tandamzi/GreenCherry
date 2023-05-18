@@ -20,6 +20,7 @@ const getVideoInfo = async videoId => {
     });
 
     const video = response.data.items[0];
+    const { thumbnails } = video.snippet;
     const { title } = video.snippet;
     const { description } = video.snippet;
     const { channelTitle } = video.snippet;
@@ -28,6 +29,7 @@ const getVideoInfo = async videoId => {
       videoId,
       title,
       description,
+      thumbnails,
       channelTitle,
     };
   } catch (error) {
