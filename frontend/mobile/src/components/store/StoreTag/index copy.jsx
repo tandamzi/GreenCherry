@@ -32,7 +32,7 @@ const StoreReview = ({ tagInfo }) => {
                 width={100}
                 height={100}
                 className="h-6 flex-none w-fit m-1 ml-3"
-                alt="devday main logo"
+                alt="greenCherry"
               />
               <p className="m-1">&quot;체리박스맛있어요&quot;</p>
             </div>

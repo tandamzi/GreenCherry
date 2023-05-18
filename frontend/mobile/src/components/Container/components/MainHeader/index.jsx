@@ -27,7 +27,7 @@ const MainHeader = ({ className, children }) => {
         width={100}
         height={100}
         className=" h-6 flex-none w-fit"
-        alt="devday main logo"
+        alt="greenCherry"
       />
       <div className="flex items-center">
         <Link href="/alarm" className="w-8 h-8">

@@ -29,6 +29,9 @@ const AfterOpen = ({ renderKey }) => {
       setQuantity(res.cherryBoxQuantity);
       setCherryPoint(res.cherryPoint);
     });
+    setPage(0);
+    setpageEnd(false);
+    setIsLoading(false);
   }, [renderKey]);
 
   const loadMoreOrders = async () => {
