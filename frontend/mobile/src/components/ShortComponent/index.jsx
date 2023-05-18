@@ -12,7 +12,7 @@ const ShortComponent = ({ shortInfo, width, height }) => {
       rel: 0,
       controls: 0,
       modestbranding: 1,
-      autoplay: 1,
+      autoplay: 0,
       loop: 1,
       iv_load_policy: 3,
     },
