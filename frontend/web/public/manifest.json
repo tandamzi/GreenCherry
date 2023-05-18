@@ -4,9 +4,9 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Green Cherry Business ",
-  "description": "Green Cherry Business",
-  "short_name": "Green Cherry Business ",
+  "name": "GreenCherryStore",
+  "description": "GreenCherry Store",
+  "short_name": "GreenCherry",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
@@ -56,5 +56,9 @@
       "type": "image/png",
       "purpose": "maskable any"
     }
-  ]
+  ],
+  "categories": ["food"],
+  "orientation": "natural",
+  "display_override": ["standalone"],
+  "lang": "ko"
 }
