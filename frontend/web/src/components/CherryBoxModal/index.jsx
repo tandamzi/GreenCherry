@@ -133,7 +133,7 @@ const CherryBoxModal = () => {
 
       setCherryBox(prevState => ({
         ...prevState,
-        discountRate,
+        discountRate: Math.floor(discountRate),
       }));
     }
   }, [
@@ -156,7 +156,7 @@ const CherryBoxModal = () => {
 
       setCherryBox(prevState => ({
         ...prevState,
-        priceAfterDiscount: pricePerBox,
+        priceAfterDiscount: Math.floor(pricePerBox),
       }));
     }
   }, [
