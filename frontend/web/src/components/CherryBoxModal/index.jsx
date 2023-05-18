@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import CherryInput from '@/components/CherryInput';
+import InfoModal from '@/components/InfoModal';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
 import useStore from '@/hooks/storeHook';
+import { allFieldsFilled } from '@/utils/allFieldsFilled';
 import { putCherryBox } from '@/utils/api/store';
 
 const CherryBoxModal = () => {
@@ -46,8 +48,24 @@ const CherryBoxModal = () => {
     discountRate: false,
     priceAfterDiscount: false,
   });
+
+  const [warningModalOpen, setWargingModalOpen] = useState(false);
+
+  const handleWarningModal = () => {
+    setWargingModalOpen(!warningModalOpen);
+  };
+
   const handleCherryBoxChange = e => {
     const { name, value } = e.target;
+
+    // '할인율' 및 '체리박스 개당가격' 필드가 활성화되지 않았을 때 입력을 무시합니다.
+    if (
+      ['discountRate', 'priceAfterDiscount'].includes(name) &&
+      (!cherryBox.totalPriceBeforeDiscount || !cherryBox.quantity)
+    ) {
+      return;
+    }
+
     const updatedCherryBox = {
       ...cherryBox,
       [name]: value,
@@ -149,6 +167,11 @@ const CherryBoxModal = () => {
   ]);
 
   const handleRegisterBtnClick = () => {
+    if (!allFieldsFilled(cherryBox)) {
+      console.error('모든 필드를 채워주세요.');
+      handleWarningModal();
+      return;
+    }
     putCherryBox(memberAttributes.storeId, {
       quantity: cherryBox.quantity,
       totalPriceBeforeDiscount: cherryBox.totalPriceBeforeDiscount,
@@ -191,6 +214,10 @@ const CherryBoxModal = () => {
       >
         판매시작
       </button>
+      <InfoModal isOpen={warningModalOpen} onClose={handleWarningModal}>
+        입력값을 <br />
+        확인해주세요
+      </InfoModal>
     </Modal>
   );
 };
