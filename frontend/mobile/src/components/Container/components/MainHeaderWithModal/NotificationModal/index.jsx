@@ -95,37 +95,68 @@ const NotificationList = ({ show }) => {
       {notificationList && notificationList.content.length > 0 ? (
         notificationList.content.map(item => {
           return (
-            <div
-              key={item.orderId}
-              className={cn(
-                'w-full flex px-4 py-6 mb-8 rounded-xl',
-                style['notification-item'],
-              )}
-            >
-              <div className="w-full ">
-                <p>
-                  <span className="font-bold">
-                    {item.storeName}에서의 주문은 어떠셨나요?
-                  </span>
-                  <br />
-                  <span className="text-sm">
-                    {member.nickname}님의 소중한 리뷰를 남겨주세요
-                  </span>
-                </p>
-                <div className="mt-4 flex justify-end">
-                  <button
-                    type="button"
-                    className="bg-primary py-1 px-2 rounded-xl"
-                    onClick={() =>
-                      goToWriteReview(member.id, item.storeId, item.orderId)
-                    }
-                  >
-                    리뷰 작성하러가기
-                  </button>
-                </div>
-              </div>
+            <div>
+              {item.writed === 'NO' ? (
+                <div
+                  key={item.orderId}
+                  className={cn(
+                    'w-full flex px-4 py-6 mb-8 rounded-xl',
+                    style['notification-item'],
+                  )}
+                >
+                  <div className="w-full ">
+                    <p>
+                      <span className="font-bold">
+                        {item.storeName}에서의 주문은 어떠셨나요?
+                      </span>
+                      <br />
+                      <span className="text-sm">
+                        {member.nickname}님의 소중한 리뷰를 남겨주세요
+                      </span>
+                    </p>
+                    <div className="mt-4 flex justify-end">
+                      <button
+                        type="button"
+                        className="bg-primary py-1 px-2 rounded-xl"
+                        onClick={() =>
+                          goToWriteReview(member.id, item.storeId, item.orderId)
+                        }
+                      >
+                        리뷰 작성하러가기
+                      </button>
+                    </div>
+                  </div>
 
-              <div />
+                  <div />
+                </div>
+              ) : (
+                <div
+                  key={item.orderId}
+                  className={cn(
+                    'w-full flex px-4 py-6 mb-8 rounded-xl',
+                    style['notification-item'],
+                  )}
+                >
+                  <div className="w-full ">
+                    <p>
+                      <span className="font-bold">
+                        {item.storeName}에서의 주문은 어떠셨나요?
+                      </span>
+                      <br />
+                      <span className="text-sm">
+                        {member.nickname}님의 소중한 리뷰를 남겨주세요
+                      </span>
+                    </p>
+                    <div className="mt-4 flex justify-end">
+                      <div className="bg-line py-1 px-2 rounded-xl">
+                        리뷰를 작성했습니다
+                      </div>
+                    </div>
+                  </div>
+
+                  <div />
+                </div>
+              )}
             </div>
           );
         })

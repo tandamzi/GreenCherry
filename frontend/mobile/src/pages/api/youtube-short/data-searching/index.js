@@ -19,18 +19,14 @@ const getVideoInfo = async videoId => {
       },
     });
 
-    const video = response.data.items[0];
-    const { thumbnails } = video.snippet;
-    const { title } = video.snippet;
-    const { description } = video.snippet;
-    const { channelTitle } = video.snippet;
+    const video = response.data;
+    // const { thumbnails } = video.snippet;
+    // const { title } = video.snippet;
+    // const { description } = video.snippet;
+    // const { channelTitle } = video.snippet;
 
     return {
-      videoId,
-      title,
-      description,
-      thumbnails,
-      channelTitle,
+      video,
     };
   } catch (error) {
     console.error('Error fetching video information:', error);
