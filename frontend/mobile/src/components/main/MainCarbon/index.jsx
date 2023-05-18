@@ -5,14 +5,16 @@ import cs from 'classnames';
 
 import style from './index.module.scss';
 
-const MainCarbon = () => {
+const MainCarbon = ({ cherryPoint }) => {
   return (
-    <div className="flex justify-center py-4 mb-2 mx-2 rounded-xl shadow-lg">
+    <div className="flex justify-center py-2 mb-2 mx-2 rounded-xl shadow-lg">
       <div className="flex items-center">
         <span className={cs(style['reactive-font'], 'p-5 text-center ')}>
-          탄소 감소량{' '}
-          <span className={cs(style['reactive-font-bold'])}>3kg Co2</span>
-          <br /> 지구의 온도를 낮춰주세요
+          모두의 노력으로
+          <p className={cs(style['reactive-font-bold'])}>
+            {cherryPoint.data.totalPoint}Kg CO<sub>2</sub>
+          </p>
+          <p>탄소를 절약했어요</p>
         </span>
       </div>
       <div className="col-span-2">

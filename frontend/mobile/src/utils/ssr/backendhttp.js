@@ -10,7 +10,11 @@ export default function createHttpInstance(req) {
 
   instance.interceptors.request.use(
     async config => {
-      const token = req.headers.cookie;
+      let token = req.headers.cookie;
+
+      if (token.includes('token=')) {
+        [, token] = token.split('token=');
+      }
       if (token) {
         // 헤더에 인증 토큰을 추가합니다.
         config.headers.Authorization = `Bearer ${token}`;
