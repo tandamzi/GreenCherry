@@ -11,8 +11,8 @@ const Short = () => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    clientHttp.get(`/youtube-short`).then(res => {
-      setVideos(res.data.items);
+    clientHttp.get(`home/youtube-short`).then(res => {
+      setVideos(res.data);
     });
   }, []);
   // API_KEY 100번이상 호출시, 콜백에러
@@ -39,9 +39,7 @@ const Short = () => {
         <div className="grid grid-cols-3">
           {videos &&
             videos.map((item, idx) => {
-              return (
-                <YouTube opts={opts} videoId={item.id.videoId} key={idx} />
-              );
+              return <YouTube opts={opts} videoId={item.videoId} key={idx} />;
             })}
         </div>
       </Container.MainBody>
