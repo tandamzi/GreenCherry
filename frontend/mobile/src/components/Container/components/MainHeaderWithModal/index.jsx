@@ -42,7 +42,7 @@ const MainHeader = ({ className, children }) => {
         </div>
         <span className="mt-1 text-secondary font-bold">
           Green
-          <span className="text-primary font-bold">Cherry</span>
+          <span className="text-primaryevent font-bold">Cherry</span>
         </span>
       </div>
       <div className="flex items-center">
