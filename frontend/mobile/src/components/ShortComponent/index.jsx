@@ -10,8 +10,10 @@ const ShortComponent = ({ shortInfo, width, height }) => {
     height,
     playerVars: {
       rel: 0,
-      autoplay: 0,
+      controls: 0,
       modestbranding: 1,
+      autoplay: 1,
+      loop: 1,
       iv_load_policy: 3,
     },
   };
