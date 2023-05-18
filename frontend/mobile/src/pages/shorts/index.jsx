@@ -1,6 +1,5 @@
 /* eslint-disable no-else-return */
 import React, { useState, useEffect, useRef } from 'react';
-import { animateScroll as scroll } from 'react-scroll';
 import YouTube from 'react-youtube';
 
 import Image from 'next/image';
