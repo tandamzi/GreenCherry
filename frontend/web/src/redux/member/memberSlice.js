@@ -4,8 +4,6 @@ const initialState = {
   storeId: '',
   storeName: '',
   memberId: '',
-  myStoreModalOpen: false,
-  cherryBoxRegisterModalOpen: false,
 };
 
 export const memberSlice = createSlice({
@@ -34,41 +32,9 @@ export const memberSlice = createSlice({
         memberId: '',
       };
     },
-    openMyStoreModalAction: state => {
-      return {
-        ...state,
-        myStoreModalOpen: true,
-      };
-    },
-    closeMyStoreModalAction: state => {
-      return {
-        ...state,
-        myStoreModalOpen: false,
-      };
-    },
-    openCherryBoxRegisterAction: state => {
-      return {
-        ...state,
-        cherryBoxRegisterModalOpen: true,
-      };
-    },
-    closeCherryBoxRegisterAction: state => {
-      return {
-        ...state,
-        cherryBoxRegisterModalOpen: false,
-      };
-    },
   },
 });
 
 const { reducer, actions } = memberSlice;
-export const {
-  setMemberIdAction,
-  loginAction,
-  logoutAction,
-  openMyStoreModalAction,
-  closeMyStoreModalAction,
-  openCherryBoxRegisterAction,
-  closeCherryBoxRegisterAction,
-} = actions;
+export const { setMemberIdAction, loginAction, logoutAction } = actions;
 export default reducer;

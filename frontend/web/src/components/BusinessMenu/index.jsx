@@ -14,10 +14,10 @@ import useStore from '@/hooks/storeHook';
 import clientHttp from '@/utils/clientHttp';
 
 const Menu = ({ menuOpen }) => {
-  const { openCherryBoxRegisterModal } = useMember();
-  const { openCloseStoreModal } = useModal();
+  const { openMyStoreModal, openCherryBoxRegisterModal, openCloseStoreModal } =
+    useModal();
   const { storeAttributes } = useStore();
-  const { logout, openMyStoreModal } = useMember();
+  const { logout } = useMember();
 
   const router = useRouter();
 

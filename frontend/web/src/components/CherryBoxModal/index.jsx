@@ -4,19 +4,21 @@ import CherryInput from '@/components/CherryInput';
 import InfoModal from '@/components/InfoModal';
 import Modal from '@/components/Modal';
 import useMember from '@/hooks/memberHook';
+import useModal from '@/hooks/modalHook';
 import useStore from '@/hooks/storeHook';
 import { allFieldsFilled } from '@/utils/allFieldsFilled';
 import { putCherryBox } from '@/utils/api/store';
 
 const CherryBoxModal = () => {
+  const { memberAttributes } = useMember();
+
+  const { openStore } = useStore();
+
   const {
-    memberAttributes,
     cherryBoxRegisterModalOpen,
     openCherryBoxRegisterModal,
     closeCherryBoxRegisterModal,
-  } = useMember();
-
-  const { openStore } = useStore();
+  } = useModal();
 
   const cherryBoxDatas = [
     {
