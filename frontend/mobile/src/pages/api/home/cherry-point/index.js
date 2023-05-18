@@ -19,7 +19,6 @@ const handler = async (req, res) => {
         res.status(StatusCodes.OK).json(response.data);
       });
   } catch (error) {
-    // console.log('abababab' + error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.response.data);
   }
 };
