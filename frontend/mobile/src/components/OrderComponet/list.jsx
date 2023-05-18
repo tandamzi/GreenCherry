@@ -8,7 +8,6 @@ import style from './list.module.scss';
 
 import Container from '@/components/Container';
 import ImageSlider from '@/components/ImageContainer/ImageSlider';
-import PrivateRouter from '@/components/PrivateRouter/PrivateRouter';
 
 const list = () => {
   const storeList = useSelector(state => state.storeList.storeList);

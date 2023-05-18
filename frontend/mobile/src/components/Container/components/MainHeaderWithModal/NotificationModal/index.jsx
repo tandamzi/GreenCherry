@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import empty from '@public/assets/lottie/empty-box.json';
 import cn from 'classnames';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import style from './index.module.scss'; // CSS를 이용해 애니메이션을 정의
 
