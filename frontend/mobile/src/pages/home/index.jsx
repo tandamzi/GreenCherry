@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,7 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import MainCarbon from '../../components/main/MainCarbon';
 
@@ -18,7 +18,6 @@ import Reservation from '@/components/main/Reservation';
 import ShortComponent from '@/components/ShortComponent';
 import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
-import { saveFbToken } from '@/redux/member/memberReducer';
 import clientHttp from '@/utils/csr/clientHttp';
 import createBFFInstance from '@/utils/ssr/bffHttp';
 
@@ -43,6 +42,13 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
       console.log('Error fetching data:', error);
     }
   };
+
+  useEffect(() => {
+    if (member.id) {
+      getReservationList(member.id);
+    }
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -57,11 +63,13 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
     }
   }, [shortsProps]);
 
-  useEffect(() => {
-    if (member.id) {
-      getReservationList(member.id);
-    }
-  }, []);
+  const goToPage = page => {
+    dispatch(changePage(page));
+  };
+
+  const goToMoreShorts = () => {
+    router.push('/shorts');
+  };
 
   useEffect(() => {
     const firebaseConfig = {
@@ -123,13 +131,7 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
       console.error('메시지가 도착했습니다.', payload);
     });
   }, []);
-  const goToPage = page => {
-    dispatch(changePage(page));
-  };
 
-  const goToMoreShorts = () => {
-    router.push('/shorts');
-  };
   return !loading ? (
     <Container className="overflow-y-scroll scrollbar-hide">
       <Container.MainHeaderWithModal />
@@ -193,7 +195,7 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
         </div>
         <div className="mt-10 pb-4 text-center">
           <span className="font-bold text-secondary">Green </span>
-          <span className="font-bold text-primary">Cherry</span>
+          <span className="font-bold text-primaryevent">Cherry</span>
         </div>
       </Container.Body>
     </Container>
