@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
-import createHttpInstance from '@/utils/ssr/backendhttp';
+// import createHttpInstance from '@/utils/ssr/backendhttp';
+import createHttpInstance from '@/utils/csr/backendhttp';
 
 const handler = async (req, res) => {
   const http = createHttpInstance(req);

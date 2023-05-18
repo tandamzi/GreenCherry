@@ -18,6 +18,7 @@ import Reservation from '@/components/main/Reservation';
 import ShortComponent from '@/components/ShortComponent';
 import Spinner from '@/components/Spinner';
 import { changePage } from '@/redux/footerStatus/footerReducer';
+import { saveFbToken } from '@/redux/member/memberReducer';
 import clientHttp from '@/utils/csr/clientHttp';
 import createBFFInstance from '@/utils/ssr/bffHttp';
 
@@ -28,6 +29,7 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
   const [shortsPropsLoading, setShortsPropsLoading] = useState(true);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const member = useSelector(state => state.member.memberInfo);
 
@@ -109,24 +111,24 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
       vapidKey:
         'BBuoQiK6Hci6-fWBqgcIAn-a8Nzc7kF1XVpkCKfHINcvckb-u3sz8eSrsbtns2WjrXZ9bxs7j0DCsNtkNIiqjHc',
     }).then(res => {
-      clientHttp.get('/firebase-token', {
-        params: {
-          token: res,
-        },
-      });
+      if (localStorage.getItem('token')) {
+        clientHttp.get('/firebase-token', {
+          params: {
+            token: res,
+          },
+        });
+      }
     });
     onMessage(messaging, payload => {
       console.error('메시지가 도착했습니다.', payload);
     });
   }, []);
-
-  const dispatch = useDispatch();
   const goToPage = page => {
     dispatch(changePage(page));
   };
 
   const goToMoreShorts = () => {
-    router.push('/');
+    router.push('/shorts');
   };
   return !loading ? (
     <Container className="overflow-y-scroll scrollbar-hide">
