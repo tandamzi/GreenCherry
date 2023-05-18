@@ -4,21 +4,12 @@ import {
   setMemberIdAction,
   loginAction,
   logoutAction,
-  openMyStoreModalAction,
-  closeMyStoreModalAction,
-  openCherryBoxRegisterAction,
-  closeCherryBoxRegisterAction,
 } from '@/redux/member/memberSlice';
+import { closeCloseStoreModalAction } from '@/redux/modal/modalSlice';
 import { loginStoreAction, logoutStoreAction } from '@/redux/store/storeSlice';
 
 export default function useMember() {
-  const {
-    storeId,
-    storeName,
-    memberId,
-    myStoreModalOpen,
-    cherryBoxRegisterModalOpen,
-  } = useSelector(state => state.member);
+  const { storeId, storeName, memberId } = useSelector(state => state.member);
   const dispatch = useDispatch();
 
   const setMemberId = data => {
@@ -35,22 +26,6 @@ export default function useMember() {
     dispatch(logoutStoreAction());
   };
 
-  const openMyStoreModal = () => {
-    dispatch(openMyStoreModalAction());
-  };
-
-  const closeMyStoreModal = () => {
-    dispatch(closeMyStoreModalAction());
-  };
-
-  const openCherryBoxRegisterModal = () => {
-    dispatch(openCherryBoxRegisterAction());
-  };
-
-  const closeCherryBoxRegisterModal = () => {
-    dispatch(closeCherryBoxRegisterAction());
-  };
-
   return {
     memberAttributes: {
       storeId,
@@ -60,11 +35,5 @@ export default function useMember() {
     setMemberId,
     login,
     logout,
-    myStoreModalOpen,
-    openMyStoreModal,
-    closeMyStoreModal,
-    cherryBoxRegisterModalOpen,
-    openCherryBoxRegisterModal,
-    closeCherryBoxRegisterModal,
   };
 }
