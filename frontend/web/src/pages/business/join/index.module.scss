@@ -3,10 +3,10 @@
 }
 
 .check-button {
-  font-size: 16px;
+  padding: 10px 20px;
   border-radius: 100px;
   color: var(--color-secondary);
   background-color: var(--color-bgcolor);
-  width: 100px;
   transform: translateY(-2px);
+  white-space: nowrap;
 }
