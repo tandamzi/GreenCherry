@@ -18,13 +18,16 @@ const NotificationList = ({ show }) => {
   const getNotificationList = async () => {
     try {
       const response = await clientHttp.get(`/notice/${member.id}`);
+
       setNotificationList(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
   useEffect(() => {
-    getNotificationList();
+    if (member.id) {
+      getNotificationList();
+    }
   }, []);
 
   const [toggleState, setToggleState] = useState(member.alarm);
@@ -93,6 +96,7 @@ const NotificationList = ({ show }) => {
         notificationList.content.map(item => {
           return (
             <div
+              key={item.orderId}
               className={cn(
                 'w-full flex px-4 py-6 mb-8 rounded-xl',
                 style['notification-item'],
