@@ -1,5 +1,5 @@
 /* eslint-disable no-promise-executor-return */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import CarbonContainer from '@/components/CarbonContainer';
 import Container from '@/components/Container';
@@ -15,6 +15,7 @@ import getCurrentDate from '@/utils/getCurrentDate';
 const Order = () => {
   const { memberAttributes } = useMember();
   const [date, setDate] = useState(getCurrentDate());
+  const dateRef = useRef(date);
   const [totalIncome, setTotalIncome] = useState(0);
   const [orderCount, setOrderCount] = useState(0);
   const [orderList, setOrderList] = useState([]);
@@ -26,6 +27,10 @@ const Order = () => {
     setDate(data);
   };
 
+  useEffect(() => {
+    dateRef.current = date;
+  }, [date]);
+
   const updateOrderState = (orderId, newState) => {
     setOrderList(prevList =>
       prevList.map(order =>
@@ -35,33 +40,44 @@ const Order = () => {
   };
 
   useEffect(() => {
-    setPage(0); // date가 변경될 때마다 page를 0으로 초기화
-    getTotalIncome(memberAttributes.storeId, date).then(res => {
-      setTotalIncome(res.totalSalesAmount || 0);
-      setOrderCount(res.count);
-    });
+    setOrderList([]);
+    setpageEnd(false);
+    setIsLoading(true);
 
-    getPagableOrderList(memberAttributes.storeId, date, page).then(res => {
-      setOrderList(res.orderList);
-      setpageEnd(false); // date가 변경될 때마다 pageEnd를 false로 초기화
-    });
+    const fetchData = async () => {
+      const incomeData = await getTotalIncome(memberAttributes.storeId, date);
+      setTotalIncome(incomeData.totalSalesAmount || 0);
+      setOrderCount(incomeData.count);
+
+      const orderData = await getPagableOrderList(
+        memberAttributes.storeId,
+        date,
+        0,
+      );
+      setOrderList(orderData.orderList);
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, [date, memberAttributes.storeId]);
 
   const loadMoreOrders = async () => {
     if (pageEnd || isLoading) return;
     setIsLoading(true);
     const nextPage = page + 1;
-    getPagableOrderList(memberAttributes.storeId, getCurrentDate(), nextPage)
-      .then(res => new Promise(resolve => setTimeout(() => resolve(res), 1000)))
-      .then(res => {
-        if (res.orderList.length === 0) {
-          setpageEnd(true);
-          return;
-        }
-        setOrderList(prevList => [...prevList, ...res.orderList]);
-        setPage(prevPage => prevPage + 1);
-      })
-      .finally(() => setIsLoading(false));
+
+    const res = await getPagableOrderList(
+      memberAttributes.storeId,
+      getCurrentDate(),
+      nextPage,
+    );
+    if (res.orderList.length === 0) {
+      setpageEnd(true);
+    } else {
+      setOrderList(prevList => [...prevList, ...res.orderList]);
+      setPage(nextPage);
+    }
+    setIsLoading(false);
   };
 
   return (
