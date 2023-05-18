@@ -12,12 +12,14 @@ import Menu from '@/components/BusinessMenu';
 import Header from '@/components/Container/components/Header';
 import StoreNameButton from '@/components/StoreNameButton';
 import useMember from '@/hooks/memberHook';
+import useModal from '@/hooks/modalHook';
 import useStore from '@/hooks/storeHook';
 import { getStoreOpen } from '@/utils/api/store';
 
 const BusinessHeader = ({ children, className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { memberAttributes, openMyStoreModal } = useMember();
+  const { memberAttributes } = useMember();
+  const { openMyStoreModal } = useModal();
   const { setOpen } = useStore();
   const router = useRouter();
 
