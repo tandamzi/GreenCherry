@@ -9,7 +9,11 @@ const StoreInputModify = ({
   return (
     <div>
       {itemModifyState ? (
-        <textarea value={content} onChange={handleContentInput} />
+        <textarea
+          value={content}
+          onChange={handleContentInput}
+          className="w-full border-none outline-none"
+        />
       ) : (
         <div>{content}</div>
       )}
