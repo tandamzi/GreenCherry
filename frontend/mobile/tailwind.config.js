@@ -20,6 +20,7 @@ module.exports = {
       disabled: '#a8a29e',
       danger: '#dd4242',
       warning: '#f6bd60',
+      pass: '#373FFF',
     },
     screens: {
       mob: '380px',
