@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         res.status(StatusCodes.OK).json(response.data);
       });
   } catch (error) {
-    console.error('Error while fetching store list:', error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.response.data);
   }
 };
 

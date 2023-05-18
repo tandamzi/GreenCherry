@@ -4,6 +4,7 @@ import com.tandamzi.reviewservice.common.response.ResponseService;
 import com.tandamzi.reviewservice.common.result.ListResult;
 import com.tandamzi.reviewservice.common.result.Result;
 import com.tandamzi.reviewservice.common.result.SingleResult;
+import com.tandamzi.reviewservice.dto.review.MyReviewDto;
 import com.tandamzi.reviewservice.dto.review.ReviewRegisterRequestDto;
 import com.tandamzi.reviewservice.dto.review.ReviewResponseDto;
 import com.tandamzi.reviewservice.dto.tag.TagResponseDto;
@@ -73,5 +74,13 @@ public class ReviewController {
         log.info("ReviewController existReviewByOrder 실행 -> orderList = {}", orderList);
         List<Long> existList = reviewService.existReviewByOrder(orderList);
         return responseService.getSingleResult(existList);
+    }
+
+    @GetMapping("/myReview")
+    public SingleResult<Page<MyReviewDto>> myReviewList(@RequestParam("member-id") Long memberId,
+                                                        @PageableDefault(size = 10) Pageable pageable){
+        log.info("ReviewController myReviewList 실행 -> memberId = {}", memberId);
+        Page<MyReviewDto> responseDto = reviewService.myReviewList(memberId, pageable);
+        return responseService.getSingleResult(responseDto);
     }
 }

@@ -95,10 +95,6 @@ public class KafkaConsumer {
         Long storeId = Long.valueOf((Integer)(map.get("storeId")));
         int quantity = (int) map.get("quantity");
         int totalSalesAmount = (int) map.get("totalSalesAmount");
-        Long orderId = Long.valueOf((Integer)(map.get("orderId")));
-        String nickname = String.valueOf(map.get("nickname"));
-        String orderState = String.valueOf(map.get("orderState"));
-        String orderDate = String.valueOf(map.get("orderDate"));
 
         List<Long> memberIds = new ArrayList<>();
         memberIds.add(targetMemberId);
@@ -110,10 +106,6 @@ public class KafkaConsumer {
                 .quantity(quantity)
                 .totalSalesAmount(totalSalesAmount)
                 .tokens(tokens)
-                .orderId(orderId)
-                .nickname(nickname)
-                .orderState(orderState)
-                .orderDate(orderDate)
                 .build();
 
         noticeService.sendNoticeForRegisterOrder(dto);
