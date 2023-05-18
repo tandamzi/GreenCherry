@@ -62,11 +62,10 @@ const reviewForm = req => {
 
     try {
       const response = await clientHttpForm.post('/review-form', formData);
-      // console.log(response.data);
       if (response.data.success) {
-        router.push(`store/${storeId}`);
+        router.push(`/store/${storeId}`);
       } else {
-        router.push(`store/${storeId}`);
+        router.push(`/store/${storeId}`);
       }
       return response.data;
     } catch (error) {
