@@ -5,6 +5,7 @@ import Lottie from 'react-lottie-player';
 import cs from 'classnames';
 import Image from 'next/image';
 
+import LoadingSpinner from '@/components/LoadingSpinner';
 import ReviewComponent from '@/components/ReviewComponent';
 
 const CRYING_ICON_URL = `/assets/icons/crying-face.svg`;
@@ -34,7 +35,11 @@ const ReviewList = ({ reviewList, loadMoreReviews, pageEnd }) => {
               );
             })}
           </div>
-          {!pageEnd && <div ref={ref}>Loading...</div>}
+          {!pageEnd && (
+            <div ref={ref} className="w-9 mx-auto">
+              <LoadingSpinner />
+            </div>
+          )}
         </>
       ) : (
         <div className="flex justify-center items-center w-full text-2xl h-20">

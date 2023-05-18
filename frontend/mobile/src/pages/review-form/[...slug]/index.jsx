@@ -100,7 +100,7 @@ const reviewForm = req => {
                 width={100}
                 height={100}
                 className="h-5 flex-none w-fit m-1 ml-2"
-                alt="devday main logo"
+                alt="greenCherry"
               />
               <p className="mt-2 text-xs mob:text-sm mob:mt-1">
                 &quot;음식이 맛있어요&quot;
@@ -124,7 +124,7 @@ const reviewForm = req => {
                 width={100}
                 height={100}
                 className="h-5 flex-none w-fit m-1 ml-2"
-                alt="devday main logo"
+                alt="greenCherry"
               />
               <p className="mt-2 text-xs mob:text-sm mob:mt-1">
                 &quot;재료가 신선해요&quot;
@@ -148,7 +148,7 @@ const reviewForm = req => {
                 width={100}
                 height={100}
                 className="h-5 flex-none w-fit m-1 ml-2"
-                alt="devday main logo"
+                alt="greenCherry"
               />
               <p className="mt-2 text-xs mob:text-sm mob:mt-1">
                 &quot;양이 많아요&quot;
@@ -172,7 +172,7 @@ const reviewForm = req => {
                 width={100}
                 height={100}
                 className="h-5 flex-none w-fit m-1 ml-2"
-                alt="devday main logo"
+                alt="greenCherry"
               />
               <p className="mt-2 text-xs mob:text-sm mob:mt-1">
                 &quot;사장님이 친절해요&quot;

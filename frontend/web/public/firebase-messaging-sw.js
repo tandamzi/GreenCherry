@@ -18,6 +18,7 @@ self.addEventListener('push', function (e) {
   const notificationTitle = resultData.notification.title;
   const notificationOptions = {
     body: resultData.notification.body,
+    icon: '/assets/logo/cherryLogo.svg',
     data: resultData.data,
     ...resultData,
   };
