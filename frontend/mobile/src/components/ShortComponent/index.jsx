@@ -22,7 +22,7 @@ const ShortComponent = ({ shortInfo, width, height }) => {
         <div
           key={idx}
           className={cn(
-            'cursor-pointer overflow-x-scroll relative flex-shrink-0',
+            'cursor-pointer overflow-x-scroll relative flex-shrink-0 mr-2',
             style['rounded-video-container'],
           )}
         >
