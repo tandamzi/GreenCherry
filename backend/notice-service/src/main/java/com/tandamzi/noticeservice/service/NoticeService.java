@@ -53,7 +53,7 @@ public class NoticeService {
         log.info("[NoticeService] sendPickUpComplete");
         List<String> tokens = pickUpCompleteDto.getTokens();
 
-        String body= "픽업 완료되었습니다. "+pickUpCompleteDto.getStoreName()+"의 음식이 맛있으셨다면 다른 분들을 위해 리뷰를 남겨주세요."
+        String body= "픽업 완료되었습니다.\n"+pickUpCompleteDto.getStoreName()+"의 음식이 맛있으셨다면 다른 분들을 위해 리뷰를 남겨주세요.\n"
                 +"(리뷰 쓰기는 주문 이후 3일 동안만 가능합니다.)";
 
         for (String token : tokens) {
@@ -127,7 +127,8 @@ public class NoticeService {
         List<String> tokens = registerCherryBoxDto.getTokens();
         StringBuilder sb = new StringBuilder();
         sb.append(registerCherryBoxDto.getStoreName());
-        sb.append("에서 체리박스가 등록되었습니다. 체리박스를 확인해보세요!");
+        sb.append("에서 체리박스가 등록되었습니다.\n");
+        sb.append("체리박스를 확인해보세요!");
         String body = sb.toString();
 
         for(String token : tokens){
