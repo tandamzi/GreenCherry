@@ -6,7 +6,6 @@ import YouTube from 'react-youtube';
 import Image from 'next/image';
 
 import Container from '@/components/Container';
-import ShortsPlayModal from '@/components/modal/ShortsPlayModal';
 import clientHttp from '@/utils/csr/clientHttp';
 import createYoutubeIntstacne from '@/utils/youtube';
 
