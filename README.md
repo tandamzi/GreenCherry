@@ -1,17 +1,18 @@
-# <img src="https://github.com/tabss2003/stock-example-test/assets/43884708/8cd31ae9-8509-45fd-8a56-caa75e160bf8" width=20 height=20 /> 음식 마감 할인 서비스, GreenCherry 
+# <img src="https://github.com/tabss2003/stock-example-test/assets/43884708/8cd31ae9-8509-45fd-8a56-caa75e160bf8" width=20 height=20 /> 음식 마감 할인 서비스, GreenCherry
 
 <p align="center"><img src="https://github.com/tabss2003/stock-example-test/assets/43884708/8cd31ae9-8509-45fd-8a56-caa75e160bf8" width=200 height=200 /></p>
-
 
 ## 1. 프로젝트 개요
 
 ### 1) 프로젝트 목표
+
 식당, 빵집, 카페등 마감 시간에 남은 재료, 음식들을 싼 가격에 사고 팔 수 있는 서비스입니다.<br/>
 주로 유통기한이 임박한 제품이나 당일에 팔지 못한 음식을 저렴하게 구매, 판매할 수 있습니다.
 <br>
 <br>
 
 ### 2) 기획 배경
+
 지구 온실 가스 8~ 10%, 버려진 음식에서 발생한다. 실제로 먹을 수 있는 음식 17% 는 음식물 쓰레기통으로 가는 것을 알 수 있다.음식물 쓰레기 처리 기기가 인기를 끄는 것도 그만큼 버리는 음식이 꽤 많다는 증거로 볼 수 있다.
 
 음식물 스레기로 인한 피해는 환경훼손, 경제적 낭비, 사회적 문제등을 들 수 있다.
@@ -26,8 +27,11 @@
 <br>
 
 ### 3) 주요 기능
+
 1. 가게 등록
+
 - 사업자 등록번호 검증
+
 2. 랜덤 박스 등록
 3. 주문 하기
 4. 구독 하기
@@ -35,6 +39,7 @@
 6. 해당 어플 관련 유튜브
 7. 근처 랜덤 박스 등록된 가게 조회
 8. 내 정보 조회
+
 - 주문 내역 조회
 - 리뷰 관리
 - 구독 내역 조회
@@ -43,22 +48,24 @@
 <br>
 
 ### 4) 전체 일정 📅
+
 23.04.10 ~ 23.05.19 (6주)
-| 기간          | 내용                                 |
+| 기간 | 내용 |
 | ------------- | ------------------------------------ |
-| 04.10 ~ 04.12 | 아이디어 선정                        |
-| 04.13 ~ 04.15 | 요구사항 분석 및 기능 명세서 작성    |
-| 04.18 ~ 04.20 | 와이어프레임, REST API 작성, DB 설계          |
-| 04.21 ~ 04.22  | 발표자료 준비 및 중간 발표         |
+| 04.10 ~ 04.12 | 아이디어 선정 |
+| 04.13 ~ 04.15 | 요구사항 분석 및 기능 명세서 작성 |
+| 04.18 ~ 04.20 | 와이어프레임, REST API 작성, DB 설계 |
+| 04.21 ~ 04.22 | 발표자료 준비 및 중간 발표 |
 | 04.24 ~ 04.25 | front, back 환경 설정, 서비스 배포 자동화|
 | 04.26 ~ 04.28 | 회원가입, 로그인 등 회원 서비스 개발 |
-| 05.01 ~ 05.12 | 리뷰, 알림, 주문, 상점 개발       |
-| 05.15 ~ 05.17 | 서비스 유지보수         |
-| 05.18 ~ 05.19 | 발표 준비 및 최종 발표  |
+| 05.01 ~ 05.12 | 리뷰, 알림, 주문, 상점 개발 |
+| 05.15 ~ 05.17 | 서비스 유지보수 |
+| 05.18 ~ 05.19 | 발표 준비 및 최종 발표 |
 
 <br>
 
 ### 5) 구성원 🥰
+
 <table>
   <tr>
     <td align="center"><b>Name</b></td>
@@ -94,8 +101,8 @@
 
 ## 2. 프로젝트 설계
 
-
 ### 1) 피그마
+
 [피그마 - 웹](https://www.figma.com/file/HHHCRXmxWoOtvao6JReYe1/Untitled?type=design&node-id=4-10&t=tLmDv2tj5l7DGPyc-0)
 
 [피그마 - 모바일](https://www.figma.com/file/HHHCRXmxWoOtvao6JReYe1/Untitled?type=design&node-id=4-8&t=tLmDv2tj5l7DGPyc-0)
@@ -124,6 +131,7 @@
 <br>
 
 ### 3) 외부 서비스
+
 - 공공데이터 api (사업자 번호 진위 여부, 영업신고 조회)
 - Kakao Map api
 - Kakao OAuth
@@ -133,14 +141,14 @@
 
 <br>
 
-
 ### 4) ERD
-<img width="694" alt="erd" src="https://github.com/0takkk/Algorithm/assets/89503136/c7cb5dd0-5924-4947-ab11-453ec7105b83">
 
+<img width="694" alt="erd" src="https://github.com/0takkk/Algorithm/assets/89503136/c7cb5dd0-5924-4947-ab11-453ec7105b83">
 
 <br>
 
 ### 5) 아키텍처
+
 ![architecture](./exec/greencherry-architecture.png)
 <br>
 
@@ -150,6 +158,81 @@
 
 ## 3. 프로젝트 소개
 
+### 가게 서비스
+
+#### [ 메인페이지 및 로그인 ]
+
+![1  메인페이지 및 로그인](https://github.com/0takkk/Algorithm/assets/89503136/57f13db9-7a55-4ad9-99c3-e54810ec76f7)
+
+#### [ 가게 등록 ]
+
+![2  가게 등록](https://github.com/0takkk/Algorithm/assets/89503136/a555ac8c-a3a8-41df-9bc9-f524c81dc520)
+
+#### [ 가게 정보 수정 ]
+
+![3  상점 정보 수정](https://github.com/0takkk/Algorithm/assets/89503136/878df692-0137-410b-80ff-00e79f967bf6)
+
+#### [ 체리박스 등록 ]
+
+![4  체리박스 등록](https://github.com/0takkk/Algorithm/assets/89503136/b13e0f8c-e163-4006-a3eb-0e6e6ea21736)
+
+#### [ 주문 요청 알림 ]
+
+![주문하기알림_점주용](https://github.com/0takkk/Algorithm/assets/89503136/b1a2acee-c5c0-4952-88c9-3dc70b60b68e)
+
+#### [ 픽업 완료 ]
+
+![6  픽업 완료](https://github.com/0takkk/Algorithm/assets/89503136/10573ecc-8d88-485c-8a65-f414c7f50e26)
+
+#### [ 리뷰 확인 ]
+
+![7  리뷰 확인](https://github.com/0takkk/Algorithm/assets/89503136/01236d8e-1bbf-434a-ba6a-fbcda82b7bdd)
+
+#### [ 영업 종료 ]
+
+![8  영업 종료](https://github.com/0takkk/Algorithm/assets/89503136/9f059217-212e-40e0-b310-0fc29a3ac1a6)
+
+</br>
+
+### 고객 서비스
+
+#### [ 주변 가게 조회 ]
+
+![1  주변 가게 조회](https://github.com/0takkk/Algorithm/assets/89503136/c5062d96-81af-4881-8892-8497af1c972f)
+
+#### [ 체리박스 등록 알림 ]
+
+![구독 가게 체리박스 등록 알림](https://github.com/0takkk/Algorithm/assets/89503136/fa92dc9e-6a86-43f6-b9c1-0d2a5bf9dffc)
+
+#### [ 체리박스 구매 ]
+
+![2  체리박스 구매](https://github.com/0takkk/Algorithm/assets/89503136/7b37545c-efbe-4ed6-a1f6-f4a19be78593)
+
+#### [ 구독 가게 조회 ]
+
+![3  구독 가게 조회](https://github.com/0takkk/Algorithm/assets/89503136/02b7bf92-404b-4448-8268-295c5ffb315c)
+
+#### [ 픽업 완료 및 리뷰 작성 알림 ]
+
+![주문 완료 리뷰 작성 알림](https://github.com/0takkk/Algorithm/assets/89503136/7a395d67-7d2d-44d0-8520-0c2a4f413a3b)
+
+#### [ 마이페이지 및 주문 내역 조회 ]
+
+![4  마이페이지 및 주문 내역 조회](https://github.com/0takkk/Algorithm/assets/89503136/36322e20-f005-4592-b2ce-f5c297418f34)
+
+#### [ 리뷰 내역 조회 ]
+
+![5  리뷰 내역 조회](https://github.com/0takkk/Algorithm/assets/89503136/ebe1b0d3-fe4d-4871-87a6-4a1797a1cb91)
+
+#### [ 알림 목록 조회 및 리뷰 작성]
+
+![6  알림 목록 조회 및 리뷰 작성](https://github.com/0takkk/Algorithm/assets/89503136/df36a402-383c-4cc0-b9aa-a7d9a9bbd4af)
+
+#### [ 현재 진행중인 예약 확인 ]
+
+![7  현재 진행중인 예약 확인](https://github.com/0takkk/Algorithm/assets/89503136/f44c8e9b-2480-4812-b238-469be4183eec)
 </br>
 
 ## 4. 발표 자료
+
+[C207\_최종발표자료.pptx](https://github.com/0takkk/Algorithm/files/11509907/C207_.pptx)

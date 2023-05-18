@@ -225,7 +225,9 @@ const intro = () => {
           <div className="flex relative">
             <div className="absolute left-1/2 top-1/2 opacity-90 transform -translate-x-1/2 -translate-y-1/2">
               <div className="relative" style={{ width: 400, height: 400 }}>
-                <Image src={slide.imgSrc} fill alt={slide.id} />
+                {slide.imgSrc && slide.imgSrc !== '' && (
+                  <Image src={slide.imgSrc} fill alt={slide.id} />
+                )}
               </div>
             </div>
             <div className="z-10">{slide.content}</div>
