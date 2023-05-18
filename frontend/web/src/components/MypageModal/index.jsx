@@ -5,16 +5,14 @@ import classnames from 'classnames';
 import Modal from '@/components/Modal';
 import StoreModify from '@/components/StoreModify';
 import useMember from '@/hooks/memberHook';
+import useModal from '@/hooks/modalHook';
 import useStore from '@/hooks/storeHook';
 import { getModifiable } from '@/utils/api/store';
 
 const MypageModal = () => {
-  const {
-    memberAttributes,
-    myStoreModalOpen,
-    openMyStoreModal,
-    closeMyStoreModal,
-  } = useMember();
+  const { memberAttributes } = useMember();
+
+  const { myStoreModalOpen, openMyStoreModal, closeMyStoreModal } = useModal();
 
   const { setModifiable } = useStore();
 

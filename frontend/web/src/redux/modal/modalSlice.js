@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   closeStoreModalOpen: false,
+  myStoreModalOpen: false,
+  cherryBoxRegisterModalOpen: false,
 };
 
 export const modalSlice = createSlice({
@@ -20,10 +22,40 @@ export const modalSlice = createSlice({
         closeStoreModalOpen: false,
       };
     },
+    openMyStoreModalAction: state => {
+      return {
+        ...state,
+        myStoreModalOpen: true,
+      };
+    },
+    closeMyStoreModalAction: state => {
+      return {
+        ...state,
+        myStoreModalOpen: false,
+      };
+    },
+    openCherryBoxRegisterAction: state => {
+      return {
+        ...state,
+        cherryBoxRegisterModalOpen: true,
+      };
+    },
+    closeCherryBoxRegisterAction: state => {
+      return {
+        ...state,
+        cherryBoxRegisterModalOpen: false,
+      };
+    },
   },
 });
 
 const { reducer, actions } = modalSlice;
-export const { openCloseStoreModalAction, closeCloseStoreModalAction } =
-  actions;
+export const {
+  openCloseStoreModalAction,
+  closeCloseStoreModalAction,
+  openMyStoreModalAction,
+  closeMyStoreModalAction,
+  openCherryBoxRegisterAction,
+  closeCherryBoxRegisterAction,
+} = actions;
 export default reducer;
