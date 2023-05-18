@@ -22,7 +22,7 @@ import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
 
-const Home = ({ homeProps }) => {
+const Home = ({ homeProps, cherryPorintProps }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -122,7 +122,7 @@ const Home = ({ homeProps }) => {
       <Container.Body>
         <div className="grid grid-rows-8 ">
           <div className="row-span-3">
-            <MainCarbon />
+            <MainCarbon cherryPoint={cherryPorintProps} />
           </div>
           <div className="row-span-2 grid grid-cols-2 justify-items-center">
             <Link href="/order" onClick={goToPage('내 주변 가게')}>
@@ -185,13 +185,14 @@ export const getServerSideProps = async context => {
   const httpInstance = createBFFInstance(req);
 
   const response = await httpInstance.get(`/api/home/youtube-short`);
-  // const getCherryPoint = await httpInstance.get(`/api/home/cherry-point`);
+  const getCherryPoint = await httpInstance.get(`/api/home/cherry-point`);
 
-  // console.log(getCherryPoint);
+  const cherryPoint = getCherryPoint.data;
+
   return {
     props: {
       homeProps: response.data,
-      // cherryPorintProps: getCherryPoint.data,
+      cherryPorintProps: cherryPoint,
     },
   };
 };
