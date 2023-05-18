@@ -56,7 +56,9 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
   }, [shortsProps]);
 
   useEffect(() => {
-    getReservationList(member.id);
+    if (member.id) {
+      getReservationList(member.id);
+    }
   }, []);
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
             </Link>
           </div>
           <div className="flex justify-between">
-            <div className="relative w-20 h-10 mt-3">
+            <div className="relative w-20 h-10 mt-1">
               <Image src={SHORTS_ICON_URL} fill alt="shorts" />
             </div>
             <button
