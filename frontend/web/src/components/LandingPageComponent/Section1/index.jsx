@@ -11,7 +11,10 @@ const Section1 = () => {
         지구상에서 굶주리는 <br />
         <span className={`${style.emphasis}`}>815만명</span>의 <br />
         사람들에게 <br />
-        1년 치 식량을 <span className={`${style.emphasis}`}>4번씩</span> <br />
+        <span className={`${style['line-wrapper']}`}>
+          1년 치 식량을 <span className={`${style.emphasis}`}>4번씩</span>{' '}
+        </span>
+        <br />
         주고도 남는 양 <br />
       </h2>
 
