@@ -10,10 +10,15 @@ const data = [
     id: 1,
     content: (
       <div>
-        <p className="text-bgcolor text-5xl leading-none	">
+        <p className="text-bgcolor text-center text-2xl leading-none	">
           먹기도 전에 버려지는 음식 <br />
-          <span className="text-pass font-bold">약 3,000만톤</span>
-          그린체리는 여기에 집중했습니다.
+          <div className="text-warning mt-4 text-5xl font-bold">
+            약 3,000만톤 <br />
+          </div>
+          <div className="mt-2">
+            Green Cherry는 <br />
+            여기에 집중했습니다.
+          </div>
         </p>
       </div>
     ),
@@ -198,8 +203,20 @@ const intro = () => {
             [style.active]: index === currentSlide,
           })}
         >
-          {slide.content}
-          <Image />
+          <div>
+            <div className="text-bgcolor text-2xl leading-none	">
+              소비자는
+              <br /> <span className="text-5xl text-warning">지출을</span>{' '}
+              줄이고
+            </div>
+            <div className="text-bgcolor text-2xl leading-none mt-10	">
+              판매자는 <br />
+              <span className="text-danger font-bold ">
+                손해를
+                <span className="text-pass">수익으로</span>
+              </span>
+            </div>
+          </div>
         </div>
       ))}
 
