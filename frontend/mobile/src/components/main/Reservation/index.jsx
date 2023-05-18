@@ -6,7 +6,7 @@ import cs from 'classnames';
 
 import style from './index.module.scss';
 
-const Reservation = () => {
+const Reservation = ({ reservationList }) => {
   const options = {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid meet', // 애니메이션의 종횡비 유지
@@ -28,10 +28,21 @@ const Reservation = () => {
         style={{ width: 260, height: 260 }}
         speed={0.7}
       />
-      <p className="text-sm w-full mb-2 -ml-9 px-4 mob:text-base text-left ">
-        진행중인 예약이 없습니다
-        <br /> todo : 진행중인 거 있을 때 다른문구
-      </p>
+      {reservationList && reservationList.length > 0 ? (
+        <p className="text-base w-full mb-2 -ml-9 pl-5 mob:text-base text-left ">
+          현재{' '}
+          <span className="text-secondary text-base font-bold">
+            {reservationList.length}
+          </span>
+          건의 <br />
+          주문이 진행중입니다.
+          <br />
+        </p>
+      ) : (
+        <p className="text-base w-full mb-2 -ml-9 pl-5 mob:text-base text-left ">
+          현재 진행중인 <br /> 주문이 없습니다.
+        </p>
+      )}
     </div>
   );
 };
