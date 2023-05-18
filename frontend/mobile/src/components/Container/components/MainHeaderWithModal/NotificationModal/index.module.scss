@@ -6,11 +6,11 @@
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: opacity 0.5s, max-height 2s;
+  transition: opacity 0.2s, max-height 2s;
 }
 
 .notification-list.show {
-  min-height: 400px;
+  min-height: 90%;
   max-height: 100vh; // 이 부분 추가
   opacity: 1; // 이 부분 추가
 }

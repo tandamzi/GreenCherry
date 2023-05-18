@@ -11,6 +11,7 @@ import CherryBoxModal from '@/components/CherryBoxModal';
 import useMember from '@/hooks/memberHook';
 import useModal from '@/hooks/modalHook';
 import useStore from '@/hooks/storeHook';
+import clientHttp from '@/utils/clientHttp';
 
 const Menu = ({ menuOpen }) => {
   const { openCherryBoxRegisterModal } = useMember();
@@ -21,8 +22,19 @@ const Menu = ({ menuOpen }) => {
   const router = useRouter();
 
   const handleLogout = () => {
-    logout();
-    router.push('/');
+    clientHttp
+      .get('/logout')
+      .then(response => {
+        if (response.data.success) {
+          logout();
+          router.push('/');
+        } else {
+          router.push('/member');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const handleMyStoreClick = () => {
