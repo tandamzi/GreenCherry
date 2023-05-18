@@ -12,44 +12,6 @@ import createYoutubeIntstacne from '@/utils/youtube';
 
 const Shorts = () => {
   const [videos, setVideos] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedVideoId, setSelectedVideoId] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const videosRef = useRef(null);
-
-  const openModal = (videoId, index) => {
-    setSelectedVideoId(videoId);
-    setCurrentIndex(index);
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedVideoId('');
-    setCurrentIndex(0);
-    setModalIsOpen(false);
-  };
-
-  const handleModalClose = () => {
-    closeModal();
-    scroll.scrollToTop();
-  };
-
-  const handleVideoEnd = () => {
-    if (currentIndex < videos.length - 1) {
-      setCurrentIndex(prevIndex => prevIndex + 1);
-      setSelectedVideoId(videos[currentIndex + 1].videoId);
-    }
-  };
-
-  const handleModalScroll = () => {
-    const modalContent = document.querySelector('.modal-content');
-    if (
-      modalContent.scrollTop + modalContent.clientHeight >=
-      modalContent.scrollHeight
-    ) {
-      handleVideoEnd();
-    }
-  };
 
   const maxWidth = 575;
   const [videoWidth, setVideoWidth] = useState(() => {
@@ -94,6 +56,7 @@ const Shorts = () => {
       autohide: 0,
       autoplay: 0,
       fs: 0,
+      showinfo: 0,
       rel: 0,
       iv_load_policy: 3,
       modestbranding: 1,
@@ -103,51 +66,12 @@ const Shorts = () => {
   return (
     <Container>
       <Container.SubPageHeader title="short" />
-      <div className=" justify-items-center">
-        {/* {videos &&
-          videos.map((item, idx) => {
-            return <YouTube opts={opts} videoId={item.videoId} key={idx} />;
-          })} */}
+      <div className="grid grid-cols-3 justify-items-center">
         {videos &&
           videos.map((item, idx) => {
-            return (
-              <div
-                className="mb-3 flex flex-row"
-                key={idx}
-                onClick={() => openModal(item.videoId, idx)}
-              >
-                <Image
-                  className="rounded-lg"
-                  src={item.thumbnails.standard.url}
-                  alt="Thumbnail"
-                  width={videoWidth}
-                  height={300}
-                />
-                <p className="ml-3 font-bold text-sm">{item.title}</p>
-              </div>
-            );
+            return <YouTube opts={opts} videoId={item.videoId} key={idx} />;
           })}
-        <div>
-          <div
-            type="button"
-            onClick={e => {
-              setModalIsOpen(prev => !prev);
-            }}
-          >
-            {' '}
-            modal
-          </div>
-        </div>
       </div>
-      <ShortsPlayModal
-        selectedVideoId={selectedVideoId}
-        videos={videos}
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        handleModalScroll={handleModalScroll}
-        currentIndex={currentIndex}
-        handleVideoEnd={handleVideoEnd}
-      />
     </Container>
   );
 };
