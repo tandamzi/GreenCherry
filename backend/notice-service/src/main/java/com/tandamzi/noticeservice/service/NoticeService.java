@@ -12,6 +12,7 @@ import com.tandamzi.noticeservice.dto.response.ListResponseDto;
 import com.tandamzi.noticeservice.dto.response.NoticeListResponseDto;
 import com.tandamzi.noticeservice.exception.NoticeNotFoundException;
 import com.tandamzi.noticeservice.feign.OrderServiceClient;
+import com.tandamzi.noticeservice.feign.ReviewServiceClient;
 import com.tandamzi.noticeservice.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -34,6 +36,9 @@ public class NoticeService {
 
     @Autowired
     private NoticeRepository noticeRepository;
+
+    @Autowired
+    ReviewServiceClient reviewServiceClient;
 
     public void sendNotice(List<String> tokens){
         for (String token : tokens) {
@@ -74,13 +79,19 @@ public class NoticeService {
         log.info("[NoticeService] getNoticeList");
         Page<Notice> notices = noticeRepository.findByMemberId(memberId, pageable);
 
-
         List<Long> orderIds = new ArrayList<>();
         notices.forEach(notice -> {
             orderIds.add(notice.getOrderId());
         });
 
-        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(orderIds).getData();
+        HashSet<Long> existedOrderIds = new HashSet<>(reviewServiceClient.existReviewByOrder(orderIds).getData());
+
+        List<Long> nonExistedOrderIds = new ArrayList<>();
+        orderIds.stream()
+                .filter(id -> !existedOrderIds.contains(id))
+                .forEach(nonExistedOrderIds::add);
+
+        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(nonExistedOrderIds).getData();
 
         boolean isRead = false;
         HashMap<Long, ListResponseDto> map = new HashMap<>();
@@ -93,7 +104,6 @@ public class NoticeService {
         });
 
         return page;
-
     }
 
     @Transactional
