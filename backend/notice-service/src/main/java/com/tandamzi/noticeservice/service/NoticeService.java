@@ -84,25 +84,20 @@ public class NoticeService {
             orderIds.add(notice.getOrderId());
         });
 
-        log.info("orderIds = {}", orderIds);
+//        log.info("orderIds = {}", orderIds);
 
-        HashSet<Long> existedOrderIds = new HashSet<>(reviewServiceClient.existReviewByOrder(orderIds).getData());
+//        HashSet<Long> existedOrderIds = new HashSet<>(reviewServiceClient.existReviewByOrder(orderIds).getData());
 
-        log.info("existedOrderIds = {}", existedOrderIds);
+//        log.info("existedOrderIds = {}", existedOrderIds);
+//
+//        List<Long> nonExistedOrderIds = new ArrayList<>();
+//        orderIds.stream()
+//                .filter(id -> !existedOrderIds.contains(id))
+//                .forEach(nonExistedOrderIds::add);
+//
+//        log.info("nonExistedOrderIds = {}", nonExistedOrderIds);
 
-        List<Long> nonExistedOrderIds = new ArrayList<>();
-        orderIds.stream()
-                .filter(id -> !existedOrderIds.contains(id))
-                .forEach(nonExistedOrderIds::add);
-
-        log.info("nonExistedOrderIds = {}", nonExistedOrderIds);
-
-        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(nonExistedOrderIds).getData();
-
-        log.info("list.size = {}", list.size());
-        for (NoticeListResponseDto noticeListResponseDto : list) {
-            log.info("orderId = {}", noticeListResponseDto.getOrderId());
-        }
+        List<NoticeListResponseDto> list = orderServiceClient.noticeOrderList(orderIds).getData();
 
         boolean isRead = false;
         HashMap<Long, ListResponseDto> map = new HashMap<>();
