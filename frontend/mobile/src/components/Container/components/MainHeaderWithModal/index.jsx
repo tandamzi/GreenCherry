@@ -10,6 +10,7 @@ import Link from 'next/link';
 import NotificationList from './NotificationModal';
 import Header from '../Header';
 
+const LOGO_URL = `/assets/logo/cherryLogoShadowRemove.svg`;
 const MainHeader = ({ className, children }) => {
   const [showNotification, setShowNotification] = useState(false);
 
@@ -30,13 +31,20 @@ const MainHeader = ({ className, children }) => {
         className,
       )}
     >
-      <Image
-        src="/assets/logo/mainLogo.svg"
-        width={100}
-        height={100}
-        className=" h-6 flex-none w-fit"
-        alt="devday main logo"
-      />
+      <div className="flex items-center">
+        <div className="relative w-7 h-7">
+          <Image
+            src={LOGO_URL}
+            fill
+            className=" h-6 flex-none w-fit"
+            alt="greenCherry"
+          />
+        </div>
+        <span className="mt-1 text-primary font-bold">
+          Green
+          <span className="text-secondary font-bold">Cherry</span>
+        </span>
+      </div>
       <div className="flex items-center">
         <button type="button" onClick={handleIconClick} className="w-8 h-8">
           <Lottie
