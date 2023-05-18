@@ -13,6 +13,7 @@ import { Router, useRouter } from 'next/router';
 import MainCarbon from '../../components/main/MainCarbon';
 
 import Container from '@/components/Container';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import Reservation from '@/components/main/Reservation';
 import ShortComponent from '@/components/ShortComponent';
 import Spinner from '@/components/Spinner';
@@ -23,8 +24,10 @@ import createBFFInstance from '@/utils/ssr/bffHttp';
 
 const SHORTS_ICON_URL = '/assets/icons/buttonIcons/shortsButton.svg';
 
-const Home = ({ homeProps, cherryPorintProps }) => {
+const Home = ({ shortsProps, cherryPorintProps }) => {
   const [loading, setLoading] = useState(true);
+  const [shortsPropsLoading, setShortsPropsLoading] = useState(true);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -43,12 +46,21 @@ const Home = ({ homeProps, cherryPorintProps }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // 3초 동안 로딩 스피너 표시
+    }, 1500); // 3초 동안 로딩 스피너 표시
 
     return () => clearTimeout(timer);
   }, []);
+
   useEffect(() => {
-    getReservationList(member.id);
+    if (shortsProps) {
+      setShortsPropsLoading(false);
+    }
+  }, [shortsProps]);
+
+  useEffect(() => {
+    if (member.id) {
+      getReservationList(member.id);
+    }
   }, []);
 
   useEffect(() => {
@@ -149,10 +161,12 @@ const Home = ({ homeProps, cherryPorintProps }) => {
             </Link>
           </div>
           <div className="row-span-2">
-            <Reservation reservationList={reservationList} />
+            <Link href="/order-list">
+              <Reservation reservationList={reservationList} />
+            </Link>
           </div>
           <div className="flex justify-between">
-            <div className="relative w-20 h-10 mt-3">
+            <div className="relative w-20 h-10 mt-1">
               <Image src={SHORTS_ICON_URL} fill alt="shorts" />
             </div>
             <button
@@ -164,11 +178,19 @@ const Home = ({ homeProps, cherryPorintProps }) => {
             </button>
           </div>
           <div className="h-60">
-            <div className="relative">
-              <ShortComponent shortInfo={homeProps} width={120} height={220} />
-            </div>
+            {!shortsPropsLoading ? (
+              <div className="relative">
+                <ShortComponent
+                  shortInfo={shortsProps}
+                  width={120}
+                  height={220}
+                />
+              </div>
+            ) : (
+              <LoadingSpinner />
+            )}
           </div>
-        </div>{' '}
+        </div>
         <div className="mt-10 pb-4 text-center">
           <span className="font-bold text-secondary">Green </span>
           <span className="font-bold text-primary">Cherry</span>
@@ -193,7 +215,7 @@ export const getServerSideProps = async context => {
 
   return {
     props: {
-      homeProps: response.data,
+      shortsProps: response.data,
       cherryPorintProps: cherryPoint,
     },
   };

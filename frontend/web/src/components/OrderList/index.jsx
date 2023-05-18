@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useRouter } from 'next/router';
 
+import LoadingSpinner from '@/components/LoadingSpinner';
 import OrderListItem from '@/components/OrderListItem';
 import OrderZero from '@/components/OrderZero';
 
@@ -58,7 +59,11 @@ const OrderList = ({
             updateOrderState={updateOrderState}
           />
         ))}
-        {!pageEnd && <div ref={ref}>Loading...</div>}
+        {!pageEnd && (
+          <div ref={ref} className="w-9 mx-auto">
+            <LoadingSpinner />
+          </div>
+        )}
       </div>
     </div>
   );
