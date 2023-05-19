@@ -271,8 +271,8 @@ public class OrderService {
         log.info("[OrderService] getCherryPointByWeek ");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay();
-        LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusWeeks(1);
+        LocalDateTime startDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().minusWeeks(1);
+        LocalDateTime endDateTime = LocalDate.parse(currentDate,formatter).atStartOfDay().plusDays(1);
 
         Tuple tuple = orderRepository.findTupleBetWeenCurrentDateAndEndDate(startDateTime, endDateTime);
         Long count = tuple.get("count", Long.class);
