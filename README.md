@@ -244,4 +244,5 @@
 
 ## 4. 발표 자료
 
-[C207\_최종발표자료.pptx](https://github.com/tabss2003/SWsummerproject_surfing_game/files/11521366/C207_.pptx)
+[C207_최종발표자료.pptx](https://github.com/tabss2003/SWsummerproject_surfing_game/files/11521383/C207_.pptx)
+
