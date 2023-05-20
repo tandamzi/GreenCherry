@@ -5,6 +5,10 @@ import Image from 'next/image';
 import style from './index.module.scss';
 
 const Section2 = () => {
+  const [device, setDevice] = React.useState('');
+  React.useEffect(() => {
+    setDevice(navigator.userAgent);
+  }, []);
   return (
     <div className={`${style['section-item']}`}>
       <div className={`${style['text-container']}`}>
@@ -17,7 +21,7 @@ const Section2 = () => {
           <br /> 약 <span className={`${style.emphasis}`}>3000만 </span> 톤
         </p>
       </div>
-
+      {device}
       <div className={`${style['image-container']}`}>
         <Image
           src="/assets/images/save-earth.svg"
