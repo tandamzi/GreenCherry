@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import CherryBoxModal from '@/components/CherryBoxModal';
 import CloseStoreModal from '@/components/CloseStoreModal';
+import InstallPrompt from '@/components/InstallPrompt';
 import MypageModal from '@/components/MypageModal';
 import Spinner from '@/components/Spinner';
 import store from '@/redux/store';
@@ -52,6 +53,7 @@ function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <InstallPrompt />
         <CloseStoreModal />
         <MypageModal />
         <CherryBoxModal />
