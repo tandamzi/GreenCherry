@@ -12,7 +12,6 @@ export const getStoreOpen = async storeId => {
 export const getStore = async memberId => {
   try {
     const data = await clientHttp.get(`/store/info?member-id=${memberId}`);
-    // console.log(data);
     return data;
   } catch (error) {
     return error;
@@ -39,9 +38,7 @@ export const getStoreType = async () => {
 
 export const getCherryPoint = async storeId => {
   try {
-    // console.log('getCherryPoint, storeId; ', storeId);
     const res = await clientHttp.get(`/store/${storeId}/cherry-point`);
-    // console.log('getCherryPoint API: ', res);
     return res.data.data;
   } catch (error) {
     return error;
@@ -131,7 +128,6 @@ export const putModifyStore = async (storeId, storeInfo, images) => {
       `/store/${storeId}/modify-store`,
       formData,
     );
-    // console.log(res);
 
     return res.data;
   } catch (error) {
