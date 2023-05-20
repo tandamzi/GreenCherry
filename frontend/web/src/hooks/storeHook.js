@@ -38,7 +38,6 @@ export default function useStore() {
   };
 
   const setCherryPoint = data => {
-    // console.log('setCherryPointAction: ', data);
     dispatch(setCherryPointAction(data));
   };
 

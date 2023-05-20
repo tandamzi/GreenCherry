@@ -5,13 +5,9 @@ self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
 
-// self.addEventListener('activate', function (e) {
-//   console.log('fcm sw activate..');
-// });
-
 self.addEventListener('push', function (e) {
   const bc = new BroadcastChannel('fcm_channel');
-  console.log('push: ', e.data.json());
+  // console.log('push: ', e.data.json());
   if (!e.data.json()) return;
 
   const resultData = e.data.json();
