@@ -11,19 +11,24 @@ const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
-    /*     const testIOS =
-      'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1';
-    const isDeviceIOS = /iPad|iPhone|iPod/.test(testIOS) && !window.MSStream;
-    setIsIOS(isDeviceIOS); */
     const isDeviceIOS =
       /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream;
     setIsIOS(isDeviceIOS);
 
-    window.addEventListener('beforeinstallprompt', e => {
+    const handleBeforeInstallPrompt = e => {
       e.preventDefault();
       setDeferredPrompt(e);
-    });
-    setIsShown(true);
+      setIsShown(true); // 'beforeinstallprompt' 이벤트가 발생했으므로 PWA가 설치되지 않았음을 알 수 있습니다.
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
+      );
+    };
   }, []);
 
   const handleClick = async () => {
@@ -40,7 +45,7 @@ const InstallPrompt = () => {
     setIsShown(false);
   };
 
-  if (!isShown) {
+  if (!isIOS && !isShown) {
     return null;
   }
 
