@@ -32,7 +32,6 @@ const StoreModify = ({ title, children, type }) => {
   };
 
   useEffect(() => {
-    // console.log(storeAttributes[type]);
     setContent(storeAttributes[type]);
   }, [storeAttributes[type]]);
 

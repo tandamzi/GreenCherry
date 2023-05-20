@@ -11,7 +11,7 @@ const MainHeader = ({ children, className }) => {
   return (
     <Header
       className={classnames(
-        'flex justify-between items-center fixed w-full h-24 top-0 z-30 shadow-header rounded-b-3xl bg-secondary',
+        'flex justify-between items-center fixed w-full h-24 top-0 z-10 shadow-header rounded-b-3xl bg-secondary',
         className,
       )}
     >
