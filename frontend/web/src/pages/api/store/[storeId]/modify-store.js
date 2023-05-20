@@ -22,8 +22,6 @@ export default async function handler(req, res) {
   } = req;
 
   form.parse(req, async (err, fields, files) => {
-    // console.log('fields', fields);
-    // console.log('files', files);
     if (err) {
       res.status(500).json({ error: 'Failed to parse the request' });
       return;
