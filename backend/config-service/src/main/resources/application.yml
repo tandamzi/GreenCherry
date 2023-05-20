@@ -15,7 +15,7 @@ spring:
         git:
           uri: https://github.com/gggeon96/cherry-config.git
           username: geon1120@gmail.com
-          password: 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
+          password: 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
 
 management:
   endpoints:
