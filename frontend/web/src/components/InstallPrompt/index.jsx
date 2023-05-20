@@ -11,15 +11,19 @@ const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
+    /*     const testIOS =
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1';
+    const isDeviceIOS = /iPad|iPhone|iPod/.test(testIOS) && !window.MSStream;
+    setIsIOS(isDeviceIOS); */
     const isDeviceIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream;
     setIsIOS(isDeviceIOS);
 
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setIsShown(true);
     });
+    setIsShown(true);
   }, []);
 
   const handleClick = async () => {
