@@ -97,7 +97,6 @@ const Join = () => {
       lat,
       lng,
     };
-    // console.log(result);
     const formData = new FormData();
     Array.from(selectedFiles).forEach((file, index) => {
       formData.append(`images`, file);
@@ -106,11 +105,9 @@ const Join = () => {
     /* for (const [key, value] of formData.entries()) {
       console.log(key, value);
     } */
-    // setClicked(false);
     formData.append('data', JSON.stringify(result));
     try {
       const response = await clientHttpForm.post('/store', formData);
-      // console.log(response.data);
       if (response.data.success) {
         const memberData = await getMember();
         if (memberData.isJoined) {

@@ -11,17 +11,13 @@ const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
-    // Detect if the device is an iOS device
     const isDeviceIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     setIsIOS(isDeviceIOS);
 
     window.addEventListener('beforeinstallprompt', e => {
-      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      // Stash the event so it can be triggered later.
       setDeferredPrompt(e);
-      // Update UI notify the user they can install the PWA
       setIsShown(true);
     });
   }, []);
@@ -31,11 +27,8 @@ const InstallPrompt = () => {
     if (!deferredPrompt) {
       return;
     }
-    // Show the prompt
     deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
     const { outcome } = await deferredPrompt.userChoice;
-    // We've used the prompt, and can't use it again, throw it away
     setDeferredPrompt(null);
   };
 

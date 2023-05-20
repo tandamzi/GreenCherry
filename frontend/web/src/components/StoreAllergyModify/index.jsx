@@ -21,7 +21,6 @@ const StoreAllergyModify = ({
       setAllergyIdList([...allergyIdList, value]);
     }
   };
-  // console.log(content);
   useEffect(() => {
     getAllergy().then(data => setAllergyList(data));
   }, []);
