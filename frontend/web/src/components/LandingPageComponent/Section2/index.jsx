@@ -7,7 +7,7 @@ import style from './index.module.scss';
 const Section2 = () => {
   const [device, setDevice] = React.useState('');
   React.useEffect(() => {
-    setDevice(navigator.userAgent);
+    setDevice(window.navigator.userAgent);
   }, []);
   return (
     <div className={`${style['section-item']}`}>
