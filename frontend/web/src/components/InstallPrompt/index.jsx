@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { CgSoftwareUpload } from 'react-icons/cg';
 
 import Image from 'next/image';
 
@@ -11,19 +12,24 @@ const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
-    /*     const testIOS =
-      'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1';
-    const isDeviceIOS = /iPad|iPhone|iPod/.test(testIOS) && !window.MSStream;
-    setIsIOS(isDeviceIOS); */
     const isDeviceIOS =
       /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream;
     setIsIOS(isDeviceIOS);
 
-    window.addEventListener('beforeinstallprompt', e => {
+    const handleBeforeInstallPrompt = e => {
       e.preventDefault();
       setDeferredPrompt(e);
-    });
-    setIsShown(true);
+      setIsShown(true); // 'beforeinstallprompt' 이벤트가 발생했으므로 PWA가 설치되지 않았음을 알 수 있습니다.
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
+      );
+    };
   }, []);
 
   const handleClick = async () => {
@@ -40,7 +46,7 @@ const InstallPrompt = () => {
     setIsShown(false);
   };
 
-  if (!isShown) {
+  if (!isIOS && !isShown) {
     return null;
   }
 
@@ -49,10 +55,23 @@ const InstallPrompt = () => {
       <div className={style.backdrop} />
       <div className={style['install-prompt']}>
         {isIOS ? (
-          <p>
-            Please use the &quot;Add to Home Screen&quot; option in your browser
-            menu to install this app.
-          </p>
+          <div className={style['install-container']}>
+            <Image
+              src="/assets/logo/cherryLogoShadowRemove.svg"
+              width={69}
+              height={69}
+              alt="greencherry main logo"
+            />
+            <div className="text-center">
+              <span className="text-secondary font-bold">GreenCherry</span>
+              는 앱에서 원활한 사용을 할 수 있습니다.
+              <br />
+            </div>
+            <div className="flex text-xl">
+              <CgSoftwareUpload size={24} />를 클릭하여 홈 화면에 추가하기를
+              통해 설치를 해주세요
+            </div>
+          </div>
         ) : (
           <div className={style['install-container']}>
             <Image
@@ -63,7 +82,7 @@ const InstallPrompt = () => {
             />
             <div className="text-center">
               <span className="text-secondary font-bold">GreenCherry</span>
-              는 앱을 지원합니다.
+              는 앱에서 원활한 사용을 할 수 있습니다.
               <br />
               <span className="text-xl">설치하시겠습니까?</span>
             </div>

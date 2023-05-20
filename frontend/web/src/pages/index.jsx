@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import Container from '@/components/Container';
+import InstallPrompt from '@/components/InstallPrompt';
 import Section1 from '@/components/LandingPageComponent/Section1';
 import Section2 from '@/components/LandingPageComponent/Section2';
 import Section3 from '@/components/LandingPageComponent/Section3';
@@ -21,6 +22,8 @@ export default function Home() {
   }, []);
   return (
     <Container>
+      <InstallPrompt />
+
       <Container.MainHeader />
       <Container.PaddingZeroBody className="bg-secondary block text-bgcolor">
         <div className="h-screen w-full overflow-x-hidden overflow-y-scroll snap-y snap-mandatory">
