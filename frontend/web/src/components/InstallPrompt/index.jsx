@@ -8,14 +8,13 @@ import style from './index.module.scss';
 
 const InstallPrompt = () => {
   const [isShown, setIsShown] = useState(false);
-  // const [isIOS, setIsIOS] = useState(false);
-  const isIOS = true;
+  const [isIOS, setIsIOS] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
     const isDeviceIOS =
       /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream;
-    // setIsIOS(isDeviceIOS);
+    setIsIOS(isDeviceIOS);
 
     const handleBeforeInstallPrompt = e => {
       e.preventDefault();
