@@ -17,13 +17,14 @@ const data = [
     content: (
       <div className="text-bgcolor text-center text-3xl leading-none	">
         먹기도 전에
-        <br /> 버려지는 음식
-        <div className="text-warning text-6xl font-bold">
+        <br /> 버려지는 음식 <br />
+        <span className="text-warning2 text-6xl font-bold">
           3,000만톤 <br />
-        </div>
-        <div className="text-bgcolor text-center text-3xl mt-4 leading-none	">
+        </span>
+        <div className="text-bgcolor text-center text-3xl leading-none mt-1">
           이들의 가치
-          <p className="text-danger text-6xl font-bold">약 3조원</p>
+          <br />
+          <span className="text-danger2 text-6xl font-bold">약 3조원</span>
         </div>
       </div>
     ),
@@ -32,10 +33,10 @@ const data = [
   {
     id: 2,
     content: (
-      <div className=" text-bgcolor text-center text-3xl">
-        저희
+      <div className="text-bgcolor text-center text-3xl leading-none">
+        <span>저희</span>
         <p className="text-6xl font-bold text-primaryevent">green cherry</p>
-        여기에 집중했습니다.
+        <span>여기에 집중했습니다.</span>
       </div>
     ),
     imgSrc: INTRO2_URL,
@@ -45,16 +46,16 @@ const data = [
     content: (
       <div>
         <div className="text-bgcolor text-3xl leading-none -ml-9">
-          소비자는
+          <span className="ml-1"> 소비자는</span>
           <p className="text-6xl font-bold">
-            <span className="text-warning">합리적인</span> <br />
-            <span className="text-pass">소비를</span>
+            <span className="text-warning2">합리적인</span> <br />
+            <span className="text-pass2">소비를</span>
           </p>
         </div>
-        <div className="text-bgcolor text-right text-3xl leading-none mt-3 -mr-9	">
-          판매자는 <br />
-          <p className="text-danger text-6xl font-bold ">
-            손해를 <p className="text-pass">수익으로</p>
+        <div className="text-bgcolor text-right text-3xl leading-none mt-4 -mr-9	">
+          <span className="mr-1"> 판매자는 </span>
+          <p className="text-danger2 text-6xl font-bold ">
+            손해를 <p className="text-pass2">수익으로</p>
           </p>
         </div>
       </div>
@@ -65,12 +66,15 @@ const data = [
     id: 4,
     content: (
       <div className="text-center">
-        <p className="text-3xl text-bgcolor">
-          환경도 지키고 <br /> 지갑도 지키는
-        </p>
-        <p className="text-primaryevent text-6xl my-3 font-bold">체리박스</p>
+        <div className="text-3xl text-bgcolor leading-none">
+          <div>환경도 지키고</div>
+          <div className="mt-0.5">지갑도 지키는</div>
+        </div>
+        <div className="text-primaryevent text-6xl my-1 font-bold">
+          체리박스
+        </div>
         <div className="text-bgcolor text-3xl leading-none  	">
-          지금 바로
+          <span className="text-warning2 font-bold">지금 바로</span>
           <br />
           시작하세요
         </div>
@@ -150,15 +154,6 @@ const intro = () => {
   };
   return (
     <div className={cn(style.intro, 'bg-secondary')}>
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={goToLogin}
-          className="bg-primary text-primaryfont font-bold text-sm px-2 py-1.5 rounded-3xl mt-1 mr-1 opacity-80"
-        >
-          건너뛰기..
-        </button>
-      </div>
       {show && (
         <div
           onClick={showModal} // Overlay 클릭 시 모달 닫힘
@@ -184,7 +179,7 @@ const intro = () => {
       >
         <div className="flex w-full items-center justify-center mt-4">
           <span className="text-center">
-            <span className="text-secondary font-bold">Green</span>{' '}
+            <span className="text-secondary font-bold">Green</span>
             <span className="text-primaryevent font-bold"> Cherry</span>는 앱을
             지원합니다.
             <br />
@@ -248,6 +243,15 @@ const intro = () => {
             {index + 1}
           </button>
         ))}
+      </div>
+      <div className={cn(style.buttonControls)}>
+        <button
+          type="button"
+          onClick={goToLogin}
+          className="bg-primary text-primaryfont font-bold text-sm px-2 py-1.5  w-20 rounded-3xl opacity-80"
+        >
+          시작하기
+        </button>
       </div>
     </div>
   );
