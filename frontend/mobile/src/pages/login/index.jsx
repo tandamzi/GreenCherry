@@ -38,6 +38,7 @@ const login = () => {
       );
     };
   }, []);
+
   const installApp = () => {
     if (!defferedPropmt.current) {
       return false;
