@@ -2,5 +2,5 @@ spring:
   cloud:
     config:
       uri: http://127.0.0.1:8888
-      name: member-service
-      profile: geon
+      name: pay-service
+#      profile: prod
