@@ -43,6 +43,7 @@ const InstallPrompt = () => {
   };
 
   const handleClose = () => {
+    event.stopPropagation();
     setIsShown(false);
   };
 
@@ -55,53 +56,64 @@ const InstallPrompt = () => {
       <div className={style.backdrop} />
       <div className={style['install-prompt']}>
         {isIOS ? (
-          <div className={style['install-container']}>
-            <Image
-              src="/assets/logo/cherryLogoShadowRemove.svg"
-              width={69}
-              height={69}
-              alt="greencherry main logo"
-            />
-            <div className="text-center">
-              <span className="text-secondary font-bold">GreenCherry</span>
-              는 앱에서 원활한 사용을 할 수 있습니다.
-              <br />
-            </div>
-            <div className="flex text-xl">
-              <CgSoftwareUpload size={24} />를 클릭하여 홈 화면에 추가하기를
-              통해 설치를 해주세요
-            </div>
-          </div>
-        ) : (
-          <div className={style['install-container']}>
-            <Image
-              src="/assets/logo/cherryLogoShadowRemove.svg"
-              width={69}
-              height={69}
-              alt="greencherry main logo"
-            />
-            <div className="text-center">
-              <span className="text-secondary font-bold">GreenCherry</span>
-              는 앱에서 원활한 사용을 할 수 있습니다.
-              <br />
-              <span className="text-xl">설치하시겠습니까?</span>
+          <>
+            <div className={style['install-container']}>
+              <Image
+                src="/assets/logo/cherryLogoShadowRemove.svg"
+                width={69}
+                height={69}
+                alt="greencherry main logo"
+              />
+              <div className="text-center">
+                <span className="text-secondary font-bold">GreenCherry</span>
+                는 앱에서 원활한 사용을 할 수 있습니다.
+                <br />
+              </div>
+              <div className="flex text-xl">
+                <CgSoftwareUpload size={24} />를 클릭하여 홈 화면에 추가하기를
+                통해 설치를 해주세요
+              </div>
             </div>
             <button
               type="button"
-              onClick={handleClick}
-              className={style['install-btn']}
+              onTouchEnd={handleClose}
+              className={style['close-btn']}
             >
-              Install App
+              <AiOutlineClose size={24} />
             </button>
-          </div>
+          </>
+        ) : (
+          <>
+            <div className={style['install-container']}>
+              <Image
+                src="/assets/logo/cherryLogoShadowRemove.svg"
+                width={69}
+                height={69}
+                alt="greencherry main logo"
+              />
+              <div className="text-center">
+                <span className="text-secondary font-bold">GreenCherry</span>
+                는 앱에서 원활한 사용을 할 수 있습니다.
+                <br />
+                <span className="text-xl">설치하시겠습니까?</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleClick}
+                className={style['install-btn']}
+              >
+                Install App
+              </button>
+            </div>
+            <button
+              type="button"
+              className={style['close-btn']}
+              onClick={handleClose}
+            >
+              <AiOutlineClose size={24} />
+            </button>
+          </>
         )}
-        <button
-          type="button"
-          onClick={handleClose}
-          className={style['close-btn']}
-        >
-          <AiOutlineClose size={24} />
-        </button>
       </div>
     </>
   );
