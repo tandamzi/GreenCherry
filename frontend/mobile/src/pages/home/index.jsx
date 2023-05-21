@@ -132,6 +132,7 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
     });
   }, []);
 
+  useEffect(() => {});
   return !loading ? (
     <Container className="overflow-y-scroll scrollbar-hide">
       <Container.MainHeaderWithModal />

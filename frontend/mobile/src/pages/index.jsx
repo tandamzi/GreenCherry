@@ -176,7 +176,7 @@ const intro = () => {
 
       <div
         className={cn(
-          'z-20 px-4 py-6 shadow-lg rounded-b-xl bg-bgcolor',
+          'z-20 px-4 shadow-lg rounded-b-xl bg-bgcolor',
           style.topSheet,
           style[`${show ? 'show' : ''}`],
         )}
@@ -223,14 +223,14 @@ const intro = () => {
           })}
         >
           <div className="flex relative">
-            <div className="absolute left-1/2 top-1/2 opacity-90 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute left-1/2 top-1/4 opacity-90 transform -translate-x-1/2 -translate-y-1/2">
               <div className="relative" style={{ width: 400, height: 400 }}>
                 {slide.imgSrc && slide.imgSrc !== '' && (
                   <Image src={slide.imgSrc} fill alt={slide.id} />
                 )}
               </div>
             </div>
-            <div className="z-10">{slide.content}</div>
+            <div className="z-10 pb-40">{slide.content}</div>
           </div>
         </div>
       ))}
