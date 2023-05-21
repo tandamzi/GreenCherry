@@ -18,6 +18,10 @@ module.exports = {
       line: '#d9d9d9',
       itembg: '#F7EDE2',
       disabled: '#a8a29e',
+      danger2: '#dd5151',
+      warning2: '#f5c06c',
+      pass2: '#444afd',
+
       danger: '#dd4242',
       warning: '#f6bd60',
       pass: '#373FFF',
