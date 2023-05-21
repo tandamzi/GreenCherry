@@ -132,6 +132,59 @@ const Home = ({ shortsProps, cherryPorintProps }) => {
     });
   }, []);
 
+  const defferedPropmt = useRef(null);
+
+  const topSheetRef = useRef(false);
+  const [show, setShow] = useState(false);
+
+  const showModal = () => {
+    setShow(prev => !prev);
+  };
+
+  useEffect(() => {
+    const beforeInstallPromptHandler = e => {
+      e.preventDefault();
+      defferedPropmt.current = e;
+      setShow(true); // 모달을 보이도록 설정
+    };
+
+    window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+
+    return () => {
+      window.removeEventListener(
+        'beforeinstallprompt',
+        beforeInstallPromptHandler,
+      );
+    };
+  }, []);
+  const installApp = () => {
+    if (!defferedPropmt.current) {
+      return false;
+    }
+
+    defferedPropmt.current.prompt();
+    defferedPropmt.current.userChoice.then(choiceResult => {
+      if (choiceResult.outcome === 'accepted') {
+        return 'User accepted the A2HS prompt';
+      }
+      // 설치 하지 않았을 때
+      return 'User dismissed the A2HS prompt';
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (topSheetRef.current && !topSheetRef.current.contains(event.target)) {
+        setShow(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [topSheetRef]);
   return !loading ? (
     <Container className="overflow-y-scroll scrollbar-hide">
       <Container.MainHeaderWithModal />
