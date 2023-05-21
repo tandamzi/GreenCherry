@@ -19,7 +19,7 @@ const InstallPrompt = () => {
     const handleBeforeInstallPrompt = e => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setIsShown(true); // 'beforeinstallprompt' 이벤트가 발생했으므로 PWA가 설치되지 않았음을 알 수 있습니다.
+      setIsShown(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -43,11 +43,11 @@ const InstallPrompt = () => {
   };
 
   const handleClose = () => {
-    event.stopPropagation();
     setIsShown(false);
+    event.stopPropagation();
   };
 
-  if (!isIOS && !isShown) {
+  if (!isShown) {
     return null;
   }
 
@@ -73,10 +73,17 @@ const InstallPrompt = () => {
                 <CgSoftwareUpload size={24} />를 클릭하여 홈 화면에 추가하기를
                 통해 설치를 해주세요
               </div>
+              <button
+                type="button"
+                onClick={handleClose}
+                className={style['install-btn']}
+              >
+                확인
+              </button>
             </div>
             <button
               type="button"
-              onTouchEnd={handleClose}
+              onClick={handleClose}
               className={style['close-btn']}
             >
               <AiOutlineClose size={24} />
