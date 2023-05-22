@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Dialog, Transition } from '@headlessui/react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 
@@ -98,7 +97,7 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                         </Dialog.Title>
                         <div>
                           <p>
-                            체리박스 총
+                            체리박스 총{' '}
                             <span className="text-bold text-danger">
                               {orderQuantity}
                             </span>
@@ -116,23 +115,6 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                       onClick={async e => {
                         e.preventDefault();
                         try {
-                          const data = {
-                            memberId,
-                            itemName: '그린체리 체리박스',
-                            quantity: orderQuantity,
-                            price: 1000,
-                          };
-                          // const response = await axios.post(`${process.env.NEXT_PUBLIC_KAKAO_PAY_SERVER_URI}/pay/ready`, data);
-                          const response = await axios.post(
-                            `http://greencherry.store:2001/pay/ready`,
-                            data,
-                          );
-                          window.location.href =
-                            response.data.next_redirect_mobile_url;
-                        } catch (error) {
-                          console.error(error);
-                        }
-                        /*                         try {
                           await clientHttp
                             .get('/order-complete', {
                               params: {
@@ -181,7 +163,7 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                               showConfirmButton: true,
                             });
                           }
-                        } */
+                        }
                       }}
                       ref={cancelButtonRef}
                     >
