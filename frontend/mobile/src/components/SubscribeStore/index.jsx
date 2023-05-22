@@ -21,7 +21,7 @@ const SubscribeStore = ({ subscribeStoreInfo, memberId }) => {
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-row">
-        <div className="flex justify-center items-center relative w-28 h-28 rounded-lg mr-2">
+        <div className="relative flex justify-center items-center w-28 h-28 rounded-lg mr-2">
           <Image
             src={subscribeStoreInfo.image}
             fill

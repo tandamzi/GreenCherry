@@ -24,16 +24,19 @@ const OrderInfo = ({ orderInfo }) => {
             <p>{orderInfo.totalSalesAmount}원</p>
           </div>
           <div className="flex flex-row m-3">
-            <Image
-              src={orderInfo.storeImageUrl}
-              className="rounded-lg mr-3"
-              width={110}
-              height={60}
-              alt="reveiewImageUrl"
-            />
-            <div className="w-full">
-              <p className="font-bold text-2xl mt-3">{orderInfo.storeName}</p>
-              <p className="font-thin mb-2">체리박스 {orderInfo.quantity}</p>
+            <div className="relative w-1/2 h-32 mr-3">
+              <Image
+                src={orderInfo.storeImageUrl}
+                fill
+                className="rounded-lg"
+                alt="reveiewImageUrl"
+              />
+            </div>
+            <div className="flex flex-col justify-around w-full ">
+              <div>
+                <p className="font-bold text-2xl mt-3">{orderInfo.storeName}</p>
+                <p className="font-thin mb-2">체리박스 {orderInfo.quantity}</p>
+              </div>
               <div className="text-center w-full py-1 rounded-lg border border-primaryevent">
                 <p className="text-primaryevent">현재 예약중인 주문입니다!</p>
               </div>
@@ -47,16 +50,19 @@ const OrderInfo = ({ orderInfo }) => {
             <p>{orderInfo.totalSalesAmount}원</p>
           </div>
           <div className="flex flex-row m-3">
-            <Image
-              src={orderInfo.storeImageUrl}
-              className="rounded-lg mr-3"
-              width={110}
-              height={60}
-              alt="reveiewImageUrl"
-            />
-            <div className="w-full">
-              <p className="font-bold text-2xl mt-3">{orderInfo.storeName}</p>
-              <p className="font-thin mb-2">체리박스 {orderInfo.quantity}</p>
+            <div className="relative w-1/2 h-32 mr-3">
+              <Image
+                src={orderInfo.storeImageUrl}
+                className="rounded-lg"
+                fill
+                alt="reveiewImageUrl"
+              />
+            </div>
+            <div className="flex flex-col justify-around w-full ">
+              <div>
+                <p className="font-bold text-2xl mt-3">{orderInfo.storeName}</p>
+                <p className="font-thin mb-2">체리박스 {orderInfo.quantity}</p>
+              </div>
               {orderInfo.writed === 'EXPIRATION' ? (
                 <div className="text-center w-full py-1 rounded-lg border border-disabled">
                   <p className="text-disabled">리뷰 작성일이 지났습니다</p>
