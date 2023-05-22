@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { TbCherry, TbPaperBag, TbPencil, TbHome } from 'react-icons/tb';
+import {
+  TbCherry,
+  TbPaperBag,
+  TbPencil,
+  TbHome,
+  TbLogout,
+} from 'react-icons/tb';
 
 import classnames from 'classnames';
 import Link from 'next/link';
@@ -84,7 +90,7 @@ const Menu = ({ menuOpen }) => {
           <TbHome size={24} />내 가게
         </button>
         <button type="button" className={style.menuItem} onClick={handleLogout}>
-          <TbHome size={24} /> 로그아웃
+          <TbLogout size={24} /> 로그아웃
         </button>
       </div>
     </div>
