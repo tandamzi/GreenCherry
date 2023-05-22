@@ -1,11 +1,14 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
+import png from '../../public/assets/icons/icon-192';
+
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
           <link rel="manifest" href="/manifest.json" />
+          <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/assets/icon/icon-192x192.png" />
           <meta name="theme-color" content="#84A59D" />
           <script
