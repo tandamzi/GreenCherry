@@ -14,7 +14,7 @@ import tandamzi.pay.payservice.dto.request.KakaoPayRequestDto;
 import tandamzi.pay.payservice.service.KakaoPayService;
 
 @RestController
-@RequestMapping("pay")
+@RequestMapping("/pay")
 @RequiredArgsConstructor
 @Slf4j
 public class KakaoPayController {
@@ -25,7 +25,7 @@ public class KakaoPayController {
     /**
      * 결제요청
      */
-    @PostMapping("ready")
+    @PostMapping("/ready")
     public KakaoReadyResponse readyToKakaoPay(@RequestBody KakaoPayRequestDto kakaoPayRequestDto) {
         log.info("kakaoPayRequestDto : {}", kakaoPayRequestDto);
         return kakaoPayService.requestKakaoPay(kakaoPayRequestDto);
@@ -34,7 +34,7 @@ public class KakaoPayController {
     /**
      * 가상 결제 성공
      */
-    @GetMapping("success")
+    @GetMapping("/success")
     public Result successPay(@RequestParam("pg-token") String pgToken, @RequestParam("partner-order-id") String partnerOrderId) {
         log.info("[controller] /success afterPayRequest ");
         log.info("pg_token : {}", pgToken);
@@ -49,7 +49,7 @@ public class KakaoPayController {
     /**
      * 결제 진행 중 취소
      */
-    @GetMapping("cancel")
+    @GetMapping("/cancel")
     public HttpEntity<String> cancel() {
         log.info("[controller] /cancel cancel");
         return new ResponseEntity<>("cancel됐습니다", HttpStatus.OK);
@@ -59,7 +59,7 @@ public class KakaoPayController {
     /**
      * 결제 실패
      */
-    @GetMapping("fail")
+    @GetMapping("/fail")
     public void fail() {
         throw new InternalError("결제 실패");
 
@@ -69,7 +69,7 @@ public class KakaoPayController {
     /**
      * 환불
      */
-    @PostMapping("refund")
+    @PostMapping("/refund")
     public ResponseEntity refund() {
 
         KakaoCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel();
