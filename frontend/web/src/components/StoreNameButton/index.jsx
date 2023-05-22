@@ -11,7 +11,7 @@ const StoreNameButton = ({ onClick }) => {
   return (
     <button
       type="button"
-      className={classnames(style.storeButton, 'font-bold text-secondary')}
+      className={classnames(style.storeButton, 'text-secondary')}
       onClick={onClick}
     >
       {memberAttributes.storeName}

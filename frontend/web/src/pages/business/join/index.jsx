@@ -209,7 +209,7 @@ const Join = () => {
               RESISTE YOUR STORE
             </h1>
             <h3 className="text-4xl font-thin tablet:text-xl">
-              남은 음식을 수익으로 바꿔봐요
+              남은 음식을 <br /> 수익으로 바꿔봐요
             </h3>
           </div>
           <div className="flex flex-col items-center ">
