@@ -24,7 +24,7 @@ function PaymentSuccess() {
           'partner-order-id': partnerOrderId,
         };
         const response = await axios.get(
-          `http://greencherry.store:2001/pay/success`,
+          `https://greencherry.store/be/pay/success`,
           {
             params: data,
           },
