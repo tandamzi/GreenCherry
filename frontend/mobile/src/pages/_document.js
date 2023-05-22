@@ -1,7 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-import png from '../../public/assets/icons/icon-192';
-
 class MyDocument extends Document {
   render() {
     return (
