@@ -248,7 +248,7 @@ const intro = () => {
         <button
           type="button"
           onClick={goToLogin}
-          className="bg-primary text-primaryfont font-bold text-sm px-2 py-1.5  w-20 rounded-3xl opacity-80"
+          className=" text-primaryfont font-bold text-sm px-2 py-1.5  w-20 opacity-80"
         >
           시작하기
         </button>
