@@ -46,23 +46,33 @@
 
   .slideControls {
     position: absolute;
-    bottom: 10px;
+    top: 80%;
     left: 50%;
     transform: translateX(-50%);
 
     .slideButton {
-      margin-right: 5px;
-      cursor: pointer;
+      margin-left: 2.5px;
 
+      margin-right: 2.5px;
+      cursor: pointer;
+      color: var(--color-secondary-font);
       &.active {
-        color: var(--color-danger);
+        color: var(--color-danger2);
       }
     }
+  }
+
+  .buttonControls {
+    position: absolute;
+    top: 84%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
 .topSheet {
   position: fixed;
+  padding-top: 30px;
   top: -250px; /* 아래로 숨겨진 상태 */
   left: 0;
   width: 100%;
