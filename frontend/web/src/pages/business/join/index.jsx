@@ -12,7 +12,11 @@ import AllergyButton from '@/components/AllergyButton';
 import Container from '@/components/Container';
 import useMember from '@/hooks/memberHook';
 import { getMember } from '@/utils/api/member';
-import { getAllergy, getStoreType } from '@/utils/api/store';
+import {
+  getAllergy,
+  getStoreType,
+  getBusinessLicense,
+} from '@/utils/api/store';
 import clientHttp, { clientHttpForm } from '@/utils/clientHttp';
 
 const Join = () => {
@@ -44,6 +48,17 @@ const Join = () => {
     getStoreType().then(data => setStoreTypeList(data));
   }, []);
 
+  const handleBusinessLicenseNumberButtonClick = () => {
+    const businessLicenseNumber = watch('businessLicenseNumber');
+    if (businessLicenseNumber === '1111111111') {
+      setBusinessLicenseValidate(true);
+    } else {
+      setBusinessLicenseValidate(false);
+    }
+  };
+
+  // 파일 처리 관련
+
   const handleFileChange = event => {
     setSelectedFiles(event.target.files);
   };
@@ -62,6 +77,8 @@ const Join = () => {
       setAllergyIdList([...allergyIdList, value]);
     }
   };
+
+  // 주소 관련
   const [postcode, setPostcode] = useState('');
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
@@ -87,6 +104,7 @@ const Join = () => {
     }
   }, []);
 
+  // 등록 관련
   const onSubmit = async data => {
     setClicked(true);
     const result = {
@@ -102,9 +120,6 @@ const Join = () => {
       formData.append(`images`, file);
     });
 
-    /* for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    } */
     formData.append('data', JSON.stringify(result));
     try {
       const response = await clientHttpForm.post('/store', formData);
@@ -224,7 +239,7 @@ const Join = () => {
                 <input
                   {...register('businessLicenseNumber', {
                     required: true,
-                    pattern: /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/,
+                    pattern: /^[0-9]{10}$/,
                     validate: businessLicenseValidate,
                   })}
                   autoComplete="off"
@@ -241,6 +256,7 @@ const Join = () => {
                 </label>
               </div>
             </div>
+            <p>임시 사업자 등록 번호: 1111111111</p>
 
             {errors.businessLicenseNumber &&
               errors.businessLicenseNumber.type === 'required' && (
@@ -260,7 +276,11 @@ const Join = () => {
                   사업자 등록 번호를 확인해주세요
                 </p>
               )}
-            <button type="button" className={`${style['check-button']}`}>
+            <button
+              type="button"
+              className={`${style['check-button']}`}
+              onClick={handleBusinessLicenseNumberButtonClick}
+            >
               확인하기
             </button>
             <div className="relative my-5 border-b-2 border-bgcolor w-full">
@@ -333,6 +353,7 @@ const Join = () => {
                 </label>
               </div>
             </div>
+            <p>임시 인허가 업소 정보: 20230523</p>
 
             {errors.businessPermission &&
               errors.businessPermission.type === 'required' && (
