@@ -3,4 +3,4 @@ spring:
     config:
       uri: http://127.0.0.1:8888
       name: pay-service
-#      profile: prod
+      profile: prod
