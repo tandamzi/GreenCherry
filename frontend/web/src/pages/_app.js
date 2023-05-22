@@ -13,6 +13,7 @@ import Spinner from '@/components/Spinner';
 import store from '@/redux/store';
 
 import '@/styles/globals.css';
+import '@/styles/fonts/style.css';
 
 export const persistor = persistStore(store);
 
