@@ -74,11 +74,12 @@ const ReservationStatus = ({ reservationInfo }) => {
             text: '일시적인 문제가 발생했습니다.',
             showConfirmButton: true,
           });
-          dispatch(initOrder());
         }
       } finally {
         dispatch(initOrder());
       }
+    } else if (orderState === 'PAYMENT_CANCEL') {
+      dispatch(initOrder());
     }
   }, []);
 
