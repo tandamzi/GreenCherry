@@ -51,7 +51,9 @@
     transform: translateX(-50%);
 
     .slideButton {
-      margin-right: 5px;
+      margin-left: 2.5px;
+
+      margin-right: 2.5px;
       cursor: pointer;
       color: var(--color-secondary-font);
       &.active {
@@ -63,7 +65,7 @@
   .buttonControls {
     position: absolute;
     top: 85%;
-    left: 49%;
+    left: 50%;
     transform: translateX(-50%);
   }
 }
