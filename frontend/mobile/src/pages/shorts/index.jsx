@@ -2,11 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import YouTube from 'react-youtube';
 
-import Image from 'next/image';
-
 import Container from '@/components/Container';
 import clientHttp from '@/utils/csr/clientHttp';
-import createYoutubeIntstacne from '@/utils/youtube';
 
 const Shorts = () => {
   const [videos, setVideos] = useState([]);
