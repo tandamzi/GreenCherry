@@ -153,119 +153,107 @@ const intro = () => {
     router.push(`/login`);
   };
   return (
-    <>
-      <Head>
-        <title>Green Cherry</title>
-        <meta name="description" content="Green Cherry" />
-        <meta name="keywords" content="환경, 남은 음식, 랜덤 박스" />
-        <meta property="og:title" content="Green Cherry를 소개합니다." />
-        <meta
-          property="og:description"
-          content="사회적 선순환 구조를 그리는 그린체리"
-        />
-      </Head>
-      <div className={cn(style.intro, 'bg-secondary')}>
-        {show && (
-          <div
-            onClick={showModal} // Overlay 클릭 시 모달 닫힘
-            style={{
-              position: 'fixed', // 화면 전체를 차지하도록
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경색을 약간 투명하게
-              zIndex: 11, // 다른 요소보다 앞에 보이도록
-            }}
-          />
-        )}
-
+    <div className={cn(style.intro, 'bg-secondary')}>
+      {show && (
         <div
-          className={cn(
-            'z-20 px-4 shadow-lg rounded-b-xl bg-bgcolor',
-            style.topSheet,
-            style[`${show ? 'show' : ''}`],
-          )}
-          ref={topSheetRef}
-        >
-          <div className="flex w-full items-center justify-center mt-4">
-            <span className="text-center">
-              <span className="text-secondary font-bold">Green</span>
-              <span className="text-primaryevent font-bold"> Cherry</span>는
-              앱을 지원합니다.
-              <br />
-              <span className="text-xl">설치하시겠습니까?</span>
-            </span>
-          </div>
-          <div className="flex justify-center w-full mt-5">
-            <button
-              type="button"
-              className={cn(
-                style.topSheetBtn,
-                'w-1/5 p-2 mx-0.5 rounded-full text-primaryfont',
-              )}
-              onClick={installApp}
-            >
-              설치
-            </button>
-            <button
-              type="button"
-              className={cn(
-                style.topSheetBtn,
-                'w-1/5 p-2 mx-0.5 rounded-full text-primaryfont',
-              )}
-              onClick={() => setShow(false)}
-            >
-              취소
-            </button>
-          </div>
-        </div>
+          onClick={showModal} // Overlay 클릭 시 모달 닫힘
+          style={{
+            position: 'fixed', // 화면 전체를 차지하도록
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경색을 약간 투명하게
+            zIndex: 11, // 다른 요소보다 앞에 보이도록
+          }}
+        />
+      )}
 
-        {data.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={cn(style.slide, {
-              [style.active]: index === currentSlide,
-            })}
-          >
-            <div className="flex relative">
-              <div className="absolute left-1/2 top-1/4 opacity-90 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="relative" style={{ width: 400, height: 400 }}>
-                  {slide.imgSrc && slide.imgSrc !== '' && (
-                    <Image src={slide.imgSrc} fill alt={slide.id} />
-                  )}
-                </div>
-              </div>
-              <div className="z-10 pb-40">{slide.content}</div>
-            </div>
-          </div>
-        ))}
-
-        <div className={cn(style.slideControls)}>
-          {data.map((_, index) => (
-            <button
-              type="button"
-              key={index}
-              className={cn(style.slideButton, {
-                [style.active]: index === currentSlide,
-              })}
-              onClick={() => setCurrentSlide(index)}
-            >
-              {index + 1}
-            </button>
-          ))}
+      <div
+        className={cn(
+          'z-20 px-4 shadow-lg rounded-b-xl bg-bgcolor',
+          style.topSheet,
+          style[`${show ? 'show' : ''}`],
+        )}
+        ref={topSheetRef}
+      >
+        <div className="flex w-full items-center justify-center mt-4">
+          <span className="text-center">
+            <span className="text-secondary font-bold">Green</span>
+            <span className="text-primaryevent font-bold"> Cherry</span>는 앱을
+            지원합니다.
+            <br />
+            <span className="text-xl">설치하시겠습니까?</span>
+          </span>
         </div>
-        <div className={cn(style.buttonControls)}>
+        <div className="flex justify-center w-full mt-5">
           <button
             type="button"
-            onClick={goToLogin}
-            className=" text-primaryfont font-bold text-sm px-2 py-1.5  w-20 opacity-80"
+            className={cn(
+              style.topSheetBtn,
+              'w-1/5 p-2 mx-0.5 rounded-full text-primaryfont',
+            )}
+            onClick={installApp}
           >
-            시작하기
+            설치
+          </button>
+          <button
+            type="button"
+            className={cn(
+              style.topSheetBtn,
+              'w-1/5 p-2 mx-0.5 rounded-full text-primaryfont',
+            )}
+            onClick={() => setShow(false)}
+          >
+            취소
           </button>
         </div>
       </div>
-    </>
+
+      {data.map((slide, index) => (
+        <div
+          key={slide.id}
+          className={cn(style.slide, {
+            [style.active]: index === currentSlide,
+          })}
+        >
+          <div className="flex relative">
+            <div className="absolute left-1/2 top-1/4 opacity-90 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="relative" style={{ width: 400, height: 400 }}>
+                {slide.imgSrc && slide.imgSrc !== '' && (
+                  <Image src={slide.imgSrc} fill alt={slide.id} />
+                )}
+              </div>
+            </div>
+            <div className="z-10 pb-40">{slide.content}</div>
+          </div>
+        </div>
+      ))}
+
+      <div className={cn(style.slideControls)}>
+        {data.map((_, index) => (
+          <button
+            type="button"
+            key={index}
+            className={cn(style.slideButton, {
+              [style.active]: index === currentSlide,
+            })}
+            onClick={() => setCurrentSlide(index)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+      <div className={cn(style.buttonControls)}>
+        <button
+          type="button"
+          onClick={goToLogin}
+          className=" text-primaryfont font-bold text-sm px-2 py-1.5  w-20 opacity-80"
+        >
+          시작하기
+        </button>
+      </div>
+    </div>
   );
 };
 
