@@ -11,7 +11,7 @@ import clientHttp from '@/utils/csr/clientHttp';
 
 const subscribe = () => {
   const router = useRouter();
-  const [subscribeInfo, setSubscribeInfo] = useState();
+  const [subscribeInfos, setSubscribeInfo] = useState();
 
   const memberId = useSelector(state => state.member.memberInfo.id);
 
@@ -32,8 +32,8 @@ const subscribe = () => {
     <Container>
       <Container.SubPageHeader goHome title="구독내역" />
       <Container.MainBody className="pt-4">
-        {subscribeInfo &&
-          subscribeInfo.content.map(subscribeStoreInfo => {
+        {subscribeInfos &&
+          subscribeInfos.content.map(subscribeStoreInfo => {
             return (
               <div>
                 <SubscribeStore

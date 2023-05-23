@@ -38,7 +38,7 @@ const CloseStoreModal = () => {
       okBtn
     >
       <p>영업을 종료하시겠습니까?</p>
-      <p>남은 진행중인 주문: {cherryQuantity}</p>
+      <p>남은 체리박스: {cherryQuantity}</p>
       <p>
         영업을 종료합니다. 진행중인 주문이 있으시면 마무리해주세요.
         수고하셨습니다.

@@ -134,3 +134,26 @@ export const putModifyStore = async (storeId, storeInfo, images) => {
     return error;
   }
 };
+
+export const getBusinessLicense = async businessLicenseNumber => {
+  try {
+    const res = await clientHttp.get(
+      `/store/business-permission?businessLicenseNumber=${businessLicenseNumber}`,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const postBusinessLicense = async businessData => {
+  try {
+    const res = await clientHttp.post(
+      '/store/business-permission',
+      businessData,
+    );
+    return res.data;
+  } catch (error) {
+    return error;
+  }
+};
