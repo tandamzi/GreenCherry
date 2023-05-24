@@ -3,7 +3,8 @@
 <p align="center"><img src="https://github.com/tabss2003/stock-example-test/assets/43884708/8cd31ae9-8509-45fd-8a56-caa75e160bf8" width=200 height=200 /></p>
 
 # 홍보영상
-[![그린체리 홍보영상](https://github.com/tabss2003/SWsummerproject_surfing_game/assets/43884708/87a7eac3-80be-4781-af00-e3161a23b419)](https://youtu.be/dr10Bgry4D4)
+[![그린체리 홍보영상](/uploads/01ac8f9b94d619a194739acad7587572/썸네일.png)](https://youtu.be/dr10Bgry4D4)
+
 
 <br>
 <br>
