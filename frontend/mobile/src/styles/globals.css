@@ -13,7 +13,12 @@
   --color-primary-font: #0c0a09;
   --color-secondary-font: #78716c;
   --color-danger: #dd4242;
+  --color-pass: #373fff;
   --color-warning: #f6bd60;
+
+  --color-danger2: #da5555;
+  --color-pass2: #5459fc;
+  --color-warning2: #f3c171;
 }
 
 *,
@@ -159,4 +164,7 @@
 :where([aria-hidden='false' i][hidden]:not(:focus)) {
   clip: rect(0, 0, 0, 0);
   position: absolute;
+}
+.FONTTEST {
+  font-family: LINESeedBd;
 }

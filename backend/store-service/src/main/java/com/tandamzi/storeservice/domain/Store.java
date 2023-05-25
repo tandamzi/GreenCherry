@@ -1,21 +1,17 @@
 package com.tandamzi.storeservice.domain;
 
-import com.tandamzi.storeservice.dto.request.UpdateStoreRequestDto;
 import lombok.*;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"type", "cherryBox"})
-public class Store extends BaseEntity {
+//@ToString(exclude = {"type", "cherryBox"})
+public class Store extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
@@ -23,7 +19,7 @@ public class Store extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
-    private Long ownerId;
+    private Long memberId;
     private String name;
     private String description;
     private String snsAccount;
@@ -51,6 +47,18 @@ public class Store extends BaseEntity {
         if (snsAccount!=null) {
             this.snsAccount = snsAccount;
         }
+    }
+
+    public void increaseCherryPoint(int point){
+        this.cherryPoint += point;
+    }
+
+    public void toggleOpen() {
+        this.open = !this.open;
+    }
+
+    public void openStoreWhenUpdatedCherryBox(){
+        this.open = true;
     }
 }
 

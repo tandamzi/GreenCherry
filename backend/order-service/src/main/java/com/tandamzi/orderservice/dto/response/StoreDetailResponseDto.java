@@ -1,6 +1,5 @@
 package com.tandamzi.orderservice.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalTime;
@@ -74,6 +73,6 @@ public class StoreDetailResponseDto {
         private int totalPriceBeforeDiscount;
         private int quantity;
         private double discountRate;
-        private int pricePerCherryBox;
+        private int priceAfterDiscount;
     }
 }

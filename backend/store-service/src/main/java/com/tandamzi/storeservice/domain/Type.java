@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Builder
-public class Type extends BaseEntity{
+public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")

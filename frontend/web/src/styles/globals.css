@@ -14,6 +14,20 @@
   --color-secondary-font: #78716c;
   --color-danger: #dd4242;
   --color-warning: #f6bd60;
+  --color-bgcolor-rgb: 250, 250, 249;
+}
+
+#__next {
+  height: 100%;
+  width: 100%;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 *,
@@ -21,6 +35,7 @@
 ::after {
   box-sizing: border-box;
   background-repeat: no-repeat;
+  font-family: 'LINE Seed Sans KR';
 }
 ::before,
 ::after {
