@@ -1,0 +1,25 @@
+.navigate-push-enter {
+  transform: translateX(100%);
+}
+
+.navigate-push-enter-active {
+  z-index: 1;
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+
+  box-shadow: -5px 0px 25px rgba(0, 0, 0, 0.05);
+}
+
+.navigate-push-exit {
+  transform: translateX(0);
+}
+
+.navigate-push-exit-active {
+  transform: translateX(-20%);
+  transition: transform 300ms ease-in-out;
+}
+
+.transition-wrapper {
+  position: relative;
+  width: 100vw;
+}

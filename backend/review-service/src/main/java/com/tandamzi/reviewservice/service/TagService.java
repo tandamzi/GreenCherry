@@ -1,7 +1,6 @@
 package com.tandamzi.reviewservice.service;
 
-import com.tandamzi.reviewservice.domain.Tag;
-import com.tandamzi.reviewservice.dto.TagResponseDto;
+import com.tandamzi.reviewservice.dto.tag.TagResponseDto;
 import com.tandamzi.reviewservice.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +19,7 @@ public class TagService {
     private final TagRepository tagRepository;
 
     public List<TagResponseDto> findTags(){
+        log.info("TagService findTags 실행");
         return tagRepository.findAll().stream()
                 .map(TagResponseDto::create)
                 .collect(Collectors.toList());

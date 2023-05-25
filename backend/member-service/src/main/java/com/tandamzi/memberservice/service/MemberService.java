@@ -2,7 +2,13 @@ package com.tandamzi.memberservice.service;
 
 
 import com.tandamzi.memberservice.domain.Member;
-import com.tandamzi.memberservice.repository.MemberRepository;
+import com.tandamzi.memberservice.domain.Notice;
+import com.tandamzi.memberservice.dto.member.MemberForOrderDto;
+import com.tandamzi.memberservice.dto.member.MemberForReviewDto;
+import com.tandamzi.memberservice.dto.member.MemberNoticeDto;
+import com.tandamzi.memberservice.exception.member.MemberNotFoundException;
+import com.tandamzi.memberservice.repository.member.MemberRepository;
+import com.tandamzi.memberservice.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -20,6 +27,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final NoticeRepository noticeRepository;
     private final S3Service s3Service;
 
     @Transactional
@@ -42,11 +50,62 @@ public class MemberService {
         return imageUrl;
     }
 
-    public List<Long> findMemberIdFromNickname(String nickname){
-        log.info("MemberService findMemberIdFromNickname 실행 -> nickname = {}", nickname);
-        return memberRepository.findByNicknameContaining(nickname).stream()
-                .map(Member::getId)
+    public List<MemberForOrderDto> findMemberForOrder(String nickname, List<Long> memberIds){
+        log.info("MemberService findMemberForOrder 실행 -> nickname = {}, memberIds = {}", nickname, memberIds);
+
+        return memberRepository.findMemberForOrder(nickname, memberIds).stream()
+                .map(m -> new MemberForOrderDto(m.getId(), m.getNickname()))
                 .collect(Collectors.toList());
     }
 
+    public List<MemberForReviewDto> findMemberForReview(List<Long> memberIds){
+        log.info("MemberService findMemberForReview 실행 -> memberIds = {}", memberIds);
+
+        return memberRepository.findByIdIn(memberIds).stream()
+                .map(m -> new MemberForReviewDto(m.getId(), m.getNickname(), m.getImage()))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void noticeMember(Member member, MemberNoticeDto memberNoticeDto){
+        log.info("MemberService noticeMember 실행 -> token = {}", memberNoticeDto.getToken());
+        Optional<Notice> optional = noticeRepository.findByMember(member);
+
+        Notice notice = null;
+        if(optional.isPresent()){
+            notice = optional.get();
+            notice.change(memberNoticeDto.getToken());
+        } else{
+            notice = noticeRepository.save(
+                    Notice.builder()
+                            .token(memberNoticeDto.getToken())
+                            .member(member)
+                            .build()
+            );
+        }
+
+        member.permitNotice(notice);
+    }
+
+    public List<String> getTokens(List<Long> memberIdList){
+        log.info("MemberService getTokens 실행");
+        List<Member> members = memberRepository.findWithNoticeByIdIn(memberIdList);
+
+        return members.stream()
+                .filter(Member::isAlarm)
+                .map(m -> m.getNotice().getToken())
+                .collect(Collectors.toList());
+    }
+
+    public Long getTotalMemberNumber(){
+        log.info("MemberService getTotalMemberNumber 실행");
+        Long members = memberRepository.countAllMembers();
+        return members;
+    }
+
+    public String findMemberNickname(Long memberId){
+        log.info("MemberService findMemberNickname 실행 -> memberId = {}", memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return member.getNickname();
+    }
 }

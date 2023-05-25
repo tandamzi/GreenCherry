@@ -1,9 +1,6 @@
+const path = require('path');
 const runtimeCaching = require('next-pwa/cache');
-<<<<<<< HEAD
 
-=======
-// eslint-disable-next-line import/order
->>>>>>> 3d3e07cf1652d39e1436a6dc636ab0a1fac41af2
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -14,12 +11,23 @@ const withPWA = require('next-pwa')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withPWA({
+  images: {
+    domains: [
+      'firebasestorage.googleapis.com',
+      'tandamzi-greencherry-bucket.s3.ap-northeast-2.amazonaws.com',
+      'i.ytimg.com',
+    ],
+  },
   devIndicators: {
     autoPrerender: false,
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src/styles')],
+  },
+
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/i,

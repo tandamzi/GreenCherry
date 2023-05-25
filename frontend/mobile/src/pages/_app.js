@@ -1,21 +1,22 @@
-/* eslint-disable no-console */
-
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
-import Router from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import Spinner from '@/components/Spinner';
+import PageTransition from '@/components/PageTransition';
 import store from '@/redux/store';
 
 import '@/styles/globals.css';
+import '../styles/fonts/style.css';
 
 export const persistor = persistStore(store);
 
 function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+
+  const route = useRouter();
 
   useEffect(() => {
     const handleStart = () => setLoading(true);
@@ -26,20 +27,6 @@ function App({ Component, pageProps }) {
     Router.events.on('routeChangeComplete', handleComplete);
     Router.events.on('routeChangeError', handleError);
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-          console.log(
-            'Service Worker registered with scope:',
-            registration.scope,
-          );
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-
     return () => {
       Router.events.off('routeChangeStart', handleStart);
       Router.events.off('routeChangeComplete', handleComplete);
@@ -49,14 +36,10 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        {loading ? (
-          <span className="flex justify-center items-center">
-            <Spinner />
-          </span>
-        ) : (
-          <Component {...pageProps} />
-        )}
+      <PersistGate persistor={persistor}>
+        <PageTransition>
+          <Component {...pageProps} location={route} />
+        </PageTransition>
       </PersistGate>
     </Provider>
   );

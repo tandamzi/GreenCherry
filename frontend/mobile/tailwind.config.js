@@ -16,13 +16,18 @@ module.exports = {
       secondaryfont: '#78716c',
       bgcolor: '#fafaf9',
       line: '#d9d9d9',
-      itembg: '#d6d3d1',
+      itembg: '#F7EDE2',
       disabled: '#a8a29e',
+      danger2: '#dd5151',
+      warning2: '#f5c06c',
+      pass2: '#444afd',
+
       danger: '#dd4242',
       warning: '#f6bd60',
+      pass: '#373FFF',
     },
     screens: {
-      mob: '375px',
+      mob: '380px',
       tablet: '768px',
       laptop: '1024px',
       laptopl: '1440px',
@@ -30,11 +35,11 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['LINESeedRg'],
         thin: ['LINESeedTh'],
+        sans: ['LINESeedRg'],
         bold: ['LINESeedBd'],
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };

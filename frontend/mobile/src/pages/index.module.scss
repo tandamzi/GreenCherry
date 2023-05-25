@@ -1,0 +1,117 @@
+.navigate-push-enter {
+  transform: translateX(100%);
+}
+
+.navigate-push-enter-active {
+  z-index: 1;
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+
+  box-shadow: -5px 0px 25px rgba(0, 0, 0, 0.05);
+}
+
+.navigate-push-exit {
+  transform: translateX(0);
+}
+
+.navigate-push-exit-active {
+  transform: translateX(-20%);
+  transition: transform 300ms ease-in-out;
+}
+
+.transition-wrapper {
+  position: relative;
+  width: 100vw;
+}
+.intro {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  .slide {
+    position: absolute;
+    transition: opacity 1.5s;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  .slideControls {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .slideButton {
+      margin-left: 2.5px;
+
+      margin-right: 2.5px;
+      cursor: pointer;
+      color: var(--color-secondary-font);
+      &.active {
+        color: var(--color-danger2);
+      }
+    }
+  }
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .buttonControls {
+    position: absolute;
+    top: 84%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px;
+    text-decoration: none;
+    overflow: hidden;
+    background: linear-gradient(
+      -45deg,
+      var(--color-primary-event),
+      var(--color-primary),
+      var(--color-pass2),
+      var(--color-secondary)
+    );
+    background-size: 400% 400%;
+    animation: gradient 6s ease infinite;
+
+    &:hover {
+      transform: translateX(-50%) scale(1.15);
+    }
+  }
+}
+
+.topSheet {
+  position: fixed;
+  padding-top: 30px;
+  top: -250px; /* 아래로 숨겨진 상태 */
+  left: 0;
+  width: 100%;
+  height: 200px;
+  box-shadow: 0 -1px 10px rgba(246, 246, 246, 0.715);
+  transition: top 0.4s ease-out;
+  z-index: 9999;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.topSheet.show {
+  top: 0;
+}
+.topSheetBtn {
+  background: #84a59ddb;
+}

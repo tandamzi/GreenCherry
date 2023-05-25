@@ -1,0 +1,21 @@
+.notification-list {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.2s, max-height 2s;
+}
+
+.notification-list.show {
+  min-height: 85%;
+  max-height: 90vh; // 이 부분 추가
+  opacity: 1; // 이 부분 추가
+}
+
+.notification-item {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+}

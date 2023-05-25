@@ -9,6 +9,7 @@ import MainBody from './components/MainBody';
 import MainFooter from './components/MainFooter';
 import MainFooterWithNavigation from './components/MainFooterWithNavigation';
 import MainHeader from './components/MainHeader';
+import MainHeaderWithModal from './components/MainHeaderWithModal';
 import SubPageHeader from './components/SubPageHeader';
 import style from './index.module.scss';
 
@@ -16,7 +17,11 @@ const Container = ({ children, className }) => {
   return (
     <div
       id="cherry-container"
-      className={cs('container-sm', style.Container, className)}
+      className={cs(
+        style.Container,
+        className,
+        'min-h-screen max-h-screen max-w-xl mx-auto bg-bgcolor',
+      )}
     >
       {children}
     </div>
@@ -24,6 +29,7 @@ const Container = ({ children, className }) => {
 };
 
 Container.Header = Header;
+Container.MainHeaderWithModal = MainHeaderWithModal;
 Container.MainHeader = MainHeader;
 Container.Body = Body;
 Container.MainBody = MainBody;

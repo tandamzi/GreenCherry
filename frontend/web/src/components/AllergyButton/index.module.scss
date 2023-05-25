@@ -1,0 +1,20 @@
+.allergy-button {
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 100px;
+  padding: 8px 20px;
+  margin: 4px 4px;
+  font-size: 20px;
+}
+
+.selected {
+  border-color: var(--color-bgcolor);
+  background-color: var(--color-bgcolor) !important;
+  color: var(--color-secondary);
+}
+
+.non-selected {
+  border-color: var(--color-bgcolor);
+  background-color: var(--color-secondary);
+  color: var(--color-bgcolor);
+}

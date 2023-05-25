@@ -3,6 +3,8 @@ package com.tandamzi.reviewservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,6 +22,14 @@ public class Review extends BaseEntity {
 
     private Long storeId;
 
+    private Long orderId;
+
     private String content;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewImage> reviewImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewTag> reviewTags = new ArrayList<>();
 
 }

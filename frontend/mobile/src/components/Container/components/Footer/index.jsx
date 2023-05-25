@@ -3,6 +3,8 @@ import React, { useRef, useEffect } from 'react';
 import useResizeObserver from '@react-hook/resize-observer';
 import cs from 'classnames';
 
+import style from './index.module.scss';
+
 const useSizeHeight = target => {
   const [size, setSize] = React.useState();
 
@@ -14,8 +16,9 @@ const useSizeHeight = target => {
 
   return size;
 };
-const Footer = ({ className, children }) => {
+const Footer = ({ className, children, position }) => {
   const footerRef = useRef();
+
   const height = useSizeHeight(footerRef);
 
   // cherry-body에 footer의 높이만큼 주되 32px 정도를 여분으로 더 줍니다.
@@ -30,7 +33,13 @@ const Footer = ({ className, children }) => {
     <div
       ref={footerRef}
       id="cherry-footer"
-      className={cs('fixed bottom-0 m-0 w-full bg-white', className)}
+      className={cs(
+        'm-0 mb-5 rounded-full w-11/12 max-w-lg bg-bgcolor opacity-90',
+        position === 'fixed'
+          ? style['cherry-footer-fixed']
+          : style['cherry-footer'],
+        className,
+      )}
     >
       {children}
     </div>

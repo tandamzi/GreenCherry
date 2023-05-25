@@ -1,0 +1,85 @@
+.section-item {
+  padding: 96px 0px 0px;
+  scroll-snap-stop: always;
+  scroll-snap-align: center;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
+  font-weight: 700;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 140%;
+}
+
+.image-container {
+  bottom: 10%;
+  right: 0;
+}
+
+.image-relative {
+  position: relative;
+  width: 498px;
+  height: 640px;
+}
+
+.money-growth,
+.love-ecology,
+.greencherry-box {
+  position: absolute;
+  height: auto;
+}
+
+.money-growth {
+  width: 156px;
+  z-index: 1;
+  transform: rotate(-15deg);
+  left: 100px;
+}
+
+.love-ecology {
+  width: 213px;
+  z-index: 2;
+  top: 100px;
+  right: 60px;
+  transform: rotate(15deg);
+}
+
+.greencherry-box {
+  width: 420px;
+  z-index: 3;
+  bottom: 0px;
+  right: 10px;
+}
+
+.title-text {
+  text-align: end;
+  display: inline-block;
+}
+.emphasis {
+  font-size: 72px;
+  color: var(--color-warning);
+}
+
+@media screen and (max-width: 1024px) {
+  .section-item {
+    padding: 96px 0px 0px;
+    font-size: 11vw;
+  }
+
+  .emphasis {
+    font-size: 1.2em;
+  }
+
+  .image-container {
+    display: none;
+  }
+}
+
+.line-wrapper {
+  white-space: nowrap;
+}
