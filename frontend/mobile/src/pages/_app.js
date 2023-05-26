@@ -11,8 +11,15 @@ import store from '@/redux/store';
 import '@/styles/globals.css';
 import '../styles/fonts/style.css';
 
+import { DefaultSeo } from 'next-seo';
+
 export const persistor = persistStore(store);
 
+const DEFAULT_SEO = {
+  title: 'Green Cherry',
+  description: '판매자, 소비자, 환경까지 생각한 마감 세일 서비스',
+  canonical: 'https://greencherry.store/',
+};
 function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +45,7 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <PageTransition>
+          <DefaultSeo {...DEFAULT_SEO} />
           <Component {...pageProps} location={route} />
         </PageTransition>
       </PersistGate>
