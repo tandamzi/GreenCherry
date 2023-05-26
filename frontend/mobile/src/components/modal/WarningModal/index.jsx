@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Dialog, Transition } from '@headlessui/react';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 
@@ -97,7 +98,7 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                         </Dialog.Title>
                         <div>
                           <p>
-                            체리박스 총{' '}
+                            체리박스 총
                             <span className="text-bold text-danger">
                               {orderQuantity}
                             </span>
@@ -115,54 +116,36 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                       onClick={async e => {
                         e.preventDefault();
                         try {
-                          await clientHttp
-                            .get('/order-complete', {
-                              params: {
-                                storeId,
-                                memberId,
-                                orderQuantity,
-                              },
-                            })
-                            .then(() => {
-                              handleClose();
-                            })
-                            .then(async () => {
-                              await Swal.fire({
-                                icon: 'success',
-                                title: '주문 성공',
-                                text: '정해진 시간 내 픽업해주세요',
-                                showConfirmButton: true,
-                              }).then(result => {
-                                if (result.isConfirmed) {
-                                  location.reload();
-                                }
-                              });
-                            });
-                        } catch (error) {
-                          if (error.response && error.response.status === 400) {
-                            if (error.response.data.code === -201) {
-                              Swal.fire({
-                                icon: 'warning',
-                                title: '죄송합니다',
-                                text: error.response.data.message,
-                                showConfirmButton: true,
-                              });
-                            } else {
-                              Swal.fire({
-                                icon: 'error',
-                                title: '죄송합니다',
-                                text: '일시적인 문제가 발생했습니다.',
-                                showConfirmButton: true,
-                              });
-                            }
+                          const data = {
+                            memberId,
+                            itemName: '그린체리 체리박스',
+                            quantity: orderQuantity,
+                            price: 1000,
+                          };
+                          const response = await axios.post(
+                            `${process.env.NEXT_PUBLIC_SERVER_API_URL}/pay/ready`,
+                            data,
+                          );
+
+                          const isMobile = /iPhone|iPad|iPod|Android/i.test(
+                            window.navigator.userAgent,
+                          );
+
+                          if (isMobile) {
+                            window.location.href =
+                              response.data.next_redirect_mobile_url;
                           } else {
-                            Swal.fire({
-                              icon: 'error',
-                              title: '죄송합니다',
-                              text: '일시적인 문제가 발생했습니다.',
-                              showConfirmButton: true,
-                            });
+                            const popup = window.open(
+                              response.data.next_redirect_pc_url,
+                              '_blank',
+                              'width=600,height=600',
+                            );
+                            if (!popup) {
+                              alert('Please allow popups for this website');
+                            }
                           }
+                        } catch (error) {
+                          console.error(error);
                         }
                       }}
                       ref={cancelButtonRef}
