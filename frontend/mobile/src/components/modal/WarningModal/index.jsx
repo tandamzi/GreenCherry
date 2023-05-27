@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -141,7 +142,7 @@ const WarningModal = ({ open, setOpen, orderQuantity }) => {
                               'width=600,height=600',
                             );
                             if (!popup) {
-                              alert('Please allow popups for this website');
+                              alert('팝업창 허용을 눌러주세요');
                             }
                           }
                         } catch (error) {

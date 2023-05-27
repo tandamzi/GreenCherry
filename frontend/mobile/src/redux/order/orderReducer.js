@@ -21,7 +21,7 @@ export const orderSlice = createSlice({
       return {
         ...state,
         orderState: action.payload.orderState,
-        orderQunatity: action.payload.orderQunatity,
+        orderQuantity: action.payload.orderQuantity,
         storeId: action.payload.storeId,
         priceAfterDiscount: action.payload.priceAfterDiscount,
       };
@@ -30,7 +30,7 @@ export const orderSlice = createSlice({
       return {
         ...state,
         orderState: 'none',
-        orderQunatity: 0,
+        orderQuantity: 0,
         storeId: '',
         priceAfterDiscount: '',
       };

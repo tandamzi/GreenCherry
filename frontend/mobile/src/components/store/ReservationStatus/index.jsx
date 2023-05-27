@@ -8,7 +8,11 @@ import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 
 import WarningModal from '@/components/modal/WarningModal';
-import { saveOrders, initOrder } from '@/redux/order/orderReducer';
+import {
+  saveOrders,
+  initOrder,
+  saveOrderState,
+} from '@/redux/order/orderReducer';
 import clientHttp from '@/utils/csr/clientHttp';
 
 const ReservationStatus = ({ reservationInfo }) => {
@@ -22,14 +26,33 @@ const ReservationStatus = ({ reservationInfo }) => {
   const [orderPrice, setOrderPrice] = useState(0);
   const [open, setOpen] = useState(false);
   const memberId = useSelector(state => state.member.memberInfo.id);
+  const quantity = useSelector(state => state.order.orderQuantity);
 
   const handleClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    const messageHandler = event => {
+      if (event.origin !== `${process.env.NEXT_PUBLIC_LOCAL_API_URL}`) return;
+
+      const message = event.data;
+      if (message.type === 'PAYMENT_SUCCESS') {
+        dispatch(saveOrderState('PAYMENT_SUCCESS'));
+      }
+    };
+
+    window.addEventListener('message', messageHandler);
+
+    return () => {
+      window.removeEventListener('message', messageHandler);
+    };
+  }, []);
 
   useEffect(() => {
-    const quantity = useSelector(state => state.order.orderQuantity);
+    // console.info(orderState);
+    // console.log('orderState변경', orderState);
     if (orderState === 'PAYMENT_SUCCESS') {
+      // console.log('주문 성공');
       try {
         clientHttp
           .get('/order-complete', {
@@ -46,7 +69,7 @@ const ReservationStatus = ({ reservationInfo }) => {
               showConfirmButton: true,
             }).then(result => {
               if (result.isConfirmed) {
-                location.reload();
+                router.push('/order-list');
               }
             });
           });
@@ -79,9 +102,15 @@ const ReservationStatus = ({ reservationInfo }) => {
         dispatch(initOrder());
       }
     } else if (orderState === 'PAYMENT_CANCEL') {
+      Swal.fire({
+        icon: 'info',
+        title: '결제 취소',
+        text: '결제가 취소되었습니다.',
+        showConfirmButton: true,
+      });
       dispatch(initOrder());
     }
-  }, []);
+  }, [orderState]);
 
   const toggleModal = async () => {
     if (orderQuantity <= 0) {
@@ -94,7 +123,8 @@ const ReservationStatus = ({ reservationInfo }) => {
       });
       return;
     }
-    await dispatch(
+    // console.log('orderQuantity', orderQuantity);
+    dispatch(
       saveOrders({
         storeId,
         orderQuantity,
