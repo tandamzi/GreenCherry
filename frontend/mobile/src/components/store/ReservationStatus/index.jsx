@@ -49,10 +49,7 @@ const ReservationStatus = ({ reservationInfo }) => {
   }, []);
 
   useEffect(() => {
-    // console.info(orderState);
-    // console.log('orderState변경', orderState);
     if (orderState === 'PAYMENT_SUCCESS') {
-      // console.log('주문 성공');
       try {
         clientHttp
           .get('/order-complete', {
@@ -123,7 +120,6 @@ const ReservationStatus = ({ reservationInfo }) => {
       });
       return;
     }
-    // console.log('orderQuantity', orderQuantity);
     dispatch(
       saveOrders({
         storeId,
