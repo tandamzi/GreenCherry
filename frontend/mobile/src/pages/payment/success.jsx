@@ -25,8 +25,6 @@ function PaymentSuccess() {
             dispatch(saveOrderState('PAYMENT_SUCCESS'));
 
             if (window.opener) {
-              // Send the message to the parent window
-              // console.log('window.opener', window.opener);
               const message = { type: 'PAYMENT_SUCCESS' };
               window.opener.postMessage(
                 message,
@@ -42,10 +40,8 @@ function PaymentSuccess() {
               window.location.href = response.data.next_redirect_mobile_url;
               router.push(`/store/${storeId}`);
             } else {
-              // console.log('PC');
               window.close();
             }
-            // console.info(response);
           }
         } catch (error) {
           console.error(error);
